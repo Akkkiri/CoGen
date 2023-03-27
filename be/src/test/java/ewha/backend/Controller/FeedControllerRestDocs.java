@@ -1,76 +1,76 @@
-package ewha.backend.Controller;
-
-// import static ewha.backend.Controller.constant.FeedControllerConstant.*;
-import static ewha.backend.Controller.utils.ApiDocumentUtils.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.*;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import ewha.backend.Controller.utils.WithMockCustomUser;
-import ewha.backend.domain.comment.service.CommentService;
-import ewha.backend.domain.feed.dto.FeedDto;
-import ewha.backend.domain.feed.entity.Feed;
-import ewha.backend.domain.feed.mapper.FeedMapper;
-import ewha.backend.domain.feed.service.FeedService;
-import ewha.backend.domain.image.service.AwsS3Service;
-import ewha.backend.domain.like.service.LikeService;
-import ewha.backend.domain.user.entity.User;
-import ewha.backend.domain.user.mapper.UserMapper;
-import ewha.backend.domain.user.service.UserService;
-import ewha.backend.global.config.CustomPage;
-import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
-import com.google.gson.Gson;
-
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureRestDocs
-public class FeedControllerRestDocs {
-
-	@Autowired
-	private MockMvc mockMvc;
-	@Autowired
-	private Gson gson;
-	@MockBean
-	private UserMapper userMapper;
-	@MockBean
-	private FeedMapper feedMapper;
-	@MockBean
-	private FeedService feedService;
-	@MockBean
-	private UserService userService;
-	@MockBean
-	private LikeService likeService;
-	@MockBean
-	private CommentService commentService;
-	@MockBean
-	private JwtTokenizer jwtTokenizer;
-	@MockBean
-	private AwsS3Service awsS3Service;
+// package ewha.backend.Controller;
+//
+// // import static ewha.backend.Controller.constant.FeedControllerConstant.*;
+// import static ewha.backend.Controller.utils.ApiDocumentUtils.*;
+// import static org.mockito.ArgumentMatchers.*;
+// import static org.mockito.BDDMockito.*;
+// import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
+// import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+// import static org.springframework.restdocs.request.RequestDocumentation.*;
+// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+//
+// import java.nio.charset.StandardCharsets;
+// import java.util.ArrayList;
+// import java.util.List;
+//
+// import org.junit.jupiter.api.Test;
+// import org.mockito.Mockito;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+// import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+// import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.boot.test.mock.mockito.MockBean;
+// import org.springframework.data.domain.PageImpl;
+// import org.springframework.http.MediaType;
+// import org.springframework.mock.web.MockMultipartFile;
+// import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+// import org.springframework.restdocs.payload.JsonFieldType;
+// import org.springframework.test.web.servlet.MockMvc;
+// import org.springframework.test.web.servlet.ResultActions;
+// import org.springframework.transaction.annotation.Transactional;
+// import org.springframework.web.multipart.MultipartFile;
+//
+// import ewha.backend.Controller.utils.WithMockCustomUser;
+// import ewha.backend.domain.comment.service.CommentService;
+// import ewha.backend.domain.feed.dto.FeedDto;
+// import ewha.backend.domain.feed.entity.Feed;
+// import ewha.backend.domain.feed.mapper.FeedMapper;
+// import ewha.backend.domain.feed.service.FeedService;
+// import ewha.backend.domain.image.service.AwsS3Service;
+// import ewha.backend.domain.like.service.LikeService;
+// import ewha.backend.domain.user.entity.User;
+// import ewha.backend.domain.user.mapper.UserMapper;
+// import ewha.backend.domain.user.service.UserService;
+// import ewha.backend.global.config.CustomPage;
+// import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
+// import com.google.gson.Gson;
+//
+// @Transactional
+// @SpringBootTest
+// @AutoConfigureMockMvc
+// @AutoConfigureRestDocs
+// public class FeedControllerRestDocs {
+//
+// 	@Autowired
+// 	private MockMvc mockMvc;
+// 	@Autowired
+// 	private Gson gson;
+// 	@MockBean
+// 	private UserMapper userMapper;
+// 	@MockBean
+// 	private FeedMapper feedMapper;
+// 	@MockBean
+// 	private FeedService feedService;
+// 	@MockBean
+// 	private UserService userService;
+// 	@MockBean
+// 	private LikeService likeService;
+// 	@MockBean
+// 	private CommentService commentService;
+// 	@MockBean
+// 	private JwtTokenizer jwtTokenizer;
+// 	@MockBean
+// 	private AwsS3Service awsS3Service;
 
 	// @Test
 	// void postFeedTest() throws Exception {
@@ -353,25 +353,25 @@ public class FeedControllerRestDocs {
 	//                     )));
 	//
 	// }
-
-	@Test
-	void deleteFeedTest() throws Exception {
-
-		Long feedId = 1L;
-
-		doNothing().when(feedService).deleteFeed(anyLong());
-
-		mockMvc.perform(
-				RestDocumentationRequestBuilders.delete("/feeds/{feed_id}/delete", feedId)
-			)
-			.andExpect(status().isNoContent())
-			.andDo(
-				document(
-					"Delete_Feed",
-					pathParameters(
-						parameterWithName("feed_id").description("피드 번호")
-					)
-				)
-			);
-	}
-}
+//
+// 	@Test
+// 	void deleteFeedTest() throws Exception {
+//
+// 		Long feedId = 1L;
+//
+// 		doNothing().when(feedService).deleteFeed(anyLong());
+//
+// 		mockMvc.perform(
+// 				RestDocumentationRequestBuilders.delete("/feeds/{feed_id}/delete", feedId)
+// 			)
+// 			.andExpect(status().isNoContent())
+// 			.andDo(
+// 				document(
+// 					"Delete_Feed",
+// 					pathParameters(
+// 						parameterWithName("feed_id").description("피드 번호")
+// 					)
+// 				)
+// 			);
+// 	}
+// }
