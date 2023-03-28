@@ -5,9 +5,9 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
 export default function Nav() {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
   return (
-    <nav className="w-full m-auto fixed bottom-0 z-[9] border-t border-y-lightGray bg-white">
+    <nav className="w-full fixed bottom-0 z-[9] border-t border-y-lightGray bg-white">
       <div className="flex justify-between max-w-5xl m-auto px-4 pt-2">
         <NavLink
           to="/"
