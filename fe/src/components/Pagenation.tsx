@@ -41,7 +41,7 @@ export default function Pagenation({
               setPage(Number(e.currentTarget.value));
             }}
             className={`w-8 h-8 rounded-[6px] text-sm mx-0.5 ${
-              page === el + idx ? "bg-y-gold" : "bg-y-lightGray"
+              page === el + idx ? "bg-y-purple" : "bg-y-sky"
             }
             ${
               page < 3

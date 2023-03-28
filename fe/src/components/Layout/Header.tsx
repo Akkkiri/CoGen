@@ -10,7 +10,7 @@ export default function Header() {
   const [isNotifying, setIsNotifying] = useState(false);
 
   return (
-    <header className="px-4 py-2 border-b border-y-lightGray">
+    <header className="w-full px-4 py-2 border-b border-y-lightGray">
       <div className="flex justify-between items-center max-w-5xl m-auto">
         <Link to="/">
           <img src="images/logo.png" alt="CoGen logo" width={50}></img>
