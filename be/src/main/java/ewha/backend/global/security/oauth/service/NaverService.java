@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.repository.UserRepository;
+import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.exception.BusinessLogicException;
 import ewha.backend.global.exception.ExceptionCode;
 import ewha.backend.global.security.util.CustomAuthorityUtils;
@@ -42,6 +44,7 @@ public class NaverService {
 	@Value("${spring.security.oauth2.client.provider.naver.user-info-uri}")
 	private String NAVER_USER_INFO_URI;
 
+	private final UserService userService;
 	private final UserRepository userRepository;
 	private final CustomAuthorityUtils customAuthorityUtils;
 	private final PasswordEncoder passwordEncoder;
@@ -159,7 +162,7 @@ public class NaverService {
 	public User createUser(HashMap<String, Object> userInfo) { // OAuth 인증이 끝나 유저 정보를 받은 경우
 
 		String uuid = UUID.randomUUID().toString().substring(0, 8);
-		String userId = "naveruser" + uuid; // 사용자가 입력한 적은 없지만 만들어준다
+		String userId = createUserId(); // 사용자가 입력한 적은 없지만 만들어준다
 
 		String providerId = userInfo.get("providerId").toString();
 
@@ -171,30 +174,58 @@ public class NaverService {
 		User findUser = userRepository.findByProviderId(providerId);
 
 		if (findUser != null && findUser.getProvider().equals("NAVER")) {
-			findUser.updateOAuthInfo(email, picture, nickname);
-			return userRepository.save(findUser);
-		} else if (findUser == null && userRepository.findByEmail(email).isPresent()) {
-			throw new BusinessLogicException(ExceptionCode.EMAIL_USED_ANOTHER_ACCOUNT);
+			// findUser.updateOAuthInfo(email, picture, nickname);
+			// return userRepository.save(findUser);
+			return findUser;
 		}
+		// else if (findUser == null && userRepository.findByEmail(email).isPresent()) {
+		// 	throw new BusinessLogicException(ExceptionCode.EMAIL_USED_ANOTHER_ACCOUNT);
+		// }
 
 		User.UserBuilder userBuilder = User.builder();
 
 		userBuilder.userId(userId);
-		userBuilder.email(email);
+		userBuilder.nickname(userService.createNickname(nickname));
+		// userBuilder.email(email);
 
-		if (userRepository.findByNickname(nickname) == null) {
-			userBuilder.nickname(nickname);
-		} else {
-			String rand = UUID.randomUUID().toString().substring(0, 6);
-			userBuilder.nickname(nickname + "_NAVER_" + rand);
-		}
+		// if (userRepository.findByNickname(nickname) == null) {
+		// 	userBuilder.nickname(nickname);
+		// } else {
+		// 	String rand = UUID.randomUUID().toString().substring(0, 6);
+		// 	userBuilder.nickname(nickname + "_NAVER_" + rand);
+		// }
 
 		userBuilder.profileImage(picture);
 		userBuilder.role(customAuthorityUtils.createRoles(userId));
 		userBuilder.password(encodedPass);
+		userBuilder.level(1);
+		userBuilder.ariFactor(10);
+		userBuilder.isFirstLogin(true);
 		userBuilder.provider("NAVER");
 		userBuilder.providerId(providerId);
 
 		return userRepository.save(userBuilder.build());
+	}
+
+	private String createUserId() {
+
+		Random rand = new Random();
+		StringBuilder userId = new StringBuilder();
+		userId.append("222");
+		for (int i = 0; i < 8; i++) {
+			String ran = Integer.toString(rand.nextInt(10));
+			userId.append(ran);
+		}
+
+		while (userRepository.existsByUserId(userId.toString())) {
+			StringBuilder temp = new StringBuilder();
+			temp.append("222");
+			for (int i = 0; i < 8; i++) {
+				String ran = Integer.toString(rand.nextInt(10));
+				temp.append(ran);
+			}
+			userId = temp;
+		}
+		return userId.toString();
 	}
 }

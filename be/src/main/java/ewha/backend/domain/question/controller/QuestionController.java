@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
@@ -23,24 +26,22 @@ import ewha.backend.domain.question.dto.QuestionDto;
 import ewha.backend.domain.question.entity.Question;
 import ewha.backend.domain.question.mapper.QuestionMapper;
 import ewha.backend.domain.question.service.QuestionService;
-import ewha.backend.domain.user.service.UserService;
-
+import ewha.backend.global.dto.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 
 @Validated
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/api/questions")
 @RequiredArgsConstructor
 public class QuestionController {
 	private final QuestionService questionService;
 	private final QuestionMapper questionMapper;
-	private final UserService userService;
 	private final AwsS3Service awsS3Service;
 
 	@PostMapping("/add")
-	public ResponseEntity<QuestionDto.Response> postQuestion(
+	public ResponseEntity<HttpStatus> postQuestion(
 		@Nullable @RequestParam(value = "image", required = false) MultipartFile multipartFile,
-		@Valid @RequestPart QuestionDto.Post postQuestion) throws Exception {
+		@Valid @RequestPart(value = "post") QuestionDto.Post postQuestion) throws Exception {
 
 		List<String> imagePath = null;
 
@@ -49,18 +50,20 @@ public class QuestionController {
 
 		if (multipartFile != null) {
 			imagePath = awsS3Service.uploadQuestionImageToS3(multipartFile, createdQuestion.getId());
-			createdQuestion.addImagePaths(imagePath.get(0), imagePath.get(1));
+			if (imagePath.size() != 0) {
+				createdQuestion.addImagePaths(imagePath.get(0), imagePath.get(1));
+			}
 		}
 
-		QuestionDto.Response response = questionMapper.questionToQuestionResponse(createdQuestion);
+		// QuestionDto.Response response = questionMapper.questionToQuestionResponse(createdQuestion);
 
-		return ResponseEntity.ok().body(response);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
-	@PatchMapping("/{question_id}/edit")
+	@PostMapping("/{question_id}/edit")
 	public ResponseEntity<String> patchQuestion(@PathVariable("question_id") Long questionId,
 		@Nullable @RequestParam(value = "image", required = false) MultipartFile multipartFile,
-		@Valid @RequestPart QuestionDto.Patch patchQuestion) throws Exception {
+		@Valid @RequestPart(value = "patch") QuestionDto.Patch patchQuestion) throws Exception {
 
 		List<String> imagePath = null;
 
@@ -96,13 +99,32 @@ public class QuestionController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/{question_id}")
-	public ResponseEntity<QuestionDto.Response> getQuestion(@PathVariable("question_id") Long questionId) {
+	@GetMapping("/weekly")
+	public ResponseEntity<QuestionDto.Response> getQuestion() {
 
-		Question question = questionService.getQuestion(questionId);
+		Question question = questionService.getQuestion();
 		QuestionDto.Response response = questionMapper.questionToQuestionResponse(question);
 
 		return ResponseEntity.ok().body(response);
+	}
+
+	// @GetMapping("/{question_id}")
+	// public ResponseEntity<QuestionDto.Response> getQuestion(@PathVariable("question_id") Long questionId) {
+	//
+	// 	Question question = questionService.getQuestion(questionId);
+	// 	QuestionDto.Response response = questionMapper.questionToQuestionResponse(question);
+	//
+	// 	return ResponseEntity.ok().body(response);
+	// }
+
+	@GetMapping("/list")
+	public ResponseEntity<MultiResponseDto<QuestionDto.Response>> getPassedQuestion(
+		@RequestParam(name = "page", defaultValue = "1") int page) {
+
+		Page<Question> questionPage = questionService.getPassedQuestion(page);
+		PageImpl<QuestionDto.Response> responses = questionMapper.questionsToPageResponse(questionPage);
+
+		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), questionPage));
 	}
 
 	@DeleteMapping("/{question_id}/delete")

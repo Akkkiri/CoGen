@@ -15,8 +15,8 @@ import ewha.backend.global.smsAuth.service.SmsService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class SmsController {
 	private final SmsService smsService;
@@ -27,6 +27,7 @@ public class SmsController {
 
 		System.out.println("인증 요청 번호: " + request.getPhoneNumber());
 
+		userService.verifyUserId(request.getPhoneNumber());
 		smsService.sendSms(request.getPhoneNumber());
 
 		return ResponseEntity.ok("Request Certification Number");
@@ -37,7 +38,7 @@ public class SmsController {
 
 		String response = smsService.verifyCertification(request);
 
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(request.getPhoneNumber());
 	}
 
 	@PostMapping("/find/id/sms/send")

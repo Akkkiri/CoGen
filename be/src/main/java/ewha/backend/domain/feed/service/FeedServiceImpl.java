@@ -22,6 +22,7 @@ import ewha.backend.domain.like.entity.CommentLike;
 import ewha.backend.domain.like.repository.CommentLikeQueryRepository;
 import ewha.backend.domain.like.repository.FeedLikeQueryRepository;
 import ewha.backend.domain.user.entity.User;
+import ewha.backend.domain.user.repository.UserRepository;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.config.CustomPage;
 import ewha.backend.global.exception.BusinessLogicException;
@@ -30,11 +31,11 @@ import ewha.backend.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class FeedServiceImpl implements FeedService {
 
 	private final UserService userService;
+	private final UserRepository userRepository;
 	private final CategoryService categoryService;
 	private final FeedRepository feedRepository;
 	private final FeedQueryRepository feedQueryRepository;
@@ -43,9 +44,9 @@ public class FeedServiceImpl implements FeedService {
 	private final CommentLikeQueryRepository commentLikeQueryRepository;
 	private final BookmarkRepository bookmarkRepository;
 	private final AwsS3Service awsS3Service;
-	// private final LikeQueryRepository likeQueryRepository;
 
 	@Override
+	@Transactional
 	public Feed createFeed(Feed feed) {
 
 		User findUser = userService.getLoginUser();
@@ -59,10 +60,21 @@ public class FeedServiceImpl implements FeedService {
 			.likeCount(0L)
 			.build();
 
+		if (findUser.getDailyFeedCount() <= 5) {
+			findUser.addAriFactor(2);
+			findUser.addDailyFeedCount();
+
+			if (findUser.getAriFactor() == 50) {
+				findUser.addLevel();
+			}
+			userRepository.save(findUser);
+		}
+
 		return feedRepository.save(savedFeed);
 	}
 
 	@Override
+	@Transactional
 	public Feed updateFeed(Feed feed, Long feedId) {
 
 		User findUser = userService.getLoginUser();
@@ -123,6 +135,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Feed updateView(Long feedId) {
 
 		Feed findFeed = findVerifiedFeed(feedId);
@@ -131,6 +144,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<CommentLike> isLikedComments(Long feedId) {
 
 		User findUser = userService.getLoginUser();
@@ -144,6 +158,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Boolean isMyFeed(Feed feed) {
 
 		User findUser = userService.getLoginUserReturnNull();
@@ -156,6 +171,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Boolean isSavedFeed(Feed feed) {
 
 		User findUser = userService.getLoginUserReturnNull();
@@ -168,6 +184,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public CustomPage<Feed> findNewestFeeds(int page) {
 
 		PageRequest pageRequest = PageRequest.of(page - 1, 10);
@@ -176,14 +193,21 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-	public Page<Feed> findCategoryFeeds(String categoryName, int page) {
+	@Transactional(readOnly = true)
+	public Page<Feed> findCategoryFeeds(String categoryName, String sort, int page) {
 
 		PageRequest pageRequest = PageRequest.of(page - 1, 10);
 
-		return feedQueryRepository.findCategoryFeedList(categoryName, pageRequest);
+		if (categoryName.equals("ALL") && sort.equals("new")) {
+			return feedQueryRepository.findNewestFeedList(pageRequest);
+		} else {
+			return feedQueryRepository.findCategoryFeedList(categoryName, sort, pageRequest);
+		}
+
 	}
 
 	@Override
+	@Transactional
 	public void deleteFeed(Long feedId) {
 
 		User findUser = userService.getLoginUser();
@@ -199,6 +223,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteFeeds() {
 
 		User findUser = userService.getLoginUser();
@@ -217,6 +242,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Feed findVerifiedFeed(Long feedId) {
 
 		Optional<Feed> optionalFeed = feedRepository.findById(feedId);
@@ -225,6 +251,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	@Transactional
 	public void saveFeed(Feed feed) {
 		feedRepository.save(feed);
 	}

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>세대공감 아끼리</title>
+<title>우리 함께 CoGen</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,7 +438,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>세대공감 아끼리</h1>
+<h1>우리 함께 CoGen</h1>
 <div class="details">
 <span id="revnumber">version 0.0.1-SNAPSHOT</span>
 </div>
@@ -447,28 +447,29 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_usercontroller">1. UserController</a>
 <ul class="sectlevel2">
-<li><a href="#_회원_가입_정보_검증_성공">1.1. 회원 가입 정보 검증 - 성공</a></li>
-<li><a href="#_회원_가입_정보_검증_실패">1.2. 회원 가입 정보 검증 - 실패</a></li>
-<li><a href="#_회원_가입">1.3. 회원 가입</a></li>
-<li><a href="#_oauth2_0">1.4. OAuth2.0</a></li>
-<li><a href="#_첫_로그인">1.5. 첫 로그인</a></li>
-<li><a href="#_로그인">1.6. 로그인</a></li>
-<li><a href="#_회원_정보_수정">1.7. 회원 정보 수정</a></li>
-<li><a href="#_회원_비밀번호_수정">1.8. 회원 비밀번호 수정</a></li>
-<li><a href="#_회원_페이지">1.9. 회원 페이지</a></li>
-<li><a href="#_마이_페이지">1.10. 마이 페이지</a></li>
-<li><a href="#_마이_페이지_피드">1.11. 마이 페이지 피드</a></li>
-<li><a href="#_마이_페이지_댓글">1.12. 마이 페이지 댓글</a></li>
-<li><a href="#_마이_페이지_공감_피드">1.13. 마이 페이지 공감 피드</a></li>
-<li><a href="#_마이_페이지_답변한_질문">1.14. 마이 페이지 답변한 질문</a></li>
-<li><a href="#_회원_탈퇴">1.15. 회원 탈퇴</a></li>
+<li><a href="#_회원_가입">1.1. 회원 가입</a></li>
+<li><a href="#_oauth2_0">1.2. OAuth2.0</a></li>
+<li><a href="#_첫_로그인_정보">1.3. 첫 로그인: 정보</a></li>
+<li><a href="#_첫_로그인_문답">1.4. 첫 로그인: 문답</a></li>
+<li><a href="#_로그인">1.5. 로그인</a></li>
+<li><a href="#_회원_정보_수정">1.6. 회원 정보 수정</a></li>
+<li><a href="#_회원_비밀번호_수정">1.7. 회원 비밀번호 수정</a></li>
+<li><a href="#_마이_페이지">1.8. 마이 페이지</a></li>
+<li><a href="#_마이_페이지_피드">1.9. 마이 페이지: 피드</a></li>
+<li><a href="#_마이_페이지_문답">1.10. 마이 페이지: 문답</a></li>
+<li><a href="#_마이_페이지_이번주_질문">1.11. 마이 페이지: 이번주 질문</a></li>
+<li><a href="#_마이_페이지_북마크">1.12. 마이 페이지: 북마크</a></li>
+<li><a href="#_마이_페이지_댓글">1.13. 마이 페이지: 댓글</a></li>
+<li><a href="#_다른_사용자_페이지_문답">1.14. 다른 사용자 페이지: 문답</a></li>
+<li><a href="#_다른_사용자_페이지_이번주_질문">1.15. 다른 사용자 페이지: 이번주 질문</a></li>
+<li><a href="#_다른_사용자_페이지_게시글">1.16. 다른 사용자 페이지: 게시글</a></li>
+<li><a href="#_회원_탈퇴">1.17. 회원 탈퇴</a></li>
 </ul>
 </li>
 <li><a href="#_followcontroller">2. FollowController</a>
 <ul class="sectlevel2">
 <li><a href="#_팔로우">2.1. 팔로우</a></li>
-<li><a href="#_팔로워_리스트_조회">2.2. 팔로워 리스트 조회</a></li>
-<li><a href="#_팔로잉_리스트_조회">2.3. 팔로잉 리스트 조회</a></li>
+<li><a href="#_친구_리스트_조회">2.2. 친구 리스트 조회</a></li>
 </ul>
 </li>
 <li><a href="#_feedcontroller">3. FeedController</a>
@@ -476,9 +477,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_피드_작성">3.1. 피드 작성</a></li>
 <li><a href="#_피드_수정">3.2. 피드 수정</a></li>
 <li><a href="#_피드_조회">3.3. 피드 조회</a></li>
-<li><a href="#_피드_페이징_조회최신순">3.4. 피드 페이징 조회(최신순)</a></li>
-<li><a href="#_피드_페이징_조회카테고리별_최신순">3.5. 피드 페이징 조회(카테고리별 최신순)</a></li>
-<li><a href="#_피드_삭제">3.6. 피드 삭제</a></li>
+<li><a href="#_피드_페이징_조회">3.4. 피드 페이징 조회</a></li>
+<li><a href="#_피드_삭제">3.5. 피드 삭제</a></li>
 </ul>
 </li>
 <li><a href="#_commentcontroller">4. CommentController</a>
@@ -490,35 +490,56 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_코멘트_삭제">4.5. 코멘트 삭제</a></li>
 </ul>
 </li>
-<li><a href="#_likecontroller">5. LikeController</a>
+<li><a href="#_questioncontroller">5. QuestionController</a>
 <ul class="sectlevel2">
-<li><a href="#_피드_좋아요">5.1. 피드 좋아요</a></li>
-<li><a href="#_코멘트_좋아요">5.2. 코멘트 좋아요</a></li>
+<li><a href="#_이주의_질문_작성">5.1. 이주의 질문 작성</a></li>
+<li><a href="#_이주의_질문_수정">5.2. 이주의 질문 수정</a></li>
+<li><a href="#_이주의_질문_조회">5.3. 이주의 질문 조회</a></li>
+<li><a href="#_지나간_질문_페이징_조회">5.4. 지나간 질문 페이징 조회</a></li>
+<li><a href="#_이주의_질문_삭제">5.5. 이주의 질문 삭제</a></li>
 </ul>
 </li>
-<li><a href="#_searchcontroller">6. SearchController</a>
+<li><a href="#_quizcontroller">6. QuizController</a>
 <ul class="sectlevel2">
-<li><a href="#_검색">6.1. 검색</a></li>
+<li><a href="#_이주의_퀴즈_작성">6.1. 이주의 퀴즈 작성</a></li>
+<li><a href="#_이주의_퀴즈_수정">6.2. 이주의 퀴즈 수정</a></li>
+<li><a href="#_이주의_퀴즈_조회">6.3. 이주의 퀴즈 조회</a></li>
+<li><a href="#_이주의_퀴즈_삭제">6.4. 이주의 퀴즈 삭제</a></li>
 </ul>
 </li>
-<li><a href="#_smscontroller">7. SMSController</a>
+<li><a href="#_likecontroller">7. LikeController</a>
 <ul class="sectlevel2">
-<li><a href="#_회원_가입시_휴대폰_인증번호_요청">7.1. 회원 가입시 휴대폰 인증번호 요청</a></li>
-<li><a href="#_회원_가입시_인증번호_검증_요청">7.2. 회원 가입시 인증번호 검증 요청</a></li>
-<li><a href="#_아이디_찾기_휴대폰_인증번호_요청">7.3. 아이디 찾기 휴대폰 인증번호 요청</a></li>
-<li><a href="#_아이디_찾기_인증번호_검증_요청">7.4. 아이디 찾기 인증번호 검증 요청</a></li>
-<li><a href="#_비밀번호_찾기_휴대폰_인증번호_요청">7.5. 비밀번호 찾기 휴대폰 인증번호 요청</a></li>
-<li><a href="#_비밀번호_찾기_인증번호_검증_요청">7.6. 비밀번호 찾기 인증번호 검증 요청</a></li>
+<li><a href="#_피드_좋아요">7.1. 피드 좋아요</a></li>
+<li><a href="#_코멘트_좋아요">7.2. 코멘트 좋아요</a></li>
+<li><a href="#_답변_좋아요">7.3. 답변 좋아요</a></li>
 </ul>
 </li>
-<li><a href="#_notificationcontroller">8. NotificationController</a>
+<li><a href="#_reportcontroller">8. ReportController</a>
 <ul class="sectlevel2">
-<li><a href="#_sse_구독">8.1. SSE 구독</a></li>
-<li><a href="#_나의_알림_전부_조회">8.2. 나의 알림 전부 조회</a></li>
-<li><a href="#_나의_알림_단건_조회">8.3. 나의 알림 단건 조회</a></li>
-<li><a href="#_읽지_않은_알림이_있는지_확인">8.4. 읽지 않은 알림이 있는지 확인</a></li>
-<li><a href="#_알림_하나_삭제">8.5. 알림 하나 삭제</a></li>
-<li><a href="#_알림_전부_삭제">8.6. 알림 전부 삭제</a></li>
+<li><a href="#_피드_신고">8.1. 피드 신고</a></li>
+<li><a href="#_코멘트_신고">8.2. 코멘트 신고</a></li>
+<li><a href="#_답변_신고">8.3. 답변 신고</a></li>
+</ul>
+</li>
+<li><a href="#_searchcontroller">9. SearchController</a>
+<ul class="sectlevel2">
+<li><a href="#_검색">9.1. 검색</a></li>
+</ul>
+</li>
+<li><a href="#_smscontroller">10. SMSController</a>
+<ul class="sectlevel2">
+<li><a href="#_회원_가입시_휴대폰_인증번호_요청">10.1. 회원 가입시 휴대폰 인증번호 요청</a></li>
+<li><a href="#_회원_가입시_인증번호_검증_요청">10.2. 회원 가입시 인증번호 검증 요청</a></li>
+</ul>
+</li>
+<li><a href="#_notificationcontroller">11. NotificationController</a>
+<ul class="sectlevel2">
+<li><a href="#_sse_구독">11.1. SSE 구독</a></li>
+<li><a href="#_나의_알림_전부_조회">11.2. 나의 알림 전부 조회</a></li>
+<li><a href="#_나의_알림_단건_조회">11.3. 나의 알림 단건 조회</a></li>
+<li><a href="#_읽지_않은_알림이_있는지_확인">11.4. 읽지 않은 알림이 있는지 확인</a></li>
+<li><a href="#_알림_하나_삭제">11.5. 알림 하나 삭제</a></li>
+<li><a href="#_알림_전부_삭제">11.6. 알림 전부 삭제</a></li>
 </ul>
 </li>
 </ul>
@@ -534,7 +555,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>연락처: <a href="mailto:sskeiair@ewha.ac.kr">sskeiair@ewha.ac.kr</a></p>
 </div>
 <div class="paragraph">
-<p>v1.0.2, 2023.3.13</p>
+<p>개발 책임자: 방세린</p>
+</div>
+<div class="paragraph">
+<p>연락처: <a href="mailto:bangserin980302@gmail.com">bangserin980302@gmail.com</a></p>
+</div>
+<div class="paragraph">
+<p>v1.0.4, 2023.3.29</p>
 </div>
 <hr>
 </div>
@@ -543,78 +570,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_usercontroller">1. UserController</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_회원_가입_정보_검증_성공">1.1. 회원 가입 정보 검증 - 성공</h3>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-회원 가입 요청 시 입력한 정보를 검증합니다.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto/curl-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Request-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto/request-fields.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto/http-response.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Response-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto/response-fields.adoc[]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_회원_가입_정보_검증_실패">1.2. 회원 가입 정보 검증 - 실패</h3>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-회원 가입 요청 시 입력한 정보를 검증합니다.<br>
-제한 조건에 맞지 않는 값을 입력하면 코드 400과 해당 정보를 출력합니다.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto_Reject/curl-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto_Reject/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Request-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto_Reject/request-fields.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto_Reject/http-response.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Response-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Verify_Dto_Reject/response-fields.adoc[]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_회원_가입">1.3. 회원 가입</h3>
+<h3 id="_회원_가입">1.1. 회원 가입</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Post_User/curl-request.adoc[]</p>
@@ -637,7 +593,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_oauth2_0">1.4. OAuth2.0</h3>
+<h3 id="_oauth2_0">1.2. OAuth2.0</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/OAuth2/curl-request.adoc[]</p>
@@ -668,7 +624,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_첫_로그인">1.5. 첫 로그인</h3>
+<h3 id="_첫_로그인_정보">1.3. 첫 로그인: 정보</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -676,7 +632,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Note</div>
 </td>
 <td class="content">
-첫 로그인시 회원 정보를 추가로 입력 받습니다.
+첫 로그인시 성별과 연령대를 입력 받습니다.
 </td>
 </tr>
 </table>
@@ -694,6 +650,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Unresolved directive in index.adoc - include::{snippets}/First_Login_User/request-fields.adoc[]</p>
 </div>
 <div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/First_Login_User/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
 <div class="title">Http-Response</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/First_Login_User/http-response.adoc[]</p>
 </div>
@@ -703,7 +663,42 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_로그인">1.6. 로그인</h3>
+<h3 id="_첫_로그인_문답">1.4. 첫 로그인: 문답</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+첫 로그인시 문답을 입력받습니다. 3개 이상 10개 이하로 입력해야 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/First_Login_QnA/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/First_Login_QnA/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Request-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/First_Login_QnA/request-fields.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/First_Login_QnA/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/First_Login_QnA/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_로그인">1.5. 로그인</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/User_Login/curl-request.adoc[]</p>
@@ -726,7 +721,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_정보_수정">1.7. 회원 정보 수정</h3>
+<h3 id="_회원_정보_수정">1.6. 회원 정보 수정</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Patch_User/curl-request.adoc[]</p>
@@ -749,7 +744,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_비밀번호_수정">1.8. 회원 비밀번호 수정</h3>
+<h3 id="_회원_비밀번호_수정">1.7. 회원 비밀번호 수정</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Patch_Password/curl-request.adoc[]</p>
@@ -768,30 +763,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_페이지">1.9. 회원 페이지</h3>
-<div class="paragraph">
-<div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Page/curl-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Page/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Path-Parameters</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Page/path-parameters.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Page/http-response.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Response-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Page/response-fields.adoc[]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_마이_페이지">1.10. 마이 페이지</h3>
+<h3 id="_마이_페이지">1.8. 마이 페이지</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Get_MyPage/curl-request.adoc[]</p>
@@ -810,7 +782,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_마이_페이지_피드">1.11. 마이 페이지 피드</h3>
+<h3 id="_마이_페이지_피드">1.9. 마이 페이지: 피드</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Feeds/curl-request.adoc[]</p>
@@ -833,30 +805,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_마이_페이지_댓글">1.12. 마이 페이지 댓글</h3>
+<h3 id="_마이_페이지_문답">1.10. 마이 페이지: 문답</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Comments/curl-request.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_QnA/curl-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Comments/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Request-Parameters</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Comments/request-parameters.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_QnA/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Comments/http-response.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_QnA/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Response-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Comments/response-fields.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_QnA/response-fields.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_마이_페이지_공감_피드">1.13. 마이 페이지 공감 피드</h3>
+<h3 id="_마이_페이지_이번주_질문">1.11. 마이 페이지: 이번주 질문</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -864,34 +832,103 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Note</div>
 </td>
 <td class="content">
-내가 공감을 누른 피드를 표시합니다.
+내가 답변한 이번주 질문을 표시합니다.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Liked_Feeds/curl-request.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Questions_Comments/curl-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Liked_Feeds/http-request.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Questions_Comments/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Request-Parameters</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Liked_Feeds/request-parameters.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Questions_Comments/request-parameters.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Liked_Feeds/http-response.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Questions_Comments/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Response-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Liked_Feeds/response-fields.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Questions_Comments/response-fields.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_마이_페이지_답변한_질문">1.14. 마이 페이지 답변한 질문</h3>
+<h3 id="_마이_페이지_북마크">1.12. 마이 페이지: 북마크</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Bookmarks/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Bookmarks/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Request-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Bookmarks/request-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Bookmarks/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Response-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Bookmarks/response-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_마이_페이지_댓글">1.13. 마이 페이지: 댓글</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Comments/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Comments/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Request-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Comments/request-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Comments/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Response-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Comments/response-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_다른_사용자_페이지_문답">1.14. 다른 사용자 페이지: 문답</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_QnA/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_QnA/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_QnA/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_QnA/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Response-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_QnA/response-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_다른_사용자_페이지_이번주_질문">1.15. 다른 사용자 페이지: 이번주 질문</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -899,34 +936,65 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Note</div>
 </td>
 <td class="content">
-내가 답변한 질문을 표시합니다.
+다른 사용자가 답변한 이번주 질문을 표시합니다.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions/curl-request.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions_Comments/curl-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions/http-request.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions_Comments/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Request-Parameters</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions/request-parameters.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions_Comments/request-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions_Comments/path-parameters.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions/http-response.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions_Comments/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <div class="title">Response-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions/response-fields.adoc[]</p>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Questions_Comments/response-fields.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_탈퇴">1.15. 회원 탈퇴</h3>
+<h3 id="_다른_사용자_페이지_게시글">1.16. 다른 사용자 페이지: 게시글</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Feeds/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Feeds/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Request-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Feeds/request-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Feeds/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Feeds/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Response-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_User_Feeds/response-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원_탈퇴">1.17. 회원 탈퇴</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Delete_User/curl-request.adoc[]</p>
@@ -965,46 +1033,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_팔로워_리스트_조회">2.2. 팔로워 리스트 조회</h3>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-해당 회원을 팔로우하고 있는 회원을 조회합니다.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Followers_List/curl-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Followers_List/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Path-Parameters</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Followers_List/path-parameters.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Request-Parameters</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Followers_List/request-parameters.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Followers_List/http-response.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Response-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Followers_List/response-fields.adoc[]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_팔로잉_리스트_조회">2.3. 팔로잉 리스트 조회</h3>
+<h3 id="_친구_리스트_조회">2.2. 친구 리스트 조회</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1113,30 +1142,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_피드_페이징_조회최신순">3.4. 피드 페이징 조회(최신순)</h3>
-<div class="paragraph">
-<div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Newest_Feeds/curl-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Newest_Feeds/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Request-Parameters</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Newest_Feeds/request-parameters.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Newest_Feeds/http-response.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Response-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Get_Newest_Feeds/response-fields.adoc[]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_피드_페이징_조회카테고리별_최신순">3.5. 피드 페이징 조회(카테고리별 최신순)</h3>
+<h3 id="_피드_페이징_조회">3.4. 피드 페이징 조회</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Get_Category_Feeds/curl-request.adoc[]</p>
@@ -1159,7 +1165,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_피드_삭제">3.6. 피드 삭제</h3>
+<h3 id="_피드_삭제">3.5. 피드 삭제</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Delete_Feed/curl-request.adoc[]</p>
@@ -1308,10 +1314,203 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_likecontroller">5. LikeController</h2>
+<h2 id="_questioncontroller">5. QuestionController</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_피드_좋아요">5.1. 피드 좋아요</h3>
+<h3 id="_이주의_질문_작성">5.1. 이주의 질문 작성</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Post_Question/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Post_Question/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Request-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Post_Question/request-fields.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Post_Question/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이주의_질문_수정">5.2. 이주의 질문 수정</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Question/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Question/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Question/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Request-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Question/request-fields.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Question/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이주의_질문_조회">5.3. 이주의 질문 조회</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Question/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Question/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Question/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Response-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Question/response-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_지나간_질문_페이징_조회">5.4. 지나간 질문 페이징 조회</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Question_List/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Question_List/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Request-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Question_List/request-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Question_List/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Response-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Feed_Comments/response-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이주의_질문_삭제">5.5. 이주의 질문 삭제</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Delete_Question/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Delete_Question/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Delete_Question/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Delete_Question/http-response.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_quizcontroller">6. QuizController</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_이주의_퀴즈_작성">6.1. 이주의 퀴즈 작성</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Post_Quiz/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Post_Quiz/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Request-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Post_Quiz/request-fields.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Post_Quiz/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이주의_퀴즈_수정">6.2. 이주의 퀴즈 수정</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Quiz/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Quiz/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Quiz/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Request-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Quiz/request-fields.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Patch_Quiz/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이주의_퀴즈_조회">6.3. 이주의 퀴즈 조회</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Weekly_Quiz_List/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Weekly_Quiz_List/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Weekly_Quiz_List/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Response-Fields</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Get_Weekly_Quiz_List/response-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이주의_퀴즈_삭제">6.4. 이주의 퀴즈 삭제</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Delete_Quiz/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Delete_Quiz/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Delete_Quiz/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Delete_Quiz/http-response.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_likecontroller">7. LikeController</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_피드_좋아요">7.1. 피드 좋아요</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Feed_Like/curl-request.adoc[]</p>
@@ -1330,7 +1529,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_코멘트_좋아요">5.2. 코멘트 좋아요</h3>
+<h3 id="_코멘트_좋아요">7.2. 코멘트 좋아요</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Comment_Like/curl-request.adoc[]</p>
@@ -1348,13 +1547,94 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Unresolved directive in index.adoc - include::{snippets}/Comment_Like/http-response.adoc[]</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_답변_좋아요">7.3. 답변 좋아요</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Answer_Like/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Answer_Like/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Answer_Like/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Answer_Like/http-response.adoc[]</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_searchcontroller">6. SearchController</h2>
+<h2 id="_reportcontroller">8. ReportController</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_검색">6.1. 검색</h3>
+<h3 id="_피드_신고">8.1. 피드 신고</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Feed_Report/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Feed_Report/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Feed_Report/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Feed_Report/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_코멘트_신고">8.2. 코멘트 신고</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Comment_Report/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Comment_Report/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Comment_Report/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Comment_Report/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_답변_신고">8.3. 답변 신고</h3>
+<div class="paragraph">
+<div class="title">Curl-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Answer_Report/curl-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Request</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Answer_Report/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Path-Parameters</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Answer_Report/path-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
+<div class="title">Http-Response</div>
+<p>Unresolved directive in index.adoc - include::{snippets}/Answer_Report/http-response.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_searchcontroller">9. SearchController</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_검색">9.1. 검색</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Get_Search_Result/curl-request.adoc[]</p>
@@ -1379,10 +1659,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_smscontroller">7. SMSController</h2>
+<h2 id="_smscontroller">10. SMSController</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_회원_가입시_휴대폰_인증번호_요청">7.1. 회원 가입시 휴대폰 인증번호 요청</h3>
+<h3 id="_회원_가입시_휴대폰_인증번호_요청">10.1. 회원 가입시 휴대폰 인증번호 요청</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/SMS_Certification/curl-request.adoc[]</p>
@@ -1401,7 +1681,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_가입시_인증번호_검증_요청">7.2. 회원 가입시 인증번호 검증 요청</h3>
+<h3 id="_회원_가입시_인증번호_검증_요청">10.2. 회원 가입시 인증번호 검증 요청</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/SMS_Verification/curl-request.adoc[]</p>
@@ -1419,89 +1699,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Unresolved directive in index.adoc - include::{snippets}/SMS_Verification/http-response.adoc[]</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_아이디_찾기_휴대폰_인증번호_요청">7.3. 아이디 찾기 휴대폰 인증번호 요청</h3>
-<div class="paragraph">
-<div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Id_Request/curl-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Id_Request/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Request-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Id_Request/request-fields.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Id_Request/http-response.adoc[]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_아이디_찾기_인증번호_검증_요청">7.4. 아이디 찾기 인증번호 검증 요청</h3>
-<div class="paragraph">
-<div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Id_Verification/curl-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Id_Verification/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Request-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Id_Verification/request-fields.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Id_Verification/http-response.adoc[]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_비밀번호_찾기_휴대폰_인증번호_요청">7.5. 비밀번호 찾기 휴대폰 인증번호 요청</h3>
-<div class="paragraph">
-<div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Password_Request/curl-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Password_Request/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Request-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Password_Request/request-fields.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Password_Request/http-response.adoc[]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_비밀번호_찾기_인증번호_검증_요청">7.6. 비밀번호 찾기 인증번호 검증 요청</h3>
-<div class="paragraph">
-<div class="title">Curl-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Password_Verification/curl-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Request</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Password_Verification/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Request-Fields</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Password_Verification/request-fields.adoc[]</p>
-</div>
-<div class="paragraph">
-<div class="title">Http-Response</div>
-<p>Unresolved directive in index.adoc - include::{snippets}/Find_My_Password_Verification/http-response.adoc[]</p>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_notificationcontroller">8. NotificationController</h2>
+<h2 id="_notificationcontroller">11. NotificationController</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_sse_구독">8.1. SSE 구독</h3>
+<h3 id="_sse_구독">11.1. SSE 구독</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Subscribe/curl-request.adoc[]</p>
@@ -1516,7 +1720,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_나의_알림_전부_조회">8.2. 나의 알림 전부 조회</h3>
+<h3 id="_나의_알림_전부_조회">11.2. 나의 알림 전부 조회</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Notifications/curl-request.adoc[]</p>
@@ -1535,7 +1739,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_나의_알림_단건_조회">8.3. 나의 알림 단건 조회</h3>
+<h3 id="_나의_알림_단건_조회">11.3. 나의 알림 단건 조회</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Get_My_Notification/curl-request.adoc[]</p>
@@ -1554,7 +1758,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_읽지_않은_알림이_있는지_확인">8.4. 읽지 않은 알림이 있는지 확인</h3>
+<h3 id="_읽지_않은_알림이_있는지_확인">11.4. 읽지 않은 알림이 있는지 확인</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Check_If_Not_Read_Notification/curl-request.adoc[]</p>
@@ -1573,7 +1777,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_알림_하나_삭제">8.5. 알림 하나 삭제</h3>
+<h3 id="_알림_하나_삭제">11.5. 알림 하나 삭제</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Delete_Notification/curl-request.adoc[]</p>
@@ -1592,7 +1796,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_알림_전부_삭제">8.6. 알림 전부 삭제</h3>
+<h3 id="_알림_전부_삭제">11.6. 알림 전부 삭제</h3>
 <div class="paragraph">
 <div class="title">Curl-Request</div>
 <p>Unresolved directive in index.adoc - include::{snippets}/Delete_All_Notification/curl-request.adoc[]</p>
@@ -1612,7 +1816,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-03-14 14:40:12 +0900
+Last updated 2023-03-29 19:10:30 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

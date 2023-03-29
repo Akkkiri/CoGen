@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/oauth")
+@RequestMapping("/api/oauth")
 public class OAuthController {
 
 	private final KakaoService kakaoService;
@@ -59,7 +59,7 @@ public class OAuthController {
 		String accessToken = jwtTokenizer.delegateAccessToken(findUser);
 		String refreshToken = jwtTokenizer.delegateRefreshToken(findUser);
 
-		jwtTokenizer.addRefreshToken(findUser.getEmail(), refreshToken);
+		jwtTokenizer.addRefreshToken(findUser.getUserId(), refreshToken);
 
 		ResponseCookie cookie = cookieManager.createCookie("refreshToken", refreshToken);
 

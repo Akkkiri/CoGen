@@ -40,9 +40,6 @@ public class LoginDto {
 		private GenderType genderType;
 		@NotNull
 		private AgeType ageType;
-		@NotEmpty
-		@Size(max = 3, message = "관심사는 최대 3개까지 선택 가능합니다.")
-		private List<CategoryType> categories;
 	}
 
 	@Getter
@@ -66,7 +63,8 @@ public class LoginDto {
 		private String userId;
 		private Boolean isFirstLogin;
 		private String nickname;
-		private Long ariFactor;
+		private Integer level;
+		private Integer ariFactor;
 		private List<String> role;
 		private String profileImage; // 프로필 이미지
 	}
@@ -79,7 +77,7 @@ public class LoginDto {
 	public static class FirstLoginResponseDto { // 첫 로그인 response
 		private Boolean firstLogin;
 		private String nickName;
-		private Long ariFactor;
+		private Integer ariFactor;
 		private List<String> roles;
 		private GenderType genderType;
 		private AgeType ageType;

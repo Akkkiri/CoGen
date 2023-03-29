@@ -11,7 +11,7 @@ import ewha.backend.domain.report.service.ReportService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ReportController {
 
@@ -29,6 +29,14 @@ public class ReportController {
 	public ResponseEntity<String> commentReport(@PathVariable("comment_id") Long commentId) {
 
 		String response = reportService.commentReport(commentId);
+
+		return ResponseEntity.ok(response);
+	}
+
+	@PatchMapping("/answers/{answer_id}/report")
+	public ResponseEntity<String> answerReport(@PathVariable("answer_id") Long answerId) {
+
+		String response = reportService.answerReport(answerId);
 
 		return ResponseEntity.ok(response);
 	}

@@ -10,8 +10,13 @@ import ewha.backend.domain.category.entity.Category;
 import ewha.backend.domain.category.service.CategoryService;
 import ewha.backend.domain.feed.dto.FeedDto;
 import ewha.backend.domain.feed.entity.Feed;
+import ewha.backend.domain.question.dto.AnswerDto;
+import ewha.backend.domain.question.dto.QuestionDto;
+import ewha.backend.domain.question.entity.Answer;
+import ewha.backend.domain.question.entity.Question;
 import ewha.backend.domain.user.dto.UserDto;
 import ewha.backend.domain.user.entity.User;
+import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.config.CustomPage;
 
 @Mapper(componentModel = "spring")
@@ -49,7 +54,7 @@ public interface FeedMapper {
 				.id(findUser.getId())
 				.userId(findUser.getUserId())
 				.nickname(findUser.getNickname())
-				.ariFactor(findUser.getAriFactor())
+				.level(findUser.getLevel())
 				.profileImage(findUser.getProfileImage())
 				.thumbnailPath(findUser.getThumbnailPath())
 				.build();
@@ -63,6 +68,7 @@ public interface FeedMapper {
 			.isLiked(isLikedFeed)
 			.isMyFeed(isMyFeed)
 			.isSavedFeed(isSavedFeed)
+			.commentCount(feed.getCommentCount())
 			.likeCount(feed.getLikeCount())
 			.viewCount(feed.getViewCount())
 			.imagePath(feed.getImagePath())
@@ -110,6 +116,7 @@ public interface FeedMapper {
 					.category(feed.getCategory().getCategoryType().toString())
 					.commentCount(feed.getComments().size())
 					.likeCount(feed.getLikeCount())
+					.viewCount(feed.getViewCount())
 					.createdAt(feed.getCreatedAt())
 					.modifiedAt(feed.getModifiedAt())
 					.build();
@@ -127,9 +134,9 @@ public interface FeedMapper {
 					.feedId(feed.getId())
 					.userId(feed.getUser().getUserId())
 					.title(feed.getTitle())
-					// .body(feed.getBody())
+					.body(feed.getBody())
 					.category(feed.getCategory().getCategoryType().toString())
-					.commentCount(feed.getComments().size())
+					.commentCount(feed.getCommentCount())
 					.likeCount(feed.getLikeCount())
 					.viewCount(feed.getViewCount())
 					.createdAt(feed.getCreatedAt())
@@ -138,7 +145,7 @@ public interface FeedMapper {
 			}).collect(Collectors.toList()));
 	}
 
-	default PageImpl<FeedDto.ListResponse> newFeedsToPageResponse(Page<Feed> feedList) {
+	default PageImpl<FeedDto.ListResponse> feedsToPageResponse(Page<Feed> feedList) {
 
 		if (feedList == null)
 			return null;
@@ -148,9 +155,9 @@ public interface FeedMapper {
 				return FeedDto.ListResponse.builder()
 					.feedId(feed.getId())
 					.title(feed.getTitle())
-					// .body(feed.getBody())
-					.commentCount(feed.getComments().size())
+					.body(feed.getBody())
 					.category(feed.getCategory().getCategoryType().toString())
+					.commentCount(feed.getCommentCount())
 					.likeCount(feed.getLikeCount())
 					.viewCount(feed.getViewCount())
 					.createdAt(feed.getCreatedAt())
@@ -158,7 +165,7 @@ public interface FeedMapper {
 			}).collect(Collectors.toList()));
 	}
 
-	default CustomPage<FeedDto.ListResponse> TESTnewFeedsToPageResponse(CustomPage<Feed> feedList) {
+	default CustomPage<FeedDto.ListResponse> newFeedsToCustomPageResponse(CustomPage<Feed> feedList) {
 
 		if (feedList == null)
 			return null;
@@ -168,8 +175,9 @@ public interface FeedMapper {
 				return FeedDto.ListResponse.builder()
 					.feedId(feed.getId())
 					.title(feed.getTitle())
-					// .body(feed.getBody())
-					.commentCount(feed.getComments().size())
+					.body(feed.getBody())
+					.userId(feed.getUser().getUserId())
+					.commentCount(feed.getCommentCount())
 					.category(feed.getCategory().getCategoryType().toString())
 					.likeCount(feed.getLikeCount())
 					.viewCount(feed.getViewCount())

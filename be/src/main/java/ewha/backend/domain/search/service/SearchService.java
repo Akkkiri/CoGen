@@ -17,17 +17,17 @@ public class SearchService {
 
 	private final FeedQueryRepository feedQueryRepository;
 
-	public Page<Feed> findAllFeedsPageByQueryParam(String queryParam, Integer page) {
+	public Page<Feed> findAllFeedsPageByQueryParam(String sort, String queryParam, Integer page) {
 
 		PageRequest pageRequest = PageRequest.of(page - 1, 10);
 
-		return feedQueryRepository.findAllSearchResultPage(queryParam, pageRequest);
+		return feedQueryRepository.findAllSearchResultPage(sort, queryParam, pageRequest);
 	}
 
-	public Page<Feed> findCategoryFeedsPageByQueryParam(String category, String queryParam, Integer page) {
+	public Page<Feed> findCategoryFeedsPageByQueryParam(String category, String sort, String queryParam, Integer page) {
 
 		PageRequest pageRequest = PageRequest.of(page - 1, 10);
 
-		return feedQueryRepository.findCategorySearchResultPage(category, queryParam, pageRequest);
+		return feedQueryRepository.findCategorySearchResultPage(category, sort, queryParam, pageRequest);
 	}
 }

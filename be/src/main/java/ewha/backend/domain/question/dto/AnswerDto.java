@@ -1,5 +1,8 @@
 package ewha.backend.domain.question.dto;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 import lombok.AccessLevel;
@@ -36,5 +39,28 @@ public class AnswerDto {
 
 		private Long answerId;
 		private String answerBody;
+	}
+
+	@Getter
+	@Builder
+	@AllArgsConstructor(access = AccessLevel.PRIVATE)
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	public static class ListResponse {
+		private Long answerId;
+		private String userNickname;
+		private String profileImage;
+		private String thumbnailPath;
+		private String answerBody;
+		private LocalDateTime createdAt;
+		private LocalDateTime modifiedAt;
+	}
+
+	@Getter
+	@Builder
+	@AllArgsConstructor(access = AccessLevel.PRIVATE)
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	public static class PageResponse {
+
+		private List<String> answerBody;
 	}
 }

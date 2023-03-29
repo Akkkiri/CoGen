@@ -1,4 +1,4 @@
-package ewha.backend.domain.report.entity;
+package ewha.backend.domain.like.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,11 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import ewha.backend.domain.feed.entity.Feed;
-import ewha.backend.domain.user.entity.User;
-import ewha.backend.global.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import ewha.backend.domain.question.entity.Answer;
+import ewha.backend.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,36 +26,36 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FeedReport extends BaseTimeEntity {
+public class AnswerLike {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "feed_report_id")
+	@Column(name = "answer_like_id")
 	private Long id;
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private ReportType reportType;
+	private LikeType likeType;
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "feed_id")
-	private Feed feed;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "answer_id")
+	private Answer answer;
 
 	public void addUser(User user) {
 		this.user = user;
-		if (!this.user.getFeedReports().contains(this)) {
-			this.user.getFeedReports().add(this);
+		if (!this.user.getAnswerLikes().contains(this)) {
+			this.user.getAnswerLikes().add(this);
 		}
 	}
 
-	public void addFeed(Feed feed) {
-		this.feed = feed;
-		if (!this.feed.getFeedReports().contains(this)) {
-			this.feed.getFeedReports().add(this);
+	public void addAnswer(Answer answer) {
+		this.answer = answer;
+		if (!this.answer.getAnswerLikes().contains(this)) {
+			this.answer.getAnswerLikes().add(this);
 		}
 	}
 }

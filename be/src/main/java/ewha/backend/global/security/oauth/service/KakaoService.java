@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -18,9 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.repository.UserRepository;
+import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.exception.BusinessLogicException;
 import ewha.backend.global.exception.ExceptionCode;
 import ewha.backend.global.security.util.CustomAuthorityUtils;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -45,7 +48,7 @@ public class KakaoService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
-
+	private final UserService userService;
 	private final CustomAuthorityUtils customAuthorityUtils;
 
 	public User doFilter(String authorizeCode) {
@@ -164,13 +167,13 @@ public class KakaoService {
 	public User createOrReturnUser(HashMap<String, Object> userInfo) { // OAuth 인증이 끝나 유저 정보를 받은 경우
 
 		String uuid = UUID.randomUUID().toString().substring(0, 8);
-		String userId = "kakaouser" + uuid; // 사용자가 입력한 적은 없지만 만들어준다
+		String userId = createUserId(); // 사용자가 입력한 적은 없지만 만들어준다
 
 		String providerId = userInfo.get("providerId").toString();
-		String email = null;
-		if (userInfo.get("email") != null) {
-			email = userInfo.get("email").toString();
-		}
+		// String email = null;
+		// if (userInfo.get("email") != null) {
+		// 	email = userInfo.get("email").toString();
+		// }
 		String picture = userInfo.get("profile_image").toString();
 		String nickname = userInfo.get("nickname").toString();
 		String encodedPass = passwordEncoder.encode(userInfo.get("nickname").toString());
@@ -178,32 +181,60 @@ public class KakaoService {
 		User findUser = userRepository.findByProviderId(providerId);
 
 		if (findUser != null && findUser.getProvider().equals("KAKAO")) {
-			findUser.updateOAuthInfo(email, picture, nickname);
-			return userRepository.save(findUser);
-		} else if (findUser == null && userRepository.findByEmail(email).isPresent()) {
-			throw new BusinessLogicException(ExceptionCode.EMAIL_USED_ANOTHER_ACCOUNT);
+			// findUser.updateOAuthInfo(email, picture, nickname);
+			// return userRepository.save(findUser);
+			return findUser;
 		}
+		// else if (findUser == null && userRepository.findByEmail(email).isPresent()) {
+		// 	throw new BusinessLogicException(ExceptionCode.EMAIL_USED_ANOTHER_ACCOUNT);
+		// }
 
 		User.UserBuilder userBuilder = User.builder();
 
 		userBuilder.userId(userId);
-		userBuilder.email(email);
+		userBuilder.nickname(userService.createNickname(nickname));
+		// userBuilder.email(email);
 
-		if (userRepository.findByNickname(nickname) == null) {
-			userBuilder.nickname(nickname);
-		} else {
-			String rand = UUID.randomUUID().toString().substring(0, 6);
-			userBuilder.nickname(nickname + "_KAKAO_" + rand);
-		}
+		// if (userRepository.findByNickname(nickname) == null) {
+		// 	userBuilder.nickname(nickname);
+		// } else {
+		// 	String rand = UUID.randomUUID().toString().substring(0, 6);
+		// 	userBuilder.nickname(nickname + "_KAKAO_" + rand);
+		// }
 
 		List<String> roles = customAuthorityUtils.createRoles(userId);
 
 		userBuilder.profileImage(picture);
 		userBuilder.role(roles);
 		userBuilder.password(encodedPass);
+		userBuilder.level(1);
+		userBuilder.ariFactor(10);
+		userBuilder.isFirstLogin(true);
 		userBuilder.provider("KAKAO");
 		userBuilder.providerId(providerId);
 
 		return userRepository.save(userBuilder.build());
+	}
+
+	private String createUserId() {
+
+		Random rand = new Random();
+		StringBuilder userId = new StringBuilder();
+		userId.append("555");
+		for (int i = 0; i < 8; i++) {
+			String ran = Integer.toString(rand.nextInt(10));
+			userId.append(ran);
+		}
+
+		while (userRepository.existsByUserId(userId.toString())) {
+			StringBuilder temp = new StringBuilder();
+			temp.append("555");
+			for (int i = 0; i < 8; i++) {
+				String ran = Integer.toString(rand.nextInt(10));
+				temp.append(ran);
+			}
+			userId = temp;
+		}
+		return userId.toString();
 	}
 }

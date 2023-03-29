@@ -1,5 +1,7 @@
 package ewha.backend.domain.quiz.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,15 +28,28 @@ public class Quiz extends BaseTimeEntity {
 	@Column(name = "quiz_id")
 	private Long id;
 	@Column
-	private String body;
+	private String content;
 	@Column
 	private String answer;
+	@Column
+	private String explanation;
 	@Column
 	private String dummy1;
 	@Column
 	private String dummy2;
 	@Column
-	private String dummy3;
+	private LocalDate openDate;
+	// private Integer openWeek;
 	@Column
-	private String dummy4;
+	private Boolean isOpened;
+
+	public Quiz update(Quiz quiz) {
+		this.content = quiz.getContent();
+		this.answer = quiz.getAnswer();
+		this.dummy1 = quiz.getDummy1();
+		this.dummy2 = quiz.getDummy2();
+		this.explanation = quiz.getExplanation();
+
+		return this;
+	}
 }

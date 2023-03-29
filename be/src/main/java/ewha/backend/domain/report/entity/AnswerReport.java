@@ -11,11 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import ewha.backend.domain.feed.entity.Feed;
-import ewha.backend.domain.user.entity.User;
-import ewha.backend.global.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import ewha.backend.domain.feed.entity.Feed;
+import ewha.backend.domain.question.entity.Answer;
+import ewha.backend.domain.user.entity.User;
+import ewha.backend.global.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,11 +28,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FeedReport extends BaseTimeEntity {
+public class AnswerReport extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "feed_report_id")
+	@Column(name = "answer_like_id")
 	private Long id;
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -43,20 +44,20 @@ public class FeedReport extends BaseTimeEntity {
 	private User user;
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "feed_id")
-	private Feed feed;
+	@JoinColumn(name = "answer_id")
+	private Answer answer;
 
 	public void addUser(User user) {
 		this.user = user;
-		if (!this.user.getFeedReports().contains(this)) {
-			this.user.getFeedReports().add(this);
+		if (!this.user.getAnswerReports().contains(this)) {
+			this.user.getAnswerReports().add(this);
 		}
 	}
 
-	public void addFeed(Feed feed) {
-		this.feed = feed;
-		if (!this.feed.getFeedReports().contains(this)) {
-			this.feed.getFeedReports().add(this);
+	public void addAnswer(Answer answer) {
+		this.answer = answer;
+		if (!this.answer.getAnswerReports().contains(this)) {
+			this.answer.getAnswerReports().add(this);
 		}
 	}
 }

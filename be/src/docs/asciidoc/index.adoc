@@ -1,4 +1,4 @@
-= 세대공감 아끼리
+= 우리 함께 CoGen
 :sectnums:
 :toc: left
 :toclevels: 4
@@ -9,50 +9,15 @@
 
 연락처: sskeiair@ewha.ac.kr
 
-v1.0.2, 2023.3.13
+개발 책임자: 방세린
+
+연락처: bangserin980302@gmail.com
+
+v1.0.4, 2023.3.29
 
 ***
 
 == UserController
-
-=== 회원 가입 정보 검증 - 성공
-
-NOTE: 회원 가입 요청 시 입력한 정보를 검증합니다.
-
-.Curl-Request
-include::{snippets}/Verify_Dto/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Verify_Dto/http-request.adoc[]
-
-.Request-Fields
-include::{snippets}/Verify_Dto/request-fields.adoc[]
-
-.Http-Response
-include::{snippets}/Verify_Dto/http-response.adoc[]
-
-.Response-Fields
-include::{snippets}/Verify_Dto/response-fields.adoc[]
-
-=== 회원 가입 정보 검증 - 실패
-
-NOTE: 회원 가입 요청 시 입력한 정보를 검증합니다. +
-제한 조건에 맞지 않는 값을 입력하면 코드 400과 해당 정보를 출력합니다.
-
-.Curl-Request
-include::{snippets}/Verify_Dto_Reject/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Verify_Dto_Reject/http-request.adoc[]
-
-.Request-Fields
-include::{snippets}/Verify_Dto_Reject/request-fields.adoc[]
-
-.Http-Response
-include::{snippets}/Verify_Dto_Reject/http-response.adoc[]
-
-.Response-Fields
-include::{snippets}/Verify_Dto_Reject/response-fields.adoc[]
 
 === 회원 가입
 
@@ -94,8 +59,8 @@ include::{snippets}/OAuth2/response-headers.adoc[]
 .Response-Fields
 include::{snippets}/OAuth2/response-fields.adoc[]
 
-=== 첫 로그인
-NOTE: 첫 로그인시 회원 정보를 추가로 입력 받습니다.
+=== 첫 로그인: 정보
+NOTE: 첫 로그인시 성별과 연령대를 입력 받습니다.
 
 .Curl-Request
 include::{snippets}/First_Login_User/curl-request.adoc[]
@@ -106,11 +71,32 @@ include::{snippets}/First_Login_User/http-request.adoc[]
 .Request-Fields
 include::{snippets}/First_Login_User/request-fields.adoc[]
 
+.Path-Parameters
+include::{snippets}/First_Login_User/path-parameters.adoc[]
+
 .Http-Response
 include::{snippets}/First_Login_User/http-response.adoc[]
 
 .Response-Fields
 include::{snippets}/First_Login_User/response-fields.adoc[]
+
+=== 첫 로그인: 문답
+NOTE: 첫 로그인시 문답을 입력받습니다. 3개 이상 10개 이하로 입력해야 합니다.
+
+.Curl-Request
+include::{snippets}/First_Login_QnA/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/First_Login_QnA/http-request.adoc[]
+
+.Request-Fields
+include::{snippets}/First_Login_QnA/request-fields.adoc[]
+
+.Path-Parameters
+include::{snippets}/First_Login_QnA/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/First_Login_QnA/http-response.adoc[]
 
 === 로그인
 
@@ -160,23 +146,6 @@ include::{snippets}/Patch_Password/request-fields.adoc[]
 .Http-Response
 include::{snippets}/Patch_Password/http-response.adoc[]
 
-=== 회원 페이지
-
-.Curl-Request
-include::{snippets}/Get_User_Page/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Get_User_Page/http-request.adoc[]
-
-.Path-Parameters
-include::{snippets}/Get_User_Page/path-parameters.adoc[]
-
-.Http-Response
-include::{snippets}/Get_User_Page/http-response.adoc[]
-
-.Response-Fields
-include::{snippets}/Get_User_Page/response-fields.adoc[]
-
 === 마이 페이지
 
 .Curl-Request
@@ -191,7 +160,7 @@ include::{snippets}/Get_MyPage/http-response.adoc[]
 .Response-Fields
 include::{snippets}/Get_MyPage/response-fields.adoc[]
 
-=== 마이 페이지 피드
+=== 마이 페이지: 피드
 
 .Curl-Request
 include::{snippets}/Get_User_Feeds/curl-request.adoc[]
@@ -208,58 +177,129 @@ include::{snippets}/Get_User_Feeds/http-response.adoc[]
 .Response-Fields
 include::{snippets}/Get_User_Feeds/response-fields.adoc[]
 
-=== 마이 페이지 댓글
+=== 마이 페이지: 문답
 
 .Curl-Request
-include::{snippets}/Get_User_Comments/curl-request.adoc[]
+include::{snippets}/Get_My_QnA/curl-request.adoc[]
 
 .Http-Request
-include::{snippets}/Get_User_Comments/http-request.adoc[]
-
-.Request-Parameters
-include::{snippets}/Get_User_Comments/request-parameters.adoc[]
+include::{snippets}/Get_My_QnA/http-request.adoc[]
 
 .Http-Response
-include::{snippets}/Get_User_Comments/http-response.adoc[]
+include::{snippets}/Get_My_QnA/http-response.adoc[]
 
 .Response-Fields
-include::{snippets}/Get_User_Comments/response-fields.adoc[]
+include::{snippets}/Get_My_QnA/response-fields.adoc[]
 
-=== 마이 페이지 공감 피드
-NOTE: 내가 공감을 누른 피드를 표시합니다.
+=== 마이 페이지: 이번주 질문
+NOTE: 내가 답변한 이번주 질문을 표시합니다.
 
 .Curl-Request
-include::{snippets}/Get_User_Liked_Feeds/curl-request.adoc[]
+include::{snippets}/Get_My_Questions_Comments/curl-request.adoc[]
 
 .Http-Request
-include::{snippets}/Get_User_Liked_Feeds/http-request.adoc[]
+include::{snippets}/Get_My_Questions_Comments/http-request.adoc[]
 
 .Request-Parameters
-include::{snippets}/Get_User_Liked_Feeds/request-parameters.adoc[]
+include::{snippets}/Get_My_Questions_Comments/request-parameters.adoc[]
 
 .Http-Response
-include::{snippets}/Get_User_Liked_Feeds/http-response.adoc[]
+include::{snippets}/Get_My_Questions_Comments/http-response.adoc[]
 
 .Response-Fields
-include::{snippets}/Get_User_Liked_Feeds/response-fields.adoc[]
+include::{snippets}/Get_My_Questions_Comments/response-fields.adoc[]
 
-=== 마이 페이지 답변한 질문
-NOTE: 내가 답변한 질문을 표시합니다.
+=== 마이 페이지: 북마크
 
 .Curl-Request
-include::{snippets}/Get_User_Questions/curl-request.adoc[]
+include::{snippets}/Get_My_Bookmarks/curl-request.adoc[]
 
 .Http-Request
-include::{snippets}/Get_User_Questions/http-request.adoc[]
+include::{snippets}/Get_My_Bookmarks/http-request.adoc[]
 
 .Request-Parameters
-include::{snippets}/Get_User_Questions/request-parameters.adoc[]
+include::{snippets}/Get_My_Bookmarks/request-parameters.adoc[]
 
 .Http-Response
-include::{snippets}/Get_User_Questions/http-response.adoc[]
+include::{snippets}/Get_My_Bookmarks/http-response.adoc[]
 
 .Response-Fields
-include::{snippets}/Get_User_Questions/response-fields.adoc[]
+include::{snippets}/Get_My_Bookmarks/response-fields.adoc[]
+
+=== 마이 페이지: 댓글
+
+.Curl-Request
+include::{snippets}/Get_My_Comments/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_My_Comments/http-request.adoc[]
+
+.Request-Parameters
+include::{snippets}/Get_My_Comments/request-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Get_My_Comments/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_My_Comments/response-fields.adoc[]
+
+=== 다른 사용자 페이지: 문답
+
+.Curl-Request
+include::{snippets}/Get_User_QnA/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_User_QnA/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Get_User_QnA/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Get_User_QnA/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_User_QnA/response-fields.adoc[]
+
+=== 다른 사용자 페이지: 이번주 질문
+NOTE: 다른 사용자가 답변한 이번주 질문을 표시합니다.
+
+.Curl-Request
+include::{snippets}/Get_User_Questions_Comments/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_User_Questions_Comments/http-request.adoc[]
+
+.Request-Parameters
+include::{snippets}/Get_User_Questions_Comments/request-parameters.adoc[]
+
+.Path-Parameters
+include::{snippets}/Get_User_Questions_Comments/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Get_User_Questions_Comments/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_User_Questions_Comments/response-fields.adoc[]
+
+=== 다른 사용자 페이지: 게시글
+
+.Curl-Request
+include::{snippets}/Get_User_Feeds/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_User_Feeds/http-request.adoc[]
+
+.Request-Parameters
+include::{snippets}/Get_User_Feeds/request-parameters.adoc[]
+
+.Path-Parameters
+include::{snippets}/Get_User_Feeds/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Get_User_Feeds/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_User_Feeds/response-fields.adoc[]
 
 === 회원 탈퇴
 
@@ -288,28 +328,7 @@ include::{snippets}/Follow/path-parameters.adoc[]
 .Http-Response
 include::{snippets}/Follow/http-response.adoc[]
 
-=== 팔로워 리스트 조회
-NOTE: 해당 회원을 팔로우하고 있는 회원을 조회합니다.
-
-.Curl-Request
-include::{snippets}/Get_Followers_List/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Get_Followers_List/http-request.adoc[]
-
-.Path-Parameters
-include::{snippets}/Get_Followers_List/path-parameters.adoc[]
-
-.Request-Parameters
-include::{snippets}/Get_Followers_List/request-parameters.adoc[]
-
-.Http-Response
-include::{snippets}/Get_Followers_List/http-response.adoc[]
-
-.Response-Fields
-include::{snippets}/Get_Followers_List/response-fields.adoc[]
-
-=== 팔로잉 리스트 조회
+=== 친구 리스트 조회
 NOTE: 해당 회원이 팔로우하고 있는 회원을 조회합니다.
 
 .Curl-Request
@@ -380,24 +399,7 @@ include::{snippets}/Get_Feed/http-response.adoc[]
 .Response-Fields
 include::{snippets}/Get_Feed/response-fields.adoc[]
 
-=== 피드 페이징 조회(최신순)
-
-.Curl-Request
-include::{snippets}/Get_Newest_Feeds/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Get_Newest_Feeds/http-request.adoc[]
-
-.Request-Parameters
-include::{snippets}/Get_Newest_Feeds/request-parameters.adoc[]
-
-.Http-Response
-include::{snippets}/Get_Newest_Feeds/http-response.adoc[]
-
-.Response-Fields
-include::{snippets}/Get_Newest_Feeds/response-fields.adoc[]
-
-=== 피드 페이징 조회(카테고리별 최신순)
+=== 피드 페이징 조회
 
 .Curl-Request
 include::{snippets}/Get_Category_Feeds/curl-request.adoc[]
@@ -521,6 +523,145 @@ include::{snippets}/Delete_Comment/path-parameters.adoc[]
 .Http-Response
 include::{snippets}/Delete_Comment/http-response.adoc[]
 
+== QuestionController
+
+=== 이주의 질문 작성
+
+.Curl-Request
+include::{snippets}/Post_Question/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Post_Question/http-request.adoc[]
+
+.Request-Fields
+include::{snippets}/Post_Question/request-fields.adoc[]
+
+.Http-Response
+include::{snippets}/Post_Question/http-response.adoc[]
+
+=== 이주의 질문 수정
+
+.Curl-Request
+include::{snippets}/Patch_Question/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Patch_Question/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Patch_Question/path-parameters.adoc[]
+
+.Request-Fields
+include::{snippets}/Patch_Question/request-fields.adoc[]
+
+.Http-Response
+include::{snippets}/Patch_Question/http-response.adoc[]
+
+=== 이주의 질문 조회
+
+.Curl-Request
+include::{snippets}/Get_Question/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_Question/http-request.adoc[]
+
+.Http-Response
+include::{snippets}/Get_Question/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_Question/response-fields.adoc[]
+
+=== 지나간 질문 페이징 조회
+
+.Curl-Request
+include::{snippets}/Get_Question_List/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_Question_List/http-request.adoc[]
+
+.Request-Parameters
+include::{snippets}/Get_Question_List/request-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Get_Question_List/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_Feed_Comments/response-fields.adoc[]
+
+=== 이주의 질문 삭제
+
+.Curl-Request
+include::{snippets}/Delete_Question/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Delete_Question/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Delete_Question/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Delete_Question/http-response.adoc[]
+
+== QuizController
+
+=== 이주의 퀴즈 작성
+
+.Curl-Request
+include::{snippets}/Post_Quiz/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Post_Quiz/http-request.adoc[]
+
+.Request-Fields
+include::{snippets}/Post_Quiz/request-fields.adoc[]
+
+.Http-Response
+include::{snippets}/Post_Quiz/http-response.adoc[]
+
+=== 이주의 퀴즈 수정
+
+.Curl-Request
+include::{snippets}/Patch_Quiz/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Patch_Quiz/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Patch_Quiz/path-parameters.adoc[]
+
+.Request-Fields
+include::{snippets}/Patch_Quiz/request-fields.adoc[]
+
+.Http-Response
+include::{snippets}/Patch_Quiz/http-response.adoc[]
+
+=== 이주의 퀴즈 조회
+
+.Curl-Request
+include::{snippets}/Get_Weekly_Quiz_List/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_Weekly_Quiz_List/http-request.adoc[]
+
+.Http-Response
+include::{snippets}/Get_Weekly_Quiz_List/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_Weekly_Quiz_List/response-fields.adoc[]
+
+=== 이주의 퀴즈 삭제
+
+.Curl-Request
+include::{snippets}/Delete_Quiz/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Delete_Quiz/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Delete_Quiz/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Delete_Quiz/http-response.adoc[]
+
 == LikeController
 
 === 피드 좋아요
@@ -550,6 +691,64 @@ include::{snippets}/Comment_Like/path-parameters.adoc[]
 
 .Http-Response
 include::{snippets}/Comment_Like/http-response.adoc[]
+
+=== 답변 좋아요
+
+.Curl-Request
+include::{snippets}/Answer_Like/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Answer_Like/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Answer_Like/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Answer_Like/http-response.adoc[]
+
+== ReportController
+
+=== 피드 신고
+
+.Curl-Request
+include::{snippets}/Feed_Report/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Feed_Report/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Feed_Report/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Feed_Report/http-response.adoc[]
+
+=== 코멘트 신고
+
+.Curl-Request
+include::{snippets}/Comment_Report/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Comment_Report/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Comment_Report/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Comment_Report/http-response.adoc[]
+
+=== 답변 신고
+
+.Curl-Request
+include::{snippets}/Answer_Report/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Answer_Report/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Answer_Report/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Answer_Report/http-response.adoc[]
 
 == SearchController
 
@@ -599,62 +798,6 @@ include::{snippets}/SMS_Verification/request-fields.adoc[]
 
 .Http-Response
 include::{snippets}/SMS_Verification/http-response.adoc[]
-
-=== 아이디 찾기 휴대폰 인증번호 요청
-
-.Curl-Request
-include::{snippets}/Find_My_Id_Request/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Find_My_Id_Request/http-request.adoc[]
-
-.Request-Fields
-include::{snippets}/Find_My_Id_Request/request-fields.adoc[]
-
-.Http-Response
-include::{snippets}/Find_My_Id_Request/http-response.adoc[]
-
-=== 아이디 찾기 인증번호 검증 요청
-
-.Curl-Request
-include::{snippets}/Find_My_Id_Verification/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Find_My_Id_Verification/http-request.adoc[]
-
-.Request-Fields
-include::{snippets}/Find_My_Id_Verification/request-fields.adoc[]
-
-.Http-Response
-include::{snippets}/Find_My_Id_Verification/http-response.adoc[]
-
-=== 비밀번호 찾기 휴대폰 인증번호 요청
-
-.Curl-Request
-include::{snippets}/Find_My_Password_Request/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Find_My_Password_Request/http-request.adoc[]
-
-.Request-Fields
-include::{snippets}/Find_My_Password_Request/request-fields.adoc[]
-
-.Http-Response
-include::{snippets}/Find_My_Password_Request/http-response.adoc[]
-
-=== 비밀번호 찾기 인증번호 검증 요청
-
-.Curl-Request
-include::{snippets}/Find_My_Password_Verification/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Find_My_Password_Verification/http-request.adoc[]
-
-.Request-Fields
-include::{snippets}/Find_My_Password_Verification/request-fields.adoc[]
-
-.Http-Response
-include::{snippets}/Find_My_Password_Verification/http-response.adoc[]
 
 == NotificationController
 

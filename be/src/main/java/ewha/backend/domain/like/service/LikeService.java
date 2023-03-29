@@ -9,6 +9,8 @@ public interface LikeService {
 
 	String commentLike(Long commentId);
 
+	String answerLike(Long answerId);
+
 	Feed createFeedLike(Long feedId);
 
 	Feed deleteFeedLike(Long feedId);

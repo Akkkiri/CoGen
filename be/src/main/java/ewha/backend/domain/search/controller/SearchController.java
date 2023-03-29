@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Validated
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/api/search")
 @RequiredArgsConstructor
 public class SearchController {
 
@@ -31,19 +31,20 @@ public class SearchController {
 
 	@GetMapping
 	public ResponseEntity<MultiResponseDto<ListResponse>> getSearchResult(
-		@Nullable @RequestParam("category") String category,
+		@RequestParam(name = "category", defaultValue = "ALL") String category,
 		@RequestParam("query") String query,
+		@RequestParam(name = "sort", defaultValue = "new") String sort,
 		@RequestParam(name = "page", defaultValue = "1") Integer page) {
 
 		Page<Feed> feedPage = new PageImpl<>(new ArrayList<>());
 
-		if (category == null) {
-			feedPage = searchService.findAllFeedsPageByQueryParam(query, page);
+		if (category == null || category.equals("ALL")) {
+			feedPage = searchService.findAllFeedsPageByQueryParam(sort, query, page);
 		} else {
-			feedPage = searchService.findCategoryFeedsPageByQueryParam(category, query, page);
+			feedPage = searchService.findCategoryFeedsPageByQueryParam(category, sort, query, page);
 		}
 
-		PageImpl<ListResponse> responses = feedMapper.newFeedsToPageResponse(feedPage);
+		PageImpl<ListResponse> responses = feedMapper.feedsToPageResponse(feedPage);
 
 		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), feedPage));
 	}

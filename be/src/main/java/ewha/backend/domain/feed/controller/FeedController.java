@@ -21,30 +21,25 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import ewha.backend.domain.category.service.CategoryService;
-import ewha.backend.domain.comment.service.CommentService;
 import ewha.backend.domain.feed.dto.FeedDto;
 import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.feed.mapper.FeedMapper;
 import ewha.backend.domain.feed.service.FeedService;
 import ewha.backend.domain.image.service.AwsS3Service;
 import ewha.backend.domain.like.service.LikeService;
-import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.config.CustomPage;
 import ewha.backend.global.dto.MultiResponseDto;
-
 import lombok.RequiredArgsConstructor;
 
 @Validated
 @RestController
-@RequestMapping("/feeds")
+@RequestMapping("/api/feeds")
 @RequiredArgsConstructor
 public class FeedController {
 	private final FeedMapper feedMapper;
 	private final FeedService feedService;
 	private final CategoryService categoryService;
 	private final LikeService likeService;
-	private final CommentService commentService;
-	private final UserService userService;
 	private final AwsS3Service awsS3Service;
 
 	@PostMapping("/add")
@@ -148,7 +143,7 @@ public class FeedController {
 		@RequestParam(name = "page", defaultValue = "1") int page) {
 
 		CustomPage<Feed> feedList = feedService.findNewestFeeds(page);
-		CustomPage<FeedDto.ListResponse> responses = feedMapper.TESTnewFeedsToPageResponse(feedList);
+		CustomPage<FeedDto.ListResponse> responses = feedMapper.newFeedsToCustomPageResponse(feedList);
 
 		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), feedList));
 		// return ResponseEntity.status(HttpStatus.OK).body(feedList);
@@ -156,11 +151,12 @@ public class FeedController {
 
 	@GetMapping("/categories")
 	public ResponseEntity<MultiResponseDto<FeedDto.ListResponse>> getCategoryFeeds(
-		@RequestParam("category") String categoryName,
+		@RequestParam(name = "category", defaultValue = "ALL") String categoryName,
+		@RequestParam(name = "sort", defaultValue = "new") String sort,
 		@RequestParam(name = "page", defaultValue = "1") int page) {
 
-		Page<Feed> feedList = feedService.findCategoryFeeds(categoryName, page);
-		PageImpl<FeedDto.ListResponse> responses = feedMapper.newFeedsToPageResponse(feedList);
+		Page<Feed> feedList = feedService.findCategoryFeeds(categoryName, sort, page);
+		PageImpl<FeedDto.ListResponse> responses = feedMapper.feedsToPageResponse(feedList);
 
 		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), feedList));
 	}

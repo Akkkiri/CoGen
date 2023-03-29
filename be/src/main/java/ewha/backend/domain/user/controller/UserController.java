@@ -34,6 +34,8 @@ import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.feed.mapper.FeedMapper;
 import ewha.backend.domain.image.service.AwsS3Service;
 import ewha.backend.domain.qna.service.QnaService;
+import ewha.backend.domain.question.dto.QuestionDto;
+import ewha.backend.domain.question.entity.Question;
 import ewha.backend.domain.question.mapper.QuestionMapper;
 import ewha.backend.domain.user.dto.UserDto;
 import ewha.backend.domain.user.entity.User;
@@ -44,8 +46,8 @@ import ewha.backend.global.security.dto.LoginDto;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
 	private final UserMapper userMapper;
@@ -71,52 +73,32 @@ public class UserController {
 		return attributes.toString();     //세션에 담긴 user 가져올 수 있음
 	}
 
-	@PostMapping("/users/verification")
-	public ResponseEntity<?> verifyDto(@Valid @RequestBody UserDto.Verify verifyDto) {
-
-		List<List<String>> list = userService.verifyVerifyDto(verifyDto);
-
-		if (list.isEmpty()) {
-			return ResponseEntity.ok(verifyDto);
-		} else {
-			List<UserDto.VerifyResponse> responses = userMapper.listToVerifyResponse(list);
-
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responses);
-		}
-	}
-
-	// @PostMapping("/users/verification")
-	// public ResponseEntity verifyDto(@Valid @RequestBody UserDto.Verify verifyDto) {
-	// 	userService.verifyUserId(verifyDto.getUserId());
-	// 	// userService.verifyNickname(verifyDto.getNickname());
-	//
-	// 	return new ResponseEntity<>(
-	// 		new SingleResponseDto<>(verifyDto), HttpStatus.OK);
-	// }
-
 	@PostMapping("/users/signup")
 	public ResponseEntity<UserDto.PostResponse> postUser(@Valid @RequestBody UserDto.Post postDto) {
 
-		User user = userMapper.userPostToUser(postDto);
-		User createdUser = userService.createUser(user);
+		User createdUser = userService.createUser(postDto);
 		UserDto.PostResponse response = userMapper.userToUserPostResponse(createdUser);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
-	@PatchMapping("/users/firstlogin")
-	public ResponseEntity<UserDto.Response> firstLoginUser(@Valid @RequestBody LoginDto.PatchDto firstPatchDto) {
+	@PatchMapping("/users/{user_id}/firstlogin")
+	public ResponseEntity<UserDto.Response> firstLoginUser(
+		@PathVariable("user_id") Long userId,
+		@Valid @RequestBody LoginDto.PatchDto firstPatchDto) {
 
-		User firstLoginUser = userService.onFirstLogin(firstPatchDto);
+		User firstLoginUser = userService.onFirstLogin(userId, firstPatchDto);
 		UserDto.Response response = userMapper.userToUserResponse(firstLoginUser);
 
 		return ResponseEntity.ok().body(response);
 	}
 
-	@PatchMapping("/users/firstqna")
-	public ResponseEntity<String> firstLoginQna(@Valid @RequestBody List<LoginDto.QnaDto> qnaDtoList) {
+	@PatchMapping("/users/{user_id}/firstqna")
+	public ResponseEntity<String> firstLoginQna(
+		@PathVariable("user_id") Long userId,
+		@Valid @RequestBody List<LoginDto.QnaDto> qnaDtoList) {
 
-		String response = userService.onFirstLoginQna(qnaDtoList);
+		String response = userService.onFirstLoginQna(userId, qnaDtoList);
 
 		return ResponseEntity.ok().body(response);
 	}
@@ -164,35 +146,6 @@ public class UserController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/users/{user_id}")
-	public ResponseEntity<UserDto.Response> getUserPage(@PathVariable("user_id") Long userId) {
-
-		User findUser = userService.getUser(userId);
-		UserDto.Response response = userMapper.userToUserResponse(findUser);
-
-		return ResponseEntity.ok().body(response);
-	}
-
-	@GetMapping("/users/{user_id}/qna")
-	public ResponseEntity<List<UserDto.QnaResponse>> getUserQna(@PathVariable("user_id") Long userId) {
-
-		User findUser = userService.getUser(userId);
-		List<UserDto.QnaResponse> responses = userMapper.userToQnaResponse(findUser, qnaService);
-
-		return ResponseEntity.ok().body(responses);
-	}
-
-	@GetMapping("/users/{user_id}/feeds")
-	public ResponseEntity<MultiResponseDto<FeedDto.PageResponse>> getMyFeeds(
-		@PathVariable("user_id") Long userId,
-		@RequestParam(name = "page", defaultValue = "1") int page) {
-
-		Page<Feed> feedPage = userService.findUserFeeds(userId, page);
-		PageImpl<FeedDto.PageResponse> responses = feedMapper.userFeedsToPageResponse(feedPage);
-
-		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), feedPage));
-	}
-
 	@DeleteMapping("/mypage/signout")
 	public ResponseEntity deleteUser() {
 
@@ -206,10 +159,10 @@ public class UserController {
 	 */
 
 	@GetMapping("/mypage")
-	public ResponseEntity<UserDto.UserInfoResponse> getMyPage() {
+	public ResponseEntity<UserDto.MyPageResponse> getMyPage() {
 
 		User findUser = userService.getMyInfo();
-		UserDto.UserInfoResponse response = userMapper.userToUserInfoResponse(findUser);
+		UserDto.MyPageResponse response = userMapper.userToMyPageResponse(findUser);
 
 		return ResponseEntity.ok().body(response);
 	}
@@ -224,12 +177,17 @@ public class UserController {
 	}
 
 	@GetMapping("/mypage/myquestions")
-	public ResponseEntity getMyQuestions(@RequestParam(name = "page", defaultValue = "1") int page) {
-		return null;
+	public ResponseEntity<MultiResponseDto<QuestionDto.PageResponse>> getMyQuestions(@RequestParam(name = "page", defaultValue = "1") int page) {
+
+		Page<Question> questionPage = userService.findMyQuestions(page);
+		PageImpl<QuestionDto.PageResponse> responses =
+			questionMapper.myQuestionsToPageResponse(questionPage, userService);
+
+		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), questionPage));
 	}
 
 	@GetMapping("/mypage/bookmarks")
-	public ResponseEntity getMyBookmarks(@RequestParam(name = "page", defaultValue = "1") int page) {
+	public ResponseEntity<MultiResponseDto<FeedDto.PageResponse>> getMyBookmarks(@RequestParam(name = "page", defaultValue = "1") int page) {
 
 		Page<Feed> feedPage = userService.findMyBookmark(page);
 		PageImpl<FeedDto.PageResponse> responses = feedMapper.myBookmarksToPageResponse(feedPage);
@@ -265,5 +223,50 @@ public class UserController {
 		PageImpl<FeedDto.ListResponse> responses = feedMapper.myFeedsToPageResponse(feedList);
 
 		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), feedList));
+	}
+
+	/*
+	 * 다른 사용자 페이지 조회
+	 */
+
+	@GetMapping("/users/{user_id}")
+	public ResponseEntity<UserDto.Response> getUserPage(@PathVariable("user_id") Long userId) {
+
+		User findUser = userService.getUser(userId);
+		UserDto.Response response = userMapper.userToUserResponse(findUser);
+
+		return ResponseEntity.ok().body(response);
+	}
+
+	@GetMapping("/users/{user_id}/qna")
+	public ResponseEntity<List<UserDto.QnaResponse>> getUserQna(@PathVariable("user_id") Long userId) {
+
+		User findUser = userService.getUser(userId);
+		List<UserDto.QnaResponse> responses = userMapper.userToQnaResponse(findUser, qnaService);
+
+		return ResponseEntity.ok().body(responses);
+	}
+
+	@GetMapping("/users/{user_id}/questions")
+	public ResponseEntity<MultiResponseDto<QuestionDto.PageResponse>> getUserQuestions(
+		@PathVariable("user_id") Long userId,
+		@RequestParam(name = "page", defaultValue = "1") int page) {
+
+		Page<Question> questionPage = userService.findUserQuestions(userId, page);
+		PageImpl<QuestionDto.PageResponse> responses =
+			questionMapper.userQuestionsToPageResponse(questionPage, userService, userId);
+
+		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), questionPage));
+	}
+
+	@GetMapping("/users/{user_id}/feeds")
+	public ResponseEntity<MultiResponseDto<FeedDto.PageResponse>> getUserFeeds(
+		@PathVariable("user_id") Long userId,
+		@RequestParam(name = "page", defaultValue = "1") int page) {
+
+		Page<Feed> feedPage = userService.findUserFeeds(userId, page);
+		PageImpl<FeedDto.PageResponse> responses = feedMapper.userFeedsToPageResponse(feedPage);
+
+		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), feedPage));
 	}
 }

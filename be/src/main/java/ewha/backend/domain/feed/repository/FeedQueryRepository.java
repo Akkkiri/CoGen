@@ -1,5 +1,9 @@
 package ewha.backend.domain.feed.repository;
 
+import static ewha.backend.domain.comment.entity.QComment.*;
+import static ewha.backend.domain.feed.entity.QFeed.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -10,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.global.config.CustomPage;
+
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ewha.backend.domain.bookmark.entity.QBookmark;
@@ -23,22 +29,21 @@ import lombok.RequiredArgsConstructor;
 public class FeedQueryRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
-
 	public Page<Feed> findMyBookmarks(User user, Pageable pageable) {
 
 		List<Feed> feedList = jpaQueryFactory
-			.selectFrom(QFeed.feed)
-			.join(QFeed.feed.bookmarks, QBookmark.bookmark)
+			.selectFrom(feed)
+			.join(feed.bookmarks, QBookmark.bookmark)
 			.where(QBookmark.bookmark.user.eq(user))
-			.orderBy(QFeed.feed.createdAt.desc())
+			.orderBy(feed.createdAt.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
 		Long total = jpaQueryFactory
-			.select(QFeed.feed.count())
-			.from(QFeed.feed)
-			.join(QFeed.feed.bookmarks, QBookmark.bookmark)
+			.select(feed.count())
+			.from(feed)
+			.join(feed.bookmarks, QBookmark.bookmark)
 			.where(QBookmark.bookmark.user.eq(user))
 			.fetchOne();
 
@@ -48,18 +53,18 @@ public class FeedQueryRepository {
 	public Page<Feed> findFeedPageByUser(User user, Pageable pageable) {
 
 		List<Feed> feedList = jpaQueryFactory
-			.select(QFeed.feed)
-			.from(QFeed.feed)
-			.where(QFeed.feed.user.eq(user))
-			.orderBy(QFeed.feed.createdAt.desc())
+			.select(feed)
+			.from(feed)
+			.where(feed.user.eq(user))
+			.orderBy(feed.createdAt.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
 		Long total = jpaQueryFactory
-			.select(QFeed.feed.count())
-			.from(QFeed.feed)
-			.where(QFeed.feed.user.eq(user))
+			.select(feed.count())
+			.from(feed)
+			.where(feed.user.eq(user))
 			.fetchOne();
 
 		return new PageImpl<>(feedList, pageable, total);
@@ -68,29 +73,36 @@ public class FeedQueryRepository {
 	public Page<Feed> findLikedFeedListByUser(User user, Pageable pageable) {
 
 		List<Feed> feedList = jpaQueryFactory
-			.selectFrom(QFeed.feed)
-			.join(QFeed.feed.feedLikes, QFeedLike.feedLike)
+			.selectFrom(feed)
+			.join(feed.feedLikes, QFeedLike.feedLike)
 			.where(QFeedLike.feedLike.user.eq(user))
-			.orderBy(QFeed.feed.createdAt.desc())
-			.offset(pageable.getOffset())
-			.limit(pageable.getPageSize())
-			.fetch();
-
-		return new PageImpl<>(feedList, pageable, feedList.size());
-	}
-
-	public CustomPage<Feed> findNewestFeedList(Pageable pageable) {
-
-		List<Feed> feedList = jpaQueryFactory
-			.selectFrom(QFeed.feed)
-			.orderBy(QFeed.feed.createdAt.desc())
+			.orderBy(feed.createdAt.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
 		Long total = jpaQueryFactory
-			.select(QFeed.feed.count())
-			.from(QFeed.feed)
+			.select(feed.count())
+			.from(feed)
+			.join(feed.feedLikes, QFeedLike.feedLike)
+			.where(QFeedLike.feedLike.user.eq(user))
+			.fetchOne();
+
+		return new PageImpl<>(feedList, pageable, total);
+	}
+
+	public CustomPage<Feed> findNewestFeedList(Pageable pageable) {
+
+		List<Feed> feedList = jpaQueryFactory
+			.selectFrom(feed)
+			.orderBy(feed.createdAt.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		Long total = jpaQueryFactory
+			.select(feed.count())
+			.from(feed)
 			.fetchOne();
 
 		System.out.println(total);
@@ -98,71 +110,138 @@ public class FeedQueryRepository {
 		return new CustomPage<>(feedList, pageable, total);
 	}
 
-	public Page<Feed> findCategoryFeedList(String categoryName, Pageable pageable) {
+	public Page<Feed> findCategoryFeedList(String categoryName, String sort, Pageable pageable) {
 
-		List<Feed> feedList = jpaQueryFactory
-			.selectFrom(QFeed.feed)
-			.join(QFeed.feed.category, QCategory.category)
-			.where(QCategory.category.categoryType.stringValue().eq(categoryName))
-			.orderBy(QFeed.feed.createdAt.desc())
-			.offset(pageable.getOffset())
-			.limit(pageable.getPageSize())
-			.fetch();
+		List<Feed> feedList = new ArrayList<>();
+
+		if (sort.equals("likes")) {
+			feedList = jpaQueryFactory
+				.selectFrom(feed)
+				.join(feed.category, QCategory.category)
+				.where(QCategory.category.categoryType.stringValue().eq(categoryName))
+				.orderBy(feed.likeCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		} else if (sort.equals("view")) {
+			feedList = jpaQueryFactory
+				.selectFrom(feed)
+				.join(feed.category, QCategory.category)
+				.where(QCategory.category.categoryType.stringValue().eq(categoryName))
+				.orderBy(feed.viewCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		}
 
 		Long total = jpaQueryFactory
-			.select(QFeed.feed.count())
-			.from(QFeed.feed)
-			.join(QFeed.feed.category, QCategory.category)
+			.select(feed.count())
+			.from(feed)
+			.join(feed.category, QCategory.category)
 			.where(QCategory.category.categoryType.stringValue().eq(categoryName))
 			.fetchOne();
 
 		return new PageImpl<>(feedList, pageable, total);
 	}
 
-	public Page<Feed> findAllSearchResultPage(String queryParam, Pageable pageable) {
+	public Page<Feed> findAllSearchResultPage(String sort, String queryParam, Pageable pageable) {
 
-		List<Feed> feedList = jpaQueryFactory
-			.selectFrom(QFeed.feed)
-			.where(QFeed.feed.title.contains(queryParam).or(QFeed.feed.body.contains(queryParam)))
-			.orderBy(QFeed.feed.createdAt.desc())
-			.offset(pageable.getOffset())
-			.limit(pageable.getPageSize())
-			.fetch();
+		List<Feed> feedList = new ArrayList<>();
+
+		JPAQuery<Feed> basicResult = jpaQueryFactory
+			.selectFrom(feed)
+			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)));
+
+		if (sort.equals("new")){
+			feedList = basicResult
+				.orderBy(feed.createdAt.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		} else if (sort.equals("likes")) {
+			feedList = basicResult
+				.orderBy(feed.likeCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		} else {
+			feedList = basicResult
+				.orderBy(feed.viewCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		}
+
+		// List<Feed> feedList = jpaQueryFactory
+		// 	.selectFrom(feed)
+		// 	.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)))
+		// 	.orderBy(feed.createdAt.desc())
+		// 	.offset(pageable.getOffset())
+		// 	.limit(pageable.getPageSize())
+		// 	.fetch();
 
 		Long total = jpaQueryFactory
-			.select(QFeed.feed.count())
-			.from(QFeed.feed)
-			.where(QFeed.feed.title.contains(queryParam).or(QFeed.feed.body.contains(queryParam)))
+			.select(feed.count())
+			.from(feed)
+			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)))
 			.fetchOne();
 
 		return new PageImpl<>(feedList, pageable, total);
 	}
 
-	public Page<Feed> findCategorySearchResultPage(String categoryParam, String queryParam, Pageable pageable) {
+	public Page<Feed> findCategorySearchResultPage(String categoryParam, String sort, String queryParam, Pageable pageable) {
 
-		List<Feed> feedList = jpaQueryFactory
-			.selectFrom(QFeed.feed)
-			.join(QFeed.feed.category, QCategory.category)
+		List<Feed> feedList = new ArrayList<>();
+
+		JPAQuery<Feed> basicResult = jpaQueryFactory
+			.selectFrom(feed)
+			.join(feed.category, QCategory.category)
 			.where(QCategory.category.categoryType.stringValue().eq(categoryParam))
-			.where(QFeed.feed.title.contains(queryParam).or(QFeed.feed.body.contains(queryParam)))
-			.orderBy(QFeed.feed.createdAt.desc())
-			.offset(pageable.getOffset())
-			.limit(pageable.getPageSize())
-			.fetch();
+			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)));
+
+		if (sort.equals("new")){
+			feedList = basicResult
+				.orderBy(feed.createdAt.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		} else if (sort.equals("likes")) {
+			feedList = basicResult
+				.orderBy(feed.likeCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		} else {
+			feedList = basicResult
+				.orderBy(feed.viewCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		}
+
+		// List<Feed> feedList = jpaQueryFactory
+		// 	.selectFrom(feed)
+		// 	.join(feed.category, QCategory.category)
+		// 	.where(QCategory.category.categoryType.stringValue().eq(categoryParam))
+		// 	.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)))
+		// 	.orderBy(feed.createdAt.desc())
+		// 	.offset(pageable.getOffset())
+		// 	.limit(pageable.getPageSize())
+		// 	.fetch();
 
 		Long total = jpaQueryFactory
-			.select(QFeed.feed.count())
-			.from(QFeed.feed)
+			.select(feed.count())
+			.from(feed)
 			.where(QCategory.category.categoryType.stringValue().eq(categoryParam))
-			.where(QFeed.feed.title.contains(queryParam).or(QFeed.feed.body.contains(queryParam)))
+			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)))
 			.fetchOne();
 
 		return new PageImpl<>(feedList, pageable, total);
 	}
 
 	public void deleteAllByUser(User findUser) {
-		jpaQueryFactory.delete(QFeed.feed)
-			.where(QFeed.feed.user.eq(findUser))
+		jpaQueryFactory.delete(feed)
+			.where(feed.user.eq(findUser))
 			.execute();
 	}
 

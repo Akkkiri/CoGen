@@ -31,6 +31,7 @@ import ewha.backend.domain.like.entity.FeedLike;
 import ewha.backend.domain.report.entity.FeedReport;
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.global.BaseTimeEntity;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -59,8 +60,11 @@ public class Feed extends BaseTimeEntity implements Serializable {
 	private String thumbnailPath;
 	@Column(nullable = false, length = 30)
 	private String title;
-	@Column(columnDefinition = "LONGTEXT", length = 1000)
+	@Column(columnDefinition = "VARCHAR(1000)")
 	private String body;
+	@Column
+	@ColumnDefault("0")
+	private Long commentCount;
 	@Column
 	@ColumnDefault("0")
 	private Long likeCount;
@@ -71,7 +75,8 @@ public class Feed extends BaseTimeEntity implements Serializable {
 	@ColumnDefault("0")
 	private Long reportCount;
 	@Column
-	private Boolean isBlocked;
+	@Builder.Default
+	private Boolean isBlocked = false;
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -187,6 +192,16 @@ public class Feed extends BaseTimeEntity implements Serializable {
 	public void removeLike() {
 		if (likeCount > 0) {
 			this.likeCount = likeCount - 1;
+		}
+	}
+
+	public void addCommentCount() {
+		this.commentCount++;
+	}
+
+	public void removeCommentCount() {
+		if (likeCount > 0) {
+			this.likeCount--;
 		}
 	}
 

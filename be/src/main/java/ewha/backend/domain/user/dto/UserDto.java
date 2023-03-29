@@ -54,16 +54,15 @@ public class UserDto {
 	@NoArgsConstructor
 	public static class Post {
 		@NotBlank(message = "아이디를 입력해주세요.")
-		@Pattern(regexp = "[0-9a-z\\s]{6,12}", message = "6~12자의 영문, 숫자만 사용 가능합니다.")
+		@Pattern(regexp = "^01(?:0|1|[6-9])(\\d{3}|\\d{4})(\\d{4})$", message = "올바른 휴대폰번호를 입력해 주세요.")
 		private String userId;
 		@NotBlank(message = "닉네임을 입력해주세요.")
-		@Pattern(regexp = "[0-9a-zA-Zㄱ-ㅎ가-힣\\s-_]{3,20}", message = "3~20자의 한글, 영문, 숫자, 하이픈, 언더바만 사용 가능합니다.")
+		@Pattern(regexp = "[0-9a-zA-Zㄱ-ㅎ가-힣]{2,10}", message = "2~10자의 한글, 영문, 숫자만 사용 가능합니다.")
 		private String nickname;
 		@NotBlank(message = "패스워드를 입력해주세요.")
-		@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$", message = "8~16자 영문, 숫자, 특수문자(@$!%*?&)만 사용 가능합니다.")
+		@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$", message = "6~20자의 영문, 숫자만 사용 가능합니다.")
 		private String password;
-		private String phoneNumber;
-		private String profileImage; // 프로필 이미지
+		private String passwordRepeat;
 	}
 
 	@Getter
@@ -75,10 +74,9 @@ public class UserDto {
 		private Long id;
 		private String userId;
 		private String nickname;
-		private Long ariFactor;
+		private Integer level;
+		private Integer ariFactor;
 		private List<String> role;
-		private String phoneNumber;
-		private String profileImage;
 	}
 
 	@Getter
@@ -90,7 +88,7 @@ public class UserDto {
 		private Long id;
 		private String userId;
 		private String nickname;
-		private Long ariFactor;
+		private Integer level;
 		private String profileImage;
 		private String thumbnailPath;
 	}
@@ -113,7 +111,6 @@ public class UserDto {
 	public static class UserInfo {
 		@NotNull
 		private String nickname;
-		private String introduction;
 		private String profileImage;
 		@NotNull
 		private GenderType genderType;
@@ -125,18 +122,13 @@ public class UserDto {
 	@Builder
 	@AllArgsConstructor
 	@NoArgsConstructor
-	public static class UserInfoResponse {
+	public static class MyPageResponse {
 		private String userId;
 		private String nickname;
-		private String introduction;
-		private GenderType genderType;
-		private AgeType ageType;
-		private Long ariFactor;
-		private Long level;
+		private Integer level;
+		private Integer ariFactor;
 		private String profileImage;
 		private String thumbnailPath;
-		private String phoneNumber;
-		private Boolean isFirstLogin;
 	}
 
 	@Getter
@@ -148,9 +140,9 @@ public class UserDto {
 		@NotBlank(message = "아이디를 입력해주세요.")
 		private String userId;
 		@NotBlank(message = "패스워드를 입력해주세요.")
-		@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$", message = "8~16자 영문, 숫자, 특수문자(@$!%*?&)만 사용 가능합니다.")
+		@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$", message = "6~20자 영문, 숫자만 사용 가능합니다.")
 		private String newPassword;
-		@NotBlank(message = "패스워드를 입력해주세요.")
+		@NotBlank(message = "패스워드를 다시 입력해주세요.")
 		private String newPasswordRepeat;
 	}
 
@@ -165,9 +157,9 @@ public class UserDto {
 		private String nickname;
 		private GenderType genderType;
 		private AgeType ageType;
-		private List<Qna> qnas;
-		private Long ariFactor;
-		private Long level;
+		// private List<Qna> qnas;
+		private Integer ariFactor;
+		private Integer level;
 		private List<String> role;
 		private String profileImage;
 		private String thumbnailPath;

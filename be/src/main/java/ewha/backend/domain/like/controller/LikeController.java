@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Validated
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class LikeController {
 	private final LikeService likeService;
@@ -33,6 +33,14 @@ public class LikeController {
 	public ResponseEntity<String> commentLike(@PathVariable("comment_id") Long commentId) {
 
 		String response = likeService.commentLike(commentId);
+
+		return ResponseEntity.ok(response);
+	}
+
+	@PatchMapping("/answers/{answer_id}/like")
+	public ResponseEntity<String> answerLike(@PathVariable("answer_id") Long answerId) {
+
+		String response = likeService.answerLike(answerId);
 
 		return ResponseEntity.ok(response);
 	}

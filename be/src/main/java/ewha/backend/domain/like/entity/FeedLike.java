@@ -30,7 +30,7 @@ public class FeedLike {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "like_id")
+	@Column(name = "feed_like_id")
 	private Long id;
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)

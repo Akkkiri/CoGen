@@ -3,6 +3,7 @@ package ewha.backend.domain.feed.dto;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import ewha.backend.domain.category.entity.CategoryType;
@@ -26,7 +27,7 @@ public class FeedDto {
 		@NotEmpty(message = "내용을 입력하셔야 합니다.")
 		@Size(min = 1, max = 30, message = "30자를 넘을 수 없습니다.")
 		private String title;
-		@NotEmpty
+		@NotNull
 		private CategoryType category;
 		@Size(min = 3, max = 1000, message = "1000자를 넘을 수 없습니다.")
 		private String body;
@@ -40,11 +41,10 @@ public class FeedDto {
 	@AllArgsConstructor
 	public static class Patch {
 
-		private Long feedId;
 		@NotEmpty(message = "내용을 입력하셔야 합니다.")
 		@Size(min = 1, max = 30, message = "30자를 넘을 수 없습니다.")
 		private String title;
-		@NotEmpty
+		@NotNull
 		private CategoryType category;
 		@Size(min = 3, max = 1000, message = "1000자를 넘을 수 없습니다.")
 		private String body;
@@ -72,12 +72,12 @@ public class FeedDto {
 		private Boolean isLiked;
 		private Boolean isMyFeed;
 		private Boolean isSavedFeed;
+		private Long commentCount;
 		private Long likeCount;
 		private Long viewCount;
 		private String imagePath;
 		private String thumbnailPath;
 		private Long reportCount;
-		// private List<CommentDto.FeedCommentResponse> comments;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
 	}
@@ -91,9 +91,9 @@ public class FeedDto {
 		private Long feedId;
 		private String category;
 		private String title;
-		// private String body;
+		private String body;
 		private String userId;
-		private Integer commentCount;
+		private Long commentCount;
 		private Long likeCount;
 		private Long viewCount;
 		private LocalDateTime createdAt;
@@ -113,6 +113,7 @@ public class FeedDto {
 		private String userId;
 		private Integer commentCount;
 		private Long likeCount;
+		private Long viewCount;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
 	}

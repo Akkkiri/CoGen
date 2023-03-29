@@ -23,7 +23,7 @@ public interface FeedService {
 
 	CustomPage<Feed> findNewestFeeds(int page);
 
-	Page<Feed> findCategoryFeeds(String categoryName, int page);
+	Page<Feed> findCategoryFeeds(String categoryName, String sort, int page);
 
 	void deleteFeed(Long feedId);
 

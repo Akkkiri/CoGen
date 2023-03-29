@@ -30,16 +30,19 @@ import ewha.backend.domain.comment.entity.Comment;
 import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.follow.entity.Follow;
 import ewha.backend.domain.image.entity.Image;
+import ewha.backend.domain.like.entity.AnswerLike;
 import ewha.backend.domain.like.entity.CommentLike;
 import ewha.backend.domain.like.entity.FeedLike;
 import ewha.backend.domain.notification.entity.Notification;
 import ewha.backend.domain.question.entity.Answer;
+import ewha.backend.domain.report.entity.AnswerReport;
 import ewha.backend.domain.report.entity.CommentReport;
 import ewha.backend.domain.report.entity.FeedReport;
 import ewha.backend.domain.user.dto.UserDto;
 import ewha.backend.domain.user.entity.enums.AgeType;
 import ewha.backend.domain.user.entity.enums.GenderType;
 import ewha.backend.global.BaseTimeEntity;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AccessLevel;
@@ -51,7 +54,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @DynamicInsert
 @Table(name = "users")
@@ -62,19 +64,15 @@ public class User extends BaseTimeEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", updatable = false)
 	private Long id;
-	@Column(name = "string_id", nullable = false, unique = true)
+	@Column(name = "phone_number_id", nullable = false, unique = true)
 	private String userId;
-	@Column
-	private String phoneNumber;
 	@Column(nullable = false)
-	private Long ariFactor;
+	private Integer ariFactor;
 	@Column
 	@ColumnDefault("1")
-	private Long level;
+	private Integer level;
 	@Column(nullable = false)
 	private Boolean isFirstLogin;
-	@Column(name = "oauth_id", unique = true)
-	private String oauthId;
 	@Column(nullable = false)
 	private String password;
 	@Column(nullable = false)
@@ -83,15 +81,10 @@ public class User extends BaseTimeEntity implements Serializable {
 	private String profileImage; // 프로필 이미지 경로
 	@Column
 	private String thumbnailPath;
-	@Column
-	@Builder.Default
-	private Boolean isVerified = false;
 	@Enumerated(EnumType.STRING)
 	private GenderType genderType;
 	@Enumerated(EnumType.STRING)
 	private AgeType ageType;
-	@Column
-	private String introduction;
 	@Column
 	@ColumnDefault("0")
 	private Long followerCount;
@@ -102,9 +95,35 @@ public class User extends BaseTimeEntity implements Serializable {
 	private String provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
 	@Column
 	private String providerId;  // oauth2를 이용할 경우 아이디 값
+	// @Column
+	// private String email; // OAuth의 경우 이메일이 존재할 가능성 있음
 	@Column
-	private String email; // OAuth의 경우 이메일이 존재할 가능성 있음
-
+	@Builder.Default
+	private Integer dailyFeedCount = 0;
+	@Column
+	@Builder.Default
+	private Integer dailyCommentCount = 0;
+	@Column
+	@Builder.Default
+	private Boolean hasQuiz = false;
+	@Column
+	@Builder.Default
+	private Integer weeklyQuizCount = 0;
+	@Column
+	@Builder.Default
+	private Boolean hasQuestion = false;
+	@Column
+	@Builder.Default
+	private Integer weeklyQuestionCount = 0;
+	@Column
+	@Builder.Default
+	private Boolean hasTenFollowing = false;
+	@Column
+	@Builder.Default
+	private Boolean hasThirtyFollowing = false;
+	@Column
+	@Builder.Default
+	private Boolean hasFiftyFollowing = false;
 	@ElementCollection
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<String> role = new ArrayList<>();
@@ -148,11 +167,19 @@ public class User extends BaseTimeEntity implements Serializable {
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<AnswerLike> answerLikes = new ArrayList<>();
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<FeedReport> feedReports = new ArrayList<>();
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<CommentReport> commentReports = new ArrayList<>();
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<AnswerReport> answerReports = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Notification> notifications = new ArrayList<>();
@@ -215,10 +242,24 @@ public class User extends BaseTimeEntity implements Serializable {
 		}
 	}
 
+	public void addAnswerLike(AnswerLike answerLike) {
+		this.answerLikes.add(answerLike);
+		if (answerLike.getUser() != this) {
+			answerLike.addUser(this);
+		}
+	}
+
 	public void addCommentReport(CommentReport commentReport) {
 		this.commentReports.add(commentReport);
 		if (commentReport.getUser() != this) {
 			commentReport.addUser(this);
+		}
+	}
+
+	public void addAnswerReport(AnswerReport answerReport) {
+		this.answerReports.add(answerReport);
+		if (answerReport.getUser() != this) {
+			answerReport.addUser(this);
 		}
 	}
 
@@ -238,7 +279,7 @@ public class User extends BaseTimeEntity implements Serializable {
 	//    -----------------------------------------------------------------------------------------------------------
 
 	@Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
-	public User(String nickname, String password, String email, Long ariFactor, List<String> role, String provider,
+	public User(String nickname, String password, String email, Integer ariFactor, List<String> role, String provider,
 		String providerId) {
 		this.nickname = nickname;
 		this.password = password;
@@ -284,9 +325,9 @@ public class User extends BaseTimeEntity implements Serializable {
 
 	public void updateOAuthInfo(String email, String picture, String nickname) {
 
-		if (!this.email.equals(email)) {
-			this.email = email;
-		}
+		// if (!this.email.equals(email)) {
+		// 	this.email = email;
+		// }
 		if (!this.profileImage.equals(picture)) {
 			this.profileImage = picture;
 		}
@@ -315,13 +356,44 @@ public class User extends BaseTimeEntity implements Serializable {
 		}
 	}
 
+	public void addAriFactor(Integer point) {
+		this.ariFactor += point;
+	}
+
+	public void removeAriFactor() {
+		if (ariFactor > 0) {
+			this.ariFactor--;
+		}
+	}
+
+	public void addLevel() {
+		this.level++;
+		this.ariFactor = 0;
+	}
+
+	public void addDailyFeedCount() {
+		this.dailyFeedCount++;
+	}
+
+	public void addDailyCommentCount() {
+		this.dailyCommentCount++;
+	}
+
+	public void addWeeklyQuizCount() {
+		this.weeklyQuizCount++;
+	}
+
+	public void addWeeklyQuestionCount() {
+		weeklyQuestionCount++;
+	}
+
 	public User oauthUpdate(String nickname, String email) {
 		if (!this.nickname.equals(nickname)) {
 			this.nickname = nickname;
 		}
-		if (!this.email.equals(email)) {
-			this.email = email;
-		}
+		// if (!this.email.equals(email)) {
+		// 	this.email = email;
+		// }
 		return this;
 	}
 
@@ -337,7 +409,34 @@ public class User extends BaseTimeEntity implements Serializable {
 		this.profileImage = userInfo.getProfileImage();
 		this.genderType = userInfo.getGenderType();
 		this.ageType = userInfo.getAgeType();
-		this.introduction = userInfo.getIntroduction();
+	}
+
+	public void setHasQuiz(Boolean hasQuiz) {
+		this.hasQuiz = hasQuiz;
+	}
+
+	public void setHasQuestion(Boolean hasQuestion) {
+		this.hasQuestion = hasQuestion;
+	}
+
+	public void setWeeklyQuizCount(Integer weeklyQuizCount) {
+		this.weeklyQuizCount = weeklyQuizCount;
+	}
+
+	public void setWeeklyQuestionCount(Integer weeklyQuestionCount) {
+		this.weeklyQuestionCount = weeklyQuestionCount;
+	}
+
+	public void setHasTenFollowing(Boolean hasTenFollowing) {
+		this.hasTenFollowing = hasTenFollowing;
+	}
+
+	public void setHasThirtyFollowing(Boolean hasThirtyFollowing) {
+		this.hasThirtyFollowing = hasThirtyFollowing;
+	}
+
+	public void setHasFiftyFollowing(Boolean hasFiftyFollowing) {
+		this.hasFiftyFollowing = hasFiftyFollowing;
 	}
 
 	public Boolean verifyPassword(BCryptPasswordEncoder bCryptPasswordEncoder, String password) {

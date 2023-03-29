@@ -1,10 +1,13 @@
 package ewha.backend.domain.question.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ewha.backend.domain.question.entity.Answer;
 import ewha.backend.domain.question.entity.Question;
+import ewha.backend.domain.question.repository.AnswerQueryRepository;
 import ewha.backend.domain.question.repository.AnswerRepository;
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.service.UserService;
@@ -21,6 +24,7 @@ public class AnswerService {
 	private final UserService userService;
 	private final QuestionService questionService;
 	private final AnswerRepository answerRepository;
+	private final AnswerQueryRepository answerQueryRepository;
 
 	public Answer postAnswer(Answer answer, Long questionId) {
 
@@ -35,6 +39,21 @@ public class AnswerService {
 				.question(question)
 				.build();
 
+		if (!findUser.getHasQuestion()) {
+			findUser.addAriFactor(5);
+			findUser.setHasQuestion(true);
+			findUser.addWeeklyQuestionCount();
+
+			if (findUser.getWeeklyQuestionCount() == 4) {
+				findUser.addAriFactor(10);
+				findUser.setWeeklyQuestionCount(0);
+			}
+
+			if (findUser.getAriFactor() == 50) {
+				findUser.addLevel();
+			}
+		}
+
 		return answerRepository.save(savedAnswer);
 	}
 
@@ -47,6 +66,13 @@ public class AnswerService {
 		findAnswer.updateAnswer(answer);
 
 		return answerRepository.save(findAnswer);
+	}
+
+	public Page<Answer> findQuestionAnswers(Long questionId, String sort, int page) {
+
+		PageRequest pageRequest = PageRequest.of(page - 1, 10);
+
+		return answerQueryRepository.findQuestionAnswers(questionId, sort, pageRequest);
 	}
 
 	public void deleteAnswer(Long answerId) {

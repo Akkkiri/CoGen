@@ -1,5 +1,6 @@
 package ewha.backend.domain.question.entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,14 +38,17 @@ public class Question extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "question_id")
 	private Long id;
-	@Column(nullable = false)
-	private String title;
 	@Column(nullable = false, columnDefinition = "LONGTEXT")
 	private String content;
 	@Column
 	private String imagePath;
 	@Column
 	private String thumbnailPath;
+	@Column
+	private LocalDate openDate;
+	// private Integer openWeek;
+	@Column
+	private Boolean isOpened;
 
 	@Nullable
 	@JsonManagedReference
@@ -56,7 +60,6 @@ public class Question extends BaseTimeEntity {
 	private List<Answer> answers = new ArrayList<>();
 
 	public void updateQuestion(Question question) {
-		this.title = question.getTitle();
 		this.content = question.getContent();
 		// this.imagePath = question.getImagePath();
 		// this.thumbnailPath = question.getThumbnailPath();

@@ -74,7 +74,7 @@ public class SecurityConfig {
 
 			JwtAuthenticationFilter jwtAuthenticationFilter =
 				new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, userMapper, cookieManager);
-			jwtAuthenticationFilter.setFilterProcessesUrl("/login");
+			jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
 			jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler());
 			jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 

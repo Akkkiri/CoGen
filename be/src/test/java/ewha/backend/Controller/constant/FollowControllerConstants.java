@@ -13,7 +13,7 @@ public class FollowControllerConstants {
 			.userId(1L)
 			.nickname("닉네임")
 			.profileImage("프로필 사진")
-			.thumbnailPath("섬네일 경로")
+			.thumbnailPath("썸네일 경로")
 			.isFollowing(false)
 			.build();
 
@@ -25,7 +25,7 @@ public class FollowControllerConstants {
 			.userId(1L)
 			.nickname("닉네임")
 			.profileImage("프로필 사진")
-			.thumbnailPath("섬네일 경로")
+			.thumbnailPath("썸네일 경로")
 			.isFollowing(true)
 			.build();
 

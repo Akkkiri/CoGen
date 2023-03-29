@@ -14,6 +14,7 @@ import ewha.backend.domain.follow.repository.FollowRepository;
 import ewha.backend.domain.notification.entity.NotificationType;
 import ewha.backend.domain.notification.service.NotificationService;
 import ewha.backend.domain.user.entity.User;
+import ewha.backend.domain.user.repository.UserRepository;
 import ewha.backend.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class FollowService {
 	private final FollowRepository followRepository;
 	private final FollowQueryRepository followQueryRepository;
 	private final UserService userService;
+	private final UserRepository userRepository;
 	private final NotificationService notificationService;
 
 	public String createOrDeleteFollow(Long followedUserId) {
@@ -46,6 +48,27 @@ public class FollowService {
 
 			followingUser.addFollowing();
 			followedUser.addFollower();
+
+			if (followingUser.getFollowingCount() >= 10 && !followingUser.getHasTenFollowing()) {
+				followingUser.addAriFactor(10);
+				followingUser.setHasTenFollowing(true);
+			}
+
+			if (followingUser.getFollowingCount() >= 30 && !followingUser.getHasThirtyFollowing()) {
+				followingUser.addAriFactor(15);
+				followingUser.setHasThirtyFollowing(true);
+			}
+
+			if (followingUser.getFollowingCount() >= 50 && !followingUser.getHasFiftyFollowing()) {
+				followingUser.addAriFactor(20);
+				followingUser.setHasFiftyFollowing(true);
+			}
+
+			if (followingUser.getAriFactor() == 50) {
+				followingUser.addLevel();
+			}
+
+			userRepository.save(followingUser);
 
 			String body = followingUser.getNickname() + "님이 회원님을 팔로우하기 시작했습니다.";
 			String url = "http://localhost:8080/users/" + followingUser.getId();

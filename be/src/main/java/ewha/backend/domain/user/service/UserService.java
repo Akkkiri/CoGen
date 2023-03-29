@@ -6,20 +6,14 @@ import org.springframework.data.domain.Page;
 
 import ewha.backend.domain.comment.entity.Comment;
 import ewha.backend.domain.feed.entity.Feed;
+import ewha.backend.domain.question.entity.Answer;
+import ewha.backend.domain.question.entity.Question;
 import ewha.backend.domain.user.dto.UserDto;
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.global.security.dto.LoginDto;
 
 public interface UserService {
-	User createUser(User user);
-
-	List<List<String>> verifyVerifyDto(UserDto.Verify verifyDto);
-
-	List<String> verifyUserId(String userId);
-
-	List<String> verifyNickname(String nickname);
-
-	List<String> verifyPassword(String password);
+	User createUser(UserDto.Post postDto);
 
 	Boolean verifyUserIdForSms(String userId);
 
@@ -35,8 +29,9 @@ public interface UserService {
 
 	void deleteUser();
 
-	User onFirstLogin(LoginDto.PatchDto patchDto);
-	String onFirstLoginQna(List<LoginDto.QnaDto> qnaDtoList);
+	User onFirstLogin(Long userId, LoginDto.PatchDto patchDto);
+
+	String onFirstLoginQna(Long userId, List<LoginDto.QnaDto> qnaDtoList);
 
 	Boolean verifyNicknameAndPhoneNumber(String nickname, String phoneNumber);
 
@@ -54,9 +49,17 @@ public interface UserService {
 
 	Page<Feed> findUserFeeds(Long userId, int page);
 
+	Page<Question> findMyQuestions(int page);
+
+	List<Answer> findMyQuestionAnswer(Question question);
+
 	Page<Feed> findMyBookmark(int page);
 
 	Page<Feed> findMyFeeds(int page);
+
+	Page<Question> findUserQuestions(Long userId, int page);
+
+	List<Answer> findUserQuestionAnswer(Long userId, Question question);
 
 	Page<Comment> findUserComments(int page);
 
@@ -65,4 +68,8 @@ public interface UserService {
 	// Page<Question> findUserQuestions(int page);
 
 	void saveUser(User user);
+
+	String createNickname(String nickname);
+
+	void verifyUserId(String userId);
 }

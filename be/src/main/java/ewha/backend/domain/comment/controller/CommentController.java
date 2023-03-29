@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 
 @Validated
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class CommentController {
 	private final CommentMapper commentMapper;

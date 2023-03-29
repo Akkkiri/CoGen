@@ -30,6 +30,7 @@ public enum ExceptionCode {
 	FEED_NOT_FOUND(404, "Feed Not Found"),
 	QUESTION_NOT_FOUND(404, "Question Not Found"),
 	ANSWER_NOT_FOUND(404, "Answer Not Found"),
+	QUIZ_NOT_FOUND(404, "Quiz Not Found"),
 	IMAGE_NOT_FOUND(404, "Image Not Found"),
 	BAD_IMAGE_PATH(400, "Bad Image Path"),
 	IMAGE_PATH_NOT_MATCH(400, "Image Path Not Match"),

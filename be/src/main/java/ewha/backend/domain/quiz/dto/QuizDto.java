@@ -1,5 +1,7 @@
 package ewha.backend.domain.quiz.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -15,19 +17,15 @@ public class QuizDto {
 	@AllArgsConstructor
 	public static class Post {
 		@NotBlank
-		private String title;
+		private String content;
 		@NotBlank
-		private String body;
+		private String explanation;
 		@NotBlank
 		private String answer;
 		@NotBlank
 		private String dummy1;
 		@NotBlank
 		private String dummy2;
-		@NotBlank
-		private String dummy3;
-		@NotBlank
-		private String dummy4;
 	}
 
 	@Getter
@@ -36,19 +34,15 @@ public class QuizDto {
 	@AllArgsConstructor
 	public static class Patch {
 		@NotBlank
-		private String title;
+		private String content;
 		@NotBlank
-		private String body;
+		private String explanation;
 		@NotBlank
 		private String answer;
 		@NotBlank
 		private String dummy1;
 		@NotBlank
 		private String dummy2;
-		@NotBlank
-		private String dummy3;
-		@NotBlank
-		private String dummy4;
 	}
 
 	@Getter
@@ -56,19 +50,9 @@ public class QuizDto {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class Response {
-		@NotBlank
-		private String title;
-		@NotBlank
-		private String body;
-		@NotBlank
+		private String content;
+		private List<String> bodies;
 		private String answer;
-		@NotBlank
-		private String dummy1;
-		@NotBlank
-		private String dummy2;
-		@NotBlank
-		private String dummy3;
-		@NotBlank
-		private String dummy4;
+		private String explanation;
 	}
 }

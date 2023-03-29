@@ -23,7 +23,7 @@ public class CommentDto {
 	public static class Post {
 
 		@NotBlank(message = "내용을 입력하셔야 합니다.")
-		// @Size(min = 5, max = 500, message = "5자 이상 입력하셔야 합니다.")
+		@Size(min = 1, max = 250, message = "1글자 이상 입력하셔야 합니다.")
 		private String body;
 	}
 
@@ -35,7 +35,7 @@ public class CommentDto {
 	public static class Patch {
 
 		@NotBlank(message = "내용을 입력하셔야 합니다.")
-		@Size(min = 5, max = 500, message = "5자 이상 입력하셔야 합니다.")
+		@Size(min = 1, max = 250, message = "1글자 이상 입력하셔야 합니다.")
 		private String body;
 	}
 

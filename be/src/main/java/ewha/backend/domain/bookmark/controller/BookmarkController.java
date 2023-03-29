@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Validated
 @RestController
-@RequestMapping()
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class BookmarkController {
 

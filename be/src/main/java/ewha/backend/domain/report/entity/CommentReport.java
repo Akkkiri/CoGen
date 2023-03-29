@@ -31,7 +31,7 @@ public class CommentReport extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "report_id")
+	@Column(name = "comment_report_id")
 	private Long id;
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)

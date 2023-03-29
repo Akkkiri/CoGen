@@ -9,15 +9,21 @@ import ewha.backend.domain.comment.service.CommentService;
 import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.feed.repository.FeedRepository;
 import ewha.backend.domain.feed.service.FeedService;
+import ewha.backend.domain.like.entity.AnswerLike;
 import ewha.backend.domain.like.entity.CommentLike;
 import ewha.backend.domain.like.entity.FeedLike;
 import ewha.backend.domain.like.entity.LikeType;
+import ewha.backend.domain.like.repository.AnswerLikeQueryRepository;
+import ewha.backend.domain.like.repository.AnswerLikeRepository;
 import ewha.backend.domain.like.repository.CommentLikeQueryRepository;
 import ewha.backend.domain.like.repository.CommentLikeRepository;
 import ewha.backend.domain.like.repository.FeedLikeQueryRepository;
 import ewha.backend.domain.like.repository.FeedLikeRepository;
 import ewha.backend.domain.notification.entity.NotificationType;
 import ewha.backend.domain.notification.service.NotificationService;
+import ewha.backend.domain.question.entity.Answer;
+import ewha.backend.domain.question.repository.AnswerRepository;
+import ewha.backend.domain.question.service.AnswerService;
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.exception.BusinessLogicException;
@@ -37,6 +43,10 @@ public class LikeServiceImpl implements LikeService {
 	private final FeedLikeQueryRepository feedLikeQueryRepository;
 	private final CommentLikeRepository commentLikeRepository;
 	private final CommentLikeQueryRepository commentLikeQueryRepository;
+	private final AnswerService answerService;
+	private final AnswerRepository answerRepository;
+	private final AnswerLikeRepository answerLikeRepository;
+	private final AnswerLikeQueryRepository answerLikeQueryRepository;
 	// private final LikeRepository likeRepository;
 	// private final LikeQueryRepository likeQueryRepository;
 	private final NotificationService notificationService;
@@ -130,6 +140,51 @@ public class LikeServiceImpl implements LikeService {
 
 			return "Comment Like Removed";
 			// return findComment;
+		}
+	}
+
+	@Override
+	@Transactional
+	public String answerLike(Long answerId) {
+
+		User findUser = userService.getLoginUser();
+
+		Answer findAnswer = answerService.findVerifiedAnswer(answerId);
+
+		AnswerLike findAnswerLike = answerLikeQueryRepository.findAnswerLikeByAnswerAndUser(findAnswer, findUser);
+
+		if (findAnswerLike == null) {
+			findAnswerLike = AnswerLike.builder()
+				.likeType(LikeType.ANSWER)
+				.user(findUser)
+				.answer(findAnswer)
+				.build();
+
+			answerLikeRepository.save(findAnswerLike);
+
+			findAnswer.addLike();
+
+			answerRepository.save(findAnswer);
+
+			if (!findUser.getId().equals(findAnswer.getUser().getId())) {
+				String body = "작성하신 피드 <" + findAnswer.getAnswerBody() + ">에 "
+					+ findUser.getNickname() + "님이 좋아요를 눌렀습니다.";
+				String content = findAnswer.getAnswerBody();
+				String url = "http://localhost:8080/feeds/" + findAnswer.getId();
+				notificationService.send(findAnswer.getUser(), url, body, content, NotificationType.LIKE);
+			}
+
+			return "Feed Like Added";
+			// return findFeed;
+		} else {
+
+			answerLikeRepository.delete(findAnswerLike);
+
+			findAnswer.removeLike();
+
+			answerRepository.save(findAnswer);
+
+			return "Feed Like Removed";
 		}
 	}
 

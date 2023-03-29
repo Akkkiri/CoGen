@@ -19,8 +19,6 @@ public interface UserMapper {
 			.userId(postDto.getUserId())
 			.nickname(postDto.getNickname())
 			.password(postDto.getPassword())
-			.phoneNumber(postDto.getPhoneNumber())
-			.profileImage(postDto.getProfileImage())
 			.build();
 	}
 
@@ -66,27 +64,22 @@ public interface UserMapper {
 		return responses;
 	}
 
-	default UserDto.UserInfoResponse userToUserInfoResponse(User user) {
+	default UserDto.MyPageResponse userToMyPageResponse(User user) {
 
 		if (user == null) {
 			return null;
 		}
 
-		UserDto.UserInfoResponse.UserInfoResponseBuilder userInfoResponse = UserDto.UserInfoResponse.builder();
+		UserDto.MyPageResponse.MyPageResponseBuilder myPageResponseBuilder = UserDto.MyPageResponse.builder();
 
-		userInfoResponse.userId(user.getUserId());
-		userInfoResponse.nickname(user.getNickname());
-		userInfoResponse.introduction(user.getIntroduction());
-		userInfoResponse.genderType(user.getGenderType());
-		userInfoResponse.ageType(user.getAgeType());
-		userInfoResponse.ariFactor(user.getAriFactor());
-		userInfoResponse.level(user.getLevel());
-		userInfoResponse.profileImage(user.getProfileImage());
-		userInfoResponse.thumbnailPath(user.getThumbnailPath());
-		userInfoResponse.phoneNumber(user.getPhoneNumber());
-		userInfoResponse.isFirstLogin(user.getIsFirstLogin());
+		myPageResponseBuilder.userId(user.getUserId());
+		myPageResponseBuilder.nickname(user.getNickname());
+		myPageResponseBuilder.level(user.getLevel());
+		myPageResponseBuilder.ariFactor(user.getAriFactor());
+		myPageResponseBuilder.profileImage(user.getProfileImage());
+		myPageResponseBuilder.thumbnailPath(user.getThumbnailPath());
 
-		return userInfoResponse.build();
+		return myPageResponseBuilder.build();
 	}
 
 	LoginDto.ResponseDto userToLoginResponse(User user);
