@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Gmarket Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Gmarket Sans Bold"), local("GmarketSans-Bold"),
+    url("http://script.ebay.co.kr/fonts/GmarketSansBold.woff2") format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("http://script.ebay.co.kr/fonts/GmarketSansBold.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+@font-face {
+  font-family: "Gmarket Sans";
+  font-style: normal;
+  font-weight: 500;
+  src: local("Gmarket Sans Medium"), local("GmarketSans-Medium"),
+    url("http://script.ebay.co.kr/fonts/GmarketSansMedium.woff2")
+      format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("http://script.ebay.co.kr/fonts/GmarketSansMedium.woff")
+      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+@font-face {
+  font-family: "Gmarket Sans";
+  font-style: normal;
+  font-weight: 300;
+  src: local("Gmarket Sans Light"), local("GmarketSans-Light"),
+    url("http://script.ebay.co.kr/fonts/GmarketSansLight.woff2") format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("http://script.ebay.co.kr/fonts/GmarketSansLight.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+@layer components {
+  .btn-r {
+    @apply bg-y-red text-white rounded-lg py-2 px-4 m-1;
+  }
+  .btn-g {
+    @apply bg-y-lightGray text-white rounded-lg py-2 px-4 m-1;
+  }
+}
