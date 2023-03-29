@@ -13,7 +13,7 @@ export default function Nav() {
           to="/"
           className={({ isActive }) => (isActive ? "text-y-red" : "")}
         >
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center text-sm">
             <SlHome className="text-3xl" />홈
           </div>
         </NavLink>
@@ -22,7 +22,7 @@ export default function Nav() {
           to="/question"
           className={({ isActive }) => (isActive ? "text-y-red" : "")}
         >
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center text-sm">
             <BsPatchQuestion className="text-3xl" />
             이번주 질문
           </div>
@@ -32,7 +32,7 @@ export default function Nav() {
           to="/post"
           className={({ isActive }) => (isActive ? "text-y-red" : "")}
         >
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center text-sm">
             <SlSpeech className="text-3xl" />
             게시판
           </div>
@@ -42,7 +42,7 @@ export default function Nav() {
           to="/quiz"
           className={({ isActive }) => (isActive ? "text-y-red" : "")}
         >
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center text-sm">
             <IoExtensionPuzzleOutline className="text-3xl" />
             퀴즈
           </div>
@@ -52,7 +52,7 @@ export default function Nav() {
           to={isLogin ? "/mypage" : "/login"}
           className={({ isActive }) => (isActive ? "text-y-red" : "")}
         >
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center text-sm">
             <BsPerson className="text-3xl" />나
           </div>
         </NavLink>
