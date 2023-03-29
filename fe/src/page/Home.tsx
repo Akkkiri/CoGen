@@ -1,4 +1,6 @@
 import { useState } from "react";
+import BigInput from "../components/Inputs/BigInput";
+import SmallInput from "../components/Inputs/SmallInput";
 import Pagenation from "../components/Pagenation";
 import QnaContainer from "../components/QnaContainer";
 import SelectBox from "../components/SelectBox";
@@ -11,6 +13,9 @@ export default function Home() {
   const [sort, setSort] = useState<Select>("new");
   const [category, setCategory] = useState<Select>("WORRY");
   const [page, setPage] = useState<number>(7);
+  const [content, setContent] = useState<string>("");
+  const [acontent, setaContent] = useState<string>("");
+  const dd = () => {};
   return (
     <>
       <h1>홈입니다.</h1>
@@ -48,6 +53,17 @@ export default function Home() {
           "본문은 이렇게 길게 쓸 수도 있으니까요! 내일 점심에 다들 맛있는거 드시길 바라요! 저는 개인적으로 김치볶음밥이 먹고싶은데 과연 엄마와 마음이 통할지 모르겠어요!! 우리 이거 다 먹고살자고 하는 일이니까 부디 밥 꼭 챙겨드시길 바라요. 내일 만나요!ㅎㅎ",
         ]}
         idx={2}
+      />
+      <BigInput
+        placeholder="세글자 이상 적어주세요"
+        inputState={content}
+        setInputState={setContent}
+      />
+      <SmallInput
+        placeholder="세글자 이상 적어주세요"
+        inputState={acontent}
+        setInputState={setaContent}
+        postFunc={dd}
       />
       <SelectBox setSelect={setSort} type={"sort"} />
       <SelectBox setSelect={setCategory} type={"category"} />
