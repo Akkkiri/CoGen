@@ -1,5 +1,6 @@
 package ewha.backend.domain.feed.repository;
 
+import static ewha.backend.domain.category.entity.QCategory.*;
 import static ewha.backend.domain.comment.entity.QComment.*;
 import static ewha.backend.domain.feed.entity.QFeed.*;
 
@@ -117,8 +118,8 @@ public class FeedQueryRepository {
 		if (sort.equals("likes")) {
 			feedList = jpaQueryFactory
 				.selectFrom(feed)
-				.join(feed.category, QCategory.category)
-				.where(QCategory.category.categoryType.stringValue().eq(categoryName))
+				.join(feed.category, category)
+				.where(category.categoryType.stringValue().eq(categoryName))
 				.orderBy(feed.likeCount.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
@@ -126,8 +127,8 @@ public class FeedQueryRepository {
 		} else if (sort.equals("view")) {
 			feedList = jpaQueryFactory
 				.selectFrom(feed)
-				.join(feed.category, QCategory.category)
-				.where(QCategory.category.categoryType.stringValue().eq(categoryName))
+				.join(feed.category, category)
+				.where(category.categoryType.stringValue().eq(categoryName))
 				.orderBy(feed.viewCount.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
@@ -137,8 +138,8 @@ public class FeedQueryRepository {
 		Long total = jpaQueryFactory
 			.select(feed.count())
 			.from(feed)
-			.join(feed.category, QCategory.category)
-			.where(QCategory.category.categoryType.stringValue().eq(categoryName))
+			.join(feed.category, category)
+			.where(category.categoryType.stringValue().eq(categoryName))
 			.fetchOne();
 
 		return new PageImpl<>(feedList, pageable, total);
@@ -195,9 +196,9 @@ public class FeedQueryRepository {
 
 		JPAQuery<Feed> basicResult = jpaQueryFactory
 			.selectFrom(feed)
-			.join(feed.category, QCategory.category)
-			.where(QCategory.category.categoryType.stringValue().eq(categoryParam))
-			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)));
+			.join(feed.category, category)
+			.where(category.categoryType.stringValue().eq(categoryParam)
+			.and(feed.title.contains(queryParam).or(feed.body.contains(queryParam))));
 
 		if (sort.equals("new")){
 			feedList = basicResult
@@ -211,9 +212,15 @@ public class FeedQueryRepository {
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
-		} else {
+		} else if (sort.equals("view")){
 			feedList = basicResult
 				.orderBy(feed.viewCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		} else {
+			feedList = basicResult
+				.orderBy(feed.createdAt.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
@@ -232,8 +239,8 @@ public class FeedQueryRepository {
 		Long total = jpaQueryFactory
 			.select(feed.count())
 			.from(feed)
-			.where(QCategory.category.categoryType.stringValue().eq(categoryParam))
-			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)))
+			.where(category.categoryType.stringValue().eq(categoryParam)
+			.and(feed.title.contains(queryParam).or(feed.body.contains(queryParam))))
 			.fetchOne();
 
 		return new PageImpl<>(feedList, pageable, total);

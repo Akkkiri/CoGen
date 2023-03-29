@@ -35,11 +35,25 @@ public class UserQueryRepository {
 		jpaQueryFactory
 			.update(user)
 			.set(user.dailyFeedCount, 0)
-			.where(user.dailyFeedCount.gt(0))
+			.set(user.dailyCommentCount, 0)
+			.where(user.dailyFeedCount.gt(0).or(user.dailyCommentCount.gt(0)))
 			.execute();
 	}
 
 	public void resetHasQuizAndHasQuestion() {
+
+		jpaQueryFactory
+			.update(user)
+			.set(user.weeklyQuestionCount, 0)
+			.where(user.hasQuestion.eq(false))
+			.execute();
+
+		jpaQueryFactory
+			.update(user)
+			.set(user.weeklyQuizCount, 0)
+			.where(user.hasQuiz.eq(false))
+			.execute();
+
 		jpaQueryFactory
 			.update(user)
 			.set(user.hasQuiz, false)
