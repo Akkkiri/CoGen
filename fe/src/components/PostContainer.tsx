@@ -20,17 +20,17 @@ export default function PostContainer({
         <div>{title}</div>
         <div className="my-2 text-sm font-light">{contents}</div>
         <div className="flex justify-between text-xs">
-          <div className="flex">
+          <div className="flex text-y-gray">
             이름 <BsDot className="self-center" /> 1시간전
             <BsDot className="self-center" /> 조회 8
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 text-y-gray text-xs">
             <div className="flex">
-              <IoHeartOutline className="text-lg" />
+              <IoHeartOutline className="text-base" />
               <div className="self-center">좋아요 1</div>
             </div>
             <div className="flex ">
-              <IoChatbubbleEllipsesOutline className="text-lg" />
+              <IoChatbubbleEllipsesOutline className="text-base" />
               <div className="self-center">댓글 1</div>
             </div>
           </div>

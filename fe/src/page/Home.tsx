@@ -23,8 +23,8 @@ export default function Home() {
     <>
       <h1>홈입니다.</h1>
       <div className="flex">
-        <button className="flex-1 btn-g">취소하기</button>
-        <button className="flex-1 btn-r">등록하기</button>
+        <button className="flex-1 btn-g hover:bg-gray-500">취소하기</button>
+        <button className="flex-1 btn-r hover:bg-red-700">등록하기</button>
       </div>
       <button className="btn-r">일반 버튼1</button>
       <button className="btn-g">일반 버튼2</button>
