@@ -16,6 +16,7 @@ import ewha.backend.domain.user.repository.UserRepository;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.smsAuth.dto.SmsDto;
 import ewha.backend.global.smsAuth.repository.SmsRedisRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @Service

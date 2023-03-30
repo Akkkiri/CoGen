@@ -250,7 +250,6 @@ public class FeedQueryRepository {
 	}
 
 	public List<Feed> findWeeklyBestFeedList() {
-
 		LocalDateTime mondayMidnight = LocalDateTime.now()
 			.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
 			.toLocalDate()
@@ -269,4 +268,5 @@ public class FeedQueryRepository {
 			.where(feed.user.eq(findUser))
 			.execute();
 	}
+
 }

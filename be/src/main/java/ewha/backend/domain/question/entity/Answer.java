@@ -14,13 +14,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import ewha.backend.domain.like.entity.AnswerLike;
 import ewha.backend.domain.report.entity.AnswerReport;
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.global.BaseTimeEntity;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

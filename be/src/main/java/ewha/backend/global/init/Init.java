@@ -5,6 +5,7 @@ import static ewha.backend.global.init.InitConstant.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -11,10 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import ewha.backend.domain.user.entity.UserQna;
 import ewha.backend.global.BaseTimeEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,6 @@
 HELP.md
 .gradle
 build/
-build/generated-snippets/
 #!gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -23,7 +22,6 @@ bin/
 *.iws
 *.iml
 *.ipr
-*.adoc
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/

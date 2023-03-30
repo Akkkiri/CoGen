@@ -16,14 +16,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ewha.backend.domain.user.entity.User;
+import ewha.backend.domain.user.repository.UserRepository;
+import ewha.backend.domain.user.service.UserService;
+import ewha.backend.global.exception.BusinessLogicException;
+import ewha.backend.global.exception.ExceptionCode;
+import ewha.backend.global.security.util.CustomAuthorityUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import ewha.backend.domain.user.entity.User;
-import ewha.backend.domain.user.repository.UserRepository;
-import ewha.backend.domain.user.service.UserService;
-import ewha.backend.global.security.util.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -183,11 +185,6 @@ public class NaverService {
 		User.UserBuilder userBuilder = User.builder();
 
 		userBuilder.userId(userId);
-
-		if (!nickname.matches("[0-9a-zA-Zㄱ-ㅎ가-힣]{2,10}")){
-			nickname = "NAVERUSER";
-		}
-
 		userBuilder.nickname(userService.createNickname(nickname));
 		// userBuilder.email(email);
 

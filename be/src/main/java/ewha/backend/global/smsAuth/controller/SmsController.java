@@ -12,6 +12,7 @@ import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.smsAuth.dto.SmsDto;
 import ewha.backend.global.smsAuth.service.SmsService;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -63,8 +64,7 @@ public class SmsController {
 	}
 
 	@PostMapping("/find/password/sms/send")
-	public ResponseEntity<String> findMyPasswordRequest(@RequestBody SmsDto.FindPasswordRequest request) throws
-		CoolsmsException {
+	public ResponseEntity<String> findMyPasswordRequest(@RequestBody SmsDto.FindPasswordRequest request) throws CoolsmsException {
 
 		System.out.println("인증 요청 번호: " + request.getPhoneNumber());
 
@@ -76,8 +76,7 @@ public class SmsController {
 	}
 
 	@PostMapping("/find/password/sms/verification")
-	public ResponseEntity<String> findMyPasswordVerification(
-		@RequestBody SmsDto.FindPasswordCertificationRequest request) {
+	public ResponseEntity<String> findMyPasswordVerification(@RequestBody SmsDto.FindPasswordCertificationRequest request) {
 
 		smsService.findPasswordVerifyCertification(request);
 

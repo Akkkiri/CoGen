@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.feed.repository.FeedQueryRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @Service

@@ -3,6 +3,7 @@ package ewha.backend.global.security.event;
 import org.springframework.context.ApplicationEvent;
 
 import ewha.backend.domain.user.entity.User;
+
 import lombok.Getter;
 
 @Getter

@@ -160,6 +160,23 @@ include::{snippets}/Get_MyPage/http-response.adoc[]
 .Response-Fields
 include::{snippets}/Get_MyPage/response-fields.adoc[]
 
+=== 마이 페이지: 피드
+
+.Curl-Request
+include::{snippets}/Get_User_Feeds/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_User_Feeds/http-request.adoc[]
+
+.Request-Parameters
+include::{snippets}/Get_User_Feeds/request-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Get_User_Feeds/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_User_Feeds/response-fields.adoc[]
+
 === 마이 페이지: 문답
 
 .Curl-Request
@@ -208,23 +225,6 @@ include::{snippets}/Get_My_Bookmarks/http-response.adoc[]
 
 .Response-Fields
 include::{snippets}/Get_My_Bookmarks/response-fields.adoc[]
-
-=== 마이 페이지: 게시글
-
-.Curl-Request
-include::{snippets}/Get_User_Feeds/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Get_User_Feeds/http-request.adoc[]
-
-.Request-Parameters
-include::{snippets}/Get_User_Feeds/request-parameters.adoc[]
-
-.Http-Response
-include::{snippets}/Get_User_Feeds/http-response.adoc[]
-
-.Response-Fields
-include::{snippets}/Get_User_Feeds/response-fields.adoc[]
 
 === 마이 페이지: 댓글
 

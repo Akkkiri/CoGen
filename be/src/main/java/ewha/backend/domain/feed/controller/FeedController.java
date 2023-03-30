@@ -138,15 +138,6 @@ public class FeedController {
 		// return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
-	@GetMapping("/weekly")
-	public ResponseEntity<List<FeedDto.BestResponse>> getWeeklyBestFeeds() {
-
-		List<Feed> feedList = feedService.findWeeklyBestFeeds();
-		List<FeedDto.BestResponse> responses = feedMapper.feedListToBestResponseList(feedList);
-
-		return ResponseEntity.ok().body(responses);
-	}
-
 	@GetMapping("/newest")
 	public ResponseEntity<MultiResponseDto<FeedDto.ListResponse>> getFeeds(
 		@RequestParam(name = "page", defaultValue = "1") int page) {
@@ -168,6 +159,15 @@ public class FeedController {
 		PageImpl<FeedDto.ListResponse> responses = feedMapper.feedsToPageResponse(feedList);
 
 		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), feedList));
+	}
+
+	@GetMapping("/weekly")
+	public ResponseEntity<List<FeedDto.BestResponse>> getWeeklyBestFeeds() {
+
+		List<Feed> feedList = feedService.findWeeklyBestFeed();
+		List<FeedDto.BestResponse> responses = feedMapper.feedListToBestResponseList(feedList);
+
+		return ResponseEntity.ok().body(responses);
 	}
 
 	@DeleteMapping("/{feed_id}/delete")

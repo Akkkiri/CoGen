@@ -11,8 +11,13 @@ import ewha.backend.domain.category.entity.Category;
 import ewha.backend.domain.category.service.CategoryService;
 import ewha.backend.domain.feed.dto.FeedDto;
 import ewha.backend.domain.feed.entity.Feed;
+import ewha.backend.domain.question.dto.AnswerDto;
+import ewha.backend.domain.question.dto.QuestionDto;
+import ewha.backend.domain.question.entity.Answer;
+import ewha.backend.domain.question.entity.Question;
 import ewha.backend.domain.user.dto.UserDto;
 import ewha.backend.domain.user.entity.User;
+import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.config.CustomPage;
 
 @Mapper(componentModel = "spring")

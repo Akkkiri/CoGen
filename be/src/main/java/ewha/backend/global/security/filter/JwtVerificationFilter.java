@@ -17,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
 import ewha.backend.global.security.util.CustomAuthorityUtils;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;

@@ -23,6 +23,7 @@ import ewha.backend.global.security.handler.UserLogoutHandler;
 import ewha.backend.global.security.handler.UserLogoutSuccessHandler;
 import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
 import ewha.backend.global.security.util.CustomAuthorityUtils;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration

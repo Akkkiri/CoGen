@@ -28,6 +28,7 @@ import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.exception.BusinessLogicException;
 import ewha.backend.global.exception.ExceptionCode;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -46,6 +47,8 @@ public class LikeServiceImpl implements LikeService {
 	private final AnswerRepository answerRepository;
 	private final AnswerLikeRepository answerLikeRepository;
 	private final AnswerLikeQueryRepository answerLikeQueryRepository;
+	// private final LikeRepository likeRepository;
+	// private final LikeQueryRepository likeQueryRepository;
 	private final NotificationService notificationService;
 
 	@Override

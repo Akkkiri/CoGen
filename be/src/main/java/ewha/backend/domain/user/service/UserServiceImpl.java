@@ -1,5 +1,6 @@
 package ewha.backend.domain.user.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -35,6 +36,7 @@ import ewha.backend.global.exception.ExceptionCode;
 import ewha.backend.global.security.dto.LoginDto;
 import ewha.backend.global.security.refreshToken.repository.RefreshTokenRepository;
 import ewha.backend.global.security.util.CustomAuthorityUtils;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -158,6 +160,8 @@ public class UserServiceImpl implements UserService {
 		userRepository.deleteById(findUser.getId());
 
 	}
+
+
 
 	@Override
 	@Transactional(readOnly = true)
