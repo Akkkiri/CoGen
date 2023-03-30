@@ -13,10 +13,10 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@ToString
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category implements Serializable {
 
 	private static final long serialVersionUID = 6494678977089006639L;

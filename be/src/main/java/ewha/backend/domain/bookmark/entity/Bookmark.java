@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 
 import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.user.entity.User;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AccessLevel;

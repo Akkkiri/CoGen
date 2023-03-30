@@ -4,6 +4,9 @@ import static ewha.backend.domain.category.entity.QCategory.*;
 import static ewha.backend.domain.comment.entity.QComment.*;
 import static ewha.backend.domain.feed.entity.QFeed.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -246,10 +249,24 @@ public class FeedQueryRepository {
 		return new PageImpl<>(feedList, pageable, total);
 	}
 
+	public List<Feed> findWeeklyBestFeedList() {
+
+		LocalDateTime mondayMidnight = LocalDateTime.now()
+			.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+			.toLocalDate()
+			.atStartOfDay();
+
+		return jpaQueryFactory
+			.selectFrom(feed)
+			.where(feed.createdAt.after(mondayMidnight))
+			.orderBy(feed.likeCount.desc())
+			.limit(5)
+			.fetch();
+	}
+
 	public void deleteAllByUser(User findUser) {
 		jpaQueryFactory.delete(feed)
 			.where(feed.user.eq(findUser))
 			.execute();
 	}
-
 }

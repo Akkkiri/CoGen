@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import ewha.backend.global.security.cookieManager.CookieManager;
 import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
-
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

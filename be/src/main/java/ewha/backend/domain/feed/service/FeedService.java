@@ -25,6 +25,8 @@ public interface FeedService {
 
 	Page<Feed> findCategoryFeeds(String categoryName, String sort, int page);
 
+	List<Feed> findWeeklyBestFeeds();
+
 	void deleteFeed(Long feedId);
 
 	void deleteFeeds();

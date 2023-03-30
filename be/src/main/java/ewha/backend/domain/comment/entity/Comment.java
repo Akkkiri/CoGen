@@ -22,15 +22,15 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-import ewha.backend.domain.feed.entity.Feed;
-import ewha.backend.domain.like.entity.CommentLike;
-// import com.ewha.back.domain.like.entity.Like;
-import ewha.backend.domain.report.entity.CommentReport;
-import ewha.backend.domain.user.entity.User;
-import ewha.backend.global.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import ewha.backend.domain.feed.entity.Feed;
+import ewha.backend.domain.like.entity.CommentLike;
+import ewha.backend.domain.report.entity.CommentReport;
+import ewha.backend.domain.user.entity.User;
+import ewha.backend.global.BaseTimeEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,8 +40,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @DynamicInsert
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseTimeEntity implements Serializable {
 
 	private static final long serialVersionUID = -4038131162139964754L;

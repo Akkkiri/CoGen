@@ -25,6 +25,8 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import ewha.backend.domain.bookmark.entity.Bookmark;
 import ewha.backend.domain.comment.entity.Comment;
 import ewha.backend.domain.feed.entity.Feed;
@@ -42,15 +44,11 @@ import ewha.backend.domain.user.dto.UserDto;
 import ewha.backend.domain.user.entity.enums.AgeType;
 import ewha.backend.domain.user.entity.enums.GenderType;
 import ewha.backend.global.BaseTimeEntity;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter

@@ -15,10 +15,10 @@ import javax.persistence.OneToOne;
 
 import org.springframework.lang.Nullable;
 
-import ewha.backend.domain.image.entity.Image;
-import ewha.backend.global.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import ewha.backend.domain.image.entity.Image;
+import ewha.backend.global.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

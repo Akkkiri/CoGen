@@ -22,6 +22,10 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.context.annotation.Bean;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import ewha.backend.domain.bookmark.entity.Bookmark;
 import ewha.backend.domain.category.entity.Category;
@@ -31,10 +35,7 @@ import ewha.backend.domain.like.entity.FeedLike;
 import ewha.backend.domain.report.entity.FeedReport;
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.global.BaseTimeEntity;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,8 +45,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @DynamicInsert
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Feed extends BaseTimeEntity implements Serializable {
 
 	private static final long serialVersionUID = 6494678977089006639L;

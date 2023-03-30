@@ -13,7 +13,6 @@ import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.exception.BusinessLogicException;
 import ewha.backend.global.exception.ExceptionCode;
-
 import lombok.RequiredArgsConstructor;
 
 @Service

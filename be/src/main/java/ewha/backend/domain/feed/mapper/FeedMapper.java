@@ -1,5 +1,6 @@
 package ewha.backend.domain.feed.mapper;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
@@ -10,13 +11,8 @@ import ewha.backend.domain.category.entity.Category;
 import ewha.backend.domain.category.service.CategoryService;
 import ewha.backend.domain.feed.dto.FeedDto;
 import ewha.backend.domain.feed.entity.Feed;
-import ewha.backend.domain.question.dto.AnswerDto;
-import ewha.backend.domain.question.dto.QuestionDto;
-import ewha.backend.domain.question.entity.Answer;
-import ewha.backend.domain.question.entity.Question;
 import ewha.backend.domain.user.dto.UserDto;
 import ewha.backend.domain.user.entity.User;
-import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.config.CustomPage;
 
 @Mapper(componentModel = "spring")
@@ -184,6 +180,25 @@ public interface FeedMapper {
 					.createdAt(feed.getCreatedAt())
 					.build();
 			}).collect(Collectors.toList()));
+	}
+
+	default List<FeedDto.BestResponse> feedListToBestResponseList(List<Feed> feedList) {
+
+		if (feedList == null)
+			return null;
+
+		return feedList.stream()
+			.map(feed -> {
+				return FeedDto.BestResponse.builder()
+					.feedId(feed.getId())
+					.title(feed.getTitle())
+					.body(feed.getBody())
+					.userId(feed.getUser().getUserId())
+					.commentCount(feed.getCommentCount())
+					.likeCount(feed.getLikeCount())
+					.createdAt(feed.getCreatedAt())
+					.build();
+			}).collect(Collectors.toList());
 	}
 
 }

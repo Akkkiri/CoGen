@@ -118,4 +118,20 @@ public class FeedDto {
 		private LocalDateTime modifiedAt;
 	}
 
+	@Getter
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class BestResponse {
+
+		private Long feedId;
+		private String title;
+		private String body;
+		private String userId;
+		private Long commentCount;
+		private Long likeCount;
+		private LocalDateTime createdAt;
+		private LocalDateTime modifiedAt;
+	}
+
 }

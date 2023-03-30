@@ -20,7 +20,6 @@ import ewha.backend.global.security.dto.LoginDto;
 import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
 import ewha.backend.global.security.oauth.service.KakaoService;
 import ewha.backend.global.security.oauth.service.NaverService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

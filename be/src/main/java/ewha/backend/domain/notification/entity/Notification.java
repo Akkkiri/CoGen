@@ -10,10 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import ewha.backend.domain.user.entity.User;
-import ewha.backend.global.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import ewha.backend.domain.user.entity.User;
+import ewha.backend.global.BaseTimeEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,8 +23,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notification extends BaseTimeEntity {
 
 	@Id

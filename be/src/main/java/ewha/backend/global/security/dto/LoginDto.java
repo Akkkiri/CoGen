@@ -3,14 +3,11 @@ package ewha.backend.global.security.dto;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import ewha.backend.domain.category.entity.CategoryType;
 import ewha.backend.domain.user.entity.enums.AgeType;
 import ewha.backend.domain.user.entity.enums.GenderType;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,15 +1,11 @@
 package ewha.backend.global.security.filter;
 
-import ewha.backend.domain.user.entity.User;
-import ewha.backend.domain.user.mapper.UserMapper;
-import ewha.backend.global.security.cookieManager.CookieManager;
-import ewha.backend.global.security.dto.LoginDto;
-import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
+import java.io.IOException;
 
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,12 +13,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
-import java.io.IOException;
+import ewha.backend.domain.user.entity.User;
+import ewha.backend.domain.user.mapper.UserMapper;
+import ewha.backend.global.security.cookieManager.CookieManager;
+import ewha.backend.global.security.dto.LoginDto;
+import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {

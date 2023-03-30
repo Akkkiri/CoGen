@@ -18,7 +18,6 @@ import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.exception.BusinessLogicException;
 import ewha.backend.global.exception.ExceptionCode;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -150,7 +149,7 @@ public class NotificationServiceImpl implements NotificationService {
 		User findUser = userService.getLoginUser();
 		Long userId = findUser.getId();
 
-		List<Notification> response =  notificationQueryRepository.getMyNotifications(userId);
+		List<Notification> response = notificationQueryRepository.getMyNotifications(userId);
 
 		response.forEach(notification -> notification.setRead(true));
 

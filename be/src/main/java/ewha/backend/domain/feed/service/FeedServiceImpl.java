@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import ewha.backend.domain.bookmark.repository.BookmarkRepository;
-import ewha.backend.domain.category.service.CategoryService;
 import ewha.backend.domain.comment.repository.CommentRepository;
 import ewha.backend.domain.feed.dto.FeedDto;
 import ewha.backend.domain.feed.entity.Feed;
@@ -20,14 +19,12 @@ import ewha.backend.domain.feed.repository.FeedRepository;
 import ewha.backend.domain.image.service.AwsS3Service;
 import ewha.backend.domain.like.entity.CommentLike;
 import ewha.backend.domain.like.repository.CommentLikeQueryRepository;
-import ewha.backend.domain.like.repository.FeedLikeQueryRepository;
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.repository.UserRepository;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.config.CustomPage;
 import ewha.backend.global.exception.BusinessLogicException;
 import ewha.backend.global.exception.ExceptionCode;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -36,11 +33,9 @@ public class FeedServiceImpl implements FeedService {
 
 	private final UserService userService;
 	private final UserRepository userRepository;
-	private final CategoryService categoryService;
 	private final FeedRepository feedRepository;
 	private final FeedQueryRepository feedQueryRepository;
 	private final CommentRepository commentRepository;
-	private final FeedLikeQueryRepository feedLikeQueryRepository;
 	private final CommentLikeQueryRepository commentLikeQueryRepository;
 	private final BookmarkRepository bookmarkRepository;
 	private final AwsS3Service awsS3Service;
@@ -203,7 +198,12 @@ public class FeedServiceImpl implements FeedService {
 		} else {
 			return feedQueryRepository.findCategoryFeedList(categoryName, sort, pageRequest);
 		}
+	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Feed> findWeeklyBestFeeds() {
+		return feedQueryRepository.findWeeklyBestFeedList();
 	}
 
 	@Override
