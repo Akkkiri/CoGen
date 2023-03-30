@@ -45,7 +45,7 @@ export default function SelectBox({ type, setSelect }: SortBoxProps) {
       </button>
       {showModal ? (
         <div className="relative w-28 h-0">
-          <ul className="bg-white border border-y-lightGray/40 rounded-lg text-xs z-10 absolute w-full">
+          <ul className="bg-white border border-y-lightGray/40 rounded-lg text-base z-10 absolute w-full">
             {list?.map((el, idx) => (
               <li
                 key={idx}

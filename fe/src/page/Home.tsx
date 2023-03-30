@@ -3,6 +3,7 @@ import BestPost from "../components/Main/BestPost";
 import MainQnaContainer from "../components/Main/MainQnaContainer";
 import MainQuizContainer from "../components/Main/MainQuizContainer";
 import MainUser from "../components/Main/MainUser";
+import { NavLink } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -21,7 +22,11 @@ export default function Home() {
       <div className="border-b-8">
         <MainQuizContainer question="[스불재]의 뜻이 무엇일까요?" />
       </div>
-      <BestPost />
+      <div className="py-4 px-2">
+        <NavLink to="/post">
+          <BestPost />
+        </NavLink>
+      </div>
     </>
   );
 }

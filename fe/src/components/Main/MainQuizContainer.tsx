@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 interface QnaContainerProps {
   question: string;
 }
@@ -15,9 +16,11 @@ export default function MainQuizContainer({ question }: QnaContainerProps) {
       </div>
       <div className="bg-y-sky rounded-r-3xl rounded-t-3xl p-4 text-center m-1">
         <div className="p-3">"{question}"</div>
-        <button className="bg-y-purple rounded-lg px-4 py-2 text-white text-sm">
-          퀴즈 풀러가기
-        </button>
+        <NavLink to="/quiz">
+          <button className="bg-y-purple rounded-lg px-4 py-2 text-white text-sm">
+            퀴즈 풀러가기
+          </button>
+        </NavLink>
       </div>
     </div>
   );

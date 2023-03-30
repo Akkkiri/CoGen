@@ -5,6 +5,15 @@ import MainPostContainer from "../MainPostContainer";
 export default function BestPost() {
   return (
     <div>
+      <div className="flex gap-2">
+        <img
+          src="/images/cogenlogo-r.png"
+          alt="logo"
+          className="w-9 h-6 self-center"
+        ></img>
+        <div className="text-lg"> 이번주 질문</div>
+      </div>
+
       <Swiper
         spaceBetween={10}
         slidesPerView={1.5}

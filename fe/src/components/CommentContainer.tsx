@@ -7,7 +7,7 @@ interface CommentContainerProps {
 
 export default function CommentContainer({ contents }: CommentContainerProps) {
   return (
-    <div className="p-2">
+    <div className="py-2">
       <div className="p-4 border border-y-lightGray rounded-xl">
         <UserInfo
           nickname={"닉네임"}
