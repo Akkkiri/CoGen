@@ -23,9 +23,14 @@ export default function PostDetail() {
         />
         <div className="p-2">
           <SelectBox setSelect={setSort} type={"sort"} />
-          <CommentContainer contents="안녕" />
-          <CommentContainer contents="안녕" />
-          <CommentContainer contents="안녕" />
+          <CommentContainer
+            contents="안녕"
+            nickname="이름"
+            profileImage=""
+            date="2024"
+            like="1"
+          />
+
           <Pagenation page={page} setPage={setPage} totalPages={8} />
         </div>
       </div>

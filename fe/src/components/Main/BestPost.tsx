@@ -11,7 +11,7 @@ export default function BestPost() {
           alt="logo"
           className="w-9 h-6 self-center"
         ></img>
-        <div className="text-lg"> 이번주 질문</div>
+        <div className="text-lg"> 인기 게시글</div>
       </div>
 
       <Swiper
