@@ -38,14 +38,14 @@ export default function SelectBox({ type, setSelect }: SortBoxProps) {
     <div className="">
       <button
         onClick={() => setShowModal(!showModal)}
-        className="flex items-center w-28 text-xs border border-y-lightGray rounded-lg py-1.5 px-2"
+        className="flex items-center w-28 border border-y-lightGray rounded-xl py-1.5 px-2"
       >
         <GoTriangleDown className="w-3 h-3 mt-[1px] mr-1 text-y-gray" />
         <span>{curChoice}</span>
       </button>
       {showModal ? (
         <div className="relative w-28 h-0">
-          <ul className="bg-white border border-y-lightGray/40 rounded-lg text-xs z-10 absolute w-full">
+          <ul className="bg-white border border-y-lightGray/40 rounded-lg text-base z-10 absolute w-full">
             {list?.map((el, idx) => (
               <li
                 key={idx}

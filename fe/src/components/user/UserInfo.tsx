@@ -14,11 +14,11 @@ export default function UserInfo({
       <img
         src={profileImage}
         alt="profileImage"
-        className="rounded-full w-8 h-8"
+        className="rounded-full w-8 h-8 self-center"
       ></img>
       <div className="ml-2">
         <div className="text-sm">{nickname}</div>
-        <div className="font-light text-[8px] text-y-lightGray">{date}</div>
+        <div className="font-light text-xs text-y-lightGray">{date}</div>
       </div>
     </div>
   );
