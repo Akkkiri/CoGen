@@ -63,9 +63,12 @@ public class AnswerService {
 
 		Answer findAnswer = findVerifiedAnswer(answerId);
 
-		findAnswer.updateAnswer(answer);
-
-		return answerRepository.save(findAnswer);
+		if (findAnswer.getUser().equals(findUser)) {
+			findAnswer.updateAnswer(answer);
+			return answerRepository.save(findAnswer);
+		} else {
+			throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED);
+		}
 	}
 
 	public Page<Answer> findQuestionAnswers(Long questionId, String sort, int page) {

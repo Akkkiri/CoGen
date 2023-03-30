@@ -210,15 +210,17 @@ public class CommentControllerRestDocs {
 	void getFeedCommentsTest() throws Exception {
 
 		Long feedId = 1L;
+		String sort = "new";
 		int page = 1;
 
-		given(commentService.getFeedComments(anyLong(), anyInt())).willReturn(new PageImpl<>(new ArrayList<>()));
+		given(commentService.getFeedComments(anyLong(), anyString(), anyInt())).willReturn(new PageImpl<>(new ArrayList<>()));
 		given(commentMapper.getFeedCommentsToPageResponse(Mockito.any(), Mockito.any(LikeService.class)))
 			.willReturn(GET_COMMENT_RESPONSE_PAGE);
 
 		ResultActions actions =
 			mockMvc.perform(
-				RestDocumentationRequestBuilders.get("/api/feeds/{feed_id}/comments?page={page}", feedId, page)
+				RestDocumentationRequestBuilders
+					.get("/api/feeds/{feed_id}/comments?sort={sort}&page={page}", feedId, sort, page)
 					.accept(MediaType.APPLICATION_JSON)
 			);
 		actions
@@ -230,6 +232,7 @@ public class CommentControllerRestDocs {
 					parameterWithName("feed_id").description("피드 번호")
 				),
 				requestParameters(
+					parameterWithName("sort").description("정렬 기준"),
 					parameterWithName("page").description("페이지 번호")
 				),
 				responseFields(
@@ -255,7 +258,7 @@ public class CommentControllerRestDocs {
 						fieldWithPath(".pageInfo").type(JsonFieldType.OBJECT).description("Pageble 설정"),
 						fieldWithPath(".pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
 						fieldWithPath(".pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 크기"),
-						fieldWithPath(".pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총 레이팅 수"),
+						fieldWithPath(".pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총 댓글 수"),
 						fieldWithPath(".pageInfo.totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수")
 					)
 				)));

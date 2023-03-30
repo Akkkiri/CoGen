@@ -11,7 +11,7 @@ public interface CommentService {
 
 	Comment updateComment(Comment comment, Long commentId);
 
-	Page<Comment> getFeedComments(Long feedId, int page);
+	Page<Comment> getFeedComments(Long feedId, String sort, int page);
 
 	List<Comment> isMyComments(Long feedId);
 

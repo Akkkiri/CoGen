@@ -268,6 +268,40 @@ public class FeedControllerRestDocs {
 	}
 
 	@Test
+	void getWeeklyBestFeedsTest() throws Exception {
+
+		given(feedService.findWeeklyBestFeed())
+			.willReturn(new ArrayList<>());
+		given(feedMapper.feedListToBestResponseList(anyList())).willReturn(BEST_FEED_RESPONSE_LIST);
+
+		ResultActions actions =
+			mockMvc.perform(
+				RestDocumentationRequestBuilders
+					.get("/api/feeds/weekly")
+					.accept(MediaType.APPLICATION_JSON)
+			);
+		actions
+			.andExpect(status().isOk())
+			.andDo(document(
+				"Get_Weekly_Best_Feeds",
+				getDocumentResponse(),
+				responseFields(
+					List.of(
+						fieldWithPath("[].feedId").type(JsonFieldType.NUMBER).description("피드 번호"),
+						fieldWithPath("[].userId").type(JsonFieldType.STRING).description("작성자 아이디"),
+						fieldWithPath("[].profileImage").type(JsonFieldType.STRING).description("작성자 프로필 사진"),
+						fieldWithPath("[].thumbnailPath").type(JsonFieldType.STRING).description("썸네일 주소"),
+						fieldWithPath("[].title").type(JsonFieldType.STRING).description("피드 제목"),
+						fieldWithPath("[].body").type(JsonFieldType.STRING).description("피드 내용"),
+						fieldWithPath("[].commentCount").type(JsonFieldType.NUMBER).description("댓글 개수"),
+						fieldWithPath("[].likeCount").type(JsonFieldType.NUMBER).description("피드 좋아요 개수"),
+						fieldWithPath("[].createdAt").type(JsonFieldType.STRING).description("작성 날짜"),
+						fieldWithPath("[].modifiedAt").type(JsonFieldType.STRING).description("마지막 수정 날짜")
+					)
+				)));
+	}
+
+	@Test
 	void getCategoryFeedsTest() throws Exception {
 
 		String categoryName = "PLACE";
@@ -314,7 +348,6 @@ public class FeedControllerRestDocs {
 						fieldWithPath(".pageInfo.totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수")
 					)
 				)));
-
 	}
 
 	//

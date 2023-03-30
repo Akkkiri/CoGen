@@ -13,7 +13,7 @@
 
 연락처: bangserin980302@gmail.com
 
-v1.0.4, 2023.3.29
+v1.0.6, 2023.3.30
 
 ***
 
@@ -399,6 +399,20 @@ include::{snippets}/Get_Feed/http-response.adoc[]
 .Response-Fields
 include::{snippets}/Get_Feed/response-fields.adoc[]
 
+=== 주간 베스트 피드
+
+.Curl-Request
+include::{snippets}/Get_Weekly_Best_Feeds/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_Weekly_Best_Feeds/http-request.adoc[]
+
+.Http-Response
+include::{snippets}/Get_Weekly_Best_Feeds/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_Weekly_Best_Feeds/response-fields.adoc[]
+
 === 피드 페이징 조회
 
 .Curl-Request
@@ -498,10 +512,10 @@ include::{snippets}/Get_Feed_Comments/curl-request.adoc[]
 include::{snippets}/Get_Feed_Comments/http-request.adoc[]
 
 .Path-Parameters
-include::{snippets}/Get_Comment/path-parameters.adoc[]
+include::{snippets}/Get_Feed_Comments/path-parameters.adoc[]
 
 .Request-Parameters
-include::{snippets}/Get_Category_Feeds/request-parameters.adoc[]
+include::{snippets}/Get_Feed_Comments/request-parameters.adoc[]
 
 .Http-Response
 include::{snippets}/Get_Feed_Comments/http-response.adoc[]
@@ -600,6 +614,76 @@ include::{snippets}/Delete_Question/path-parameters.adoc[]
 
 .Http-Response
 include::{snippets}/Delete_Question/http-response.adoc[]
+
+== AnswerController
+
+=== 이주의 질문 답변 작성
+
+.Curl-Request
+include::{snippets}/Post_Answer/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Post_Answer/http-request.adoc[]
+
+.Request-Fields
+include::{snippets}/Post_Answer/request-fields.adoc[]
+
+.Http-Response
+include::{snippets}/Post_Answer/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Post_Answer/response-fields.adoc[]
+
+=== 이주의 질문 답변 수정
+
+.Curl-Request
+include::{snippets}/Patch_Answer/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Patch_Answer/http-request.adoc[]
+
+.Request-Fields
+include::{snippets}/Patch_Answer/request-fields.adoc[]
+
+.Http-Response
+include::{snippets}/Patch_Answer/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Patch_Answer/response-fields.adoc[]
+
+=== 특정 질문 답변 페이징 조회
+
+.Curl-Request
+include::{snippets}/Get_Question_Answers/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_Question_Answers/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Get_Question_Answers/path-parameters.adoc[]
+
+.Request-Parameters
+include::{snippets}/Get_Question_Answers/request-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Get_Question_Answers/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_Question_Answers/response-fields.adoc[]
+
+=== 이주의 질문 답변 삭제
+
+.Curl-Request
+include::{snippets}/Delete_Answer/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Delete_Answer/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Delete_Answer/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Delete_Answer/http-response.adoc[]
 
 == QuizController
 

@@ -1,6 +1,7 @@
 package ewha.backend.Controller.constant;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.PageImpl;
@@ -101,4 +102,25 @@ public class FeedControllerConstant {
 
 	public static final PageImpl<FeedDto.ListResponse> FEED_SEARCH_RESPONSE_PAGE =
 		new PageImpl<>(List.of(FEED_LIST_RESPONSE, FEED_LIST_RESPONSE));
+
+	public static final FeedDto.BestResponse BEST_FEED_RESPONSE =
+		FeedDto.BestResponse.builder()
+			.feedId(1L)
+			.userId("01012345678")
+			.profileImage("사용자 프로필 이미지")
+			.thumbnailPath("썸네일 경로")
+			.title("피드 제목")
+			.body("피드 내용")
+			.commentCount(1L)
+			.likeCount(1L)
+			.createdAt(LocalDateTime.now())
+			.modifiedAt(LocalDateTime.now())
+			.build();
+
+	public static final List<FeedDto.BestResponse> BEST_FEED_RESPONSE_LIST =
+		new ArrayList<>(
+			List.of(
+				BEST_FEED_RESPONSE, BEST_FEED_RESPONSE
+			)
+		);
 }

@@ -73,9 +73,10 @@ public class CommentController {
 	@GetMapping("/feeds/{feed_id}/comments")
 	public ResponseEntity<MultiResponseDto<CommentDto.GetResponse>> getFeedComments(
 		@PathVariable("feed_id") @Positive Long feedId,
+		@RequestParam(name = "sort", defaultValue = "new") String sort,
 		@RequestParam(name = "page", defaultValue = "1") int page) {
 
-		Page<Comment> commentList = commentService.getFeedComments(feedId, page);
+		Page<Comment> commentList = commentService.getFeedComments(feedId, sort, page);
 		// PageImpl<CommentDto.Response> responses = commentMapper.feedCommentsToPageResponse(commentList);
 		PageImpl<CommentDto.GetResponse> responses =
 			commentMapper.getFeedCommentsToPageResponse(commentList, likeService);

@@ -199,6 +199,8 @@ public interface FeedMapper {
 					.title(feed.getTitle())
 					.body(feed.getBody())
 					.userId(feed.getUser().getUserId())
+					.profileImage(feed.getUser().getProfileImage())
+					.thumbnailPath(feed.getUser().getThumbnailPath())
 					.commentCount(feed.getCommentCount())
 					.likeCount(feed.getLikeCount())
 					.createdAt(feed.getCreatedAt())

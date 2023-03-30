@@ -97,11 +97,11 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Comment> getFeedComments(Long feedId, int page) {
+	public Page<Comment> getFeedComments(Long feedId, String sort, int page) {
 
 		PageRequest pageRequest = PageRequest.of(page - 1, 10);
 
-		return commentQueryRepository.findFeedComment(feedId, pageRequest);
+		return commentQueryRepository.findFeedComment(feedId, sort, pageRequest);
 
 	}
 
