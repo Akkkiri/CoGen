@@ -177,6 +177,8 @@ public class AnswerControllerRestDocs {
 						fieldWithPath(".data.[].profileImage").type(JsonFieldType.STRING).description("사용자 프로필 이미지"),
 						fieldWithPath(".data.[].thumbnailPath").type(JsonFieldType.STRING).description("썸네일 이미지"),
 						fieldWithPath(".data.[].answerBody").type(JsonFieldType.STRING).description("답변 내용"),
+						fieldWithPath(".data.[].likeCount").type(JsonFieldType.NUMBER).description("좋아요 개수"),
+						fieldWithPath(".data.[].reportCount").type(JsonFieldType.NUMBER).description("신고 개수"),
 						fieldWithPath(".data.[].createdAt").type(JsonFieldType.STRING).description("작성 날짜"),
 						fieldWithPath(".data.[].modifiedAt").type(JsonFieldType.STRING).description("마지막 수정 날짜"),
 						fieldWithPath(".pageInfo").type(JsonFieldType.OBJECT).description("Pageble 설정"),

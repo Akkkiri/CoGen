@@ -289,6 +289,7 @@ public class FeedControllerRestDocs {
 					List.of(
 						fieldWithPath("[].feedId").type(JsonFieldType.NUMBER).description("피드 번호"),
 						fieldWithPath("[].userId").type(JsonFieldType.STRING).description("작성자 아이디"),
+						fieldWithPath("[].nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
 						fieldWithPath("[].profileImage").type(JsonFieldType.STRING).description("작성자 프로필 사진"),
 						fieldWithPath("[].thumbnailPath").type(JsonFieldType.STRING).description("썸네일 주소"),
 						fieldWithPath("[].title").type(JsonFieldType.STRING).description("피드 제목"),
@@ -333,6 +334,7 @@ public class FeedControllerRestDocs {
 						fieldWithPath("data.").type(JsonFieldType.ARRAY).description("결과 데이터"),
 						fieldWithPath("data[].feedId").type(JsonFieldType.NUMBER).description("피드 번호"),
 						fieldWithPath("data[].userId").type(JsonFieldType.STRING).description("작성자 아이디"),
+						fieldWithPath("data[].nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
 						fieldWithPath("data[].category").type(JsonFieldType.STRING).description("피드 카테고리"),
 						fieldWithPath("data[].title").type(JsonFieldType.STRING).description("피드 제목"),
 						fieldWithPath("data[].body").type(JsonFieldType.STRING).description("피드 내용"),

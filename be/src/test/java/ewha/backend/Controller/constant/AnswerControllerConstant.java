@@ -33,6 +33,8 @@ public class AnswerControllerConstant {
 			.profileImage("사용자 프로필 이미지")
 			.thumbnailPath("썸네일 경로")
 			.answerBody("답변 내용")
+			.likeCount(10L)
+			.reportCount(0L)
 			.createdAt(LocalDateTime.now())
 			.modifiedAt(LocalDateTime.now())
 			.build();
