@@ -1,13 +1,44 @@
 import SelectBox from "../../components/SelectBox";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Pagenation from "../../components/Pagenation";
 import { Select, SelectBoxMatcher } from "../../util/SelectUtil";
 import PostDetailContainer from "../../components/PostDetailContainer";
 import CommentContainer from "../../components/CommentContainer";
+import axios from "../../api/axios";
 export default function PostDetail() {
-  const [sort, setSort] = useState<Select>("new");
-  const [page, setPage] = useState<number>(7);
-
+  const { PostId } = useParams();
+  const [comment, setComment] = useState<Select>("new");
+  const [title, setTitle] = useState<string>("");
+  const [postContents, setPostContents] = useState<string>("");
+  const [tag, setTag] = useState<string>("");
+  const [PostNickname, setPostNickName] = useState<string>("");
+  const [postProfileImage, setPostProfileImage] = useState<string>("");
+  const [viwe, SetView] = useState<number>(0);
+  const [postDate, setPostDate] = useState<string>("");
+  const [postComment, setPostComment] = useState([]);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  useEffect(() => {
+    axios.get(`/feeds/${PostId}`).then((response) => {
+      setTitle(response.data.title);
+      setPostContents(response.data.body);
+      setTag(response.data.category);
+      setPostNickName(response.data.userInfo.nickname);
+      setPostProfileImage(response.data.userInfo.profileImage);
+      SetView(response.data.viewCount);
+      setPostDate(response.data.createdAt);
+    });
+  }, [PostId, page]);
+  useEffect(() => {
+    axios
+      .get(`/feeds/${PostId}/comments?sort=${comment}&page=${page}`)
+      .then((response) => {
+        console.log(response.data);
+        setPostComment(response.data.data);
+        setTotalPages(response.data.pageInfo.totalPages);
+      });
+  }, [PostId, page, comment]);
   return (
     <>
       <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
@@ -15,23 +46,29 @@ export default function PostDetail() {
       </h1>
       <div>
         <PostDetailContainer
-          title={"내일 점심에 뭘 먹는게 좋을까요?"}
-          contents={
-            "본문은 이렇게 길게 쓸 수도 있으니까요! 내일 점심에 다들 맛있는거 드시길 바라요! 저는 개인적으로 김치볶음밥이 먹고싶은데 과연 엄마와 마음이 통할지 모르겠어요!! 우리 이거 다 먹고살자고 하는 일이니까 부디 밥 꼭 챙겨드시길 바라요. 내일 만나요!ㅎㅎ"
-          }
-          tag={"고민"}
+          title={title}
+          contents={postContents}
+          tag={tag}
+          nickname={PostNickname}
+          profileImage={postProfileImage}
+          date={postDate}
+          view={viwe}
         />
         <div className="p-2">
-          <SelectBox setSelect={setSort} type={"sort"} />
-          <CommentContainer
-            contents="안녕"
-            nickname="이름"
-            profileImage=""
-            date="2024"
-            like="1"
-          />
+          <SelectBox setSelect={setComment} type={"comment"} />
+          {postComment.map((el: any) => (
+            <div key={el.commentId}>
+              <CommentContainer
+                contents={el.body}
+                nickname={el.userInfo.nickname}
+                profileImage={el.userInfo.profileImage}
+                date={el.modifiedAt}
+                like={el.likeCount}
+              />
+            </div>
+          ))}
 
-          <Pagenation page={page} setPage={setPage} totalPages={8} />
+          <Pagenation page={page} setPage={setPage} totalPages={totalPages} />
         </div>
       </div>
     </>

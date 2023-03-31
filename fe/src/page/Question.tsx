@@ -62,7 +62,7 @@ export default function Question() {
               nickname={el.userNickname}
               profileImage={el.profileImage}
               date={el.modifiedAt}
-              like="1"
+              like={el.likeCount}
             />
           </div>
         ))}
