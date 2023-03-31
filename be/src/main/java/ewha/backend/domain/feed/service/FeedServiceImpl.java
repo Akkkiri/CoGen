@@ -193,8 +193,8 @@ public class FeedServiceImpl implements FeedService {
 
 		PageRequest pageRequest = PageRequest.of(page - 1, 10);
 
-		if (categoryName.equals("ALL") && sort.equals("new")) {
-			return feedQueryRepository.findNewestFeedList(pageRequest);
+		if (categoryName.equals("ALL")) {
+			return feedQueryRepository.findAllFeedListBySort(sort, pageRequest);
 		} else {
 			return feedQueryRepository.findCategoryFeedList(categoryName, sort, pageRequest);
 		}

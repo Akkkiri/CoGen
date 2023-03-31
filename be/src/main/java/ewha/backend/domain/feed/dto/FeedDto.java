@@ -93,6 +93,7 @@ public class FeedDto {
 		private String title;
 		private String body;
 		private String userId;
+		private String nickname;
 		private Long commentCount;
 		private Long likeCount;
 		private Long viewCount;

@@ -155,6 +155,8 @@ public interface FeedMapper {
 			.map(feed -> {
 				return FeedDto.ListResponse.builder()
 					.feedId(feed.getId())
+					.userId(feed.getUser().getUserId())
+					.nickname(feed.getUser().getNickname())
 					.title(feed.getTitle())
 					.body(feed.getBody())
 					.category(feed.getCategory().getCategoryType().toString())

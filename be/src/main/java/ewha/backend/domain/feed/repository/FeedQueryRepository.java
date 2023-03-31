@@ -114,15 +114,13 @@ public class FeedQueryRepository {
 		return new CustomPage<>(feedList, pageable, total);
 	}
 
-	public Page<Feed> findCategoryFeedList(String categoryName, String sort, Pageable pageable) {
+	public Page<Feed> findAllFeedListBySort(String sort, Pageable pageable) {
 
 		List<Feed> feedList = new ArrayList<>();
 
 		if (sort.equals("likes")) {
 			feedList = jpaQueryFactory
 				.selectFrom(feed)
-				.join(feed.category, category)
-				.where(category.categoryType.stringValue().eq(categoryName))
 				.orderBy(feed.likeCount.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
@@ -130,9 +128,51 @@ public class FeedQueryRepository {
 		} else if (sort.equals("view")) {
 			feedList = jpaQueryFactory
 				.selectFrom(feed)
-				.join(feed.category, category)
-				.where(category.categoryType.stringValue().eq(categoryName))
 				.orderBy(feed.viewCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		} else {
+			feedList = jpaQueryFactory
+				.selectFrom(feed)
+				.orderBy(feed.createdAt.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		}
+
+		Long total = jpaQueryFactory
+			.select(feed.count())
+			.from(feed)
+			.fetchOne();
+
+		return new PageImpl<>(feedList, pageable, total);
+	}
+
+	public Page<Feed> findCategoryFeedList(String categoryName, String sort, Pageable pageable) {
+
+		List<Feed> feedList = new ArrayList<>();
+
+		JPAQuery<Feed> feedJPAQuery = jpaQueryFactory
+			.selectFrom(feed)
+			.join(feed.category, category)
+			.where(category.categoryType.stringValue().eq(categoryName));
+
+		if (sort.equals("likes")) {
+			feedList = feedJPAQuery
+				.orderBy(feed.likeCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		} else if (sort.equals("view")) {
+			feedList = feedJPAQuery
+				.orderBy(feed.viewCount.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		} else {
+			feedList = feedJPAQuery
+				.orderBy(feed.createdAt.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
@@ -156,7 +196,7 @@ public class FeedQueryRepository {
 			.selectFrom(feed)
 			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)));
 
-		if (sort.equals("new")){
+		if (sort.equals("new")) {
 			feedList = basicResult
 				.orderBy(feed.createdAt.desc())
 				.offset(pageable.getOffset())
@@ -193,7 +233,8 @@ public class FeedQueryRepository {
 		return new PageImpl<>(feedList, pageable, total);
 	}
 
-	public Page<Feed> findCategorySearchResultPage(String categoryParam, String sort, String queryParam, Pageable pageable) {
+	public Page<Feed> findCategorySearchResultPage(String categoryParam, String sort, String queryParam,
+		Pageable pageable) {
 
 		List<Feed> feedList = new ArrayList<>();
 
@@ -201,9 +242,9 @@ public class FeedQueryRepository {
 			.selectFrom(feed)
 			.join(feed.category, category)
 			.where(category.categoryType.stringValue().eq(categoryParam)
-			.and(feed.title.contains(queryParam).or(feed.body.contains(queryParam))));
+				.and(feed.title.contains(queryParam).or(feed.body.contains(queryParam))));
 
-		if (sort.equals("new")){
+		if (sort.equals("new")) {
 			feedList = basicResult
 				.orderBy(feed.createdAt.desc())
 				.offset(pageable.getOffset())
@@ -215,7 +256,7 @@ public class FeedQueryRepository {
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
-		} else if (sort.equals("view")){
+		} else if (sort.equals("view")) {
 			feedList = basicResult
 				.orderBy(feed.viewCount.desc())
 				.offset(pageable.getOffset())
@@ -243,7 +284,7 @@ public class FeedQueryRepository {
 			.select(feed.count())
 			.from(feed)
 			.where(category.categoryType.stringValue().eq(categoryParam)
-			.and(feed.title.contains(queryParam).or(feed.body.contains(queryParam))))
+				.and(feed.title.contains(queryParam).or(feed.body.contains(queryParam))))
 			.fetchOne();
 
 		return new PageImpl<>(feedList, pageable, total);
