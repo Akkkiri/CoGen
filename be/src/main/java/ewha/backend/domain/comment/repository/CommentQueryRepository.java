@@ -44,6 +44,7 @@ public class CommentQueryRepository {
 
 		List<Comment> commentList;
 
+
 		if (sort.equals("new")) {
 			commentList = jpaQueryFactory
 				.selectFrom(comment)
@@ -73,6 +74,7 @@ public class CommentQueryRepository {
 		Long total = jpaQueryFactory
 			.select(comment.count())
 			.from(comment)
+			.where(comment.feed.id.eq(feedId))
 			.fetchOne();
 
 		return new PageImpl<>(commentList, pageable, total);
