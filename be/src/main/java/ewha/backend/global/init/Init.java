@@ -160,6 +160,8 @@ public class Init {
 				.answerBody(DUMMY_ANSWER_LIST.get(rand.intValue()))
 				.user(userService.findVerifiedUser((long)(Math.random() * 20) + 1))
 				.question(questionService.findVerifiedQuestion((long)(Math.random() * 10) + 1))
+				.likeCount((long)(Math.random() * 15))
+				.reportCount((long)(Math.random() * 15))
 				.build();
 
 			answerRepository.save(answer);
@@ -228,6 +230,7 @@ public class Init {
 				.body(InitConstant.FEED_BODY_LIST.get(i - 1))
 				.likeCount((long)(Math.random() * 50))
 				.viewCount((long)(Math.random() * 100))
+				.commentCount((long)(Math.random() * 10))
 				.build();
 
 			feedList.add(feed);

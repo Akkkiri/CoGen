@@ -51,6 +51,8 @@ public class AnswerDto {
 		private String profileImage;
 		private String thumbnailPath;
 		private String answerBody;
+		private Long likeCount;
+		private Long reportCount;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
 	}

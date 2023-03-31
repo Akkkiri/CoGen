@@ -41,6 +41,8 @@ public interface AnswerMapper {
 				listResponseBuilder.profileImage(answer.getUser().getProfileImage());
 				listResponseBuilder.thumbnailPath(answer.getUser().getThumbnailPath());
 				listResponseBuilder.answerBody(answer.getAnswerBody());
+				listResponseBuilder.likeCount(answer.getLikeCount());
+				listResponseBuilder.reportCount(answer.getReportCount());
 				listResponseBuilder.createdAt(answer.getCreatedAt());
 				listResponseBuilder.modifiedAt(answer.getModifiedAt());
 

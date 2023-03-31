@@ -128,6 +128,7 @@ public class FeedDto {
 		private String title;
 		private String body;
 		private String userId;
+		private String nickname;
 		private String profileImage;
 		private String thumbnailPath;
 		private Long commentCount;
