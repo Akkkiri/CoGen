@@ -19,5 +19,6 @@ module.exports = {
       },
     },
   },
-  plugins: [percentageWidth],
+
+  plugins: [percentageWidth, require("@tailwindcss/line-clamp")],
 };

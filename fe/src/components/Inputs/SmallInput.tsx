@@ -21,7 +21,7 @@ export default function SmallInput({
   };
   return (
     <>
-      <form className="flex font-light p-2">
+      <form className="flex font-light py-2">
         <TextareaAutosize
           minRows={1}
           maxRows={6}

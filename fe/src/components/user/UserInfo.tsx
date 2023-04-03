@@ -1,3 +1,4 @@
+import { ToDateString } from "../../util/TodateString";
 interface UserInfoProps {
   nickname: string;
   profileImage: string;
@@ -18,7 +19,9 @@ export default function UserInfo({
       ></img>
       <div className="ml-2">
         <div className="text-sm">{nickname}</div>
-        <div className="font-light text-xs text-y-lightGray">{date}</div>
+        <div className="font-light text-xs text-y-lightGray">
+          {ToDateString(date)}
+        </div>
       </div>
     </div>
   );
