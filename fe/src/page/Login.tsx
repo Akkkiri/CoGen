@@ -20,8 +20,16 @@ export default function Login() {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     //제거
     console.log(data);
-    dispatch(signInAsync(data));
-    navigate("/");
+    dispatch(signInAsync(data)).then((res) => {
+      if (res.type === "auth/getToken/fulfilled") {
+        console.log("fulfilled", res);
+        axios.defaults.headers.common["Authorization"] =
+          res.payload.headers.authorization;
+        navigate("/");
+      } else if (res.type === "auth/getToken/rejected") {
+        setLoginError(true);
+      }
+    });
   };
 
   return (

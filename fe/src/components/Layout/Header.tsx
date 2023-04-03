@@ -1,13 +1,22 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { VscBell } from "react-icons/vsc";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal";
 import NotifyModal from "./NotifyModal";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { accessToken } from "store/modules/authSlice";
+import axios from "api/axios";
 
 export default function Header() {
   const [isSearching, setIsSearching] = useState(false);
   const [isNotifying, setIsNotifying] = useState(false);
+
+  const TOKEN = useSelector(accessToken);
+
+  useEffect(() => {
+    axios.defaults.headers.common["Authorization"] = TOKEN;
+  }, [TOKEN]);
 
   return (
     <header className="sticky top-0 z-10 bg-white w-full px-4 py-2 border-b border-y-lightGray">
