@@ -3,40 +3,65 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Gmarket Sans";
-  font-style: normal;
-  font-weight: 700;
-  src: local("Gmarket Sans Bold"), local("GmarketSans-Bold"),
-    url("http://script.ebay.co.kr/fonts/GmarketSansBold.woff2") format("woff2"),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */
-      url("http://script.ebay.co.kr/fonts/GmarketSansBold.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-}
-@font-face {
-  font-family: "Gmarket Sans";
-  font-style: normal;
-  font-weight: 500;
-  src: local("Gmarket Sans Medium"), local("GmarketSans-Medium"),
-    url("http://script.ebay.co.kr/fonts/GmarketSansMedium.woff2")
-      format("woff2"),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */
-      url("http://script.ebay.co.kr/fonts/GmarketSansMedium.woff")
-      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-}
-@font-face {
-  font-family: "Gmarket Sans";
-  font-style: normal;
+  font-family: "GmarketSans";
   font-weight: 300;
-  src: local("Gmarket Sans Light"), local("GmarketSans-Light"),
-    url("http://script.ebay.co.kr/fonts/GmarketSansLight.woff2") format("woff2"),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */
-      url("http://script.ebay.co.kr/fonts/GmarketSansLight.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  font-style: normal;
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.eot");
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.woff")
+      format("woff"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.ttf")
+      format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "GmarketSans";
+  font-weight: 500;
+  font-style: normal;
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot");
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff")
+      format("woff"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf")
+      format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "GmarketSans";
+  font-weight: 700;
+  font-style: normal;
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.eot");
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.woff")
+      format("woff"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.ttf")
+      format("truetype");
+  font-display: swap;
 }
 
 @layer components {
   .btn-r {
-    @apply bg-y-red text-white rounded-lg py-2 px-4 m-1;
+    @apply bg-y-red text-white rounded-lg py-2 px-4 m-1 focus:outline-none hover:bg-red-600;
   }
   .btn-g {
-    @apply bg-y-lightGray text-white rounded-lg py-2 px-4 m-1;
+    @apply bg-y-lightGray text-white rounded-lg py-2 px-4 m-1 focus:outline-none hover:bg-neutral-500;
+  }
+  .btn-p {
+    @apply bg-y-purple text-white rounded-lg py-2 px-4 m-1 focus:outline-none hover:bg-violet-700;
+  }
+  .input-basic {
+    @apply border border-y-lightGray rounded-lg p-2 focus:outline-y-red font-thin;
+  }
+  .radio-peer {
+    @apply rounded-lg py-1 border-2 border-y-red text-center peer-checked:bg-y-red peer-checked:text-white;
   }
 }
