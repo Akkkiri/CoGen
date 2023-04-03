@@ -17,7 +17,10 @@ export default function QnaContainer({
     >
       <div>"{question}"</div>
       {answer.map((el, idx) => (
-        <div key={idx} className="bg-white rounded-lg p-2 mt-2 font-light">
+        <div
+          key={idx}
+          className="bg-white text-sm rounded-lg p-2 mt-2 font-light"
+        >
           {el}
         </div>
       ))}

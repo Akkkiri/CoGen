@@ -10,6 +10,7 @@ import MyPost from "page/mypage/MyPost";
 import MyQna from "page/mypage/MyQna";
 import MyQuestion from "page/mypage/MyQuestion";
 import Post from "page/post/Post";
+import PostDetail from "page/post/PostDetail";
 import Question from "page/Question";
 import Quiz from "page/Quiz";
 import Info from "page/signup/Info";
@@ -23,6 +24,7 @@ export default function RoutesComponent() {
       <Route path="/" element={<Home />} />
       <Route path="/question" element={<Question />} />
       <Route path="/post" element={<Post />} />
+      <Route path="/post/:PostId" element={<PostDetail />} />
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/mypage" element={<Mypage />} />
       <Route path="/login" element={<Login />} />
