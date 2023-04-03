@@ -47,7 +47,7 @@ export default function CategorySwiper({
               htmlFor={el}
               className={`${
                 checked === el
-                  ? "border-2 border-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
+                  ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
                   : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
               }`}
             >
