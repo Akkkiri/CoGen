@@ -1,7 +1,7 @@
 export type Select =
   | "new"
   | "likes"
-  | "comments"
+  | "view"
   | "WORRY"
   | "TIP"
   | "PLACE"
@@ -16,8 +16,8 @@ export const SelectBoxMatcher = (str: string) => {
       return "new";
     case "공감순":
       return "likes";
-    case "댓글많은순":
-      return "comments";
+    case "조회순":
+      return "view";
     case "고민":
       return "WORRY";
     case "꿀팁":
