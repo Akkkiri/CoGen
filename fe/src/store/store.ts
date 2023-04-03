@@ -2,7 +2,6 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./modules/authSlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { persistStore } from "redux-persist";
 
 const persistConfig = {
   key: "root",
@@ -25,12 +24,12 @@ export const store = configureStore({
           "persist/PERSIST",
           "auth/getToken/fulfilled",
           "auth/getToken/rejected",
+          "auth/getNewToken/fulfilled",
+          "auth/getNewToken/rejected",
         ],
       },
     }),
 });
-
-export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
