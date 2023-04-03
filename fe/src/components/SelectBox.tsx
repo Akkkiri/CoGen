@@ -35,7 +35,7 @@ export default function SelectBox({ type, setSelect }: SortBoxProps) {
   };
 
   return (
-    <div className="">
+    <div className="pb-2">
       <button
         onClick={() => setShowModal(!showModal)}
         className="flex items-center w-28 border border-y-lightGray rounded-xl py-1.5 px-2"

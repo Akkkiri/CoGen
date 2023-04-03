@@ -1,8 +1,16 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import MainPostContainer from "../MainPostContainer";
-export default function BestPost() {
+import UserInfo from "../user/UserInfo";
+import { IoHeartOutline, IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+
+export default function BestPost({ bestPostProps }: any) {
+  const [bestPost, setBestPost] = useState<any>();
+  useEffect(() => {
+    if (bestPostProps !== undefined) setBestPost(bestPostProps);
+  }, [bestPostProps]);
   return (
     <div>
       <div className="flex gap-2">
@@ -11,26 +19,56 @@ export default function BestPost() {
           alt="logo"
           className="w-9 h-6 self-center"
         ></img>
-        <div className="text-lg"> 이번주 질문</div>
+        <div className="text-lg"> 인기 게시글</div>
       </div>
 
       <Swiper
-        spaceBetween={10}
-        slidesPerView={1.5}
+        spaceBetween={3}
+        slidesPerView={1.4}
         grabCursor={true}
         scrollbar={{ draggable: true }}
         navigation
         pagination={{ clickable: true }}
       >
-        <SwiperSlide>
-          <MainPostContainer
-            title={"내일 점심에 뭘 먹는게 좋을까요?"}
-            contents={
-              "본문은 이렇게 길게 쓸 수도 있으니까요! 내일 점심에 다들 맛있는거 드시길 바라요! 저는 개인적으로 김치볶음밥이 먹고싶은데 과연 엄마와 마음이 통할지 모르겠어요!! 우리 이거 다 먹고살자고 하는 일이니까 부디 밥 꼭 챙겨드시길 바라요. 내일 만나요!ㅎㅎ"
-            }
-            idx={1}
-          />
-        </SwiperSlide>
+        {bestPost?.map((el: any, idx: number) => (
+          <SwiperSlide key={idx}>
+            <NavLink to={`/post/${el.feedId}`}>
+              <div className="p-2">
+                <div
+                  className={`${
+                    idx % 2 === 0
+                      ? "bg-y-sky rounded-2xl"
+                      : "bg-y-pink rounded-2xl"
+                  } p-4`}
+                >
+                  <div className="truncate">{el.title}</div>
+                  <div className="h-20">
+                    <div className="my-2 text-sm font-light break-all overflow-hidden line-clamp-3">
+                      {el.body}
+                    </div>
+                  </div>
+                  <div className="flex justify-between">
+                    <UserInfo
+                      nickname={el.nickname}
+                      profileImage={el.profileImage}
+                      date={el.createdAt}
+                    />
+                    <div className="flex text-xs gap-2">
+                      <div className="flex self-center">
+                        <IoHeartOutline className="self-center text-lg" />
+                        {el.likeCount}
+                      </div>
+                      <div className="flex self-center">
+                        <IoChatbubbleEllipsesOutline className="self-center text-lg" />
+                        {el.commentCount}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </NavLink>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

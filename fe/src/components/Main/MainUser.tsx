@@ -13,7 +13,7 @@ export default function MainUser({
   level,
   point,
 }: UserProfileProps) {
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   return (
     <div className="p-2 mx-2 my-4 rounded-xl border-2 border-y-lightGray">
       <div>
