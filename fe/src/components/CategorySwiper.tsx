@@ -3,9 +3,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 type categoryProps = {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
+  checked: string | undefined;
 };
 
-export default function CategorySwiper({ setSelected }: categoryProps) {
+export default function CategorySwiper({
+  setSelected,
+  checked,
+}: categoryProps) {
   const categoryList = [
     "전체",
     "고민",
@@ -41,7 +45,11 @@ export default function CategorySwiper({ setSelected }: categoryProps) {
             />
             <label
               htmlFor={el}
-              className={`text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center peer-checked: border peer-checked:border-y-red`}
+              className={`${
+                checked === el
+                  ? "border-2 border-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
+                  : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+              }`}
             >
               {el}
             </label>

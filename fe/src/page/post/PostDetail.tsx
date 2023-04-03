@@ -6,6 +6,7 @@ import { Select, SelectBoxMatcher } from "../../util/SelectUtil";
 import PostDetailContainer from "../../components/PostDetailContainer";
 import CommentContainer from "../../components/CommentContainer";
 import axios from "../../api/axios";
+import SmallInput from "../../components/Inputs/SmallInput";
 export default function PostDetail() {
   const { PostId } = useParams();
   const [comment, setComment] = useState<Select>("new");
@@ -16,9 +17,10 @@ export default function PostDetail() {
   const [postProfileImage, setPostProfileImage] = useState<string>("");
   const [viwe, SetView] = useState<number>(0);
   const [postDate, setPostDate] = useState<string>("");
-  const [postComment, setPostComment] = useState([]);
+  const [postComments, setPostComments] = useState([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [inputState, setInputState] = useState<string>("");
   useEffect(() => {
     axios.get(`/feeds/${PostId}`).then((response) => {
       setTitle(response.data.title);
@@ -35,10 +37,17 @@ export default function PostDetail() {
       .get(`/feeds/${PostId}/comments?sort=${comment}&page=${page}`)
       .then((response) => {
         console.log(response.data);
-        setPostComment(response.data.data);
+        setPostComments(response.data.data);
         setTotalPages(response.data.pageInfo.totalPages);
       });
   }, [PostId, page, comment]);
+  const postComment = () => {
+    const reqBody = { content: inputState };
+    axios
+      .post(`/feeds/1/comments/add`, reqBody)
+      .then((response) => {})
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
@@ -55,8 +64,14 @@ export default function PostDetail() {
           view={viwe}
         />
         <div className="p-2">
+          <SmallInput
+            inputState={inputState}
+            setInputState={setInputState}
+            placeholder={"답변을 작성해주세요."}
+            postFunc={postComment}
+          />
           <SelectBox setSelect={setComment} type={"comment"} />
-          {postComment.map((el: any) => (
+          {postComments.map((el: any) => (
             <div key={el.commentId}>
               <CommentContainer
                 contents={el.body}

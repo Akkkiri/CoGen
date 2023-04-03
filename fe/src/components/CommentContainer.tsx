@@ -17,7 +17,7 @@ export default function CommentContainer({
   like,
 }: CommentContainerProps) {
   return (
-    <div className="py-2">
+    <div className="pb-2">
       <div className="p-4 border border-y-lightGray rounded-xl">
         <UserInfo nickname={nickname} profileImage={profileImage} date={date} />
         <div className="mt-2 text-sm font-light">{contents}</div>

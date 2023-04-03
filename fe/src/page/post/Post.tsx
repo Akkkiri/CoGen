@@ -30,7 +30,7 @@ export default function Post() {
         게시판
       </h1>
       <div className="p-2 border-b border-y-lightGray">
-        <CategorySwiper setSelected={setCategory} />
+        <CategorySwiper setSelected={setCategory} checked={category} />
       </div>
       <div className="p-2 border-b border-y-lightGray">
         <SelectBox setSelect={setSort} type={"sort"} />

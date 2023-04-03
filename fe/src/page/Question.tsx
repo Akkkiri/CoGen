@@ -30,14 +30,14 @@ export default function Question() {
   useEffect(() => {
     axios
       .get(
-        `questions/${questionId}/answer/list?sort=new&page=
+        `questions/${questionId}/answer/list?sort=${sort}&page=
       ${page}`
       )
       .then((response) => {
         setQuestComment(response.data.data);
         setTotalPages(response.data.pageInfo.totalPages);
       });
-  }, [page, questionId]);
+  }, [page, questionId, sort]);
 
   return (
     <>
@@ -54,7 +54,7 @@ export default function Question() {
         />
       </div>
       <div className="p-2">
-        <SelectBox setSelect={setSort} type={"sort"} />
+        <SelectBox setSelect={setSort} type={"comment"} />
         {questComment.map((el: any) => (
           <div key={el.answerId}>
             <CommentContainer
