@@ -15,7 +15,7 @@ export default function SelectBox({ type, setSelect }: SortBoxProps) {
   useEffect(() => {
     if (type === "sort") {
       setCurChoice("최신순");
-      setList(["최신순", "공감순", "댓글많은순"]);
+      setList(["최신순", "공감순", "조회순"]);
     } else if (type === "comment") {
       setCurChoice("최신순");
       setList(["최신순", "공감순"]);
