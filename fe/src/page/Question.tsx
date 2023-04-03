@@ -44,7 +44,7 @@ export default function Question() {
       <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
         이번주 질문
       </h1>
-      <div className="py-6 text-center border-b border-y-lightGray">
+      <div className="py-6 text-center border-b border-y-lightGray p-2">
         <div className="text-lg">"{weeklyQuestions}"</div>
         <SmallInput
           inputState={inputState}
