@@ -1,10 +1,10 @@
 import Level from "./Level";
 
-interface UserProfileProps {
+export interface UserProfileProps {
   nickname: string;
   profileImage: string;
   level: number;
-  point: number;
+  ariFactor: number;
   friendsNum: number;
   isMine?: boolean;
 }
@@ -13,7 +13,7 @@ export default function UserProfile({
   nickname,
   profileImage,
   level,
-  point,
+  ariFactor,
   friendsNum,
   isMine,
 }: UserProfileProps) {
@@ -34,7 +34,7 @@ export default function UserProfile({
             친구 {friendsNum}
           </button>
         </div>
-        <Level level={level} point={point} />
+        <Level level={level} ariFactor={ariFactor} />
         {/* 추후 isMine import 필요 */}
         {isMine ? (
           <button

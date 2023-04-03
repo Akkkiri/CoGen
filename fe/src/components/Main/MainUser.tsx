@@ -4,14 +4,14 @@ interface UserProfileProps {
   nickname: string;
   profileImage: string;
   level: number;
-  point: number;
+  ariFactor: number;
 }
 
 export default function MainUser({
   nickname,
   profileImage,
   level,
-  point,
+  ariFactor,
 }: UserProfileProps) {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   return (
@@ -34,7 +34,7 @@ export default function MainUser({
             <div className="flex justify-between">
               <span>{nickname}</span>
             </div>
-            <Level level={level} point={point} />
+            <Level level={level} ariFactor={ariFactor} />
           </div>
         </div>
       ) : (
