@@ -94,6 +94,7 @@ public class FeedDto {
 		private String body;
 		private String userId;
 		private String nickname;
+		private String hashcode;
 		private Long commentCount;
 		private Long likeCount;
 		private Long viewCount;
@@ -130,6 +131,7 @@ public class FeedDto {
 		private String body;
 		private String userId;
 		private String nickname;
+		private String hashcode;
 		private String profileImage;
 		private String thumbnailPath;
 		private Long commentCount;

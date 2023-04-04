@@ -1,9 +1,10 @@
 package ewha.backend.Controller;
 
 import static ewha.backend.Controller.constant.AnswerControllerConstant.*;
-import static ewha.backend.Controller.constant.CommentControllerConstant.*;
 import static ewha.backend.Controller.utils.ApiDocumentUtils.*;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.anyInt;
+import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -30,9 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 
-import ewha.backend.domain.comment.dto.CommentDto;
-import ewha.backend.domain.comment.entity.Comment;
-import ewha.backend.domain.like.service.LikeService;
 import ewha.backend.domain.question.dto.AnswerDto;
 import ewha.backend.domain.question.entity.Answer;
 import ewha.backend.domain.question.mapper.AnswerMapper;

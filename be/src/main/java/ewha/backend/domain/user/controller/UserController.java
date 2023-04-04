@@ -230,10 +230,10 @@ public class UserController {
 	 */
 
 	@GetMapping("/users/{user_id}")
-	public ResponseEntity<UserDto.Response> getUserPage(@PathVariable("user_id") Long userId) {
+	public ResponseEntity<UserDto.UserPageResponse> getUserPage(@PathVariable("user_id") Long userId) {
 
 		User findUser = userService.getUser(userId);
-		UserDto.Response response = userMapper.userToUserResponse(findUser);
+		UserDto.UserPageResponse response = userMapper.userToUserPageResponse(findUser);
 
 		return ResponseEntity.ok().body(response);
 	}

@@ -23,13 +23,18 @@ public interface CommentMapper {
 
 		User user = comment.getUser();
 
+		String[] nick = user.getNickname().split("#");
+		String nickPre = nick[0];
+		String nickSuf = "#" + nick[1];
+
 		return CommentDto.Response.builder()
 			.commentId(comment.getId())
 			.feedId(comment.getFeed().getId())
 			.userInfo(UserDto.BasicResponse.builder()
 				.id(user.getId())
 				.userId(user.getUserId())
-				.nickname(user.getNickname())
+				.nickname(nickPre)
+				.hashcode(nickSuf)
 				.level(user.getLevel())
 				.profileImage(user.getProfileImage())
 				.thumbnailPath(user.getThumbnailPath())
@@ -45,13 +50,18 @@ public interface CommentMapper {
 
 		User user = comment.getUser();
 
+		String[] nick = user.getNickname().split("#");
+		String nickPre = nick[0];
+		String nickSuf = "#" + nick[1];
+
 		return CommentDto.GetResponse.builder()
 			.commentId(comment.getId())
 			.feedId(comment.getFeed().getId())
 			.userInfo(UserDto.BasicResponse.builder()
 				.id(user.getId())
 				.userId(user.getUserId())
-				.nickname(user.getNickname())
+				.nickname(nickPre)
+				.hashcode(nickSuf)
 				.level(user.getLevel())
 				.profileImage(user.getProfileImage())
 				.thumbnailPath(user.getThumbnailPath())

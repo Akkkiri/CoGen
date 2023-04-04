@@ -29,7 +29,7 @@ public class AnswerControllerConstant {
 	public static final AnswerDto.ListResponse ANSWER_LIST_RESPONSE =
 		AnswerDto.ListResponse.builder()
 			.answerId(1L)
-			.userNickname("사용자 닉네임")
+			.nickname("사용자 닉네임")
 			.profileImage("사용자 프로필 이미지")
 			.thumbnailPath("썸네일 경로")
 			.answerBody("답변 내용")

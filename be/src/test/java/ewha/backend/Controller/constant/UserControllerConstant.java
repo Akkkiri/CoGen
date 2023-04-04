@@ -12,6 +12,7 @@ import ewha.backend.domain.feed.dto.FeedDto;
 import ewha.backend.domain.question.dto.AnswerDto;
 import ewha.backend.domain.question.dto.QuestionDto;
 import ewha.backend.domain.user.dto.UserDto;
+import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.entity.enums.AgeType;
 import ewha.backend.domain.user.entity.enums.GenderType;
 import ewha.backend.global.security.dto.LoginDto;
@@ -24,6 +25,14 @@ public class UserControllerConstant {
 			.nickname("닉네임")
 			.password("12345678a")
 			.passwordRepeat("12345678a")
+			.build();
+
+	public static final UserDto.Post PASSWORD_NOT_MATCH_POST_USER_DTO =
+		UserDto.Post.builder()
+			.userId("01012345678")
+			.nickname("닉네임")
+			.password("12345678a")
+			.passwordRepeat("12345678")
 			.build();
 
 	public static final UserDto.PostResponse POST_USER_RESPONSE_DTO =

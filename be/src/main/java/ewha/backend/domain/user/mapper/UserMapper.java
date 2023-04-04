@@ -28,9 +28,14 @@ public interface UserMapper {
 
 		UserDto.Response.ResponseBuilder responseBuilder = UserDto.Response.builder();
 
+		String[] nick = user.getNickname().split("#");
+		String nickPre = nick[0];
+		String nickSuf = "#" + nick[1];
+
 		responseBuilder.id(user.getId());
 		responseBuilder.userId(user.getUserId());
-		responseBuilder.nickname(user.getNickname());
+		responseBuilder.nickname(nickPre);
+		responseBuilder.hashcode(nickSuf);
 		responseBuilder.genderType(user.getGenderType());
 		responseBuilder.ageType(user.getAgeType());
 		responseBuilder.ariFactor(user.getAriFactor());
@@ -72,14 +77,44 @@ public interface UserMapper {
 
 		UserDto.MyPageResponse.MyPageResponseBuilder myPageResponseBuilder = UserDto.MyPageResponse.builder();
 
+		String[] nick = user.getNickname().split("#");
+		String nickPre = nick[0];
+		String nickSuf = "#" + nick[1];
+
 		myPageResponseBuilder.userId(user.getUserId());
-		myPageResponseBuilder.nickname(user.getNickname());
+		myPageResponseBuilder.nickname(nickPre);
+		myPageResponseBuilder.hashcode(nickSuf);
 		myPageResponseBuilder.level(user.getLevel());
 		myPageResponseBuilder.ariFactor(user.getAriFactor());
+		myPageResponseBuilder.friendsNum(user.getFollowingCount());
 		myPageResponseBuilder.profileImage(user.getProfileImage());
 		myPageResponseBuilder.thumbnailPath(user.getThumbnailPath());
 
 		return myPageResponseBuilder.build();
+	}
+
+	default UserDto.UserPageResponse userToUserPageResponse(User user) {
+
+		if (user == null) {
+			return null;
+		}
+
+		UserDto.UserPageResponse.UserPageResponseBuilder userPageResponseBuilder = UserDto.UserPageResponse.builder();
+
+		String[] nick = user.getNickname().split("#");
+		String nickPre = nick[0];
+		String nickSuf = "#" + nick[1];
+
+		userPageResponseBuilder.userId(user.getUserId());
+		userPageResponseBuilder.nickname(nickPre);
+		userPageResponseBuilder.hashcode(nickSuf);
+		userPageResponseBuilder.level(user.getLevel());
+		userPageResponseBuilder.ariFactor(user.getAriFactor());
+		userPageResponseBuilder.friendsNum(user.getFollowingCount());
+		userPageResponseBuilder.profileImage(user.getProfileImage());
+		userPageResponseBuilder.thumbnailPath(user.getThumbnailPath());
+
+		return userPageResponseBuilder.build();
 	}
 
 	LoginDto.ResponseDto userToLoginResponse(User user);

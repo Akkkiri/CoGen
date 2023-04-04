@@ -50,11 +50,16 @@ public interface FeedMapper {
 
 		User findUser = feed.getUser();
 
+		String[] nick = findUser.getNickname().split("#");
+		String nickPre = nick[0];
+		String nickSuf = "#" + nick[1];
+
 		UserDto.BasicResponse basicResponse =
 			UserDto.BasicResponse.builder()
 				.id(findUser.getId())
 				.userId(findUser.getUserId())
-				.nickname(findUser.getNickname())
+				.nickname(nickPre)
+				.hashcode(nickSuf)
 				.level(findUser.getLevel())
 				.profileImage(findUser.getProfileImage())
 				.thumbnailPath(findUser.getThumbnailPath())
@@ -153,10 +158,16 @@ public interface FeedMapper {
 
 		return new PageImpl<>(feedList.stream()
 			.map(feed -> {
+
+				String[] nick = feed.getUser().getNickname().split("#");
+				String nickPre = nick[0];
+				String nickSuf = "#" + nick[1];
+
 				return FeedDto.ListResponse.builder()
 					.feedId(feed.getId())
 					.userId(feed.getUser().getUserId())
-					.nickname(feed.getUser().getNickname())
+					.nickname(nickPre)
+					.hashcode(nickSuf)
 					.title(feed.getTitle())
 					.body(feed.getBody())
 					.category(feed.getCategory().getCategoryType().toString())
@@ -175,6 +186,7 @@ public interface FeedMapper {
 
 		return new CustomPage<>(feedList.stream()
 			.map(feed -> {
+
 				return FeedDto.ListResponse.builder()
 					.feedId(feed.getId())
 					.title(feed.getTitle())
@@ -196,12 +208,18 @@ public interface FeedMapper {
 
 		return feedList.stream()
 			.map(feed -> {
+
+				String[] nick = feed.getUser().getNickname().split("#");
+				String nickPre = nick[0];
+				String nickSuf = "#" + nick[1];
+
 				return FeedDto.BestResponse.builder()
 					.feedId(feed.getId())
 					.title(feed.getTitle())
 					.body(feed.getBody())
 					.userId(feed.getUser().getUserId())
-					.nickname(feed.getUser().getNickname())
+					.nickname(nickPre)
+					.hashcode(nickSuf)
 					.profileImage(feed.getUser().getProfileImage())
 					.thumbnailPath(feed.getUser().getThumbnailPath())
 					.commentCount(feed.getCommentCount())

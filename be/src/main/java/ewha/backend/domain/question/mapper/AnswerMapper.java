@@ -36,8 +36,13 @@ public interface AnswerMapper {
 			.map(answer -> {
 				AnswerDto.ListResponse.ListResponseBuilder listResponseBuilder = AnswerDto.ListResponse.builder();
 
+				String[] nick = answer.getUser().getNickname().split("#");
+				String nickPre = nick[0];
+				String nickSuf = "#" + nick[1];
+
 				listResponseBuilder.answerId(answer.getId());
-				listResponseBuilder.userNickname(answer.getUser().getNickname());
+				listResponseBuilder.nickname(nickPre);
+				listResponseBuilder.hashcode(nickSuf);
 				listResponseBuilder.profileImage(answer.getUser().getProfileImage());
 				listResponseBuilder.thumbnailPath(answer.getUser().getThumbnailPath());
 				listResponseBuilder.answerBody(answer.getAnswerBody());

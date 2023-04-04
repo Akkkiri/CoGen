@@ -88,6 +88,7 @@ public class UserDto {
 		private Long id;
 		private String userId;
 		private String nickname;
+		private String hashcode;
 		private Integer level;
 		private String profileImage;
 		private String thumbnailPath;
@@ -125,8 +126,25 @@ public class UserDto {
 	public static class MyPageResponse {
 		private String userId;
 		private String nickname;
+		private String hashcode;
 		private Integer level;
 		private Integer ariFactor;
+		private Long friendsNum;
+		private String profileImage;
+		private String thumbnailPath;
+	}
+
+	@Getter
+	@Builder
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class UserPageResponse {
+		private String userId;
+		private String nickname;
+		private String hashcode;
+		private Integer level;
+		private Integer ariFactor;
+		private Long friendsNum;
 		private String profileImage;
 		private String thumbnailPath;
 	}
@@ -155,6 +173,7 @@ public class UserDto {
 		private Long id;
 		private String userId;
 		private String nickname;
+		private String hashcode;
 		private GenderType genderType;
 		private AgeType ageType;
 		// private List<Qna> qnas;

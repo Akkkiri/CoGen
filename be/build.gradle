@@ -82,8 +82,9 @@ dependencies {
 //    runtimeOnly 'mysql:mysql-connector-java:8.0.28'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis' // Redis
 //    implementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2' // 내장 Redis
-    //    ---------------------------------------QUERY DSL--------------------------------------------
+    //    -----------------------------------------TEST-----------------------------------------------
     implementation 'org.springframework.boot:spring-boot-starter-test' // JUnit4 Test
+    testImplementation 'org.mockito:mockito-junit-jupiter'
     testImplementation 'org.springframework.security:spring-security-test' // Spring Security Test
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' // Spring Rest Docs
     asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor' // Spring Rest Docs

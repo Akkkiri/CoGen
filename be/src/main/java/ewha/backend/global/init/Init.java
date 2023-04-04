@@ -9,6 +9,7 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,17 +82,25 @@ public class Init {
 
 		List<User> userList = new ArrayList<>();
 
-		for (int i = 1; i <= 20; i++) {
+		for (int i = 10; i <= 30; i++) {
 
 			Long rand = (long)(Math.random() * 50) + 1;
 			Long rand2 = (long)(Math.random() * 50) + 1;
 
+			Random rand3 = new Random();
+			StringBuilder hashcode = new StringBuilder();
+			hashcode.append('#');
+			for (int j = 0; j < 6; j++) {
+				String ran = Integer.toString(rand3.nextInt(10));
+				hashcode.append(ran);
+			}
+
 			User user = User.builder()
-				.userId("asdfasdf" + i)
+				.userId("010123456" + i)
 				.level(rand.intValue())
 				.ariFactor(rand2.intValue())
 				.password(encoder.encode("1234"))
-				.nickname("닉네임" + i)
+				.nickname("닉네임" + hashcode)
 				.role(List.of("ROLE_USER"))
 				.isFirstLogin(false)
 				.genderType(GenderType.MALE)
