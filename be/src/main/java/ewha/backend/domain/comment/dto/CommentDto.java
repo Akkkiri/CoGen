@@ -100,6 +100,9 @@ public class CommentDto {
 
 		private Long commentId;
 		private Long feedId;
+		private String nickname;
+		private String profileImage;
+		private String thumbnailPath;
 		private String body;
 		private Long likeCount;
 		private LocalDateTime createdAt;

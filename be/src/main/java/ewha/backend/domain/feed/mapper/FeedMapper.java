@@ -92,9 +92,15 @@ public interface FeedMapper {
 
 		return new PageImpl<>(feedPage.stream()
 			.map(feed -> {
+
+				String[] nick = feed.getUser().getNickname().split("#");
+				String nickPre = nick[0];
+				String nickSuf = "#" + nick[1];
+
 				return FeedDto.PageResponse.builder()
 					.feedId(feed.getId())
 					.userId(feed.getUser().getUserId())
+					.nickname(nickPre)
 					.title(feed.getTitle())
 					.body(feed.getBody())
 					.category(feed.getCategory().getCategoryType().toString())
@@ -114,9 +120,15 @@ public interface FeedMapper {
 
 		return new PageImpl<>(feedPage.stream()
 			.map(feed -> {
+
+				String[] nick = feed.getUser().getNickname().split("#");
+				String nickPre = nick[0];
+				String nickSuf = "#" + nick[1];
+
 				return FeedDto.PageResponse.builder()
 					.feedId(feed.getId())
 					.userId(feed.getUser().getUserId())
+					.nickname(nickPre)
 					.title(feed.getTitle())
 					.body(feed.getBody())
 					.category(feed.getCategory().getCategoryType().toString())
@@ -136,9 +148,15 @@ public interface FeedMapper {
 
 		return new PageImpl<>(feedList.stream()
 			.map(feed -> {
+
+				String[] nick = feed.getUser().getNickname().split("#");
+				String nickPre = nick[0];
+				String nickSuf = "#" + nick[1];
+
 				return FeedDto.ListResponse.builder()
 					.feedId(feed.getId())
 					.userId(feed.getUser().getUserId())
+					.nickname(nickPre)
 					.title(feed.getTitle())
 					.body(feed.getBody())
 					.category(feed.getCategory().getCategoryType().toString())

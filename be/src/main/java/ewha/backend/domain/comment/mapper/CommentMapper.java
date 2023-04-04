@@ -83,9 +83,17 @@ public interface CommentMapper {
 
 		return new PageImpl<>(commentList.stream()
 			.map(comment -> {
+
+				String[] nick = comment.getUser().getNickname().split("#");
+				String nickPre = nick[0];
+				String nickSuf = "#" + nick[1];
+
 				return CommentDto.ListResponse.builder()
 					.feedId(comment.getFeed().getId())
 					.commentId(comment.getId())
+					.nickname(nickPre)
+					.profileImage(comment.getUser().getProfileImage())
+					.thumbnailPath(comment.getUser().getThumbnailPath())
 					.body(comment.getBody())
 					.likeCount(comment.getLikeCount())
 					.createdAt(comment.getCreatedAt())

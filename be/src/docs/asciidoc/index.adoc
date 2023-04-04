@@ -13,7 +13,7 @@
 
 연락처: bangserin980302@gmail.com
 
-v1.0.8, 2023.4.4
+v1.0.9, 2023.4.4
 
 ***
 
@@ -163,19 +163,19 @@ include::{snippets}/Get_MyPage/response-fields.adoc[]
 === 마이 페이지: 피드
 
 .Curl-Request
-include::{snippets}/Get_User_Feeds/curl-request.adoc[]
+include::{snippets}/Get_My_Feeds/curl-request.adoc[]
 
 .Http-Request
-include::{snippets}/Get_User_Feeds/http-request.adoc[]
+include::{snippets}/Get_My_Feeds/http-request.adoc[]
 
 .Request-Parameters
-include::{snippets}/Get_User_Feeds/request-parameters.adoc[]
+include::{snippets}/Get_My_Feeds/request-parameters.adoc[]
 
 .Http-Response
-include::{snippets}/Get_User_Feeds/http-response.adoc[]
+include::{snippets}/Get_My_Feeds/http-response.adoc[]
 
 .Response-Fields
-include::{snippets}/Get_User_Feeds/response-fields.adoc[]
+include::{snippets}/Get_My_Feeds/response-fields.adoc[]
 
 === 마이 페이지: 문답
 
