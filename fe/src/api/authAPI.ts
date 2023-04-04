@@ -1,5 +1,7 @@
 import axios from "api/axios";
 import { persistor } from "index";
+import { useAppDispatch } from "store/hook";
+import { getNewTokenAsync } from "store/modules/authSlice";
 
 // 만료 시간 (밀리초)
 const ACCESS_EXPIRY_TIME = 3 * 60 * 60 * 1000; // 3시간
@@ -42,10 +44,21 @@ const authAPI = {
   logout: () => {
     return resetUserData();
   },
+  // refreshToken: () => {
+  //   return new Promise((resolve) => {
+  //     return axios
+  //       .get("/api/token/refresh")
+  //       .then((res) => {
+  //         signInSuccess(res);
+  //         return resolve(res);
+  //       })
+  //       .catch(() => authAPI.logout());
+  //   });
+  // },
   refreshToken: () => {
     return new Promise((resolve) => {
-      return axios
-        .get("/api/token/refresh")
+      const dispatch = useAppDispatch();
+      dispatch(getNewTokenAsync())
         .then((res) => {
           signInSuccess(res);
           return resolve(res);

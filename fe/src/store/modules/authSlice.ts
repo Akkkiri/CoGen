@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
 import authAPI from "api/authAPI";
 import { RootState } from "store/store";
+import axios from "api/axios";
 
 const initialState = {
   loading: false,
@@ -28,7 +29,7 @@ export const getNewTokenAsync = createAsyncThunk(
   "auth/getNewToken",
   async (_, thunkAPI) => {
     try {
-      const response: any = await authAPI.refreshToken();
+      const response: any = await axios.get("/api/token/refresh");
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
