@@ -3,7 +3,6 @@ import BestPost from "../components/Main/BestPost";
 import MainQnaContainer from "../components/Main/MainQnaContainer";
 import MainQuizContainer from "../components/Main/MainQuizContainer";
 import MainUser from "../components/Main/MainUser";
-
 import axios from "../api/axios";
 export default function Home() {
   const [weeklyQuestions, SetWeeklyQuestions] = useState<string>("");
