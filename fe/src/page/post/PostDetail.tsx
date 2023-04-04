@@ -7,6 +7,8 @@ import PostDetailContainer from "../../components/PostDetailContainer";
 import CommentContainer from "../../components/CommentContainer";
 import axios from "../../api/axios";
 import SmallInput from "../../components/Inputs/SmallInput";
+import CloseBtn from "../../components/Layout/CloseBtn";
+
 export default function PostDetail() {
   const { PostId } = useParams();
   const [comment, setComment] = useState<Select>("new");
@@ -50,9 +52,11 @@ export default function PostDetail() {
   };
   return (
     <>
-      <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
-        게시판
-      </h1>
+      <div className="p-3 border-b border-y-lightGray">
+        <CloseBtn />
+        <h1 className="text-center text-xl">게시판</h1>
+      </div>
+
       <div>
         <PostDetailContainer
           title={title}

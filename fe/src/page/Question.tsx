@@ -7,7 +7,7 @@ import Pagenation from "../components/Pagenation";
 import axios from "../api/axios";
 export default function Question() {
   const [weeklyQuestions, SetWeeklyQuestions] = useState<string>("");
-  const [questionId, setQuestionId] = useState<string>();
+  const [questionId, setQuestionId] = useState<number>(0);
   const [questComment, setQuestComment] = useState([]);
   const [inputState, setInputState] = useState<string>("");
   const [sort, setSort] = useState<Select>("new");
@@ -16,7 +16,7 @@ export default function Question() {
   const postQuestion = () => {
     const reqBody = { content: inputState };
     axios
-      .post(`/questions/1/answer/add`, reqBody)
+      .post(`/questions/${questionId}/answer/add`, reqBody)
       .then((response) => {})
       .catch((err) => console.log(err));
   };
