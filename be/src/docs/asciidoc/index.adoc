@@ -13,7 +13,7 @@
 
 연락처: bangserin980302@gmail.com
 
-v1.0.7, 2023.3.31
+v1.0.8, 2023.4.4
 
 ***
 
@@ -242,6 +242,20 @@ include::{snippets}/Get_My_Comments/http-response.adoc[]
 
 .Response-Fields
 include::{snippets}/Get_My_Comments/response-fields.adoc[]
+
+=== 다른 사용자 페이지
+
+.Curl-Request
+include::{snippets}/Get_User_Page/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Get_User_Page/http-request.adoc[]
+
+.Http-Response
+include::{snippets}/Get_User_Page/http-response.adoc[]
+
+.Response-Fields
+include::{snippets}/Get_User_Page/response-fields.adoc[]
 
 === 다른 사용자 페이지: 문답
 

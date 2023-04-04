@@ -24,6 +24,7 @@ public class FollowControllerConstants {
 		FollowDto.FollowingResponse.builder()
 			.userId(1L)
 			.nickname("닉네임")
+			.hashcode("#123456")
 			.profileImage("프로필 사진")
 			.thumbnailPath("썸네일 경로")
 			.isFollowing(true)

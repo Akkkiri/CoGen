@@ -30,6 +30,7 @@ public class FollowDto {
 
 		private Long userId;
 		private String nickname;
+		private String hashcode;
 		private String profileImage;
 		private String thumbnailPath;
 		private Boolean isFollowing;

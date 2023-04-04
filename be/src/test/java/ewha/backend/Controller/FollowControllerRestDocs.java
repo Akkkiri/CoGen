@@ -156,7 +156,8 @@ public class FollowControllerRestDocs {
 					List.of(
 						fieldWithPath("data.").type(JsonFieldType.ARRAY).description("결과 데이터"),
 						fieldWithPath(".data[].userId").type(JsonFieldType.NUMBER).description("사용자 아이디"),
-						fieldWithPath(".data[].nickname").type(JsonFieldType.STRING).description("닉네임"),
+						fieldWithPath(".data[].nickname").type(JsonFieldType.STRING).description("사용자 닉네임"),
+						fieldWithPath(".data[].hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
 						fieldWithPath(".data[].profileImage").type(JsonFieldType.STRING).description("프로필 이미지"),
 						fieldWithPath(".data[].thumbnailPath").type(JsonFieldType.STRING).description("썸네일 주소"),
 						fieldWithPath(".data[].isFollowing").type(JsonFieldType.BOOLEAN).description("팔로우 여부"),

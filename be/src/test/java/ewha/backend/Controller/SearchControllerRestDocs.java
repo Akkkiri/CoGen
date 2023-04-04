@@ -84,6 +84,8 @@ public class SearchControllerRestDocs {
 						fieldWithPath("data.").type(JsonFieldType.ARRAY).description("결과 데이터"),
 						fieldWithPath("data[].feedId").type(JsonFieldType.NUMBER).description("피드 번호"),
 						fieldWithPath("data[].userId").type(JsonFieldType.STRING).description("작성자 아이디"),
+						fieldWithPath("data[].nickname").type(JsonFieldType.STRING).description("사용자 닉네임"),
+						fieldWithPath("data[].hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
 						fieldWithPath("data[].category").type(JsonFieldType.STRING).description("피드 카테고리"),
 						fieldWithPath("data[].title").type(JsonFieldType.STRING).description("피드 제목"),
 						fieldWithPath("data[].body").type(JsonFieldType.STRING).description("피드 내용"),

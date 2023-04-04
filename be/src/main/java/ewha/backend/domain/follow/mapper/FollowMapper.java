@@ -43,10 +43,15 @@ public interface FollowMapper {
 		return new PageImpl<>(findFollowers.stream()
 			.map(user -> {
 
+				String[] nick = user.getNickname().split("#");
+				String nickPre = nick[0];
+				String nickSuf = "#" + nick[1];
+
 				FollowDto.FollowingResponse.FollowingResponseBuilder followingResponseBuilder = FollowDto.FollowingResponse.builder();
 
 				followingResponseBuilder.userId(user.getId());
-				followingResponseBuilder.nickname(user.getNickname());
+				followingResponseBuilder.nickname(nickPre);
+				followingResponseBuilder.hashcode(nickSuf);
 				followingResponseBuilder.profileImage(user.getProfileImage());
 				followingResponseBuilder.thumbnailPath(user.getThumbnailPath());
 

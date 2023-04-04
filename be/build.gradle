@@ -95,11 +95,11 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-//tasks.named('asciidoctor') {
-//    configurations "asciidoctorExtensions"
-//    inputs.dir snippetsDir
-//    dependsOn test
-//}
+tasks.named('asciidoctor') {
+    configurations "asciidoctorExtensions"
+    inputs.dir snippetsDir
+    dependsOn test
+}
 
 task copyDocument(type: Copy) {
     dependsOn asciidoctor

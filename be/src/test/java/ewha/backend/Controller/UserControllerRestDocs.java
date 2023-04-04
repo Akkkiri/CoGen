@@ -151,6 +151,7 @@ public class UserControllerRestDocs {
 						fieldWithPath(".id").type(JsonFieldType.NUMBER).description("회원 번호"),
 						fieldWithPath(".userId").type(JsonFieldType.STRING).description("회원 아이디"),
 						fieldWithPath(".nickname").type(JsonFieldType.STRING).description("회원 닉네임"),
+						fieldWithPath(".hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
 						fieldWithPath(".genderType").type(JsonFieldType.STRING).description("회원 성별"),
 						fieldWithPath(".ageType").type(JsonFieldType.STRING).description("회원 연령대"),
 						fieldWithPath("level").type(JsonFieldType.NUMBER).description("회원 레벨"),
@@ -248,6 +249,7 @@ public class UserControllerRestDocs {
 						fieldWithPath(".id").type(JsonFieldType.NUMBER).description("회원 번호"),
 						fieldWithPath(".userId").type(JsonFieldType.STRING).description("회원 아이디"),
 						fieldWithPath(".nickname").type(JsonFieldType.STRING).description("회원 닉네임"),
+						fieldWithPath(".hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
 						fieldWithPath(".genderType").type(JsonFieldType.STRING).description("회원 성별"),
 						fieldWithPath(".ageType").type(JsonFieldType.STRING).description("회원 연령대"),
 						fieldWithPath(".level").type(JsonFieldType.NUMBER).description("회원 레벨"),
@@ -310,6 +312,8 @@ public class UserControllerRestDocs {
 					List.of(
 						fieldWithPath(".userId").type(JsonFieldType.STRING).description("유저 아이디"),
 						fieldWithPath(".nickname").type(JsonFieldType.STRING).description("회원 닉네임"),
+						fieldWithPath(".hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
+						fieldWithPath(".friendsNum").type(JsonFieldType.NUMBER).description("친구 숫자"),
 						fieldWithPath(".level").type(JsonFieldType.NUMBER).description("회원 레벨"),
 						fieldWithPath(".ariFactor").type(JsonFieldType.NUMBER).description("코젠지수"),
 						fieldWithPath(".profileImage").type(JsonFieldType.STRING).description("회원 프로필 사진"),
@@ -450,6 +454,8 @@ public class UserControllerRestDocs {
 						fieldWithPath("data.").type(JsonFieldType.ARRAY).description("결과 데이터"),
 						fieldWithPath(".data[].feedId").type(JsonFieldType.NUMBER).description("피드 번호"),
 						fieldWithPath(".data[].userId").type(JsonFieldType.STRING).description("작성자 아이디"),
+						fieldWithPath(".data[].nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
+						fieldWithPath(".data[].hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
 						fieldWithPath(".data[].title").type(JsonFieldType.STRING).description("피드 제목"),
 						fieldWithPath(".data[].body").type(JsonFieldType.STRING).description("피드 내용"),
 						fieldWithPath(".data[].category").type(JsonFieldType.STRING).description("피드 카테고리"),
@@ -501,6 +507,43 @@ public class UserControllerRestDocs {
 						fieldWithPath(".pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 크기"),
 						fieldWithPath(".pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총 댓글 수"),
 						fieldWithPath(".pageInfo.totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수")
+					)
+				)));
+	}
+
+	@Test
+	void getUserPageTest() throws Exception {
+
+		Long userId = 1L;
+
+		given(userService.getUser(anyLong())).willReturn(User.builder().build());
+		given(userMapper.userToUserPageResponse(Mockito.any(User.class))).willReturn(USER_PAGE_INFO_RESPONSE_DTO);
+
+		ResultActions actions =
+			mockMvc.perform(
+				RestDocumentationRequestBuilders.get("/api/users/{user_id}", userId)
+					.accept(MediaType.APPLICATION_JSON)
+			);
+
+		actions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.userId").value(USER_PAGE_INFO_RESPONSE_DTO.getUserId()))
+			.andDo(document(
+				"Get_User_Page",
+				getDocumentResponse(),
+				pathParameters(
+					parameterWithName("user_id").description("유저 번호")
+				),
+				responseFields(
+					List.of(
+						fieldWithPath(".userId").type(JsonFieldType.STRING).description("유저 아이디"),
+						fieldWithPath(".nickname").type(JsonFieldType.STRING).description("회원 닉네임"),
+						fieldWithPath(".hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
+						fieldWithPath(".friendsNum").type(JsonFieldType.NUMBER).description("친구 숫자"),
+						fieldWithPath(".level").type(JsonFieldType.NUMBER).description("회원 레벨"),
+						fieldWithPath(".ariFactor").type(JsonFieldType.NUMBER).description("코젠지수"),
+						fieldWithPath(".profileImage").type(JsonFieldType.STRING).description("회원 프로필 사진"),
+						fieldWithPath(".thumbnailPath").type(JsonFieldType.STRING).description("썸네일 경로")
 					)
 				)));
 	}
