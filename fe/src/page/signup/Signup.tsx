@@ -52,7 +52,7 @@ export default function Signup() {
       //제거
       // console.log(postBody);
       axios
-        .post("/api/sms/send", postBody)
+        .post("/sms/send", postBody)
         .then((_) => setCheckList({ ...checkList, phoneNumber: true }))
         .catch((err) => console.log(err));
     }
@@ -70,7 +70,7 @@ export default function Signup() {
       //제거
       // console.log(postBody);
       axios
-        .post("/api/sms/verification", postBody)
+        .post("/sms/verification", postBody)
         .then((res) => {
           setCheckList({ ...checkList, certificationNumber: true });
           //제거

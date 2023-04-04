@@ -22,6 +22,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [
           "persist/PERSIST",
+          "persist/PURGE",
           "auth/getToken/fulfilled",
           "auth/getToken/rejected",
           "auth/getNewToken/fulfilled",

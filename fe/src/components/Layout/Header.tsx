@@ -5,18 +5,33 @@ import SearchModal from "./SearchModal";
 import NotifyModal from "./NotifyModal";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { accessToken } from "store/modules/authSlice";
+import {
+  accessToken,
+  getNewTokenAsync,
+  isLogin,
+} from "store/modules/authSlice";
 import axios from "api/axios";
+import { useAppDispatch } from "store/hook";
 
 export default function Header() {
   const [isSearching, setIsSearching] = useState(false);
   const [isNotifying, setIsNotifying] = useState(false);
 
   const TOKEN = useSelector(accessToken);
+  const isLoginUser = useSelector(isLogin);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = TOKEN;
   }, [TOKEN]);
+
+  useEffect(() => {
+    if (isLoginUser) {
+      setInterval(() => {
+        dispatch(getNewTokenAsync());
+      }, 2 * 60 * 60 * 1000);
+    }
+  }, [isLoginUser, dispatch]);
 
   return (
     <header className="sticky top-0 z-10 bg-white w-full px-4 py-2 border-b border-y-lightGray">

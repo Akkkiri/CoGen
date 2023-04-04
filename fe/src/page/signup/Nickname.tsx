@@ -32,7 +32,7 @@ export default function Nickname() {
     //제거
     // console.log("서버로 보내는 회원가입 데이터", data);
     axios
-      .post("/api/users/signup", data)
+      .post("/users/signup", data)
       .then((res) => {
         //제거
         // console.log(res);

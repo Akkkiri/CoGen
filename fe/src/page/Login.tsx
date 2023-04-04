@@ -22,11 +22,13 @@ export default function Login() {
     console.log(data);
     dispatch(signInAsync(data)).then((res) => {
       if (res.type === "auth/getToken/fulfilled") {
-        console.log("fulfilled", res);
+        console.log("auth/getToken/fulfilled", res);
         axios.defaults.headers.common["Authorization"] =
           res.payload.headers.authorization;
         navigate("/");
       } else if (res.type === "auth/getToken/rejected") {
+        //제거
+        console.log("auth/getToken/rejected", res);
         setLoginError(true);
       }
     });
