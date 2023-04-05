@@ -9,23 +9,12 @@ spring:
     host: localhost
     port: 6379
   datasource:
-#    url: jdbc:mysql://ehwa-db.covow6hrmmr7.ap-northeast-2.rds.amazonaws.com:3306/ewha_db?useUnicode=true&characterEncoding=UTF-8
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: admin
-#    password: ${AWS_RDS_SECRET}
-    url: jdbc:h2:mem:test
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-    open-in-view: true
-    properties:
-      hibernate:
-        format_sql: true
-        highlight_sql: true
+    url: jdbc:mysql://ehwa-db.covow6hrmmr7.ap-northeast-2.rds.amazonaws.com:3306/ewha_db?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: ${AWS_RDS_SECRET}
+#    url: jdbc:h2:mem:test
 #  jpa:
-#    database: mysql
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 #    hibernate:
 #      ddl-auto: create
 #    show-sql: true
@@ -34,9 +23,20 @@ spring:
 #      hibernate:
 #        format_sql: true
 #        highlight_sql: true
-#        default_batch_fetch_size: 100
-#        order_inserts: true
-#        order_updates: true
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    open-in-view: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        default_batch_fetch_size: 100
+        order_inserts: true
+        order_updates: true
   security:
     oauth2:
       client:
@@ -44,7 +44,7 @@ spring:
           kakao:
             client-id: 3c1d40614ee038dde6e45dc15964476c
             client-secret: ${KAKAO_CLIENT_SECRET}
-            redirect-uri: "{baseUrl}/{action}/oauth2/{registrationId}"
+            redirect-uri: http://localhost:3000/oauth/kakao
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             scope:
@@ -55,7 +55,7 @@ spring:
           naver:
             client-id: wcto8DPTmhNWmRN4xmsa
             client-secret: ${NAVER_CLIENT_SECRET}
-            redirect-uri: "{baseUrl}/{action}/oauth2/{registrationId}"
+            redirect-uri: http://localhost:3000/oauth/naver
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             scope:
