@@ -87,6 +87,7 @@ export const authSlice = createSlice({
 
 export const isLogin = (state: RootState) => state.auth.isLogin;
 export const userId = (state: RootState) => state.auth.userId;
+export const id = (state: RootState) => state.auth.id;
 export const accessToken = (state: RootState) => state.auth.token;
 export const authState = (state: RootState) => state.auth;
 export const { saveNumber, logout } = authSlice.actions;

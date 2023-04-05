@@ -4,7 +4,17 @@ import { useEffect, useState } from "react";
 import { ToDateString } from "../util/TodateString";
 import { Category } from "../util/CategoryUtil";
 import { NavLink } from "react-router-dom";
-export default function PostContainer({ postContainerProps }: any) {
+import BookmarkBtn from "./user/BookmarkBtn";
+
+interface PostContainerProps {
+  postContainerProps: any;
+  bookmark?: boolean;
+}
+
+export default function PostContainer({
+  postContainerProps,
+  bookmark,
+}: PostContainerProps) {
   const [containerProps, setContainerProps] = useState<any>();
   useEffect(() => {
     if (postContainerProps !== undefined) setContainerProps(postContainerProps);
@@ -13,6 +23,7 @@ export default function PostContainer({ postContainerProps }: any) {
     <div>
       {containerProps?.map((el: any, idx: number) => (
         <div key={idx}>
+          {bookmark ? <BookmarkBtn /> : null}
           <NavLink to={`/post/${el.feedId}`}>
             <div className="p-2 border-b border-y-lightGray">
               <div className="p-2">

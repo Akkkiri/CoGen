@@ -16,6 +16,7 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [loginError, setLoginError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     //제거

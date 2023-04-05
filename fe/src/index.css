@@ -64,4 +64,7 @@
   .radio-peer {
     @apply rounded-lg py-1 border-2 border-y-red text-center peer-checked:bg-y-red peer-checked:text-white;
   }
+  .page-title {
+    @apply text-center text-xl p-3 border-b border-y-lightGray;
+  }
 }
