@@ -82,7 +82,7 @@ public class Init {
 
 		List<User> userList = new ArrayList<>();
 
-		for (int i = 10; i <= 30; i++) {
+		for (int i = 11; i <= 30; i++) {
 
 			Long rand = (long)(Math.random() * 50) + 1;
 			Long rand2 = (long)(Math.random() * 50) + 1;
@@ -233,7 +233,7 @@ public class Init {
 
 			Feed feed = Feed.builder()
 				.category(category)
-				.user(userService.findVerifiedUser((long)((Math.random() * 20) + 1)))
+				.user(userService.findVerifiedUser((long)((Math.random() * 20) + 2)))
 				.title("제목" + i)
 				.imagePath(InitConstant.DUMMY_FEED_IMAGES.get(i - 1))
 				.body(InitConstant.FEED_BODY_LIST.get(i - 1))
