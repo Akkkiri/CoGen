@@ -36,7 +36,8 @@ export default function PostDetail() {
     axios
       .get(`/feeds/${PostId}/comments?sort=${comment}&page=${page}`)
       .then((response) => {
-        console.log(response.data);
+        //제거
+        // console.log(response.data);
         setPostComments(response.data.data);
         setTotalPages(response.data.pageInfo.totalPages);
       });
