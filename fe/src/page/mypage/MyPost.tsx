@@ -3,24 +3,21 @@ import { useEffect, useState } from "react";
 import PostContainer from "components/PostContainer";
 import Pagenation from "components/Pagenation";
 import axios from "api/axios";
-import { useAppSelector } from "store/hook";
-import { id } from "store/modules/authSlice";
 
 export default function MyPost() {
-  const USERID = useAppSelector(id);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [postProps, setPostProps] = useState<any>();
 
   useEffect(() => {
     axios
-      .get(`/users/${USERID}/feeds?page=${page}`)
+      .get(`/mypage/myfeeds?page=${page}`)
       .then((res) => {
         setPostProps(res.data.data);
         setTotalPages(res.data.pageInfo.totalPages);
       })
       .catch((err) => console.log(err));
-  }, [USERID, page]);
+  }, [page]);
 
   return (
     <div>
