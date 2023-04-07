@@ -1,6 +1,6 @@
 interface QnaContainerProps {
   question: string;
-  answer: string[];
+  answer: string[] | string;
   idx: number;
 }
 
@@ -16,14 +16,20 @@ export default function QnaContainer({
       } rounded-t-2xl p-4`}
     >
       <div>"{question}"</div>
-      {answer.map((el, idx) => (
-        <div
-          key={idx}
-          className="bg-white text-sm rounded-lg p-2 mt-2 font-light"
-        >
-          {el}
+      {typeof answer === "string" ? (
+        <div className="bg-white text-sm rounded-lg p-2 mt-2 font-light">
+          {answer}
         </div>
-      ))}
+      ) : (
+        answer.map((el, idx) => (
+          <div
+            key={idx}
+            className="bg-white text-sm rounded-lg p-2 mt-2 font-light"
+          >
+            {el}
+          </div>
+        ))
+      )}
     </div>
   );
 }

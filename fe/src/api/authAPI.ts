@@ -27,7 +27,7 @@ const authAPI = {
   signIn: (params: any) => {
     return new Promise((resolve, reject) => {
       return axios
-        .post("/api/login", params)
+        .post("/login", params)
         .then((res) => {
           signInSuccess(res);
           // refresh token 만료되면 로그아웃
@@ -45,12 +45,26 @@ const authAPI = {
   refreshToken: () => {
     return new Promise((resolve) => {
       return axios
-        .get("/api/token/refresh")
+        .get("/token/refresh")
         .then((res) => {
           signInSuccess(res);
           return resolve(res);
         })
         .catch(() => authAPI.logout());
+    });
+  },
+  oauth: ({ path, code }: { path: string; code: string }) => {
+    return new Promise((resolve, reject) => {
+      return axios
+        .get(`${path}${code}`)
+        .then((response) => {
+          signInSuccess(response);
+          setTimeout(authAPI.logout, REFRESH_EXPIRY_TIME);
+          return resolve(response);
+        })
+        .catch((error) => {
+          return reject(error);
+        });
     });
   },
 };

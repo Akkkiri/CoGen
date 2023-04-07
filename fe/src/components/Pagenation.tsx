@@ -13,7 +13,7 @@ export default function Pagenation({
   setPage,
 }: pageInfoProps) {
   const pagenation = new Array(totalPages).fill(1);
-  return (
+  return totalPages < 2 ? null : (
     <div className="flex justify-center items-center mt-2">
       <button
         className="px-2 bg-y-pink w-8 h-8 rounded-[6px] mx-0.5"

@@ -11,7 +11,7 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [userimg, setUserimg] = useState("");
   const [level, setLevel] = useState();
-  const [point, setPoint] = useState();
+  const [ariFactor, setAriFactor] = useState();
   useEffect(() => {
     axios
       .get(`/questions/weekly`)
@@ -38,7 +38,7 @@ export default function Home() {
         nickname={"닉네임이열글자가넘으"}
         profileImage={"/images/user.png"}
         level={1}
-        point={33}
+        ariFactor={33}
       />
       <MainQnaContainer question={weeklyQuestions} />
       <MainQuizContainer question={weeklyquiz} />
