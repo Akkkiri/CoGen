@@ -2,6 +2,7 @@ import Level from "./Level";
 
 export interface UserProfileProps {
   nickname: string;
+  hashcode: string;
   profileImage: string;
   level: number;
   ariFactor: number;
@@ -11,12 +12,29 @@ export interface UserProfileProps {
 
 export default function UserProfile({
   nickname,
+  hashcode,
   profileImage,
   level,
   ariFactor,
   friendsNum,
   isMine,
 }: UserProfileProps) {
+  const medal = (level: number) => {
+    if (level === 50) return 50;
+    else if (level >= 40) return 40;
+    else if (level >= 30) return 30;
+    else if (level >= 20) return 20;
+    else if (level >= 10) return 10;
+    else return 1;
+  };
+  const medalImg: any = {
+    1: "/images/level1.png",
+    10: "/images/level10.png",
+    20: "/images/level20.png",
+    30: "/images/level30.png",
+    40: "/images/level40.png",
+    50: "/images/level50.png",
+  };
   return (
     <div className="flex justify-center items-center mx-2">
       <img
@@ -26,7 +44,17 @@ export default function UserProfile({
       ></img>
       <div className="w-full mx-4 mt-2">
         <div className="flex justify-between">
-          <span>{nickname}</span>
+          <div className="flex items-end">
+            <span>{nickname}</span>
+            <span className="text-xs text-y-lightGray font-light">
+              {hashcode}
+            </span>
+            <img
+              src={medalImg[medal(level)]}
+              alt="level"
+              className="w-5 h-5"
+            ></img>
+          </div>
           <button
             className="rounded-lg bg-y-sky py-0.5 px-4 text-xs"
             // onClick={() => console.log("친구목록보기 필요")}
