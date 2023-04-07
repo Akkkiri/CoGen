@@ -53,6 +53,20 @@ const authAPI = {
         .catch(() => authAPI.logout());
     });
   },
+  oauth: ({ path, code }: { path: string; code: string }) => {
+    return new Promise((resolve, reject) => {
+      return axios
+        .get(`${path}${code}`)
+        .then((response) => {
+          signInSuccess(response);
+          setTimeout(authAPI.logout, REFRESH_EXPIRY_TIME);
+          return resolve(response);
+        })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+  },
 };
 
 export default authAPI;

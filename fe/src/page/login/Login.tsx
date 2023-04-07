@@ -1,11 +1,11 @@
-import { RiKakaoTalkFill } from "react-icons/ri";
-import { SiNaver } from "react-icons/si";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "api/axios";
 import { useState } from "react";
 import { useAppDispatch } from "store/hook";
 import { signInAsync } from "store/modules/authSlice";
+import { KakaoBtn, NaverBtn } from "components/signup/OauthBtn";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 interface IFormInput {
   userId: string;
@@ -19,17 +19,13 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    //제거
-    console.log(data);
     dispatch(signInAsync(data)).then((res) => {
       if (res.type === "auth/getToken/fulfilled") {
-        console.log("auth/getToken/fulfilled", res);
+        // console.log("auth/getToken/fulfilled", res);
         axios.defaults.headers.common["Authorization"] =
           res.payload.headers.authorization;
         navigate("/");
       } else if (res.type === "auth/getToken/rejected") {
-        //제거
-        console.log("auth/getToken/rejected", res);
         setLoginError(true);
       }
     });
@@ -54,14 +50,25 @@ export default function Login() {
           }}
           {...register("userId", { required: true })}
         />
-        <input
-          placeholder="비밀번호"
-          type="password"
-          autoComplete="on"
-          className="input-basic"
-          maxLength={12}
-          {...register("password", { required: true })}
-        />
+        <div className="flex justify-end items-center">
+          <input
+            placeholder="비밀번호"
+            type={showPassword ? "text" : "password"}
+            autoComplete={showPassword ? "off" : "on"}
+            className="input-basic flex-1"
+            maxLength={12}
+            {...register("password", { required: true })}
+          />
+          <button
+            type="button"
+            className="mr-3 absolute"
+            onClick={() => {
+              setShowPassword(!showPassword);
+            }}
+          >
+            {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+          </button>
+        </div>
         {loginError ? (
           <div className="text-xs text-y-red font-light text-center">
             <p>전화번호 또는 비밀번호가 일치하지 않습니다.</p>
@@ -79,12 +86,8 @@ export default function Login() {
         </span>
       </div>
       <div className="flex gap-x-8 justify-center">
-        <button className="flex justify-center items-center w-10 h-10 rounded-md bg-green-500 hover:bg-green-600 text-white text-xl">
-          <SiNaver />
-        </button>
-        <button className="flex justify-center items-center w-10 h-10 rounded-md bg-yellow-400 hover:bg-yellow-500 text-3xl">
-          <RiKakaoTalkFill />
-        </button>
+        <NaverBtn />
+        <KakaoBtn />
       </div>
     </div>
   );

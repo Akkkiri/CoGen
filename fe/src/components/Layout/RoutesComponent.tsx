@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "page/Home";
-import Login from "page/Login";
+import Login from "page/login/Login";
 import MyBookmark from "page/mypage/MyBookmark";
 import MyComment from "page/mypage/MyComment";
 import MyEdit from "page/mypage/MyEdit";
@@ -17,6 +17,7 @@ import Info from "page/signup/Info";
 import Nickname from "page/signup/Nickname";
 import SelfQna from "page/signup/SelfQna";
 import Signup from "page/signup/Signup";
+import OauthLogin from "page/login/OauthLogin";
 
 export default function RoutesComponent() {
   return (
@@ -28,6 +29,7 @@ export default function RoutesComponent() {
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/mypage" element={<Mypage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/oauth/:site" element={<OauthLogin />} />
 
       <Route path="/signup" element={<Signup />} />
       <Route path="/signup/nickname" element={<Nickname />} />
@@ -41,6 +43,7 @@ export default function RoutesComponent() {
       <Route path="/mypage/comment" element={<MyComment />} />
       <Route path="/mypage/edit" element={<MyEdit />} />
       <Route path="/mypage/friend" element={<MyFriend />} />
+      {/* <Route path="/user/:id" element={<UserPage />} /> */}
     </Routes>
   );
 }

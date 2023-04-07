@@ -27,6 +27,8 @@ export const store = configureStore({
           "auth/getToken/rejected",
           "auth/getNewToken/fulfilled",
           "auth/getNewToken/rejected",
+          "auth/oauth/fulfilled",
+          "auth/oauth/rejected",
         ],
       },
     }),
