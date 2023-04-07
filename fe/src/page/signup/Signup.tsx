@@ -13,7 +13,7 @@ import {
 export default function Signup() {
   const [timerActive, setTimerActive] = useState(false);
   const [reset, setReset] = useState(false);
-
+  const [error, setError] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [certificationNumber, setCertificationNumber] = useState("");
   const [checkBox, setCheckBox] = useState<number[]>([]);
@@ -49,8 +49,6 @@ export default function Signup() {
   const submitPhoneNumber = (phoneNumber: string) => {
     if (phoneNumber.length === 11) {
       const postBody = { phoneNumber };
-      //제거
-      // console.log(postBody);
       axios
         .post("/sms/send", postBody)
         .then((_) => setCheckList({ ...checkList, phoneNumber: true }))
@@ -67,17 +65,14 @@ export default function Signup() {
         phoneNumber,
         certificationNumber,
       };
-      //제거
-      // console.log(postBody);
       axios
         .post("/sms/verification", postBody)
         .then((res) => {
           setCheckList({ ...checkList, certificationNumber: true });
-          //제거
-          // console.log(res);
+          setError(false);
           dispatch(saveNumber(res.data));
         })
-        .catch((err) => console.log(err));
+        .catch((err) => setError(true));
     }
   };
 
@@ -155,7 +150,11 @@ export default function Signup() {
             확인
           </button>
         </form>
-
+        {error ? (
+          <p className="text-sm text-y-red font-light">
+            인증번호를 다시 확인해주세요
+          </p>
+        ) : null}
         <div>
           <label className="bg-y-pink p-2 pl-6 rounded-lg flex items-center cursor-pointer">
             <input
@@ -227,8 +226,6 @@ export default function Signup() {
             ) {
               navigate("/signup/nickname");
             }
-            //제거
-            // console.log(checkList);
           }}
         >
           가입하기
