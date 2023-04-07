@@ -3,7 +3,7 @@ import { SiNaver } from "react-icons/si";
 
 export const KakaoBtn = () => {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_KEY;
-  const REDIRECT_URI = "http://localhost:3000/oauth/kakao";
+  const REDIRECT_URI = "https://www.akkkiri.co.kr/oauth/kakao";
   const LINK = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const handleKakaoLogin = () => {
@@ -22,7 +22,7 @@ export const KakaoBtn = () => {
 
 export const NaverBtn = () => {
   const REST_API_KEY = process.env.REACT_APP_NAVER_CLIENT_KEY;
-  const REDIRECT_URI = "http://localhost:3000/oauth/naver";
+  const REDIRECT_URI = "https://www.akkkiri.co.kr/oauth/naver";
   const LINK = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
   const handleNaverLogin = () => {
