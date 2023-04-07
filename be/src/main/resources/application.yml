@@ -6,7 +6,7 @@ spring:
   cache:
     type: redis
   redis:
-    host: redis
+    host: redis-master
     port: 6379
   datasource:
     url: jdbc:mysql://ehwa-db.covow6hrmmr7.ap-northeast-2.rds.amazonaws.com:3306/ewha_db?useUnicode=true&characterEncoding=UTF-8
