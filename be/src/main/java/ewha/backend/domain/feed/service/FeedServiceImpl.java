@@ -130,7 +130,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional
 	public Feed updateView(Long feedId) {
 
 		Feed findFeed = findVerifiedFeed(feedId);
