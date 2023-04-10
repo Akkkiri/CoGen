@@ -35,9 +35,12 @@ export default function Post() {
       <div className="p-2 border-b border-y-lightGray">
         <SelectBox setSelect={setSort} type={"sort"} />
       </div>
-      <div className="mb-3">
+      <div className="mb-3 relative">
         <PostContainer postContainerProps={postProps} />
         <Pagenation page={page} setPage={setPage} totalPages={totalPages} />
+        <div className="fixed bottom-[70px] z-[5]">
+          <button className="btn-r">게시글 작성</button>
+        </div>
       </div>
     </>
   );

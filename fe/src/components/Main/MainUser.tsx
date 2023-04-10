@@ -3,7 +3,7 @@ import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import { NavLink } from "react-router-dom";
 
-interface UserProfileProps {
+export interface UserProfileProps {
   nickname: string;
   profileImage: string;
   level: number;
