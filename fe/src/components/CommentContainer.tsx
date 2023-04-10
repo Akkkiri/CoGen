@@ -1,7 +1,7 @@
 import { IoHeartOutline } from "react-icons/io5";
 
 import UserInfo from "./user/UserInfo";
-interface CommentContainerProps {
+export interface CommentContainerProps {
   contents: string;
   nickname: string;
   profileImage: string;

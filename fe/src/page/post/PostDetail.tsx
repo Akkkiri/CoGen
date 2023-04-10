@@ -8,7 +8,10 @@ import CommentContainer from "../../components/CommentContainer";
 import axios from "../../api/axios";
 import SmallInput from "../../components/Inputs/SmallInput";
 import CloseBtn from "../../components/Layout/CloseBtn";
-
+import { isLogin } from "../../store/modules/authSlice";
+import { useAppSelector } from "../../store/hook";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 export default function PostDetail() {
   const { PostId } = useParams();
   const [comment, setComment] = useState<Select>("new");
@@ -23,6 +26,8 @@ export default function PostDetail() {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [inputState, setInputState] = useState<string>("");
+  const isLoginUser = useAppSelector(isLogin);
+  const navigate = useNavigate();
   useEffect(() => {
     axios.get(`/feeds/${PostId}`).then((response) => {
       setTitle(response.data.title);
@@ -45,10 +50,10 @@ export default function PostDetail() {
       });
   }, [PostId, page, comment]);
   const postComment = () => {
-    const reqBody = { content: inputState };
+    const reqBody = { body: inputState };
     axios
-      .post(`/feeds/1/comments/add`, reqBody)
-      .then((response) => {})
+      .post(`/feeds/${PostId}/comments/add`, reqBody)
+      .then(() => window.location.reload())
       .catch((err) => console.log(err));
   };
   return (
@@ -72,8 +77,25 @@ export default function PostDetail() {
           <SmallInput
             inputState={inputState}
             setInputState={setInputState}
-            placeholder={"답변을 작성해주세요."}
-            postFunc={postComment}
+            placeholder={"댓글을 작성해주세요."}
+            postFunc={
+              isLoginUser
+                ? postComment
+                : () => {
+                    Swal.fire({
+                      text: "로그인이 필요한 서비스 입니다.",
+                      showCancelButton: true,
+                      confirmButtonColor: "#E74D47",
+                      cancelButtonColor: "#A7A7A7",
+                      confirmButtonText: "로그인",
+                      cancelButtonText: "취소",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        navigate("/login");
+                      }
+                    });
+                  }
+            }
           />
           <SelectBox setSelect={setComment} type={"comment"} />
           {postComments.map((el: any) => (

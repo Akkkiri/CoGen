@@ -17,7 +17,7 @@ export default function MainQuizContainer({ question }: QnaContainerProps) {
       <div className="bg-y-sky rounded-r-3xl rounded-t-3xl p-4 text-center m-1">
         <div className="p-3">"{question}"</div>
         <NavLink to="/quiz">
-          <button className="bg-y-purple rounded-lg px-4 py-2 text-white text-sm">
+          <button className="btn-p rounded-lg px-4 py-2 text-white text-sm">
             퀴즈 풀러가기
           </button>
         </NavLink>

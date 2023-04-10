@@ -1,5 +1,8 @@
 import Level from "../user/Level";
-import { useState } from "react";
+import { isLogin } from "../../store/modules/authSlice";
+import { useAppSelector } from "../../store/hook";
+import { NavLink } from "react-router-dom";
+
 interface UserProfileProps {
   nickname: string;
   profileImage: string;
@@ -13,7 +16,7 @@ export default function MainUser({
   level,
   ariFactor,
 }: UserProfileProps) {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const isLoginUser = useAppSelector(isLogin);
   return (
     <div className="p-2 mx-2 my-4 rounded-xl border-2 border-y-lightGray">
       <div>
@@ -23,7 +26,7 @@ export default function MainUser({
           className="w-9 float-right"
         ></img>
       </div>
-      {isLogin ? (
+      {isLoginUser ? (
         <div className="flex justify-center items-center mx-2">
           <img
             src={profileImage}
@@ -38,13 +41,13 @@ export default function MainUser({
           </div>
         </div>
       ) : (
-        <div className="flex flex-col p-2">
-          <div className="text-center pb-3">
-            로그인 후 답변과 퀴즈를 작성해보세요!!
-          </div>
-          <button className="bg-y-purple text-white py-1 px-6 rounded-lg w-28 self-center ">
-            로그인
-          </button>
+        <div className="p-2 text-center">
+          <div className="pb-3">로그인 후 답변과 퀴즈를 작성해보세요!!</div>
+          <NavLink to="/login">
+            <button className="btn-p rounded-lg px-4 py-2 text-white text-sm">
+              로그인
+            </button>
+          </NavLink>
         </div>
       )}
     </div>

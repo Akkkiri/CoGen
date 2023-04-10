@@ -1,4 +1,5 @@
 import TextareaAutosize from "react-textarea-autosize";
+
 type InputProps = {
   placeholder: string;
   inputState: string;
@@ -19,6 +20,7 @@ export default function SmallInput({
     e.preventDefault();
     postFunc();
   };
+
   return (
     <>
       <form className="flex font-light py-2">
