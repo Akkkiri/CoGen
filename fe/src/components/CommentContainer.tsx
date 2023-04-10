@@ -6,7 +6,7 @@ interface CommentContainerProps {
   nickname: string;
   profileImage: string;
   date: string;
-  like: string;
+  like: string | number;
 }
 
 export default function CommentContainer({

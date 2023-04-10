@@ -1,10 +1,23 @@
+import axios from "api/axios";
 import { useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "store/hook";
+import { id } from "store/modules/authSlice";
 
 export default function Info() {
   const { register, getValues, handleSubmit } = useForm();
-  const onSubmit: SubmitHandler<FieldValues> = (data) =>
+  const navigate = useNavigate();
+  const ID = useAppSelector(id);
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     alert(JSON.stringify(data));
+    axios
+      .patch(`/users/${ID}/firstlogin`, data)
+      .then((res) => {
+        navigate("/signup/qna");
+      })
+      .catch((err) => console.log(err));
+  };
 
   const [next, setNext] = useState(false);
 
@@ -40,7 +53,7 @@ export default function Info() {
                       id={el.eng}
                       value={el.eng}
                       className="peer hidden"
-                      {...register("gender", {
+                      {...register("genderType", {
                         required: true,
                       })}
                     />
@@ -55,7 +68,7 @@ export default function Info() {
               type="button"
               className="btn-r"
               onClick={() => {
-                const singleValue = getValues("gender");
+                const singleValue = getValues("genderType");
                 if (singleValue) {
                   setNext(true);
                 }
@@ -76,7 +89,7 @@ export default function Info() {
                       id={el.eng}
                       value={el.eng}
                       className="peer hidden"
-                      {...register("agegroup", {
+                      {...register("ageType", {
                         required: true,
                       })}
                     />

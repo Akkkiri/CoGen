@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useAppSelector } from "store/hook";
-import { userId } from "store/modules/authSlice";
+import { useAppDispatch, useAppSelector } from "store/hook";
+import { saveId, userId } from "store/modules/authSlice";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import axios from "api/axios";
 import { useNavigate } from "react-router-dom";
@@ -15,10 +15,9 @@ interface IFormInput {
 
 export default function Nickname() {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userPhoneNumber = useAppSelector(userId);
-  //제거
-  // console.log("userPhoneNumber", userPhoneNumber);
 
   const {
     register,
@@ -29,13 +28,10 @@ export default function Nickname() {
     defaultValues: { userId: userPhoneNumber },
   });
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    //제거
-    // console.log("서버로 보내는 회원가입 데이터", data);
     axios
-      .post("/api/users/signup", data)
+      .post("/users/signup", data)
       .then((res) => {
-        //제거
-        // console.log(res);
+        dispatch(saveId(res.data.id));
         navigate("/signup/info");
       })
       .catch((err) => console.log(err));
