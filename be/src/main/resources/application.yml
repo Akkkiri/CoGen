@@ -1,13 +1,15 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
   cache:
     type: redis
   redis:
     host: redis-master
     port: 6379
+    lettuce:
+      read-from: MASTER
   datasource:
     url: jdbc:mysql://ehwa-db.covow6hrmmr7.ap-northeast-2.rds.amazonaws.com:3306/ewha_db?useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
