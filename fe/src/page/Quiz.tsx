@@ -1,7 +1,78 @@
+import axios from "api/axios";
+import { FaChevronRight } from "react-icons/fa";
+import LinearBar from "components/quiz/LinearBar";
+import QuizBtn, { QuizBtnProps } from "components/quiz/QuizBtn";
+import QuizScore from "components/quiz/QuizScore";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "store/hook";
+import {
+  firstQuiz,
+  quizScore,
+  saveFirstQuiz,
+  saveScore,
+} from "store/modules/quizSlice";
+
 export default function Quiz() {
+  const [order, setOrder] = useState(1);
+  const [score, setScore] = useState(0);
+  const [quizList, setQuizList] = useState<QuizBtnProps[]>([]);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const savedScore = useAppSelector(quizScore);
+  const savedFirstQuiz = useAppSelector(firstQuiz);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (savedScore >= 0) {
+      setOrder(6);
+      setScore(savedScore);
+    }
+  }, [savedScore]);
+
+  useEffect(() => {
+    axios
+      .get("/quizzes/weekly")
+      .then((res) => {
+        setQuizList(res.data);
+        if (savedFirstQuiz !== res.data[0].content) {
+          dispatch(saveScore(-1));
+          dispatch(saveFirstQuiz(res.data[0].content));
+        }
+      })
+      .catch((err) => console.log(err));
+  }, [dispatch, savedFirstQuiz]);
+
   return (
-    <>
-      <h1>퀴즈 페이지입니다.</h1>
-    </>
+    <div>
+      <h1 className="page-title">퀴즈</h1>
+      <div className="mx-4">
+        <LinearBar order={order} setOrder={setOrder} />
+        {order < 6 ? (
+          <QuizBtn
+            {...quizList[order - 1]}
+            showAnswer={showAnswer}
+            setShowAnswer={setShowAnswer}
+            score={score}
+            setScore={setScore}
+          />
+        ) : (
+          <QuizScore score={score} />
+        )}
+      </div>
+      <div className="flex justify-end mx-4">
+        {showAnswer ? (
+          <button
+            className="btn-r mt-10 flex items-center"
+            onClick={() => {
+              if (order < 6) {
+                setShowAnswer(false);
+                setOrder(order + 1);
+              }
+            }}
+          >
+            <FaChevronRight className="mr-2" />
+            다음문제
+          </button>
+        ) : null}
+      </div>
+    </div>
   );
 }
