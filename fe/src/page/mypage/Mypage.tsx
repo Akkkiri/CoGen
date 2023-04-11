@@ -34,7 +34,7 @@ export default function Mypage() {
           profileImage: res.data.profileImage,
           level: res.data.level,
           ariFactor: res.data.ariFactor,
-          friendsNum: res.data.level,
+          friendsNum: res.data.friendsNum,
           isMine: true,
         };
         setUserprofile(obj);
