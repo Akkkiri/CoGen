@@ -98,6 +98,8 @@ public class UserControllerConstant {
 			.friendsNum(10L)
 			.level(1)
 			.ariFactor(10)
+			.genderType(GenderType.FEMALE)
+			.ageType(AgeType.TWENTIES)
 			.profileImage("프로필 사진")
 			.thumbnailPath("썸네일 경로")
 			.build();

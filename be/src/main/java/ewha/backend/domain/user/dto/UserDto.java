@@ -130,6 +130,8 @@ public class UserDto {
 		private Integer level;
 		private Integer ariFactor;
 		private Long friendsNum;
+		private GenderType genderType;
+		private AgeType ageType;
 		private String profileImage;
 		private String thumbnailPath;
 	}

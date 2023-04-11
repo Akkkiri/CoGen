@@ -87,6 +87,8 @@ public interface UserMapper {
 		myPageResponseBuilder.level(user.getLevel());
 		myPageResponseBuilder.ariFactor(user.getAriFactor());
 		myPageResponseBuilder.friendsNum(user.getFollowingCount());
+		myPageResponseBuilder.genderType(user.getGenderType());
+		myPageResponseBuilder.ageType(user.getAgeType());
 		myPageResponseBuilder.profileImage(user.getProfileImage());
 		myPageResponseBuilder.thumbnailPath(user.getThumbnailPath());
 

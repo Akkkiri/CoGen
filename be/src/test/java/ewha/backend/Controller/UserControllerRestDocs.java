@@ -316,6 +316,8 @@ public class UserControllerRestDocs {
 						fieldWithPath(".friendsNum").type(JsonFieldType.NUMBER).description("친구 숫자"),
 						fieldWithPath(".level").type(JsonFieldType.NUMBER).description("회원 레벨"),
 						fieldWithPath(".ariFactor").type(JsonFieldType.NUMBER).description("코젠지수"),
+						fieldWithPath(".genderType").type(JsonFieldType.NUMBER).description("성별"),
+						fieldWithPath(".ageType").type(JsonFieldType.NUMBER).description("연령대"),
 						fieldWithPath(".profileImage").type(JsonFieldType.STRING).description("회원 프로필 사진"),
 						fieldWithPath(".thumbnailPath").type(JsonFieldType.STRING).description("썸네일 경로")
 					)
