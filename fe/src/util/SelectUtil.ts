@@ -9,7 +9,17 @@ export type Select =
   | "QUOTE"
   | "HUMOR"
   | "DAILY"
-  | "ETC";
+  | "ETC"
+  | "TEENAGER"
+  | "TWENTIES"
+  | "THIRTIES"
+  | "FORTIES"
+  | "FIFTIES"
+  | "SIXTIES"
+  | "SEVENTIES"
+  | "EIGHTIES"
+  | "OTHERS"
+  | "";
 
 export const SelectBoxMatcher = (str: string) => {
   switch (str) {
@@ -35,5 +45,25 @@ export const SelectBoxMatcher = (str: string) => {
       return "DAILY";
     case "기타":
       return "ETC";
+    case "10대":
+      return "TEENAGER";
+    case "20대":
+      return "TWENTIES";
+    case "30대":
+      return "THIRTIES";
+    case "40대":
+      return "FORTIES";
+    case "50대":
+      return "FIFTIES";
+    case "60대":
+      return "SIXTIES";
+    case "70대":
+      return "SEVENTIES";
+    case "80대 이상":
+      return "EIGHTIES";
+    case "공개안함":
+      return "OTHERS";
+    case "":
+      return "";
   }
 };
