@@ -64,6 +64,7 @@ export const authSlice = createSlice({
       state.userId = "";
       state.token = "";
       state.isLogin = false;
+      state.id = 0;
     },
   },
   extraReducers: (builder) => {

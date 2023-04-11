@@ -12,6 +12,7 @@ import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { id } from "../../store/modules/authSlice";
 export default function PostDetail() {
   const { PostId } = useParams();
   const [comment, setComment] = useState<Select>("new");
@@ -26,10 +27,15 @@ export default function PostDetail() {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [inputState, setInputState] = useState<string>("");
+
+  const [isMine, setIsMine] = useState(false);
+  const userid = useAppSelector(id);
+
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
   useEffect(() => {
     axios.get(`/feeds/${PostId}`).then((response) => {
+      // console.log(response.data);
       setTitle(response.data.title);
       setPostContents(response.data.body);
       setTag(response.data.category);
@@ -37,14 +43,17 @@ export default function PostDetail() {
       setPostProfileImage(response.data.userInfo.profileImage);
       SetView(response.data.viewCount);
       setPostDate(response.data.createdAt);
+      if (response.data.userInfo.id === userid) {
+        setIsMine(true);
+      }
     });
-  }, [PostId, page]);
+  }, [PostId, page, userid]);
   useEffect(() => {
     axios
       .get(`/feeds/${PostId}/comments?sort=${comment}&page=${page}`)
       .then((response) => {
         //제거
-        // console.log(response.data);
+        console.log(response.data);
         setPostComments(response.data.data);
         setTotalPages(response.data.pageInfo.totalPages);
       });
@@ -72,6 +81,7 @@ export default function PostDetail() {
           profileImage={postProfileImage}
           date={postDate}
           view={viwe}
+          isMine={isMine}
         />
         <div className="p-2">
           <SmallInput
@@ -106,6 +116,8 @@ export default function PostDetail() {
                 profileImage={el.userInfo.profileImage}
                 date={el.modifiedAt}
                 like={el.likeCount}
+                userid={el.userInfo.id}
+                commentId={el.commentId}
               />
             </div>
           ))}

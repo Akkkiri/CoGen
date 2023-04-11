@@ -1,51 +1,48 @@
+import { IoHeartOutline } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
 import { HiTrash } from "react-icons/hi";
 import UserInfo from "./user/UserInfo";
-import { Category } from "../util/CategoryUtil";
+import Swal from "sweetalert2";
 import axios from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Swal from "sweetalert2";
-interface PostContainerProps {
-  title: string;
+import { id } from "../store/modules/authSlice";
+import { useAppSelector } from "../store/hook";
+export interface CommentContainerProps {
   contents: string;
-  tag: string;
   nickname: string;
   profileImage: string;
   date: string;
-  view: number;
-  isMine: boolean;
+  like: string | number;
+  userid: number;
+  commentId: number;
 }
 
-export default function PostDetailContainer({
-  title,
+export default function QuestionCommentContainer({
   contents,
-  tag,
   nickname,
   profileImage,
   date,
-  view,
-  isMine,
-}: PostContainerProps) {
-  const { PostId } = useParams();
-  const navigate = useNavigate();
-  const deletepost = () => {
-    axios.delete(`/feeds/${PostId}/delete`);
-    navigate(-1);
+  like,
+  userid,
+  commentId,
+}: CommentContainerProps) {
+  const myId = useAppSelector(id);
+  const deleteComment = () => {
+    axios
+      .delete(`/comments/${commentId}/delete`)
+      .then(() => window.location.reload())
+      .catch((err) => console.log(err));
   };
   return (
-    <div className="p-2 border-b border-y-lightGray">
-      <div className="p-2">
-        <div className="bg-y-red text-white p-1 w-16 text-center text-xs rounded-md mb-2">
-          {Category(tag)}
-        </div>
+    <div className="pb-2">
+      <div className="p-4 border border-y-lightGray rounded-xl">
         <div className="flex justify-between pb-2">
           <UserInfo
             nickname={nickname}
             profileImage={profileImage}
             date={date}
           />
-
-          {isMine ? (
+          {myId === userid ? (
             <div className="flex gap-1 px-4 text-sm self-center">
               <button>
                 <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
@@ -62,7 +59,7 @@ export default function PostDetailContainer({
                     cancelButtonText: "취소",
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      deletepost();
+                      deleteComment();
                     }
                   });
                 }}
@@ -73,9 +70,13 @@ export default function PostDetailContainer({
             </div>
           ) : null}
         </div>
-        <div>{title}</div>
-        <div className="my-2 text-sm font-light">{contents}</div>
-        <div className="text-sm text-y-gray">조회 {view}</div>
+        <div className="mt-2 text-sm font-light">{contents}</div>
+        <div className="flex justify-end text-xs">
+          <div className="flex ">
+            <IoHeartOutline className="text-lg" />
+            <div className="self-center">좋아요 {like}</div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -2,9 +2,9 @@ import SmallInput from "../components/Inputs/SmallInput";
 import { useState, useEffect } from "react";
 import SelectBox from "../components/SelectBox";
 import { Select } from "../util/SelectUtil";
-import CommentContainer, {
+import QuestionCommentContainer, {
   CommentContainerProps,
-} from "../components/CommentContainer";
+} from "../components/QuestionCommentContainer";
 import Pagenation from "../components/Pagenation";
 import axios from "../api/axios";
 import { isLogin } from "../store/modules/authSlice";
@@ -55,6 +55,7 @@ export default function Question() {
       ${page}`
       )
       .then((response) => {
+        console.log(response.data.data);
         setQuestComment(response.data.data);
 
         setTotalPages(response.data.pageInfo.totalPages);
@@ -99,12 +100,14 @@ export default function Question() {
           ? null
           : questComment.map((el: any) => (
               <div key={el.answerId}>
-                <CommentContainer
+                <QuestionCommentContainer
                   contents={el.answerBody}
                   nickname={el.nickname}
                   profileImage={el.profileImage}
                   date={el.modifiedAt}
                   like={el.likeCount}
+                  userid={el.userid}
+                  commentId={el.answerId}
                 />
               </div>
             ))}
