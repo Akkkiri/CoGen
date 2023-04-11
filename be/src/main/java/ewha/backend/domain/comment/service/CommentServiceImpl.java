@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -126,10 +127,11 @@ public class CommentServiceImpl implements CommentService {
 
 		Comment findComment = findVerifiedComment(commentId);
 
-		Feed findFeed = findComment.getFeed();
+		Long feedId = findComment.getFeed().getId();
 
 		if (findUser.equals(findComment.getUser())) {
 			commentRepository.delete(findComment);
+			Feed findFeed = feedService.findVerifiedFeed(feedId);
 			findFeed.removeCommentCount();
 			feedRepository.save(findFeed);
 		} else {

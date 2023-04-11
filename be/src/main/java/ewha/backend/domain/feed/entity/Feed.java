@@ -93,11 +93,11 @@ public class Feed extends BaseTimeEntity implements Serializable {
 	private Image image;
 	@JsonManagedReference
 	@OneToMany(mappedBy = "feed", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	@LazyCollection(LazyCollectionOption.FALSE)
+	@LazyCollection(LazyCollectionOption.TRUE)
 	private List<Comment> comments;
 	@JsonManagedReference
 	@OneToMany(mappedBy = "feed", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	@LazyCollection(LazyCollectionOption.FALSE)
+	@LazyCollection(LazyCollectionOption.TRUE)
 	private List<Bookmark> bookmarks;
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

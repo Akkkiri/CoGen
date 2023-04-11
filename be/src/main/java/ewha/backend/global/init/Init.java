@@ -73,7 +73,7 @@ public class Init {
 			.level(50)
 			.ariFactor(0)
 			.password(encoder.encode("admin"))
-			.nickname("admin")
+			.nickname("관리자")
 			.role(List.of("ROLE_ADMIN", "ROLE_USER"))
 			.isFirstLogin(false)
 			.build();
@@ -257,7 +257,7 @@ public class Init {
 
 			Comment comment = Comment.builder()
 				.body("comment body" + i)
-				.user(userService.findVerifiedUser((long)(Math.random() * 20) + 1))
+				.user(userService.findVerifiedUser((long)(Math.random() * 20) + 2))
 				.feed(feedService.findVerifiedFeed((long)(Math.random() * 40) + 1))
 				.likeCount((long)(Math.random() * 10) + 1)
 				.build();

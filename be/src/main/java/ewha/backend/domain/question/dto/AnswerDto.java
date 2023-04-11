@@ -47,6 +47,7 @@ public class AnswerDto {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class ListResponse {
 		private Long answerId;
+		private Long userId;
 		private String nickname;
 		private String hashcode;
 		private String profileImage;

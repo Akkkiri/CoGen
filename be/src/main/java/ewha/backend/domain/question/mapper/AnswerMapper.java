@@ -41,6 +41,7 @@ public interface AnswerMapper {
 				String nickSuf = "#" + nick[1];
 
 				listResponseBuilder.answerId(answer.getId());
+				listResponseBuilder.userId(answer.getUser().getId());
 				listResponseBuilder.nickname(nickPre);
 				listResponseBuilder.hashcode(nickSuf);
 				listResponseBuilder.profileImage(answer.getUser().getProfileImage());
