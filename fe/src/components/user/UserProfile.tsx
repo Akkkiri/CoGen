@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Level from "./Level";
 
 export interface UserProfileProps {
@@ -19,6 +20,7 @@ export default function UserProfile({
   friendsNum,
   isMine,
 }: UserProfileProps) {
+  const navigate = useNavigate();
   const medal = (level: number) => {
     if (level === 50) return 50;
     else if (level >= 40) return 40;
@@ -57,17 +59,22 @@ export default function UserProfile({
           </div>
           <button
             className="rounded-lg bg-y-sky py-0.5 px-4 text-xs"
-            // onClick={() => console.log("친구목록보기 필요")}
+            onClick={() => {
+              if (isMine) {
+                navigate("/mypage/friend");
+              } else {
+                navigate(`/${hashcode.slice(1)}/friend`);
+              }
+            }}
           >
             친구 {friendsNum}
           </button>
         </div>
         <Level level={level} ariFactor={ariFactor} />
-        {/* 추후 isMine import 필요 */}
         {isMine ? (
           <button
             className="w-full bg-y-red rounded-lg text-white text-xs py-1"
-            // onClick={() => console.log("회원정보수정 필요")}
+            onClick={() => navigate("/mypage/edit")}
           >
             회원정보 수정하기
           </button>

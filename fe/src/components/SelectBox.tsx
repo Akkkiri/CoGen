@@ -3,11 +3,12 @@ import { GoTriangleDown } from "react-icons/go";
 import { Select, SelectBoxMatcher } from "../util/SelectUtil";
 
 type SortBoxProps = {
-  type: "sort" | "category" | "comment";
+  type: "sort" | "category" | "comment" | "ageType";
   setSelect: React.Dispatch<React.SetStateAction<Select>>;
+  curState?: string;
 };
 
-export default function SelectBox({ type, setSelect }: SortBoxProps) {
+export default function SelectBox({ type, setSelect, curState }: SortBoxProps) {
   const [list, setList] = useState<string[]>();
   const [curChoice, setCurChoice] = useState<string>();
   const [showModal, setShowModal] = useState(false);
@@ -22,8 +23,21 @@ export default function SelectBox({ type, setSelect }: SortBoxProps) {
     } else if (type === "category") {
       setCurChoice("카테고리");
       setList(["고민", "꿀팁", "장소공유", "명언", "유머", "일상", "기타"]);
+    } else if (type === "ageType") {
+      setCurChoice(curState);
+      setList([
+        "10대",
+        "20대",
+        "30대",
+        "40대",
+        "50대",
+        "60대",
+        "70대",
+        "80대 이상",
+        "공개안함",
+      ]);
     }
-  }, [type]);
+  }, [type, curState]);
 
   const handleChoice = (el: string) => {
     setCurChoice(el);
@@ -35,16 +49,18 @@ export default function SelectBox({ type, setSelect }: SortBoxProps) {
   };
 
   return (
-    <div className="pb-2">
+    <div className={`${type === "ageType" ? "" : "pb-2"}`}>
       <button
         onClick={() => setShowModal(!showModal)}
-        className="flex items-center w-28 border border-y-lightGray rounded-xl py-1.5 px-2"
+        className={`flex items-center ${
+          type === "ageType" ? "w-52" : "w-28"
+        } border border-y-lightGray rounded-xl py-1.5 px-2`}
       >
         <GoTriangleDown className="w-3 h-3 mt-[1px] mr-1 text-y-gray" />
         <span>{curChoice}</span>
       </button>
       {showModal ? (
-        <div className="relative w-28 h-0">
+        <div className={`relative ${type === "ageType" ? "w-52" : "w-28"} h-0`}>
           <ul className="bg-white border border-y-lightGray/40 rounded-lg text-base z-10 absolute w-full">
             {list?.map((el, idx) => (
               <li

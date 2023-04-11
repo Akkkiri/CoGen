@@ -5,6 +5,23 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "store/hook";
 import { id } from "store/modules/authSlice";
 
+export const genderList = [
+  { kor: "남자", eng: "MALE" },
+  { kor: "여자", eng: "FEMALE" },
+  { kor: "공개안함", eng: "NOBODY" },
+];
+const agegroupList = [
+  { kor: "10대", eng: "TEENAGER" },
+  { kor: "20대", eng: "TWENTIES" },
+  { kor: "30대", eng: "THIRTIES" },
+  { kor: "40대", eng: "FORTIES" },
+  { kor: "50대", eng: "FIFTIES" },
+  { kor: "60대", eng: "SIXTIES" },
+  { kor: "70대", eng: "SEVENTIES" },
+  { kor: "80대 이상", eng: "EIGHTIES" },
+  { kor: "공개안함", eng: "OTHERS" },
+];
+
 export default function Info() {
   const { register, getValues, handleSubmit } = useForm();
   const navigate = useNavigate();
@@ -21,22 +38,6 @@ export default function Info() {
 
   const [next, setNext] = useState(false);
 
-  const genderList = [
-    { kor: "남자", eng: "MALE" },
-    { kor: "여자", eng: "FEMALE" },
-    { kor: "공개안함", eng: "NOBODY" },
-  ];
-  const agegroupList = [
-    { kor: "10대", eng: "TEENAGER" },
-    { kor: "20대", eng: "TWENTIES" },
-    { kor: "30대", eng: "THIRTIES" },
-    { kor: "40대", eng: "FORTIES" },
-    { kor: "50대", eng: "FIFTIES" },
-    { kor: "60대", eng: "SIXTIES" },
-    { kor: "70대", eng: "SEVENTIES" },
-    { kor: "80대 이상", eng: "EIGHTIES" },
-    { kor: "공개안함", eng: "OTHERS" },
-  ];
   return (
     <div className="max-w-md m-auto flex flex-col justify-center items-center mt-12 px-4">
       <img src="/images/logo.png" alt="logo" width={90}></img>
