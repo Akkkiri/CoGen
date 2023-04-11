@@ -54,8 +54,12 @@ export default function QuizBtn({
             }`}
           >
             <span
-              className={`text-3xl font-bold text-y-red ml-4 ${
-                showAnswer ? (el === answer ? "text-y-pink" : "") : ""
+              className={`text-3xl font-bold  ml-4 ${
+                showAnswer
+                  ? el === answer
+                    ? "text-y-pink"
+                    : "text-y-red"
+                  : "text-y-red"
               }`}
             >
               {idx + 1}
