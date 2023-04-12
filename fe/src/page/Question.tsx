@@ -49,17 +49,18 @@ export default function Question() {
     });
   }, []);
   useEffect(() => {
-    axios
-      .get(
-        `questions/${questionId}/answer/list?sort=${sort}&page=
+    if (questionId !== undefined) {
+      axios
+        .get(
+          `questions/${questionId}/answer/list?sort=${sort}&page=
       ${page}`
-      )
-      .then((response) => {
-        console.log(response.data.data);
-        setQuestComment(response.data.data);
-
-        setTotalPages(response.data.pageInfo.totalPages);
-      });
+        )
+        .then((response) => {
+          setQuestComment(response.data.data);
+          setTotalPages(response.data.pageInfo.totalPages);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [page, questionId, sort]);
 
   return (

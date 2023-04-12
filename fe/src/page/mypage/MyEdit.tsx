@@ -1,30 +1,48 @@
 import BackBtn from "components/BackBtn";
 import SelectBox from "components/SelectBox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { Select } from "util/SelectUtil";
+import { Select, AgeTypeMatcherToKor } from "util/SelectUtil";
 import { genderList } from "page/signup/Info";
 import axios from "api/axios";
 
 export default function MyEdit() {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("");
+  const [hashcode, setHashcode] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [genderType, setGenderType] = useState("");
   const [ageType, setAgeType] = useState<Select>("");
+
+  useEffect(() => {
+    axios
+      .get("/mypage")
+      .then((res) => {
+        setNickname(res.data.nickname);
+        setHashcode(res.data.hashcode);
+        setProfileImage(res.data.profileImage);
+        setGenderType(res.data.genderType);
+        setAgeType(res.data.ageType);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   const handleSubmit = () => {
-    const postBody = { nickname, profileImage, genderType, ageType };
-    //제거
-    console.log(postBody);
-    // axios
-    //   .post("/mypage/patch", postBody)
-    //   .then((res) => {
-    //     //제거
-    //     console.log("회원정보수정 등록하기", res);
-    //     navigate("/mypage");
-    //   })
-    //   .catch((err) => console.log(err));
+    const postBody = {
+      nickname: nickname + hashcode,
+      profileImage,
+      genderType,
+      ageType,
+    };
+    axios
+      .post("/mypage/patch", postBody)
+      .then((res) => {
+        //제거
+        console.log("회원정보수정 등록하기", res);
+        navigate("/mypage");
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div>
@@ -76,7 +94,11 @@ export default function MyEdit() {
         </div>
         <div className="flex justify-between items-center px-4 py-3 border-b border-y-lightGray">
           <span>연령대</span>
-          <SelectBox type="ageType" setSelect={setAgeType} curState={""} />
+          <SelectBox
+            type="ageType"
+            setSelect={setAgeType}
+            curState={AgeTypeMatcherToKor(ageType)}
+          />
         </div>
         <div className="flex justify-between items-center p-2 border-b border-y-lightGray">
           <button
