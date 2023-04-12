@@ -67,3 +67,26 @@ export const SelectBoxMatcher = (str: string) => {
       return "";
   }
 };
+
+export const AgeTypeMatcherToKor = (str: string) => {
+  switch (str) {
+    case "TEENAGER":
+      return "10대";
+    case "TWENTIES":
+      return "20대";
+    case "THIRTIES":
+      return "30대";
+    case "FORTIES":
+      return "40대";
+    case "FIFTIES":
+      return "50대";
+    case "SIXTIES":
+      return "60대";
+    case "SEVENTIES":
+      return "70대";
+    case "EIGHTIES":
+      return "80대 이상";
+    case "OTHERS":
+      return "공개안함";
+  }
+};

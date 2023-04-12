@@ -1,32 +1,22 @@
-import axios from "api/axios";
-import BackBtn from "components/BackBtn";
-import QnaContainer from "components/QnaContainer";
 import { useState, useEffect } from "react";
+import { QnaElement } from "page/mypage/MyQna";
+import axios from "api/axios";
+import QnaContainer from "components/QnaContainer";
 
-export interface QnaElement {
-  qnaId: number;
-  content: string;
-  answerBody: string;
-}
-
-export default function MyQna() {
-  const [myQnaList, setMyQnaList] = useState<QnaElement[]>([]);
-
+export default function UserQna({ userID }: { userID: number }) {
+  const [userQnaList, setUserQnaList] = useState<QnaElement[]>([]);
   useEffect(() => {
     axios
-      .get("/mypage/myqna")
+      .get(`/users/${userID}/qna`)
       .then((res) => {
-        setMyQnaList(res.data);
+        setUserQnaList(res.data);
       })
       .catch((err) => console.log(err));
-  }, []);
-
+  }, [userID]);
   return (
     <div>
-      <BackBtn />
-      <h1 className="page-title">나의 문답</h1>
       <ul>
-        {myQnaList.map((el, idx) => {
+        {userQnaList.map((el, idx) => {
           return (
             <li key={el.qnaId}>
               <QnaContainer

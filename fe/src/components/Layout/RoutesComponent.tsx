@@ -18,6 +18,8 @@ import Nickname from "page/signup/Nickname";
 import SelfQna from "page/signup/SelfQna";
 import Signup from "page/signup/Signup";
 import OauthLogin from "page/login/OauthLogin";
+import Userpage from "page/userpage/Userpage";
+import UserFriend from "page/userpage/UserFriend";
 
 export default function RoutesComponent() {
   return (
@@ -43,7 +45,8 @@ export default function RoutesComponent() {
       <Route path="/mypage/comment" element={<MyComment />} />
       <Route path="/mypage/edit" element={<MyEdit />} />
       <Route path="/mypage/friend" element={<MyFriend />} />
-      {/* <Route path="/user/:id" element={<UserPage />} /> */}
+      <Route path="/user/:id" element={<Userpage />} />
+      <Route path="/user/:id/friend" element={<UserFriend />} />
     </Routes>
   );
 }

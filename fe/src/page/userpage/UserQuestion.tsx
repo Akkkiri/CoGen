@@ -1,38 +1,28 @@
-import BackBtn from "components/BackBtn";
 import Pagenation from "components/Pagenation";
 import { useState, useEffect } from "react";
 import axios from "api/axios";
 import QnaContainer from "components/QnaContainer";
+import { QuestionElement } from "page/mypage/MyQuestion";
 
-export interface QuestionElement {
-  questionId: number;
-  content: string;
-  answerList: {
-    answerBody: string[];
-  };
-}
-
-export default function MyQuestion() {
+export default function UserQuestion({ userID }: { userID: number }) {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [myQuestionList, setMyQuestionList] = useState<QuestionElement[]>([]);
-
+  const [userQuestionList, setUserQuestionList] = useState<QuestionElement[]>(
+    []
+  );
   useEffect(() => {
     axios
-      .get(`/mypage/myquestions?page=${page}`)
+      .get(`/users/${userID}/questions?page=${page}`)
       .then((res) => {
-        setMyQuestionList(res.data.data);
+        setUserQuestionList(res.data.data);
         setTotalPages(res.data.pageInfo.totalPages);
       })
       .catch((err) => console.log(err));
-  }, [page]);
-
+  }, [userID, page]);
   return (
     <div>
-      <BackBtn />
-      <h1 className="page-title">내가 답한 질문</h1>
       <ul>
-        {myQuestionList.map((el, idx) => {
+        {userQuestionList.map((el, idx) => {
           return (
             <li key={el.questionId}>
               <QnaContainer

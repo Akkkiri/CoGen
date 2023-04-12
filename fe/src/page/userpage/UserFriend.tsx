@@ -3,29 +3,29 @@ import Pagenation from "components/Pagenation";
 import { useEffect, useState } from "react";
 import Friend, { FriendProps } from "components/user/Friend";
 import axios from "api/axios";
-import { useAppSelector } from "store/hook";
-import { id } from "store/modules/authSlice";
 
-export default function MyFriend() {
-  const ID = useAppSelector(id);
+export default function UserFriend() {
+  const userID = Number(window.location.pathname.replace(/[^0-9]/g, ""));
+  const [userName, setUserName] = useState("");
   const [friendsList, setFriendsList] = useState<FriendProps[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
     axios
-      .get(`/follows/${ID}/followings?page=${page}`)
+      .get(`/follows/${userID}/followings?page=${page}`)
       .then((res) => {
         setFriendsList(res.data.data);
         setTotalPages(res.data.pageInfo.totalPages);
+        setUserName(res.data.pageInfo.nickname);
       })
       .catch((err) => console.log(err));
-  }, [ID, page]);
+  }, [userID, page]);
 
   return (
     <div>
       <BackBtn />
-      <h1 className="page-title">나의 친구</h1>
+      <h1 className="page-title">{userName}님의 친구</h1>
       <ul className="max-w-2xl m-auto">
         {friendsList.map((el) => {
           return (

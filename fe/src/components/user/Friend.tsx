@@ -19,13 +19,14 @@ export default function Friend({
 }: FriendProps) {
   const [isFollow, setIsFollow] = useState<boolean>(isFollowing);
   const handleFollow = () => {
-    setIsFollow(!isFollow);
-    // axios
-    //   .post(`/follows/${userId}`)
-    //   .then((_) => {
-    //     setIsFollow(!isFollow);
-    //   })
-    //   .catch((err) => console.log(err));
+    axios
+      .post(`/follows/${userId}`)
+      .then((res) => {
+        //제거
+        // console.log(res);
+        setIsFollow(!isFollow);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
