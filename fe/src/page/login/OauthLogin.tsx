@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hook";
 import { oauthAsync, saveId } from "store/modules/authSlice";
 import axios from "api/axios";
+import Loading from "components/Loading";
 
 export default function OauthLogin() {
   const dispatch = useAppDispatch();
@@ -11,7 +12,13 @@ export default function OauthLogin() {
   useEffect(() => {
     const path = window.location.pathname;
     const code = window.location.search;
-    getOauthCode(path, code);
+    if (
+      code !== undefined &&
+      code !== "" &&
+      (path === "/naver" || path === "/kakao")
+    ) {
+      getOauthCode(path, code);
+    }
   }, []);
 
   const getOauthCode = (path: string, code: string) => {
@@ -39,9 +46,10 @@ export default function OauthLogin() {
       .catch((err) => console.log(err));
   };
   return (
-    <div>
-      <h1>로그인중입니다</h1>
-      <h3>잠시만 기다려주세요</h3>
+    <div className="text-center mt-36">
+      <Loading />
+      <h1 className="mt-4">로그인중입니다</h1>
+      <h3 className="text-sm mt-1 text-y-lightGray">잠시만 기다려주세요</h3>
     </div>
   );
 }
