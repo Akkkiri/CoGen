@@ -1,12 +1,20 @@
 package ewha.backend.global.init;
 
 import static ewha.backend.global.init.InitConstant.*;
+import static org.apache.commons.io.FileUtils.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -55,7 +63,7 @@ public class Init {
 		QuestionService questionService, QuestionRepository questionRepository,
 		AnswerRepository answerRepository, QuizRepository quizRepository,
 		FeedService feedService, CategoryService categoryService, QnaRepository qnaRepository,
-		CommentRepository commentRepository, BCryptPasswordEncoder encoder) {
+		CommentRepository commentRepository, BCryptPasswordEncoder encoder) throws IOException {
 
 		for (int i = 0; i < 7; i++) {
 			Category category = Category.builder()
@@ -181,16 +189,50 @@ public class Init {
 		//         QUIZ STUB
 		//         ------------------------------------------------------------------------------------------
 
-		Collections.shuffle(InitConstant.DUMMY_QUIZ_LIST);
+		List<List<String>> csvList = new ArrayList<List<String>>();
+
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("quiz.tsv");
+
+		File csv = convertInputStreamToFile(inputStream);
+		// File csv = new File(FILE_PATH);
+		BufferedReader br = null;
+		String line = "";
+
+		try {
+			br = new BufferedReader(new FileReader(csv));
+			while ((line = br.readLine()) != null) { // readLine()은 파일에서 개행된 한 줄의 데이터를 읽어온다.
+				List<String> aLine = new ArrayList<String>();
+				String[] lineArr = line.split("\t"); // 파일의 한 줄을 ,로 나누어 배열에 저장 후 리스트로 변환한다.
+				aLine = Arrays.asList(lineArr);
+				csvList.add(aLine);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null) {
+					br.close(); // 사용 후 BufferedReader를 닫아준다.
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		for (int i = 0; i < 20; i += 5) {
+
 			if (i == 0) {
 				for (int j = 0; j < 5; j++) {
+
+					List<String> list = csvList.get(j + 1);
+
 					Quiz quiz = Quiz.builder()
-						.content(DUMMY_QUIZ_LIST.get(j) + "의 뜻은 무엇일까요?")
-						.answer("정답")
-						.dummy1("더미 1")
-						.dummy2("더미 2")
-						.explanation("설명")
+						.content(list.get(0))
+						.answer(list.get(1))
+						.dummy1(list.get(2))
+						.dummy2(list.get(3))
+						.explanation(list.get(4))
 						.openDate(thisMonday)
 						.isOpened(true)
 						.build();
@@ -199,6 +241,9 @@ public class Init {
 				continue;
 			}
 			for (int j = i; j < i + 5; j++) {
+
+				List<String> list = csvList.get(j + 1);
+
 				Quiz quiz = Quiz.builder()
 					.content(DUMMY_QUIZ_LIST.get(j) + "의 뜻은 무엇일까요?")
 					.answer("정답")
@@ -211,6 +256,40 @@ public class Init {
 				quizRepository.save(quiz);
 			}
 		}
+
+		// Collections.shuffle(InitConstant.DUMMY_QUIZ_LIST);
+		// for (int i = 0; i < 20; i += 5) {
+		//
+		// 	List<String> list = csvList.get(i);
+		//
+		// 	if (i == 0) {
+		// 		for (int j = 0; j < 5; j++) {
+		// 			Quiz quiz = Quiz.builder()
+		// 				.content(DUMMY_QUIZ_LIST.get(j) + "의 뜻은 무엇일까요?")
+		// 				.answer("정답")
+		// 				.dummy1("더미 1")
+		// 				.dummy2("더미 2")
+		// 				.explanation("설명")
+		// 				.openDate(thisMonday)
+		// 				.isOpened(true)
+		// 				.build();
+		// 			quizRepository.save(quiz);
+		// 		}
+		// 		continue;
+		// 	}
+		// 	for (int j = i; j < i + 5; j++) {
+		// 		Quiz quiz = Quiz.builder()
+		// 			.content(DUMMY_QUIZ_LIST.get(j) + "의 뜻은 무엇일까요?")
+		// 			.answer("정답")
+		// 			.dummy1("더미 1")
+		// 			.dummy2("더미 2")
+		// 			.explanation("설명")
+		// 			.openDate(thisMonday.plusWeeks(j / 5))
+		// 			.isOpened(false)
+		// 			.build();
+		// 		quizRepository.save(quiz);
+		// 	}
+		// }
 
 		//         ------------------------------------------------------------------------------------------
 		//         ------------------------------------------------------------------------------------------
@@ -268,5 +347,15 @@ public class Init {
 		log.info("COMMENT STUB: " + commentRepository.saveAll(commentList));
 		//         ------------------------------------------------------------------------------------------
 		return null;
+	}
+
+	public static File convertInputStreamToFile(InputStream inputStream) throws IOException {
+
+		File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tsv");
+		tempFile.deleteOnExit();
+
+		copyInputStreamToFile(inputStream, tempFile);
+
+		return tempFile;
 	}
 }
