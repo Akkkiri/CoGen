@@ -40,7 +40,7 @@ spring:
         order_inserts: true
         order_updates: true
     hikari:
-      maximum-pool-size: 50
+      maximum-pool-size: 100
   security:
     oauth2:
       client:
