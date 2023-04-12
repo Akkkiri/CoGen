@@ -1,5 +1,7 @@
 package ewha.backend.domain.follow.repository;
 
+import static ewha.backend.domain.follow.entity.QFollow.*;
+
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -8,10 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import ewha.backend.domain.follow.entity.Follow;
+
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import ewha.backend.domain.user.entity.User;
-import ewha.backend.domain.follow.entity.QFollow;
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -21,28 +24,28 @@ public class FollowQueryRepository {
 
 	public Follow findFollowByUserIds(Long followingUserId, Long followedUserId) {
 
-		return jpaQueryFactory.selectFrom(QFollow.follow)
-			.where(QFollow.follow.followingUser.id.eq(followingUserId).and(QFollow.follow.followedUser.id.eq(followedUserId)))
+		return jpaQueryFactory.selectFrom(follow)
+			.where(follow.followingUser.id.eq(followingUserId).and(follow.followedUser.id.eq(followedUserId)))
 			.fetchFirst();
 	}
 
 	public Page<User> findFollowersByUserId(Long userId, Pageable pageable) {
 
 		List<User> followList =
-			jpaQueryFactory.select(QFollow.follow.followingUser)
-				.from(QFollow.follow)
+			jpaQueryFactory.select(follow.followingUser)
+				.from(follow)
 				// .join(follow.followingUser, user)
-				.where(QFollow.follow.followedUser.id.eq(userId))
-				.orderBy(QFollow.follow.createdAt.desc())
+				.where(follow.followedUser.id.eq(userId))
+				.orderBy(follow.createdAt.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
 
 		Long total =
-			jpaQueryFactory.select(QFollow.follow.followingUser.count())
-				.from(QFollow.follow)
+			jpaQueryFactory.select(follow.followingUser.count())
+				.from(follow)
 				// .join(follow.followingUser, user)
-				.where(QFollow.follow.followedUser.id.eq(userId))
+				.where(follow.followedUser.id.eq(userId))
 				.fetchOne();
 
 		return new PageImpl<>(followList, pageable, total);
@@ -51,27 +54,27 @@ public class FollowQueryRepository {
 	public Page<User> findFollowersWithLoginUserByUserId(Long loginUserId, Long userId, Pageable pageable) {
 
 		User loginUser =
-			jpaQueryFactory.select(QFollow.follow.followingUser)
-				.from(QFollow.follow)
-				.where(QFollow.follow.followingUser.id.eq(loginUserId).and(QFollow.follow.followedUser.id.eq(userId)))
+			jpaQueryFactory.select(follow.followingUser)
+				.from(follow)
+				.where(follow.followingUser.id.eq(loginUserId).and(follow.followedUser.id.eq(userId)))
 				.fetchFirst();
 
 		List<User> followList =
-			jpaQueryFactory.select(QFollow.follow.followingUser)
-				.from(QFollow.follow)
+			jpaQueryFactory.select(follow.followingUser)
+				.from(follow)
 				// .join(follow.followingUser, user)
-				.where(QFollow.follow.followingUser.id.ne(loginUserId))
-				.where(QFollow.follow.followedUser.id.eq(userId))
-				.orderBy(QFollow.follow.createdAt.desc())
+				.where(follow.followingUser.id.ne(loginUserId))
+				.where(follow.followedUser.id.eq(userId))
+				.orderBy(follow.createdAt.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
 
 		Long total =
-			jpaQueryFactory.select(QFollow.follow.followingUser.count())
-				.from(QFollow.follow)
+			jpaQueryFactory.select(follow.followingUser.count())
+				.from(follow)
 				// .join(follow.followingUser, user)
-				.where(QFollow.follow.followedUser.id.eq(userId))
+				.where(follow.followedUser.id.eq(userId))
 				.fetchOne();
 
 		if (loginUser != null) {
@@ -86,20 +89,26 @@ public class FollowQueryRepository {
 	public Page<User> findFollowingsByUserId(Long userId, Pageable pageable) {
 
 		List<User> followList =
-			jpaQueryFactory.select(QFollow.follow.followedUser)
-				.from(QFollow.follow)
-				.where(QFollow.follow.followingUser.id.eq(userId))
-				.orderBy(QFollow.follow.createdAt.desc())
+			jpaQueryFactory.select(follow.followedUser)
+				.from(follow)
+				.where(follow.followingUser.id.eq(userId))
+				.orderBy(follow.createdAt.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
 
 		Long total =
-			jpaQueryFactory.select(QFollow.follow.followedUser.count())
-				.from(QFollow.follow)
-				.where(QFollow.follow.followingUser.id.eq(userId))
+			jpaQueryFactory.select(follow.followedUser.count())
+				.from(follow)
+				.where(follow.followingUser.id.eq(userId))
 				.fetchOne();
 
 		return new PageImpl<>(followList, pageable, total);
+	}
+
+	public Boolean existByFollowingUserAndFollowedUser(User followingUser, User followedUser) {
+		return jpaQueryFactory.selectFrom(follow)
+			.where(follow.followingUser.eq(followingUser).and(follow.followedUser.eq(followedUser)))
+			.fetchFirst() != null;
 	}
 }

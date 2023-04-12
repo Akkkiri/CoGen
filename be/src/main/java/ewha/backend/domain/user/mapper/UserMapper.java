@@ -95,7 +95,7 @@ public interface UserMapper {
 		return myPageResponseBuilder.build();
 	}
 
-	default UserDto.UserPageResponse userToUserPageResponse(User user) {
+	default UserDto.UserPageResponse userToUserPageResponse(User user, Boolean isFollowing) {
 
 		if (user == null) {
 			return null;
@@ -110,6 +110,7 @@ public interface UserMapper {
 		userPageResponseBuilder.userId(user.getUserId());
 		userPageResponseBuilder.nickname(nickPre);
 		userPageResponseBuilder.hashcode(nickSuf);
+		userPageResponseBuilder.isFollowing(isFollowing);
 		userPageResponseBuilder.level(user.getLevel());
 		userPageResponseBuilder.ariFactor(user.getAriFactor());
 		userPageResponseBuilder.friendsNum(user.getFollowingCount());

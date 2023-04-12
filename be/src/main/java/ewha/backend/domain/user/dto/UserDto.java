@@ -145,6 +145,7 @@ public class UserDto {
 		private String userId;
 		private String nickname;
 		private String hashcode;
+		private Boolean isFollowing;
 		private Integer level;
 		private Integer ariFactor;
 		private Long friendsNum;

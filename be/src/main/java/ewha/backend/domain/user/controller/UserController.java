@@ -32,6 +32,7 @@ import ewha.backend.domain.comment.mapper.CommentMapper;
 import ewha.backend.domain.feed.dto.FeedDto;
 import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.feed.mapper.FeedMapper;
+import ewha.backend.domain.follow.repository.FollowQueryRepository;
 import ewha.backend.domain.image.service.AwsS3Service;
 import ewha.backend.domain.qna.service.QnaService;
 import ewha.backend.domain.question.dto.QuestionDto;
@@ -57,6 +58,7 @@ public class UserController {
 	private final QuestionMapper questionMapper;
 	private final AwsS3Service awsS3Service;
 	private final QnaService qnaService;
+	private final FollowQueryRepository followQueryRepository;
 
 	@GetMapping("/oauth/signin")
 	@ResponseBody
@@ -233,7 +235,14 @@ public class UserController {
 	public ResponseEntity<UserDto.UserPageResponse> getUserPage(@PathVariable("user_id") Long userId) {
 
 		User findUser = userService.getUser(userId);
-		UserDto.UserPageResponse response = userMapper.userToUserPageResponse(findUser);
+		User loginUser = userService.getLoginUserReturnNull();
+		UserDto.UserPageResponse response;
+
+		if (loginUser != null && followQueryRepository.existByFollowingUserAndFollowedUser(loginUser, findUser)) {
+			response = userMapper.userToUserPageResponse(findUser, true);
+		} else {
+			response = userMapper.userToUserPageResponse(findUser, false);
+		}
 
 		return ResponseEntity.ok().body(response);
 	}

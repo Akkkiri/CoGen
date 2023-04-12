@@ -63,12 +63,11 @@ public class QuestionService {
 		return questionQueryRepository.findQuestionOfWeek();
 	}
 
-	// @Transactional(readOnly = true)
-	// public Question getQuestion(Long questionId) {
-	//
-	// 	Question findQuestion = findVerifiedQuestion(questionId);
-	// 	return findVerifiedQuestion(questionId);
-	// }
+	@Transactional(readOnly = true)
+	public Question getPastQuestion(Long questionId) {
+
+		return questionQueryRepository.findPastQuestion(questionId);
+	}
 
 	@Transactional(readOnly = true)
 	public Page<Question> getPassedQuestion(Integer page) {
@@ -84,6 +83,13 @@ public class QuestionService {
 		Optional<Question> optionalPairing = questionRepository.findById(questionId);
 		return optionalPairing.orElseThrow(() ->
 			new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+	}
+
+	@Transactional(readOnly = true)
+	public Question findAnswerableQuestion(Long questionId) {
+		return questionQueryRepository.findAnswerableQuestion(questionId)
+			.orElseThrow(() ->
+				new BusinessLogicException(ExceptionCode.NOT_THIS_WEEK_QUESTION));
 	}
 
 	@Transactional

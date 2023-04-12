@@ -108,14 +108,14 @@ public class QuestionController {
 		return ResponseEntity.ok().body(response);
 	}
 
-	// @GetMapping("/{question_id}")
-	// public ResponseEntity<QuestionDto.Response> getQuestion(@PathVariable("question_id") Long questionId) {
-	//
-	// 	Question question = questionService.getQuestion(questionId);
-	// 	QuestionDto.Response response = questionMapper.questionToQuestionResponse(question);
-	//
-	// 	return ResponseEntity.ok().body(response);
-	// }
+	@GetMapping("/{question_id}")
+	public ResponseEntity<QuestionDto.Response> getQuestion(@PathVariable("question_id") Long questionId) {
+
+		Question question = questionService.getPastQuestion(questionId);
+		QuestionDto.Response response = questionMapper.questionToQuestionResponse(question);
+
+		return ResponseEntity.ok().body(response);
+	}
 
 	@GetMapping("/list")
 	public ResponseEntity<MultiResponseDto<QuestionDto.Response>> getPassedQuestion(

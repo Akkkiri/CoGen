@@ -30,7 +30,7 @@ public class AnswerService {
 
 		User findUser = userService.getLoginUser();
 
-		Question question = questionService.findVerifiedQuestion(questionId);
+		Question question = questionService.findAnswerableQuestion(questionId);
 
 		Answer savedAnswer =
 			Answer.builder()

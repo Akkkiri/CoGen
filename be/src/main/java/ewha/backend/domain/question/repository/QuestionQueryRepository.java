@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -70,6 +71,24 @@ public class QuestionQueryRepository {
 		return jpaQueryFactory
 			.selectFrom(question)
 			.where(question.openDate.eq(LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))))
+			.fetchOne();
+	}
+
+	public Optional<Question> findAnswerableQuestion(Long questionId) {
+		return Optional.ofNullable(
+			jpaQueryFactory
+				.selectFrom(question)
+				.where(question.isOpened.eq(true)
+					.and(
+						question.openDate.eq(LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))))
+					.and(question.id.eq(questionId)))
+				.fetchOne());
+	}
+
+	public Question findPastQuestion(Long questionId) {
+		return jpaQueryFactory
+			.selectFrom(question)
+			.where(question.isOpened.eq(true).and(question.id.eq(questionId)))
 			.fetchOne();
 	}
 

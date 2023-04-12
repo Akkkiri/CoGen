@@ -29,6 +29,7 @@ public enum ExceptionCode {
 	CATEGORY_NOT_FOUND(404, "Category Not Found"),
 	FEED_NOT_FOUND(404, "Feed Not Found"),
 	QUESTION_NOT_FOUND(404, "Question Not Found"),
+	NOT_THIS_WEEK_QUESTION(400, "Not This Week's Question"),
 	ANSWER_NOT_FOUND(404, "Answer Not Found"),
 	QUIZ_NOT_FOUND(404, "Quiz Not Found"),
 	IMAGE_NOT_FOUND(404, "Image Not Found"),

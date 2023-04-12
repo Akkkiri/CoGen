@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import ewha.backend.domain.follow.entity.Follow;
+import ewha.backend.domain.user.entity.User;
 
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
@@ -16,4 +17,5 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
 	@Query(nativeQuery = true, value = "select followed_user_id from follow where following_User_Id =:userId")
 	List<Long> findFollowingsByUserId(Long userId);
+
 }
