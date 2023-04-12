@@ -22,6 +22,7 @@ export default function Writepost() {
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<Select>("");
   const [imageData, setImageData] = useState([]);
+  const [finalData, setFinalData] = useState<any>("");
   const navigate = useNavigate();
   // const onValid = (data: any) => {
   //   // 기본으로 data 가져오기
@@ -33,13 +34,22 @@ export default function Writepost() {
     setInputState(e.target.value);
   };
   const postPost = () => {
-    const reqBody = {
+    const jsonData = {
       title: inputState,
       body: content,
-      category: SelectBoxMatcher(category),
+      category: category,
     };
+    // const formData = new FormData();
+    // for (const file of imageData) {
+    //   formData.append("files", file);
+    // }
+    // formData.append(
+    //   "post",
+    //   new Blob([JSON.stringify(jsonData)], { type: "application/json" })
+    // );
+    // setFinalData(formData);
     axios
-      .post(`/feeds/add`, reqBody)
+      .post(`/feeds/add`, jsonData)
       .then(() => navigate(""))
       .catch((err) => console.log(err));
   };
@@ -51,6 +61,7 @@ export default function Writepost() {
       <div>
         <div className="m-2">
           <div className="mb-2 mt-6 text-lg font-semibold">카테고리</div>
+          {}
           <SelectBox setSelect={setCategory} type={"category"} />
         </div>
         <div className="m-2">
