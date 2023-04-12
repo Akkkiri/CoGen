@@ -31,6 +31,8 @@ public interface FeedMapper {
 			.title(postFeed.getTitle())
 			.category(category)
 			.body(postFeed.getBody())
+			.imagePath(postFeed.getImagePath())
+			.thumbnailPath(postFeed.getThumbnailPath())
 			.build();
 	}
 

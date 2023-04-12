@@ -31,6 +31,9 @@ public class FeedDto {
 		private CategoryType category;
 		@Size(min = 3, max = 1000, message = "1000자를 넘을 수 없습니다.")
 		private String body;
+		private String imagePath;
+		private String thumbnailPath;
+
 
 	}
 

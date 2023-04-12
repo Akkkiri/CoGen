@@ -43,37 +43,37 @@ public class FeedController {
 	private final LikeService likeService;
 	private final AwsS3Service awsS3Service;
 
-	// @PostMapping("/add")
-	// public ResponseEntity<HttpStatus> postFeed(
-	// 	@Valid @RequestBody FeedDto.Post postFeed) throws Exception {
-	//
-	// 	Feed feed = feedMapper.feedPostToFeed(postFeed, categoryService);
-	// 	Feed createdFeed = feedService.createFeed(feed);
-	//
-	// 	return ResponseEntity.status(HttpStatus.CREATED).build();
-	// }
-
 	@PostMapping("/add")
 	public ResponseEntity<HttpStatus> postFeed(
-		@RequestParam(value = "images", required = false) MultipartFile multipartFile,
-		@Valid @RequestPart(value = "post") FeedDto.Post postFeed) throws Exception {
-
-		List<String> imagePath = null;
+		@Valid @RequestBody FeedDto.Post postFeed) throws Exception {
 
 		Feed feed = feedMapper.feedPostToFeed(postFeed, categoryService);
 		Feed createdFeed = feedService.createFeed(feed);
 
-		if (multipartFile != null) {
-			imagePath = awsS3Service.uploadImageToS3(multipartFile, createdFeed.getId());
-			if (imagePath.size() != 0) {
-				createdFeed.addImagePaths(imagePath.get(0), imagePath.get(1));
-			}
-		}
-
-		// FeedDto.Response response = feedMapper.feedToFeedResponse(createdFeed);
-		// return ResponseEntity.status(HttpStatus.CREATED).body(response);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
+
+	// @PostMapping("/add")
+	// public ResponseEntity<HttpStatus> postFeed(
+	// 	@RequestParam(value = "images", required = false) MultipartFile multipartFile,
+	// 	@Valid @RequestPart(value = "post") FeedDto.Post postFeed) throws Exception {
+	//
+	// 	List<String> imagePath = null;
+	//
+	// 	Feed feed = feedMapper.feedPostToFeed(postFeed, categoryService);
+	// 	Feed createdFeed = feedService.createFeed(feed);
+	//
+	// 	if (multipartFile != null) {
+	// 		imagePath = awsS3Service.uploadImageToS3(multipartFile, createdFeed.getId());
+	// 		if (imagePath.size() != 0) {
+	// 			createdFeed.addImagePaths(imagePath.get(0), imagePath.get(1));
+	// 		}
+	// 	}
+	//
+	// 	// FeedDto.Response response = feedMapper.feedToFeedResponse(createdFeed);
+	// 	// return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	// 	return ResponseEntity.status(HttpStatus.CREATED).build();
+	// }
 
 	@PostMapping("/{feed_id}/edit")
 	public ResponseEntity<HttpStatus> patchFeed(@PathVariable("feed_id") @Positive Long feedId,

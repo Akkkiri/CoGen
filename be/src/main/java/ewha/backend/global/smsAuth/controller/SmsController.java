@@ -76,12 +76,13 @@ public class SmsController {
 	}
 
 	@PostMapping("/find/password/sms/verification")
-	public ResponseEntity<String> findMyPasswordVerification(@RequestBody SmsDto.FindPasswordCertificationRequest request) {
+	public ResponseEntity<String> findMyPasswordVerification(@RequestBody SmsDto.FindPasswordCertificationRequest request) throws
+		CoolsmsException {
 
 		smsService.findPasswordVerifyCertification(request);
 
-		User findUser = userService.findByUserId(request.getUserId());
+		smsService.sendTempPassSms(request.getUserId());
 
-		return ResponseEntity.ok(findUser.getPassword());
+		return ResponseEntity.ok("Temp Password Sent");
 	}
 }
