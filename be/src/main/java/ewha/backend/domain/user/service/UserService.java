@@ -35,7 +35,7 @@ public interface UserService {
 
 	Boolean verifyNicknameAndPhoneNumber(String nickname, String phoneNumber);
 
-	Boolean verifyUserIdAndPhoneNumber(String userId, String phoneNumber);
+	void verifyUserIdAndPhoneNumber(String userId);
 
 	User findByNickname(String nickname);
 

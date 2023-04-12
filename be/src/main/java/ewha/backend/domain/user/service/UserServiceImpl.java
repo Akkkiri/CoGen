@@ -182,16 +182,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Boolean verifyUserIdAndPhoneNumber(String userId, String phoneNumber) {
+	public void verifyUserIdAndPhoneNumber(String userId) {
 
 		User findUser = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-
-		if (findUser.getUserId().equals(phoneNumber)) {
-			return true;
-		} else {
-			throw new BusinessLogicException(ExceptionCode.PHONE_NUMBER_NOT_MATCH);
-		}
 	}
 
 	@Override

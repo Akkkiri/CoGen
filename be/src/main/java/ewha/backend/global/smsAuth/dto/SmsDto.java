@@ -35,7 +35,6 @@ public class SmsDto {
 	@AllArgsConstructor
 	public static class FindPasswordRequest {
 		private String userId;
-		private String phoneNumber;
 	}
 
 	@Getter

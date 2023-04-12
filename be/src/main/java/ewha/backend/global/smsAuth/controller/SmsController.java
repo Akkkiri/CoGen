@@ -66,11 +66,11 @@ public class SmsController {
 	@PostMapping("/find/password/sms/send")
 	public ResponseEntity<String> findMyPasswordRequest(@RequestBody SmsDto.FindPasswordRequest request) throws CoolsmsException {
 
-		System.out.println("인증 요청 번호: " + request.getPhoneNumber());
+		System.out.println("인증 요청 번호: " + request.getUserId());
 
-		userService.verifyUserIdAndPhoneNumber(request.getUserId(), request.getPhoneNumber());
+		userService.verifyUserIdAndPhoneNumber(request.getUserId());
 
-		smsService.sendSms(request.getPhoneNumber());
+		smsService.sendSms(request.getUserId());
 
 		return ResponseEntity.ok("Request Certification Number");
 	}
