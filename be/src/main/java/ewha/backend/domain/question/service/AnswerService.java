@@ -63,6 +63,8 @@ public class AnswerService {
 
 		Answer findAnswer = findVerifiedAnswer(answerId);
 
+		Question question = questionService.findAnswerableQuestion(findAnswer.getQuestion().getId());
+
 		if (findAnswer.getUser().equals(findUser)) {
 			findAnswer.updateAnswer(answer);
 			return answerRepository.save(findAnswer);
