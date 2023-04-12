@@ -1,7 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import Level from "./Level";
+import axios from "api/axios";
+import { useAppSelector } from "store/hook";
+import { isLogin } from "store/modules/authSlice";
+import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
 
 export interface UserProfileProps {
+  userID?: number;
   nickname: string;
   hashcode: string;
   profileImage: string;
@@ -12,6 +18,7 @@ export interface UserProfileProps {
 }
 
 export default function UserProfile({
+  userID,
   nickname,
   hashcode,
   profileImage,
@@ -21,6 +28,8 @@ export default function UserProfile({
   isMine,
 }: UserProfileProps) {
   const navigate = useNavigate();
+  const isLoginUser = useAppSelector(isLogin);
+  const [isFollowing, setIsFollowing] = useState(false);
   const medal = (level: number) => {
     if (level === 50) return 50;
     else if (level >= 40) return 40;
@@ -36,6 +45,21 @@ export default function UserProfile({
     30: "/images/level30.png",
     40: "/images/level40.png",
     50: "/images/level50.png",
+  };
+
+  useEffect(() => {
+    //setIsFollowing 으로 isFollowing 가져오는 로직 필요
+  }, []);
+
+  const handleFollowing = () => {
+    axios
+      .post(`/follows/${userID}`)
+      .then((res) => {
+        //제거
+        console.log(res);
+        setIsFollowing(!isFollowing);
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div className="flex justify-center items-center mx-2">
@@ -60,11 +84,7 @@ export default function UserProfile({
           <button
             className="rounded-lg bg-y-sky py-0.5 px-4 text-xs"
             onClick={() => {
-              if (isMine) {
-                navigate("/mypage/friend");
-              } else {
-                navigate(`/${hashcode.slice(1)}/friend`);
-              }
+              navigate(`friend`);
             }}
           >
             친구 {friendsNum}
@@ -78,10 +98,35 @@ export default function UserProfile({
           >
             회원정보 수정하기
           </button>
+        ) : isFollowing ? (
+          <button
+            className="w-full bg-y-red rounded-lg text-white text-xs py-1"
+            onClick={handleFollowing}
+          >
+            친구 삭제
+          </button>
         ) : (
           <button
             className="w-full bg-y-pink rounded-lg text-black text-xs py-1"
-            // onClick={() => console.log("친구하기 필요")}
+            onClick={
+              isLoginUser
+                ? handleFollowing
+                : () => {
+                    Swal.fire({
+                      text: "로그인이 필요한 서비스입니다",
+                      showCancelButton: true,
+                      reverseButtons: true,
+                      confirmButtonColor: "#E74D47",
+                      confirmButtonText: "로그인하러 가기",
+                      cancelButtonColor: "#A19E9E",
+                      cancelButtonText: "취소",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        navigate("/login");
+                      }
+                    });
+                  }
+            }
           >
             친구하기
           </button>
