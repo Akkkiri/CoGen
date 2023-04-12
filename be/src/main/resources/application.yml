@@ -12,9 +12,9 @@ spring:
       read-from: MASTER, SLAVE
       write-to: MASTER
   datasource:
-#    hikari:
-#      maximum-pool-size: 60
-#      idle-timeout: 300000
+    hikari:
+      maximum-pool-size: 60
+      idle-timeout: 180000
     url: jdbc:mysql://ehwa.covow6hrmmr7.ap-northeast-2.rds.amazonaws.com:3306/ewha_db?useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
@@ -33,7 +33,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     open-in-view: true
     properties:
