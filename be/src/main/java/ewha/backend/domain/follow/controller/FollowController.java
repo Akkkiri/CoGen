@@ -23,6 +23,7 @@ import ewha.backend.domain.follow.service.FollowService;
 import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.dto.MultiResponseDto;
+import ewha.backend.global.dto.MultiResponseWithUserNicknameDto;
 import lombok.RequiredArgsConstructor;
 
 @Validated
@@ -74,11 +75,13 @@ public class FollowController {
 	}
 
 	@GetMapping("/{userId}/followings")
-	public ResponseEntity<MultiResponseDto<FollowDto.FollowingResponse>> getFollowingList(
+	public ResponseEntity<MultiResponseWithUserNicknameDto<FollowDto.FollowingResponse>> getFollowingList(
 		@PathVariable("userId") @Positive Long followingUserId,
 		@RequestParam(name = "page", defaultValue = "1") int page) {
 
 		User findUser = userService.getLoginUserReturnNull();
+
+		String followingUserNickname = userService.findVerifiedUser(followingUserId).getNickname();
 
 		if (findUser == null) {
 
@@ -87,7 +90,8 @@ public class FollowController {
 			PageImpl<FollowDto.FollowingResponse> responsePage =
 				followMapper.followingsToFollowingResponses(findFollowings, new ArrayList<>());
 
-			return ResponseEntity.ok(new MultiResponseDto<>(responsePage.getContent(), findFollowings));
+			return ResponseEntity.ok(new MultiResponseWithUserNicknameDto<>(
+				responsePage.getContent(), findFollowings, followingUserNickname));
 
 		} else {
 
@@ -98,7 +102,39 @@ public class FollowController {
 			PageImpl<FollowDto.FollowingResponse> responsePage =
 				followMapper.followingsToFollowingResponses(findFollowings, findFollowingsList);
 
-			return ResponseEntity.ok(new MultiResponseDto<>(responsePage.getContent(), findFollowings));
+			return ResponseEntity.ok(new MultiResponseWithUserNicknameDto<>(
+				responsePage.getContent(), findFollowings, followingUserNickname));
 		}
 	}
+
+	// @GetMapping("/{userId}/followings")
+	// public ResponseEntity<MultiResponseDto<FollowDto.FollowingResponse>> getFollowingList(
+	// 	@PathVariable("userId") @Positive Long followingUserId,
+	// 	@RequestParam(name = "page", defaultValue = "1") int page) {
+	//
+	// 	User findUser = userService.getLoginUserReturnNull();
+	//
+	// 	String followingUserNickname = userService.findVerifiedUser(followingUserId).getNickname();
+	//
+	// 	if (findUser == null) {
+	//
+	// 		Page<User> findFollowings = followService.findFollowings(followingUserId, page);
+	//
+	// 		PageImpl<FollowDto.FollowingResponse> responsePage =
+	// 			followMapper.followingsToFollowingResponses(findFollowings, new ArrayList<>());
+	//
+	// 		return ResponseEntity.ok(new MultiResponseDto<>(responsePage.getContent(), findFollowings));
+	//
+	// 	} else {
+	//
+	// 		Page<User> findFollowings = followService.findFollowings(followingUserId, page);
+	//
+	// 		List<User> findFollowingsList = followService.findFollowingsList(findUser.getId(), findFollowings);
+	//
+	// 		PageImpl<FollowDto.FollowingResponse> responsePage =
+	// 			followMapper.followingsToFollowingResponses(findFollowings, findFollowingsList);
+	//
+	// 		return ResponseEntity.ok(new MultiResponseDto<>(responsePage.getContent(), findFollowings));
+	// 	}
+	// }
 }

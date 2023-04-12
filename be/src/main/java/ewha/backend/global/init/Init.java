@@ -73,7 +73,7 @@ public class Init {
 			.level(50)
 			.ariFactor(0)
 			.password(encoder.encode("admin"))
-			.nickname("관리자")
+			.nickname("관리자#6DABE4")
 			.role(List.of("ROLE_ADMIN", "ROLE_USER"))
 			.isFirstLogin(false)
 			.build();

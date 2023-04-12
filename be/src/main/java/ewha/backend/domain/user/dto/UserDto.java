@@ -57,7 +57,7 @@ public class UserDto {
 		@Pattern(regexp = "^01(?:0|1|[6-9])(\\d{3}|\\d{4})(\\d{4})$", message = "올바른 휴대폰번호를 입력해 주세요.")
 		private String userId;
 		@NotBlank(message = "닉네임을 입력해주세요.")
-		@Pattern(regexp = "[0-9a-zA-Zㄱ-ㅎ가-힣]{2,10}", message = "2~10자의 한글, 영문, 숫자만 사용 가능합니다.")
+		@Pattern(regexp = "[0-9a-zA-Zㄱ-ㅎ가-힣]{2,8}", message = "2~8자의 한글, 영문, 숫자만 사용 가능합니다.")
 		private String nickname;
 		@NotBlank(message = "패스워드를 입력해주세요.")
 		@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$", message = "6~20자의 영문, 숫자만 사용 가능합니다.")
@@ -110,7 +110,8 @@ public class UserDto {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class UserInfo {
-		@NotNull
+		@NotBlank(message = "닉네임을 입력해주세요.")
+		@Pattern(regexp = "[0-9a-zA-Zㄱ-ㅎ가-힣]{2,8}", message = "2~8자의 한글, 영문, 숫자만 사용 가능합니다.")
 		private String nickname;
 		private String profileImage;
 		@NotNull
