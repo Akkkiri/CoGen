@@ -52,6 +52,30 @@ public class SmsService {
 		smsRedisRepository.createCertification(phoneNumber, certificationNumber.toString());
 	}
 
+	public void sendTempPassSms(String phoneNumber) throws CoolsmsException {
+
+		Message coolsms = new Message(API_KEY, API_SECRET);
+
+		Random rand = new Random();
+		StringBuilder certificationNumber = new StringBuilder();
+		for (int i = 0; i < 8; i++) {
+			String ran = Integer.toString(rand.nextInt(10));
+			certificationNumber.append(ran);
+		}
+
+		HashMap<String, String> params = new HashMap<>();
+
+		params.put("to", phoneNumber);
+		params.put("from", "01030380831");
+		params.put("type", "SMS");
+		params.put("text", "우리 함께 CoGen: 임시 비밀번호는" + "[" + certificationNumber + "]" + "입니다.");
+		params.put("app_version", "test app 1.0");
+
+		coolsms.send(params);
+
+		smsRedisRepository.createCertification(phoneNumber, certificationNumber.toString());
+	}
+
 	public String verifyCertification(SmsDto.CertificationRequest request) {
 		if (!isVerified(request)) {
 			throw new AuthenticationCredentialsNotFoundException("인증번호가 일치하지 않습니다.");

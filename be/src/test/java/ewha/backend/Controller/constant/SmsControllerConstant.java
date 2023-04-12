@@ -31,13 +31,11 @@ public class SmsControllerConstant {
 	public static final SmsDto.FindPasswordRequest FIND_PASSWORD_REQUEST_DTO =
 		SmsDto.FindPasswordRequest.builder()
 			.userId("testuser")
-			.phoneNumber("01012345678")
 			.build();
 
 	public static final SmsDto.FindPasswordCertificationRequest FIND_PASSWORD_CERTIFICATION_REQUEST_DTO =
 		SmsDto.FindPasswordCertificationRequest.builder()
 			.userId("testuser")
-			.phoneNumber("01012345678")
 			.certificationNumber("123456")
 			.build();
 }
