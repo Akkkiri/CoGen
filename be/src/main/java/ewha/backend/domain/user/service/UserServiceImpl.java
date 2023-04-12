@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 		// verifyUserId(postDto.getUserId());
 		verifyPassword(postDto.getPassword(), postDto.getPasswordRepeat());
 
-		String createdNickname = createNickname(postDto.getNickname());
+		String createdNickname = postDto.getNickname() + createHashCode();
 		String encryptedPassword = bCryptPasswordEncoder.encode(postDto.getPassword());
 		List<String> roles = customAuthorityUtils.createRoles(postDto.getUserId());
 
@@ -291,6 +291,29 @@ public class UserServiceImpl implements UserService {
 			hashcode = temp;
 		}
 		return nickname + hashcode;
+	}
+
+	@Transactional
+	public String createHashCode() {
+
+		Random rand = new Random();
+		StringBuilder hashcode = new StringBuilder();
+		hashcode.append('#');
+		for (int i = 0; i < 6; i++) {
+			String ran = Integer.toString(rand.nextInt(10));
+			hashcode.append(ran);
+		}
+
+		while (userQueryRepository.existUserByHashCode(hashcode.toString())) {
+			StringBuilder temp = new StringBuilder();
+			temp.append('#');
+			for (int i = 0; i < 6; i++) {
+				String ran = Integer.toString(rand.nextInt(10));
+				temp.append(ran);
+			}
+			hashcode = temp;
+		}
+		return hashcode.toString();
 	}
 
 	@Override

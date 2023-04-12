@@ -39,6 +39,8 @@ spring:
         default_batch_fetch_size: 100
         order_inserts: true
         order_updates: true
+    hikari:
+      maximum-pool-size: 50
   security:
     oauth2:
       client:

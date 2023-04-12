@@ -24,6 +24,13 @@ public class UserQueryRepository {
 	// 		.execute();
 	// }
 
+	public Boolean existUserByHashCode(String hashcode) {
+		return jpaQueryFactory
+			.selectFrom(user)
+			.where(user.nickname.contains(hashcode))
+			.fetchOne() != null;
+	}
+
 	public User findByProviderAndProviderId(String provider, String providerId) {
 		return jpaQueryFactory
 			.selectFrom(user)
