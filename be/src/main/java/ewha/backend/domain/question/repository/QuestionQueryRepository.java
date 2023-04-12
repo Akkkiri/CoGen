@@ -29,7 +29,7 @@ public class QuestionQueryRepository {
 		List<Question> questionList = jpaQueryFactory
 			.selectFrom(question)
 			.join(question.answers, answer)
-			.where(question.isOpened.eq(true).and(answer.user.eq(findUser).count().gt(0)))
+			.where(question.isOpened.eq(true).and(answer.user.eq(findUser)))
 			.orderBy(question.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -39,7 +39,7 @@ public class QuestionQueryRepository {
 			.select(question.count())
 			.from(question)
 			.join(question.answers, answer)
-			.where(question.isOpened.eq(true).and(answer.user.eq(findUser).count().gt(0)))
+			.where(question.isOpened.eq(true).and(answer.user.eq(findUser)))
 			.fetchOne();
 
 		return new PageImpl<>(questionList, pageable, total);
@@ -50,7 +50,7 @@ public class QuestionQueryRepository {
 		List<Question> questionList = jpaQueryFactory
 			.selectFrom(question)
 			.join(question.answers, answer)
-			.where(answer.user.eq(findUser).count().gt(0))
+			.where(question.isOpened.eq(true).and(answer.user.eq(findUser)))
 			.orderBy(question.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -60,7 +60,7 @@ public class QuestionQueryRepository {
 			.select(question.count())
 			.from(question)
 			.join(question.answers, answer)
-			.where(answer.user.eq(findUser).count().gt(0))
+			.where(question.isOpened.eq(true).and(answer.user.eq(findUser)))
 			.fetchOne();
 
 		return new PageImpl<>(questionList, pageable, total);

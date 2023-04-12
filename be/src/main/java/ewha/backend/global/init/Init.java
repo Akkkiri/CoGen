@@ -150,7 +150,7 @@ public class Init {
 				.imagePath("https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/dummy/123.png")
 				.openDate(thisMonday.plusWeeks(i - 1))
 				// .openDate(LocalDate.now().plusDays(i - 1))
-				.isOpened(false)
+				.isOpened(true)
 				.build();
 			questionRepository.save(question);
 
