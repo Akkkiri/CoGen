@@ -32,7 +32,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
     open-in-view: true
     properties:
@@ -42,6 +42,7 @@ spring:
         default_batch_fetch_size: 100
         order_inserts: true
         order_updates: true
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   security:
     oauth2:
       client:

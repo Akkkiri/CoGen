@@ -43,7 +43,7 @@ import ewha.backend.domain.user.entity.enums.GenderType;
 import ewha.backend.domain.user.repository.UserRepository;
 import ewha.backend.domain.user.service.UserService;
 
-// @Configuration
+@Configuration
 public class Init {
 
 	private static final Logger log = LoggerFactory.getLogger(Init.class);
