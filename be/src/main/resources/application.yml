@@ -42,7 +42,7 @@ spring:
         default_batch_fetch_size: 100
         order_inserts: true
         order_updates: true
-    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+#    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   security:
     oauth2:
       client:
