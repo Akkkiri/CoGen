@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -41,6 +42,16 @@ public class FeedController {
 	private final CategoryService categoryService;
 	private final LikeService likeService;
 	private final AwsS3Service awsS3Service;
+
+	// @PostMapping("/add")
+	// public ResponseEntity<HttpStatus> postFeed(
+	// 	@Valid @RequestBody FeedDto.Post postFeed) throws Exception {
+	//
+	// 	Feed feed = feedMapper.feedPostToFeed(postFeed, categoryService);
+	// 	Feed createdFeed = feedService.createFeed(feed);
+	//
+	// 	return ResponseEntity.status(HttpStatus.CREATED).build();
+	// }
 
 	@PostMapping("/add")
 	public ResponseEntity<HttpStatus> postFeed(
