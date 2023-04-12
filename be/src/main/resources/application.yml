@@ -11,6 +11,9 @@ spring:
     lettuce:
       read-from: MASTER
   datasource:
+    hikari:
+      maximum-pool-size: 100
+      idle-timeout: 100000
     url: jdbc:mysql://ehwa-db.covow6hrmmr7.ap-northeast-2.rds.amazonaws.com:3306/ewha_db?useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
@@ -39,8 +42,6 @@ spring:
         default_batch_fetch_size: 100
         order_inserts: true
         order_updates: true
-    hikari:
-      maximum-pool-size: 100
   security:
     oauth2:
       client:
