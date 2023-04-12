@@ -44,7 +44,7 @@ public class SmsService {
 		params.put("to", phoneNumber);
 		params.put("from", "01030380831");
 		params.put("type", "SMS");
-		params.put("text", "세대공감 아끼리: 인증번호는" + "[" + certificationNumber + "]" + "입니다.");
+		params.put("text", "우리 함께 CoGen: 인증번호는" + "[" + certificationNumber + "]" + "입니다.");
 		params.put("app_version", "test app 1.0");
 
 		coolsms.send(params);
@@ -84,7 +84,7 @@ public class SmsService {
 	}
 
 	public Boolean isFindPasswordVerified(SmsDto.FindPasswordCertificationRequest request) {
-		return (smsRedisRepository.hasKey(request.getPhoneNumber()))
-			&& smsRedisRepository.getCertification(request.getPhoneNumber()).equals(request.getCertificationNumber());
+		return (smsRedisRepository.hasKey(request.getUserId()))
+			&& smsRedisRepository.getCertification(request.getUserId()).equals(request.getCertificationNumber());
 	}
 }

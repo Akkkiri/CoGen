@@ -65,7 +65,6 @@ public class SmsDto {
 	@AllArgsConstructor
 	public static class FindPasswordCertificationRequest {
 		private String userId;
-		private String phoneNumber;
 		private String certificationNumber;
 	}
 }
