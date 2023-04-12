@@ -245,11 +245,11 @@ public class Init {
 				List<String> list = csvList.get(j + 1);
 
 				Quiz quiz = Quiz.builder()
-					.content(DUMMY_QUIZ_LIST.get(j) + "의 뜻은 무엇일까요?")
-					.answer("정답")
-					.dummy1("더미 1")
-					.dummy2("더미 2")
-					.explanation("설명")
+					.content(list.get(0))
+					.answer(list.get(1))
+					.dummy1(list.get(2))
+					.dummy2(list.get(3))
+					.explanation(list.get(4))
 					.openDate(thisMonday.plusWeeks(j / 5))
 					.isOpened(false)
 					.build();

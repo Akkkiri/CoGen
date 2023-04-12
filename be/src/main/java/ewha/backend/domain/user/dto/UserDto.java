@@ -111,7 +111,7 @@ public class UserDto {
 	@NoArgsConstructor
 	public static class UserInfo {
 		@NotBlank(message = "닉네임을 입력해주세요.")
-		@Pattern(regexp = "[0-9a-zA-Zㄱ-ㅎ가-힣]{2,8}", message = "2~8자의 한글, 영문, 숫자만 사용 가능합니다.")
+		@Pattern(regexp = "^(?=(.*#)?)[0-9a-zA-Zㄱ-ㅎ가-힣#]{2,15}$", message = "2~8자의 한글, 영문, 숫자만 사용 가능합니다.")
 		private String nickname;
 		private String profileImage;
 		@NotNull

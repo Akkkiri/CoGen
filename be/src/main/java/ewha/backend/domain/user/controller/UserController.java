@@ -105,40 +105,51 @@ public class UserController {
 		return ResponseEntity.ok().body(response);
 	}
 
-	@PostMapping("/mypage/patch")
+	@PatchMapping("/mypage/patch")
 	public ResponseEntity<UserDto.Response> patchUser(
-		@RequestParam(value = "image") @Nullable MultipartFile multipartFile,
-		@Valid @RequestPart(value = "patch") UserDto.UserInfo userInfo) throws Exception {
+		@Valid @RequestBody UserDto.UserInfo userInfo) throws Exception {
 
-		List<String> imagePath = null;
-
-		User loginUser = userService.getLoginUser();
 		User updatedUser = userService.updateUser(userInfo);
-
-		if (loginUser.getProfileImage() != null && userInfo.getProfileImage() != null && multipartFile == null
-			&& userInfo.getProfileImage().equals(loginUser.getProfileImage())) {
-			updatedUser.setProfileImage(updatedUser.getProfileImage());
-			updatedUser.setThumbnailPath(updatedUser.getThumbnailPath());
-		} else if (loginUser.getProfileImage() != null && userInfo.getProfileImage() == null && multipartFile != null) {
-			imagePath = awsS3Service.updateORDeleteFeedImageFromS3(updatedUser.getId(), multipartFile);
-			updatedUser.setProfileImage(imagePath.get(0));
-			updatedUser.setThumbnailPath(imagePath.get(1));
-		} else if (loginUser.getProfileImage() == null && userInfo.getProfileImage() == null && multipartFile != null) {
-			imagePath = awsS3Service.uploadImageToS3(multipartFile, updatedUser.getId());
-			updatedUser.setProfileImage(imagePath.get(0));
-			updatedUser.setThumbnailPath(imagePath.get(1));
-		} else if (loginUser.getProfileImage() != null && multipartFile == null && userInfo.getProfileImage() == null) {
-			awsS3Service.updateORDeleteUserImageFromS3(updatedUser.getId(), multipartFile);
-			updatedUser.setProfileImage(null);
-			updatedUser.setThumbnailPath(null);
-		}
-
-		userService.saveUser(updatedUser);
 
 		UserDto.Response response = userMapper.userToUserResponse(updatedUser);
 
 		return ResponseEntity.ok().body(response);
 	}
+
+	// @PostMapping("/mypage/patch")
+	// public ResponseEntity<UserDto.Response> patchUser(
+	// 	@RequestParam(value = "image") @Nullable MultipartFile multipartFile,
+	// 	@Valid @RequestPart(value = "patch") UserDto.UserInfo userInfo) throws Exception {
+	//
+	// 	List<String> imagePath = null;
+	//
+	// 	User loginUser = userService.getLoginUser();
+	// 	User updatedUser = userService.updateUser(userInfo);
+	//
+	// 	if (loginUser.getProfileImage() != null && userInfo.getProfileImage() != null && multipartFile == null
+	// 		&& userInfo.getProfileImage().equals(loginUser.getProfileImage())) {
+	// 		updatedUser.setProfileImage(updatedUser.getProfileImage());
+	// 		updatedUser.setThumbnailPath(updatedUser.getThumbnailPath());
+	// 	} else if (loginUser.getProfileImage() != null && userInfo.getProfileImage() == null && multipartFile != null) {
+	// 		imagePath = awsS3Service.updateORDeleteFeedImageFromS3(updatedUser.getId(), multipartFile);
+	// 		updatedUser.setProfileImage(imagePath.get(0));
+	// 		updatedUser.setThumbnailPath(imagePath.get(1));
+	// 	} else if (loginUser.getProfileImage() == null && userInfo.getProfileImage() == null && multipartFile != null) {
+	// 		imagePath = awsS3Service.uploadImageToS3(multipartFile, updatedUser.getId());
+	// 		updatedUser.setProfileImage(imagePath.get(0));
+	// 		updatedUser.setThumbnailPath(imagePath.get(1));
+	// 	} else if (loginUser.getProfileImage() != null && multipartFile == null && userInfo.getProfileImage() == null) {
+	// 		awsS3Service.updateORDeleteUserImageFromS3(updatedUser.getId(), multipartFile);
+	// 		updatedUser.setProfileImage(null);
+	// 		updatedUser.setThumbnailPath(null);
+	// 	}
+	//
+	// 	userService.saveUser(updatedUser);
+	//
+	// 	UserDto.Response response = userMapper.userToUserResponse(updatedUser);
+	//
+	// 	return ResponseEntity.ok().body(response);
+	// }
 
 	@PatchMapping("/mypage/patch/password")
 	public ResponseEntity<HttpStatus> patchPassword(@Valid @RequestBody UserDto.Password password) {

@@ -32,6 +32,7 @@ import ewha.backend.domain.user.repository.UserQueryRepository;
 import ewha.backend.domain.user.repository.UserRepository;
 import ewha.backend.global.exception.BusinessLogicException;
 import ewha.backend.global.exception.ExceptionCode;
+import ewha.backend.global.init.InitConstant;
 import ewha.backend.global.security.dto.LoginDto;
 import ewha.backend.global.security.refreshToken.repository.RefreshTokenRepository;
 import ewha.backend.global.security.util.CustomAuthorityUtils;
@@ -73,6 +74,7 @@ public class UserServiceImpl implements UserService {
 			.userId(postDto.getUserId())
 			.password(encryptedPassword)
 			.nickname(createdNickname)
+			.profileImage(InitConstant.DUMMY_IMAGE_LIST.get((int)(Math.random() * 6)))
 			.role(roles)
 			.level(1)
 			.ariFactor(10)
