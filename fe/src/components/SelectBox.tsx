@@ -65,7 +65,7 @@ export default function SelectBox({ type, setSelect, curState }: SortBoxProps) {
             {list?.map((el, idx) => (
               <li
                 key={idx}
-                className="pl-5 py-0.5 hover:bg-y-pink rounded-lg"
+                className="pl-5 py-1 hover:bg-y-pink rounded-lg"
                 onClick={() => {
                   handleChoice(el);
                 }}

@@ -1,19 +1,19 @@
-import SmallInput from "../components/Inputs/SmallInput";
+import SmallInput from "../../components/Inputs/SmallInput";
 import { useState, useEffect } from "react";
-import SelectBox from "../components/SelectBox";
-import { Select } from "../util/SelectUtil";
+import SelectBox from "../../components/SelectBox";
+import { Select } from "../../util/SelectUtil";
 import QuestionCommentContainer, {
   CommentContainerProps,
-} from "../components/QuestionCommentContainer";
-import Pagenation from "../components/Pagenation";
-import axios from "../api/axios";
-import { isLogin } from "../store/modules/authSlice";
-import { useAppSelector } from "../store/hook";
+} from "../../components/QuestionCommentContainer";
+import Pagenation from "../../components/Pagenation";
+import axios from "../../api/axios";
+import { isLogin } from "../../store/modules/authSlice";
+import { useAppSelector } from "../../store/hook";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 export default function Question() {
   const [weeklyQuestions, SetWeeklyQuestions] = useState<string>("");
-  const [questionId, setQuestionId] = useState<number>(0);
+  const [questionId, setQuestionId] = useState<number>();
   const [questComment, setQuestComment] = useState<
     CommentContainerProps[] | null
   >(null);
@@ -58,6 +58,7 @@ export default function Question() {
         .then((response) => {
           setQuestComment(response.data.data);
           setTotalPages(response.data.pageInfo.totalPages);
+          console.log(response.data);
         })
         .catch((err) => console.log(err));
     }
@@ -107,12 +108,19 @@ export default function Question() {
                   profileImage={el.profileImage}
                   date={el.modifiedAt}
                   like={el.likeCount}
-                  userid={el.userid}
+                  userid={el.userId}
                   commentId={el.answerId}
                 />
               </div>
             ))}
         <Pagenation page={page} setPage={setPage} totalPages={totalPages} />
+        <div className="relative m-1">
+          <div className="fixed bottom-[70px]">
+            <NavLink to={"/question/all"}>
+              <button className="btn-r">지나간 질문</button>
+            </NavLink>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import BestPost from "../components/Main/BestPost";
+import { useAppSelector } from "../store/hook";
+import { isLogin } from "../store/modules/authSlice";
 import MainQnaContainer from "../components/Main/MainQnaContainer";
 import MainQuizContainer from "../components/Main/MainQuizContainer";
 import MainUser, { UserProfileProps } from "../components/Main/MainUser";
 import axios from "../api/axios";
 
 export default function Home() {
+  const isLoginUser = useAppSelector(isLogin);
   const [weeklyQuestions, SetWeeklyQuestions] = useState<string>("");
   const [weeklyquiz, SetWeeklyquiz] = useState<string>("");
   const [bestPostProps, setBestPostProps] = useState<any>();
@@ -16,19 +19,21 @@ export default function Home() {
     ariFactor: 0,
   });
   useEffect(() => {
-    axios
-      .get("/mypage")
-      .then((res) => {
-        const obj = {
-          nickname: res.data.nickname,
-          profileImage: res.data.profileImage,
-          level: res.data.level,
-          ariFactor: res.data.ariFactor,
-        };
-        setUserprofile(obj);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    if (isLoginUser) {
+      axios
+        .get("/mypage")
+        .then((res) => {
+          const obj = {
+            nickname: res.data.nickname,
+            profileImage: res.data.profileImage,
+            level: res.data.level,
+            ariFactor: res.data.ariFactor,
+          };
+          setUserprofile(obj);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [isLoginUser]);
   useEffect(() => {
     axios
       .get(`/questions/weekly`)
