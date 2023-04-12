@@ -523,7 +523,8 @@ public class UserControllerRestDocs {
 		Long userId = 1L;
 
 		given(userService.getUser(anyLong())).willReturn(User.builder().build());
-		given(userMapper.userToUserPageResponse(Mockito.any(User.class))).willReturn(USER_PAGE_INFO_RESPONSE_DTO);
+		given(userMapper.userToUserPageResponse(Mockito.any(User.class), anyBoolean()))
+			.willReturn(USER_PAGE_INFO_RESPONSE_DTO);
 
 		ResultActions actions =
 			mockMvc.perform(
