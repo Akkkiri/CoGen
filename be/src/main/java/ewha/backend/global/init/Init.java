@@ -90,6 +90,7 @@ public class Init {
 
 		List<User> userList = new ArrayList<>();
 
+		Collections.shuffle(InitConstant.DUMMY_NICKNAME_LIST);
 		for (int i = 11; i <= 30; i++) {
 
 			Long rand = (long)(Math.random() * 50) + 1;
@@ -108,7 +109,7 @@ public class Init {
 				.level(rand.intValue())
 				.ariFactor(rand2.intValue())
 				.password(encoder.encode("1234"))
-				.nickname("닉네임" + hashcode)
+				.nickname(DUMMY_NICKNAME_LIST.get(i - 11) + hashcode)
 				.role(List.of("ROLE_USER"))
 				.isFirstLogin(false)
 				.genderType(GenderType.MALE)
