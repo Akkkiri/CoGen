@@ -25,7 +25,7 @@ export default function MyQna() {
     <div>
       <BackBtn />
       <h1 className="page-title">나의 문답</h1>
-      <ul>
+      <ul className="flex flex-col gap-3 m-4">
         {myQnaList.map((el, idx) => {
           return (
             <li key={el.qnaId}>
