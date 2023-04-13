@@ -6,6 +6,7 @@ import { useAppDispatch } from "store/hook";
 import { signInAsync } from "store/modules/authSlice";
 import { KakaoBtn, NaverBtn } from "components/signup/OauthBtn";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { FaChevronRight } from "react-icons/fa";
 
 interface IFormInput {
   userId: string;
@@ -75,6 +76,18 @@ export default function Login() {
             <p>입력하신 내용을 다시 확인해 주세요.</p>
           </div>
         ) : null}
+        <div className="flex justify-end mx-1">
+          <button
+            type="button"
+            className="flex items-center text-xs text-y-lightGray/70 -mb-2 -mt-1 w-fit"
+            onClick={() => {
+              navigate("/help/pw");
+            }}
+          >
+            비밀번호찾기
+            <FaChevronRight className="mx-1" />
+          </button>
+        </div>
         <button className="btn-r">로그인</button>
       </form>
       <Link to="/signup" className="flex w-full">
