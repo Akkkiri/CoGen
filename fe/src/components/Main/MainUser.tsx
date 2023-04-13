@@ -2,12 +2,13 @@ import Level from "../user/Level";
 import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import { NavLink } from "react-router-dom";
+import { Point } from "util/LevelUtil";
 
 export interface UserProfileProps {
   nickname: string;
   profileImage: string;
   level: number;
-  ariFactor: number;
+  ariFactor: Point;
 }
 
 export default function MainUser({

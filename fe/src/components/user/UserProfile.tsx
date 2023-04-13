@@ -5,6 +5,7 @@ import { useAppSelector } from "store/hook";
 import { isLogin } from "store/modules/authSlice";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
+import { Point } from "util/LevelUtil";
 
 export interface UserProfileProps {
   userID?: number;
@@ -13,7 +14,7 @@ export interface UserProfileProps {
   hashcode: string;
   profileImage: string;
   level: number;
-  ariFactor: number;
+  ariFactor: Point;
   friendsNum: number;
   isMine?: boolean;
 }
