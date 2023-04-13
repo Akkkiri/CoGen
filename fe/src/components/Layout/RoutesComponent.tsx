@@ -20,6 +20,8 @@ import Signup from "page/signup/Signup";
 import OauthLogin from "page/login/OauthLogin";
 import Userpage from "page/userpage/Userpage";
 import UserFriend from "page/userpage/UserFriend";
+import MyEditPassword from "page/mypage/MyEditPassword";
+import IdentityVerification from "page/login/IdentityVerification";
 import GonQuestion from "page/Question/GoneQuestion";
 import Writepost from "page/post/Writepost";
 import GoneDetail from "page/Question/GoneDetail";
@@ -50,9 +52,13 @@ export default function RoutesComponent() {
       <Route path="/mypage/post" element={<MyPost />} />
       <Route path="/mypage/comment" element={<MyComment />} />
       <Route path="/mypage/edit" element={<MyEdit />} />
+      <Route path="/mypage/edit/pw" element={<MyEditPassword />} />
       <Route path="/mypage/friend" element={<MyFriend />} />
       <Route path="/user/:id" element={<Userpage />} />
       <Route path="/user/:id/friend" element={<UserFriend />} />
+
+      <Route path="/help/pw" element={<IdentityVerification type="find" />} />
+      <Route path="/help/pw/edit" element={<MyEditPassword />} />
     </Routes>
   );
 }

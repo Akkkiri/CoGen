@@ -5,10 +5,15 @@ import { FaChevronRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Select, AgeTypeMatcherToKor } from "util/SelectUtil";
 import { genderList } from "page/signup/Info";
+import Swal from "sweetalert2";
 import axios from "api/axios";
+import { useAppDispatch } from "store/hook";
+import { logout } from "store/modules/authSlice";
 
 export default function MyEdit() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [error, setError] = useState(false);
   const [nickname, setNickname] = useState("");
   const [hashcode, setHashcode] = useState("");
   const [profileImage, setProfileImage] = useState("");
@@ -28,21 +33,38 @@ export default function MyEdit() {
       .catch((err) => console.log(err));
   }, []);
 
+  const isVaild = (inputState: string) => {
+    if (
+      inputState.length > 1 &&
+      inputState.match(/^(?=.*\S)[a-zA-Z0-9가-힣]+$/i)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   const handleSubmit = () => {
-    const postBody = {
-      nickname: nickname + hashcode,
-      profileImage,
-      genderType,
-      ageType,
-    };
-    axios
-      .post("/mypage/patch", postBody)
-      .then((res) => {
-        //제거
-        console.log("회원정보수정 등록하기", res);
-        navigate("/mypage");
-      })
-      .catch((err) => console.log(err));
+    if (error) {
+      Swal.fire({
+        text: "닉네임을 다시 입력해주세요",
+        confirmButtonColor: "#E74D47",
+        confirmButtonText: "확인",
+      });
+    } else {
+      const patchBody = {
+        nickname: nickname + hashcode,
+        profileImage,
+        genderType,
+        ageType,
+      };
+      axios
+        .patch("/mypage/patch", patchBody)
+        .then((res) => {
+          navigate("/mypage");
+        })
+        .catch((err) => console.log(err));
+    }
   };
   return (
     <div>
@@ -59,13 +81,26 @@ export default function MyEdit() {
       <div>
         <div className="flex justify-between items-center p-4 border-b border-y-lightGray">
           <span>닉네임</span>
-          <input
-            className="input-basic py-1"
-            value={nickname}
-            onChange={(e) => {
-              setNickname(e.target.value);
-            }}
-          ></input>
+          <div>
+            <input
+              className="input-basic py-1"
+              value={nickname}
+              maxLength={8}
+              onChange={(e) => {
+                setNickname(e.target.value);
+                if (isVaild(e.target.value)) {
+                  setError(true);
+                } else {
+                  setError(false);
+                }
+              }}
+            ></input>
+            {error ? (
+              <p className="text-xs text-y-red font-light m-1 ml-2 -mb-3">
+                2~8글자 (특수문자,공백X)
+              </p>
+            ) : null}
+          </div>
         </div>
         <div className="flex justify-between items-center px-4 py-2 border-b border-y-lightGray">
           <span>성별</span>
@@ -107,17 +142,45 @@ export default function MyEdit() {
               navigate("/mypage");
             }}
           >
-            취소하기
+            돌아가기
           </button>
           <button className="btn-r flex-1" onClick={handleSubmit}>
             등록하기
           </button>
         </div>
-        <div className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red">
+        <div
+          className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red"
+          onClick={() => {
+            navigate("pw");
+          }}
+        >
           비밀번호 수정
           <FaChevronRight />
         </div>
-        <div className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red">
+        <div
+          className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red"
+          onClick={() => {
+            Swal.fire({
+              title: "회원탈퇴",
+              text: "탈퇴시, 작성했던 모든 글이 삭제되고 계정을 복구할 수 없습니다. Cogen을 탈퇴하시겠습니까?",
+              showCancelButton: true,
+              confirmButtonColor: "#E74D47",
+              confirmButtonText: "탈퇴하기",
+              cancelButtonColor: "#A19E9E",
+              cancelButtonText: "취소",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                axios
+                  .delete(`/mypage/signout`)
+                  .then((res) => {
+                    dispatch(logout());
+                    navigate("/");
+                  })
+                  .catch((err) => console.log(err));
+              }
+            });
+          }}
+        >
           회원 탈퇴
           <FaChevronRight />
         </div>

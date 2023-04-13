@@ -5,6 +5,7 @@ import { ToDateString } from "../util/TodateString";
 import { Category } from "../util/CategoryUtil";
 import { NavLink } from "react-router-dom";
 import BookmarkBtn from "./user/BookmarkBtn";
+import Empty from "./Empty";
 
 interface PostContainerProps {
   postContainerProps: any;
@@ -21,43 +22,49 @@ export default function PostContainer({
   }, [postContainerProps]);
   return (
     <div>
-      {containerProps?.map((el: any, idx: number) => (
-        <div key={idx}>
-          {bookmark ? <BookmarkBtn /> : null}
-          <NavLink to={`/post/${el.feedId}`}>
-            <div className="p-2 border-b border-y-lightGray">
-              <div className="p-2">
-                <div className="bg-y-red text-white p-1 w-16 text-center text-xs rounded-md mb-2">
-                  {Category(el.category)}
-                </div>
-                <div>{el.title}</div>
-                <div className="h-20">
-                  <div className="my-2 text-sm font-light line-clamp-3">
-                    {el.body}
+      {containerProps?.length === 0 ? (
+        <Empty str={"게시글이"} />
+      ) : (
+        containerProps?.map((el: any, idx: number) => (
+          <div key={idx}>
+            {bookmark ? <BookmarkBtn /> : null}
+            <NavLink to={`/post/${el.feedId}`}>
+              <div className="p-2 border-b border-y-lightGray">
+                <div className="p-2">
+                  <div className="bg-y-red text-white p-1 w-16 text-center text-xs rounded-md mb-2">
+                    {Category(el.category)}
                   </div>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <div className="flex text-y-gray">
-                    {el.nickname} <BsDot className="self-center" />{" "}
-                    {ToDateString(el.createdAt)}
-                    <BsDot className="self-center" /> 조회 {el.viewCount}
-                  </div>
-                  <div className="flex gap-2 text-y-gray text-xs">
-                    <div className="flex">
-                      <IoHeartOutline className="text-base" />
-                      <div className="self-center">좋아요 {el.likeCount}</div>
+                  <div>{el.title}</div>
+                  <div className="h-20">
+                    <div className="my-2 text-sm font-light line-clamp-3">
+                      {el.body}
                     </div>
-                    <div className="flex ">
-                      <IoChatbubbleEllipsesOutline className="text-base" />
-                      <div className="self-center">댓글 {el.commentCount}</div>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <div className="flex text-y-gray">
+                      {el.nickname} <BsDot className="self-center" />{" "}
+                      {ToDateString(el.createdAt)}
+                      <BsDot className="self-center" /> 조회 {el.viewCount}
+                    </div>
+                    <div className="flex gap-2 text-y-gray text-xs">
+                      <div className="flex">
+                        <IoHeartOutline className="text-base" />
+                        <div className="self-center">좋아요 {el.likeCount}</div>
+                      </div>
+                      <div className="flex ">
+                        <IoChatbubbleEllipsesOutline className="text-base" />
+                        <div className="self-center">
+                          댓글 {el.commentCount}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </NavLink>
-        </div>
-      ))}
+            </NavLink>
+          </div>
+        ))
+      )}
     </div>
   );
 }

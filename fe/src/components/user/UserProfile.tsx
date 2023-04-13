@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 export interface UserProfileProps {
   userID?: number;
+  isFollow?: boolean;
   nickname: string;
   hashcode: string;
   profileImage: string;
@@ -19,6 +20,7 @@ export interface UserProfileProps {
 
 export default function UserProfile({
   userID,
+  isFollow,
   nickname,
   hashcode,
   profileImage,
@@ -29,7 +31,7 @@ export default function UserProfile({
 }: UserProfileProps) {
   const navigate = useNavigate();
   const isLoginUser = useAppSelector(isLogin);
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(isFollow);
   const medal = (level: number) => {
     if (level === 50) return 50;
     else if (level >= 40) return 40;
@@ -48,15 +50,13 @@ export default function UserProfile({
   };
 
   useEffect(() => {
-    //setIsFollowing 으로 isFollowing 가져오는 로직 필요
-  }, []);
+    setIsFollowing(isFollow);
+  }, [isFollow]);
 
   const handleFollowing = () => {
     axios
       .post(`/follows/${userID}`)
       .then((res) => {
-        //제거
-        console.log(res);
         setIsFollowing(!isFollowing);
       })
       .catch((err) => console.log(err));
