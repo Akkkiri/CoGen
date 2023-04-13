@@ -50,13 +50,14 @@ export default function Nickname() {
       >
         <input className="input-basic" disabled {...register("userId")} />
         <input
-          placeholder="닉네임 (2~10글자)"
+          placeholder="닉네임 (2~8글자)"
           className="input-basic"
-          maxLength={10}
+          maxLength={8}
           {...register("nickname", {
             required: true,
             minLength: 2,
-            maxLength: 10,
+            maxLength: 8,
+            pattern: /^(?=.*\S)[a-zA-Z0-9가-힣]+$/i,
           })}
           aria-invalid={errors.nickname ? "true" : "false"}
         />
@@ -67,7 +68,12 @@ export default function Nickname() {
         )}
         {errors.nickname?.type === "minLength" && (
           <p role="alert" className="text-y-red font-light">
-            2글자 이상 10글자 이하로 설정해야 합니다.
+            2글자 이상 8글자 이하로 설정해야 합니다.
+          </p>
+        )}
+        {errors.nickname?.type === "pattern" && (
+          <p role="alert" className="text-y-red font-light">
+            닉네임은 숫자와 문자만 입력 가능합니다
           </p>
         )}
         <div className="flex justify-end items-center">
@@ -80,7 +86,7 @@ export default function Nickname() {
               required: true,
               maxLength: 12,
               minLength: 6,
-              pattern: /[a-zA-Z0-9]+$/i,
+              pattern: /^(?=.*\S)(?=.*\d)(?=.*[a-zA-ZS])[A-Za-z0-9]{6,12}$/,
             })}
             aria-invalid={errors.password ? "true" : "false"}
           />
@@ -111,7 +117,7 @@ export default function Nickname() {
         )}
         {errors.password?.type === "pattern" && (
           <p role="alert" className="text-y-red font-light">
-            비밀번호는 숫자와 문자만 입력 가능합니다
+            비밀번호는 숫자와 문자 조합으로 입력하셔야 합니다 (특수문자,공백 X)
           </p>
         )}
         <div className="flex justify-end items-center">
