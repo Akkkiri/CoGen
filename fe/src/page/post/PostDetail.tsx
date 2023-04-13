@@ -93,6 +93,7 @@ export default function PostDetail() {
                 ? postComment
                 : () => {
                     Swal.fire({
+                      title: "CoGen",
                       text: "로그인이 필요한 서비스 입니다.",
                       showCancelButton: true,
                       confirmButtonColor: "#E74D47",
