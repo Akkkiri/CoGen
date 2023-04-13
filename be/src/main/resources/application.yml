@@ -1,8 +1,8 @@
 spring:
-#  h2:
-#    console:
-#      enabled: true
-#      path: /h2
+  h2:
+    console:
+      enabled: true
+      path: /h2
   cache:
     type: redis
   redis:
@@ -12,7 +12,7 @@ spring:
     lettuce:
       read-from: MASTER_PREFERRED
       write-to: MASTER_ONLY
-      replica-aware: false
+      replica-aware: true
       command-timeout: 5000
       shutdown-timeout: 1000
       validate-connection: true
@@ -23,38 +23,38 @@ spring:
 #      password: <레플리카 노드 비밀번호>
 
   datasource:
-    hikari:
-      maximum-pool-size: 60
-      idle-timeout: 180000
-    url: jdbc:mysql://ehwa.covow6hrmmr7.ap-northeast-2.rds.amazonaws.com:3306/ewha_db?useUnicode=true&characterEncoding=UTF-8
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin
-    password: ${AWS_RDS_SECRET}
-#    url: jdbc:h2:mem:test
-#  jpa:
-#    hibernate:
-#      ddl-auto: create
-#    show-sql: true
-#    open-in-view: true
-#    properties:
-#      hibernate:
-#        format_sql: true
-#        highlight_sql: true
+#    hikari:
+#      maximum-pool-size: 60
+#      idle-timeout: 180000
+#    url: jdbc:mysql://ehwa.covow6hrmmr7.ap-northeast-2.rds.amazonaws.com:3306/ewha_db?useUnicode=true&characterEncoding=UTF-8
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: admin
+#    password: ${AWS_RDS_SECRET}
+    url: jdbc:h2:mem:test
   jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
     open-in-view: true
     properties:
       hibernate:
         format_sql: true
         highlight_sql: true
-        default_batch_fetch_size: 100
-        order_inserts: true
-        order_updates: true
-    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+#  jpa:
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    hibernate:
+#      ddl-auto: none
+#    show-sql: true
+#    open-in-view: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        highlight_sql: true
+#        default_batch_fetch_size: 100
+#        order_inserts: true
+#        order_updates: true
+#    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   security:
     oauth2:
       client:

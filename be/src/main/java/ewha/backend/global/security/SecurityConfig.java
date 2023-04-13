@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import ewha.backend.domain.notification.repository.EmitterRepository;
 import ewha.backend.domain.user.mapper.UserMapper;
 import ewha.backend.global.security.cookieManager.CookieManager;
 import ewha.backend.global.security.filter.JwtAuthenticationFilter;
@@ -22,6 +23,8 @@ import ewha.backend.global.security.handler.UserAuthenticationSuccessHandler;
 import ewha.backend.global.security.handler.UserLogoutHandler;
 import ewha.backend.global.security.handler.UserLogoutSuccessHandler;
 import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
+import ewha.backend.global.security.refreshToken.repository.RefreshTokenQueriRepository;
+import ewha.backend.global.security.refreshToken.repository.RefreshTokenRepository;
 import ewha.backend.global.security.util.CustomAuthorityUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +37,8 @@ public class SecurityConfig {
 	private final CustomAuthorityUtils authorityUtils;
 	private final UserMapper userMapper;
 	private final CookieManager cookieManager;
+	private final EmitterRepository emitterRepository;
+	private final RefreshTokenQueriRepository refreshTokenQueriRepository;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -53,8 +58,9 @@ public class SecurityConfig {
 			.apply(new CustomFilterConfigurer())
 			.and()
 			.logout()
-			.logoutUrl("/logout")
-			.addLogoutHandler(new UserLogoutHandler(jwtTokenizer, cookieManager))
+			.logoutUrl("/api/logout")
+			.addLogoutHandler(
+				new UserLogoutHandler(jwtTokenizer, cookieManager, emitterRepository, refreshTokenQueriRepository))
 			.logoutSuccessHandler(new UserLogoutSuccessHandler())
 			.deleteCookies("refreshToken")
 			.deleteCookies("visit_cookie")

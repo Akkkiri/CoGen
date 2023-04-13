@@ -9,9 +9,12 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 
+import ewha.backend.domain.notification.repository.EmitterRepository;
 import ewha.backend.global.security.cookieManager.CookieManager;
 import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
 
+import ewha.backend.global.security.refreshToken.repository.RefreshTokenQueriRepository;
+import ewha.backend.global.security.refreshToken.repository.RefreshTokenRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -21,12 +24,19 @@ import lombok.SneakyThrows;
 public class UserLogoutHandler implements LogoutHandler {
 	private final JwtTokenizer jwtTokenizer;
 	private final CookieManager cookieManager;
+	private final EmitterRepository emitterRepository;
+	private final RefreshTokenQueriRepository refreshTokenQueriRepository;
 
 	@SneakyThrows
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response,
 		Authentication authentication) {
 		String refreshToken = cookieManager.outCookie(request, "refreshToken");
+
+		String userId = refreshTokenQueriRepository.findUserIdByTokenValue(refreshToken);
+
+		emitterRepository.deleteAllEmitterStartWithId(userId);
+
 		jwtTokenizer.removeRefreshToken(refreshToken);
 		try {
 			jwtTokenizer.verifySignature(refreshToken);
