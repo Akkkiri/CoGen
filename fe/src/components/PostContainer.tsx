@@ -42,7 +42,7 @@ export default function PostContainer({
                   </div>
                   <div className="flex justify-between text-xs">
                     <div className="flex text-y-gray">
-                      이름 <BsDot className="self-center" />{" "}
+                      {el.nickname} <BsDot className="self-center" />{" "}
                       {ToDateString(el.createdAt)}
                       <BsDot className="self-center" /> 조회 {el.viewCount}
                     </div>

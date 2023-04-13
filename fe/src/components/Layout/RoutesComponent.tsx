@@ -11,7 +11,7 @@ import MyQna from "page/mypage/MyQna";
 import MyQuestion from "page/mypage/MyQuestion";
 import Post from "page/post/Post";
 import PostDetail from "page/post/PostDetail";
-import Question from "page/Question";
+import Question from "page/Question/Question";
 import Quiz from "page/Quiz";
 import Info from "page/signup/Info";
 import Nickname from "page/signup/Nickname";
@@ -22,14 +22,20 @@ import Userpage from "page/userpage/Userpage";
 import UserFriend from "page/userpage/UserFriend";
 import MyEditPassword from "page/mypage/MyEditPassword";
 import IdentityVerification from "page/login/IdentityVerification";
+import GonQuestion from "page/Question/GoneQuestion";
+import Writepost from "page/post/Writepost";
+import GoneDetail from "page/Question/GoneDetail";
 
 export default function RoutesComponent() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/question" element={<Question />} />
+      <Route path="/question/all" element={<GonQuestion />} />
+      <Route path="/question/:QuestionId" element={<GoneDetail />} />
       <Route path="/post" element={<Post />} />
       <Route path="/post/:PostId" element={<PostDetail />} />
+      <Route path="/writepost" element={<Writepost />} />
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/mypage" element={<Mypage />} />
       <Route path="/login" element={<Login />} />

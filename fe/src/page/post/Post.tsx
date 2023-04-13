@@ -5,6 +5,7 @@ import { Select, SelectBoxMatcher } from "../../util/SelectUtil";
 import PostContainer from "../../components/PostContainer";
 import axios from "../../api/axios";
 import CategorySwiper from "../../components/CategorySwiper";
+import { NavLink } from "react-router-dom";
 export default function Post() {
   const [sort, setSort] = useState<Select>("new");
   const [page, setPage] = useState<number>(1);
@@ -38,6 +39,13 @@ export default function Post() {
       <div className="mb-3">
         <PostContainer postContainerProps={postProps} />
         <Pagenation page={page} setPage={setPage} totalPages={totalPages} />
+        <div className="relative m-3">
+          <div className="fixed bottom-[70px]">
+            <NavLink to={"/writepost"}>
+              <button className="btn-r">게시글 작성</button>
+            </NavLink>
+          </div>
+        </div>
       </div>
     </>
   );

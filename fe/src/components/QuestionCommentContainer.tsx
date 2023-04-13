@@ -19,7 +19,7 @@ export interface CommentContainerProps {
   commentId: number;
 }
 
-export default function CommentContainer({
+export default function QuestionCommentContainer({
   contents,
   nickname,
   profileImage,
@@ -35,7 +35,7 @@ export default function CommentContainer({
   const navigate = useNavigate();
   const deleteComment = () => {
     axios
-      .delete(`/comments/${commentId}/delete`)
+      .delete(`/answers/${commentId}/delete`)
       .then(() => window.location.reload())
       .catch((err) => console.log(err));
   };
@@ -126,7 +126,6 @@ export default function CommentContainer({
         ) : (
           <div className="mt-2 text-sm font-light">{inputState}</div>
         )}
-
         <div className="flex justify-end text-xs">
           <div className="flex ">
             <IoHeartOutline className="text-lg" />

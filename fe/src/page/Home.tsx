@@ -1,17 +1,39 @@
 import { useEffect, useState } from "react";
 import BestPost from "../components/Main/BestPost";
+import { useAppSelector } from "../store/hook";
+import { isLogin } from "../store/modules/authSlice";
 import MainQnaContainer from "../components/Main/MainQnaContainer";
 import MainQuizContainer from "../components/Main/MainQuizContainer";
-import MainUser from "../components/Main/MainUser";
+import MainUser, { UserProfileProps } from "../components/Main/MainUser";
 import axios from "../api/axios";
+
 export default function Home() {
+  const isLoginUser = useAppSelector(isLogin);
   const [weeklyQuestions, SetWeeklyQuestions] = useState<string>("");
   const [weeklyquiz, SetWeeklyquiz] = useState<string>("");
   const [bestPostProps, setBestPostProps] = useState<any>();
-  const [username, setUsername] = useState("");
-  const [userimg, setUserimg] = useState("");
-  const [level, setLevel] = useState();
-  const [ariFactor, setAriFactor] = useState();
+  const [userprofile, setUserprofile] = useState<UserProfileProps>({
+    nickname: "",
+    profileImage: "",
+    level: 0,
+    ariFactor: 0,
+  });
+  useEffect(() => {
+    if (isLoginUser) {
+      axios
+        .get("/mypage")
+        .then((res) => {
+          const obj = {
+            nickname: res.data.nickname,
+            profileImage: res.data.profileImage,
+            level: res.data.level,
+            ariFactor: res.data.ariFactor,
+          };
+          setUserprofile(obj);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [isLoginUser]);
   useEffect(() => {
     axios
       .get(`/questions/weekly`)
@@ -34,12 +56,7 @@ export default function Home() {
   // console.log(weeklyQuestions);
   return (
     <>
-      <MainUser
-        nickname={"닉네임이열글자가넘으"}
-        profileImage={"/images/user.png"}
-        level={1}
-        ariFactor={33}
-      />
+      <MainUser {...userprofile} />
       <MainQnaContainer question={weeklyQuestions} />
       <MainQuizContainer question={weeklyquiz} />
       <div className="py-4 px-2">
