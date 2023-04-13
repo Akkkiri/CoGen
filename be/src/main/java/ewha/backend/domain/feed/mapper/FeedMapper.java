@@ -44,6 +44,8 @@ public interface FeedMapper {
 			.title(patchFeed.getTitle())
 			.category(category)
 			.body(patchFeed.getBody())
+			.imagePath(patchFeed.getImagePath())
+			.thumbnailPath(patchFeed.getThumbnailPath())
 			.build();
 	}
 

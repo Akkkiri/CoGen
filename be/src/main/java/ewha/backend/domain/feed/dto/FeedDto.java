@@ -29,7 +29,7 @@ public class FeedDto {
 		private String title;
 		@NotNull
 		private CategoryType category;
-		@Size(min = 3, max = 1000, message = "1000자를 넘을 수 없습니다.")
+		@Size(min = 3, max = 1000, message = "내용은 3자 이상 1000자 이하로 작성해야 합니다.")
 		private String body;
 		private String imagePath;
 		private String thumbnailPath;
@@ -49,9 +49,10 @@ public class FeedDto {
 		private String title;
 		@NotNull
 		private CategoryType category;
-		@Size(min = 3, max = 1000, message = "1000자를 넘을 수 없습니다.")
+		@Size(min = 3, max = 1000, message = "내용은 3자 이상 1000자 이하로 작성해야 합니다.")
 		private String body;
 		private String imagePath;
+		private String thumbnailPath;
 	}
 
 	@Getter
