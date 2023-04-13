@@ -75,10 +75,11 @@ public class LikeServiceImpl implements LikeService {
 			feedRepository.save(findFeed);
 
 			if (!findUser.getId().equals(findFeed.getUser().getId())) {
-				String body = "작성하신 피드 <" + findFeed.getTitle() + ">에 "
+				String body = "작성하신 게시글 <" + findFeed.getTitle() + ">에 "
 					+ findUser.getNickname() + "님이 좋아요를 눌렀습니다.";
 				String content = findFeed.getTitle();
-				String url = "http://localhost:8080/feeds/" + findFeed.getId();
+				String url = "/post/" + findFeed.getId();
+				// String url = "http://localhost:8080/feeds/" + findFeed.getId();
 				notificationService.send(findFeed.getUser(), url, body, content, NotificationType.LIKE);
 			}
 
@@ -124,7 +125,8 @@ public class LikeServiceImpl implements LikeService {
 				String body = "작성하신 댓글 <" + findComment.getBody() + ">에 "
 					+ findUser.getNickname() + "님이 좋아요를 눌렀습니다.";
 				String content = findComment.getBody();
-				String url = "http://localhost:8080/comments/" + findComment.getId();
+				String url = "/post/" + findComment.getFeed().getId();
+				// String url = "http://localhost:8080/comments/" + findComment.getId();
 				notificationService.send(findComment.getUser(), url, body, content, NotificationType.LIKE);
 			}
 
@@ -167,10 +169,10 @@ public class LikeServiceImpl implements LikeService {
 			answerRepository.save(findAnswer);
 
 			if (!findUser.getId().equals(findAnswer.getUser().getId())) {
-				String body = "작성하신 피드 <" + findAnswer.getAnswerBody() + ">에 "
+				String body = "작성하신 답변 <" + findAnswer.getAnswerBody() + ">에 "
 					+ findUser.getNickname() + "님이 좋아요를 눌렀습니다.";
 				String content = findAnswer.getAnswerBody();
-				String url = "http://localhost:8080/feeds/" + findAnswer.getId();
+				String url = "/question/" + findAnswer.getQuestion().getId();
 				notificationService.send(findAnswer.getUser(), url, body, content, NotificationType.LIKE);
 			}
 

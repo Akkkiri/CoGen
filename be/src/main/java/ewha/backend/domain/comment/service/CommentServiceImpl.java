@@ -67,7 +67,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 
 		if (!findUser.getId().equals(findFeed.getUser().getId())) {
-			String body = "작성하신 피드 <" + findFeed.getTitle() + ">에 "
+			String body = "작성하신 게시글 <" + findFeed.getTitle() + ">에 "
 				+ findUser.getNickname() + "님이 댓글을 남겼습니다.";
 			String content = findFeed.getTitle();
 			String url = "http://localhost:8080/feeds/" + findFeed.getId();

@@ -8,9 +8,20 @@ spring:
   redis:
     host: redis-master
     port: 6379
+#    password:
     lettuce:
-      read-from: MASTER, SLAVE
-      write-to: MASTER
+      read-from: MASTER_PREFERRED
+      write-to: MASTER_ONLY
+      replica-aware: false
+      command-timeout: 5000
+      shutdown-timeout: 1000
+      validate-connection: true
+      replica-verification: strict
+    slave:
+      host: redis-slave
+      port: 6480
+#      password: <레플리카 노드 비밀번호>
+
   datasource:
     hikari:
       maximum-pool-size: 60
