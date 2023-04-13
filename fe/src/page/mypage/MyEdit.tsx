@@ -7,12 +7,9 @@ import { Select, AgeTypeMatcherToKor } from "util/SelectUtil";
 import { genderList } from "page/signup/Info";
 import Swal from "sweetalert2";
 import axios from "api/axios";
-import { useAppDispatch } from "store/hook";
-import { logout } from "store/modules/authSlice";
 
 export default function MyEdit() {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const [error, setError] = useState(false);
   const [nickname, setNickname] = useState("");
   const [hashcode, setHashcode] = useState("");
@@ -160,25 +157,7 @@ export default function MyEdit() {
         <div
           className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red"
           onClick={() => {
-            Swal.fire({
-              title: "회원탈퇴",
-              text: "탈퇴시, 작성했던 모든 글이 삭제되고 계정을 복구할 수 없습니다. Cogen을 탈퇴하시겠습니까?",
-              showCancelButton: true,
-              confirmButtonColor: "#E74D47",
-              confirmButtonText: "탈퇴하기",
-              cancelButtonColor: "#A19E9E",
-              cancelButtonText: "취소",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                axios
-                  .delete(`/mypage/signout`)
-                  .then((res) => {
-                    dispatch(logout());
-                    navigate("/");
-                  })
-                  .catch((err) => console.log(err));
-              }
-            });
+            navigate("/mypage/edit/signout");
           }}
         >
           회원 탈퇴
