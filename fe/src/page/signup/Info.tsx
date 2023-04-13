@@ -27,7 +27,6 @@ export default function Info() {
   const navigate = useNavigate();
   const ID = useAppSelector(id);
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    alert(JSON.stringify(data));
     axios
       .patch(`/users/${ID}/firstlogin`, data)
       .then((res) => {
