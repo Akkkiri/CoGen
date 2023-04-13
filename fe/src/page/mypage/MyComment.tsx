@@ -5,6 +5,7 @@ import CommentContainer from "components/CommentContainer";
 import Pagenation from "components/Pagenation";
 
 interface CommentElement {
+  userid: number;
   commentId: number;
   feedId: number;
   nickname: string;
@@ -25,6 +26,7 @@ export default function MyComment() {
     axios
       .get(`/mypage/mycomments?page=${page}`)
       .then((res) => {
+        console.log(res.data.data);
         setMyCommentsList(res.data.data);
         setTotalPages(res.data.pageInfo.totalPages);
       })
@@ -45,6 +47,8 @@ export default function MyComment() {
                 profileImage={el.profileImage}
                 date={el.modifiedAt}
                 like={el.likeCount}
+                userid={el.userid}
+                commentId={el.commentId}
               />
             </ul>
           );

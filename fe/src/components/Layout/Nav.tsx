@@ -2,8 +2,8 @@ import { IoExtensionPuzzleOutline } from "react-icons/io5";
 import { BsPatchQuestion, BsPerson } from "react-icons/bs";
 import { SlSpeech, SlHome } from "react-icons/sl";
 import { NavLink } from "react-router-dom";
-import { useAppSelector } from "store/hook";
-import { isLogin } from "store/modules/authSlice";
+import { useAppSelector } from "../../store/hook";
+import { isLogin } from "../../store/modules/authSlice";
 
 export default function Nav() {
   const isLoginUser = useAppSelector(isLogin);
