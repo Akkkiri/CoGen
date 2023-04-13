@@ -40,7 +40,15 @@ const authAPI = {
     });
   },
   logout: () => {
-    return resetUserData();
+    return new Promise((resolve, reject) => {
+      return axios
+        .post("/logout")
+        .then((_) => resolve(_))
+        .catch((err) => reject(err))
+        .finally(() => {
+          resetUserData();
+        });
+    });
   },
   refreshToken: () => {
     return new Promise((resolve) => {

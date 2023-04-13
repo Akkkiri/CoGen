@@ -11,6 +11,7 @@ import {
 import { BsBookmark, BsQuestionCircle, BsPencil } from "react-icons/bs";
 import { useAppDispatch } from "store/hook";
 import { logout } from "store/modules/authSlice";
+import authAPI from "api/authAPI";
 
 export default function Mypage() {
   const dispatch = useAppDispatch();
@@ -99,6 +100,7 @@ export default function Mypage() {
         </Link>
         <button
           onClick={() => {
+            authAPI.logout();
             dispatch(logout());
             navigate("/");
           }}
