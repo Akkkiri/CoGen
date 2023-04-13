@@ -23,6 +23,8 @@ public interface UserService {
 
 	void updatePassword(UserDto.Password password);
 
+	public void updatePasswordWithSms(UserDto.Password password);
+
 	User getUser(Long userId);
 
 	User getMyInfo();

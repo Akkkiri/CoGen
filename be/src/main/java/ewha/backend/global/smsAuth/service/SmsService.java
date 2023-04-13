@@ -18,7 +18,6 @@ import ewha.backend.domain.user.repository.UserRepository;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.smsAuth.dto.SmsDto;
 import ewha.backend.global.smsAuth.repository.SmsRedisRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -88,6 +87,13 @@ public class SmsService {
 		return "인증번호 일치";
 	}
 
+	public String verifyCertification(SmsDto.FindPasswordCertificationRequest request) {
+		if (!isVerified(request)) {
+			throw new AuthenticationCredentialsNotFoundException("인증번호가 일치하지 않습니다.");
+		}
+		return "인증번호 일치";
+	}
+
 	public String findVerifyCertification(SmsDto.FindCertificationRequest request) {
 		if (!isFindVerified(request)) {
 			throw new AuthenticationCredentialsNotFoundException("인증번호가 일치하지 않습니다.");
@@ -107,13 +113,18 @@ public class SmsService {
 			&& smsRedisRepository.getCertification(request.getPhoneNumber()).equals(request.getCertificationNumber());
 	}
 
+	public Boolean isVerified(SmsDto.FindPasswordCertificationRequest request) {
+		return (smsRedisRepository.hasKey(request.getPhoneNumber()))
+			&& smsRedisRepository.getCertification(request.getPhoneNumber()).equals(request.getCertificationNumber());
+	}
+
 	public Boolean isFindVerified(SmsDto.FindCertificationRequest request) {
 		return (smsRedisRepository.hasKey(request.getPhoneNumber()))
 			&& smsRedisRepository.getCertification(request.getPhoneNumber()).equals(request.getCertificationNumber());
 	}
 
 	public Boolean isFindPasswordVerified(SmsDto.FindPasswordCertificationRequest request) {
-		return (smsRedisRepository.hasKey(request.getUserId()))
-			&& smsRedisRepository.getCertification(request.getUserId()).equals(request.getCertificationNumber());
+		return (smsRedisRepository.hasKey(request.getPhoneNumber()))
+			&& smsRedisRepository.getCertification(request.getPhoneNumber()).equals(request.getCertificationNumber());
 	}
 }

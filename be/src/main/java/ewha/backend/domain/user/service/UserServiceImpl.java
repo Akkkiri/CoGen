@@ -130,7 +130,21 @@ public class UserServiceImpl implements UserService {
 		findUser.updatePassword(bCryptPasswordEncoder.encode(password.getNewPassword()));
 
 		userRepository.save(findUser);
+	}
 
+	@Override
+	@Transactional
+	public void updatePasswordWithSms(UserDto.Password password) {
+
+		User findUser = findByUserId(password.getUserId());
+
+		if (!password.getNewPassword().equals(password.getNewPasswordRepeat())) {
+			throw new BusinessLogicException(ExceptionCode.PASSWORDS_NOT_MATCH);
+		}
+
+		findUser.updatePassword(bCryptPasswordEncoder.encode(password.getNewPassword()));
+
+		userRepository.save(findUser);
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class SmsDto {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class FindPasswordRequest {
-		private String userId;
+		private String phoneNumber;
 	}
 
 	@Getter
@@ -64,7 +64,7 @@ public class SmsDto {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class FindPasswordCertificationRequest {
-		private String userId;
+		private String phoneNumber;
 		private String certificationNumber;
 	}
 }
