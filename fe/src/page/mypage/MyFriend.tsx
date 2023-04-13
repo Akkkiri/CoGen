@@ -5,6 +5,7 @@ import Friend, { FriendProps } from "components/user/Friend";
 import axios from "api/axios";
 import { useAppSelector } from "store/hook";
 import { id } from "store/modules/authSlice";
+import Empty from "components/Empty";
 
 export default function MyFriend() {
   const ID = useAppSelector(id);
@@ -27,16 +28,20 @@ export default function MyFriend() {
       <BackBtn />
       <h1 className="page-title">나의 친구</h1>
       <ul className="max-w-2xl m-auto">
-        {friendsList.map((el) => {
-          return (
-            <li
-              key={el.hashcode}
-              className="border-b border-y-lightGray/50 px-2 py-4"
-            >
-              <Friend {...el} />
-            </li>
-          );
-        })}
+        {friendsList.length === 0 ? (
+          <Empty str={"친구가"} />
+        ) : (
+          friendsList.map((el) => {
+            return (
+              <li
+                key={el.hashcode}
+                className="border-b border-y-lightGray/50 px-2 py-4"
+              >
+                <Friend {...el} />
+              </li>
+            );
+          })
+        )}
       </ul>
       <Pagenation page={page} setPage={setPage} totalPages={totalPages} />
     </div>

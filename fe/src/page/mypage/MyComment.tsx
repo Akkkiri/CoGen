@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "api/axios";
 import CommentContainer from "components/CommentContainer";
 import Pagenation from "components/Pagenation";
+import Empty from "components/Empty";
 
 interface CommentElement {
   commentId: number;
@@ -36,19 +37,23 @@ export default function MyComment() {
       <BackBtn />
       <h1 className="page-title">나의 댓글</h1>
       <div className="mt-2 p-3">
-        {myCommentsList.map((el) => {
-          return (
-            <ul key={el.commentId}>
-              <CommentContainer
-                contents={el.body}
-                nickname={el.nickname}
-                profileImage={el.profileImage}
-                date={el.modifiedAt}
-                like={el.likeCount}
-              />
-            </ul>
-          );
-        })}
+        {myCommentsList.length === 0 ? (
+          <Empty str={"댓글이"} />
+        ) : (
+          myCommentsList.map((el) => {
+            return (
+              <ul key={el.commentId}>
+                <CommentContainer
+                  contents={el.body}
+                  nickname={el.nickname}
+                  profileImage={el.profileImage}
+                  date={el.modifiedAt}
+                  like={el.likeCount}
+                />
+              </ul>
+            );
+          })
+        )}
       </div>
       <Pagenation page={page} setPage={setPage} totalPages={totalPages} />
     </div>
