@@ -72,7 +72,9 @@ export default function UserProfile({
       <div className="w-full mx-4 mt-2">
         <div className="flex justify-between">
           <div className="flex items-end">
-            <span>{nickname}</span>
+            <span className={`${nickname.length === 8 ? "text-sm" : ""}`}>
+              {nickname}
+            </span>
             <span className="text-xs text-y-lightGray font-light">
               {hashcode}
             </span>

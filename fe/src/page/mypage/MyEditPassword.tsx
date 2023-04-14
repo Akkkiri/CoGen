@@ -12,7 +12,13 @@ interface IFormInput {
   newPasswordRepeat: string;
 }
 
-export default function MyEditPassword() {
+export default function MyEditPassword({
+  phoneNumber,
+  type,
+}: {
+  phoneNumber: string;
+  type: "find" | "change" | "signout";
+}) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -22,27 +28,44 @@ export default function MyEditPassword() {
     watch,
     formState: { errors },
   } = useForm<IFormInput>({
-    defaultValues: {},
+    defaultValues: { userId: phoneNumber },
   });
 
   const password = useRef<string>();
   password.current = watch("newPassword");
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    axios
-      .patch("/mypage/patch/password", data)
-      .then((res) => {
-        Swal.fire({
-          text: "비밀번호가 변경되었습니다",
-          confirmButtonColor: "#E74D47",
-          confirmButtonText: "확인",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/mypage");
-          }
-        });
-      })
-      .catch((err) => console.log(err));
+    if (type === "change") {
+      axios
+        .patch("/mypage/patch/password", data)
+        .then((res) => {
+          Swal.fire({
+            text: "비밀번호가 변경되었습니다",
+            confirmButtonColor: "#E74D47",
+            confirmButtonText: "확인",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/mypage");
+            }
+          });
+        })
+        .catch((err) => console.log(err));
+    } else {
+      axios
+        .patch("/find/password/change", data)
+        .then((res) => {
+          Swal.fire({
+            text: "비밀번호가 변경되었습니다",
+            confirmButtonColor: "#E74D47",
+            confirmButtonText: "로그인하기",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/login");
+            }
+          });
+        })
+        .catch((err) => console.log(err));
+    }
   };
   return (
     <div>
@@ -52,17 +75,7 @@ export default function MyEditPassword() {
         className="w-full flex flex-col gap-2 mt-8 px-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <input
-          placeholder="전화번호"
-          className="input-basic"
-          maxLength={11}
-          onKeyDown={(e) => {
-            if (!/^[0-9]+$/.test(e.key) && e.key.length === 1) {
-              e.preventDefault();
-            }
-          }}
-          {...register("userId", { required: true })}
-        />
+        <input className="input-basic" disabled {...register("userId")} />
         <div className="flex justify-end items-center">
           <input
             type={showPassword ? "text" : "password"}
