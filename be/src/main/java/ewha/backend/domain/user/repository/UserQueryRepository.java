@@ -3,7 +3,11 @@ package ewha.backend.domain.user.repository;
 import static ewha.backend.domain.user.entity.QUser.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -67,5 +71,63 @@ public class UserQueryRepository {
 			.set(user.hasQuestion, false)
 			.where(user.hasQuiz.eq(true).or(user.hasQuestion.eq(true)))
 			.execute();
+	}
+
+	public Page<User> findUserPageByNickname(String query, Pageable pageable) {
+
+		List<User> exactUserList = jpaQueryFactory.selectFrom(user)
+			.where(user.nickname.like(query + "#%"))
+			.orderBy(user.level.desc(), user.ariFactor.desc(), user.createdAt.desc())
+			.fetch();
+
+		List<User> userList = jpaQueryFactory
+			.selectFrom(user)
+			.where(user.nickname.contains(query))
+			.orderBy(user.nickname.asc(), user.level.desc(), user.ariFactor.desc(), user.createdAt.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		Long total = jpaQueryFactory
+			.select(user.count())
+			.from(user)
+			.where(user.nickname.contains(query))
+			.fetchOne();
+
+		if (exactUserList.size() != 0) {
+			exactUserList.addAll(userList);
+			exactUserList.stream().distinct().collect(Collectors.toList());
+			return new PageImpl<>(exactUserList, pageable, total);
+		} else {
+			return new PageImpl<>(userList, pageable, total);
+		}
+	}
+
+	public Page<User> findUserPageByHashcode(String query, Pageable pageable) {
+
+		User exactUser = jpaQueryFactory.selectFrom(user)
+			.where(user.nickname.like("%#" + query))
+			.fetchOne();
+
+		List<User> userList = jpaQueryFactory
+			.selectFrom(user)
+			.where(user.nickname.like("%#%" + query + "%"))
+			.orderBy(user.nickname.asc(), user.level.desc(), user.ariFactor.desc(), user.createdAt.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		Long total = jpaQueryFactory
+			.select(user.count())
+			.from(user)
+			.where(user.nickname.contains("%#%" + query + "%"))
+			.fetchOne();
+
+		if (exactUser != null) {
+			userList.add(0, exactUser);
+			return new PageImpl<>(userList, pageable, total);
+		} else {
+			return new PageImpl<>(userList, pageable, total);
+		}
 	}
 }

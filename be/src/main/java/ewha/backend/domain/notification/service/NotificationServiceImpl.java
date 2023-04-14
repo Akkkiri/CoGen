@@ -30,7 +30,7 @@ public class NotificationServiceImpl implements NotificationService {
 	private final NotificationRepository notificationRepository;
 	private final NotificationQueryRepository notificationQueryRepository;
 	private final UserService userService;
-	private static final Long DEFAULT_TIMEOUT = Long.MAX_VALUE;
+	private static final Long DEFAULT_TIMEOUT = 180000L;
 
 	@Override
 	public SseEmitter connect(String lastEventId) {

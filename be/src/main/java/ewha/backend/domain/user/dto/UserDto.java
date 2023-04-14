@@ -10,6 +10,7 @@ import ewha.backend.domain.qna.entity.Qna;
 import ewha.backend.domain.user.entity.enums.AgeType;
 import ewha.backend.domain.user.entity.enums.GenderType;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -198,5 +199,22 @@ public class UserDto {
 		private Long qnaId;
 		private String content;
 		private String answerBody;
+	}
+
+	@Getter
+	@Builder
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	@AllArgsConstructor(access = AccessLevel.PROTECTED)
+	public static class UserSearchResponse {
+		private Long userId;
+		private String nickname;
+		private String hashcode;
+		private String profileImage;
+		private String thumbnailPath;
+		private Boolean isFollowing;
+
+		public void addIsFollowing(Boolean isFollowing) {
+			this.isFollowing = isFollowing;
+		}
 	}
 }

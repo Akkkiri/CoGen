@@ -24,7 +24,7 @@ spring:
 
   datasource:
     hikari:
-      maximum-pool-size: 60
+      maximum-pool-size: 120
       idle-timeout: 30000
     url: jdbc:mysql://ehwa.covow6hrmmr7.ap-northeast-2.rds.amazonaws.com:3306/ewha_db?useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -62,7 +62,7 @@ spring:
           kakao:
             client-id: 3c1d40614ee038dde6e45dc15964476c
             client-secret: ${KAKAO_CLIENT_SECRET}
-            redirect-uri: http://localhost:3000/oauth/kakao
+            redirect-uri: https://www.akkkiri.co.kr/oauth/kakao
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             scope:
@@ -73,7 +73,7 @@ spring:
           naver:
             client-id: wcto8DPTmhNWmRN4xmsa
             client-secret: ${NAVER_CLIENT_SECRET}
-            redirect-uri: http://localhost:3000/oauth/naver
+            redirect-uri: https://www.akkkiri.co.kr/oauth/naver
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             scope:

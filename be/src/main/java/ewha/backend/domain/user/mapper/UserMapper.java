@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
+import ewha.backend.domain.follow.repository.FollowQueryRepository;
 import ewha.backend.domain.qna.entity.Qna;
 import ewha.backend.domain.qna.service.QnaService;
 import ewha.backend.domain.user.dto.UserDto;
@@ -135,5 +138,51 @@ public interface UserMapper {
 						.build();
 
 			}).collect(Collectors.toList());
+	}
+
+	default PageImpl<UserDto.UserSearchResponse> userPageToUserSearchResponse(
+		Page<User> userPage, FollowQueryRepository followQueryRepository, Long followingUserId) {
+
+		return new PageImpl<>(userPage.stream().map(user -> {
+
+			String[] nick = user.getNickname().split("#");
+			String nickPre = nick[0];
+			String nickSuf = "#" + nick[1];
+
+			UserDto.UserSearchResponse.UserSearchResponseBuilder userSearchResponseBuilder = UserDto.UserSearchResponse.builder();
+
+			userSearchResponseBuilder.userId(user.getId());
+			userSearchResponseBuilder.nickname(nickPre);
+			userSearchResponseBuilder.hashcode(nickSuf);
+			userSearchResponseBuilder.profileImage(user.getProfileImage());
+			userSearchResponseBuilder.thumbnailPath(user.getThumbnailPath());
+			userSearchResponseBuilder
+				.isFollowing(followQueryRepository.findFollowByUserIds(followingUserId, user.getId()) != null);
+
+			return userSearchResponseBuilder.build();
+
+		}).collect(Collectors.toList()));
+	}
+
+	default PageImpl<UserDto.UserSearchResponse> userPageToUserSearchResponse(Page<User> userPage) {
+
+		return new PageImpl<>(userPage.stream().map(user -> {
+
+			String[] nick = user.getNickname().split("#");
+			String nickPre = nick[0];
+			String nickSuf = "#" + nick[1];
+
+			UserDto.UserSearchResponse.UserSearchResponseBuilder userSearchResponseBuilder = UserDto.UserSearchResponse.builder();
+
+			userSearchResponseBuilder.userId(user.getId());
+			userSearchResponseBuilder.nickname(nickPre);
+			userSearchResponseBuilder.hashcode(nickSuf);
+			userSearchResponseBuilder.profileImage(user.getProfileImage());
+			userSearchResponseBuilder.thumbnailPath(user.getThumbnailPath());
+			userSearchResponseBuilder.isFollowing(false);
+
+			return userSearchResponseBuilder.build();
+
+		}).collect(Collectors.toList()));
 	}
 }

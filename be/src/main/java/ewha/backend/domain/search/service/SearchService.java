@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.feed.repository.FeedQueryRepository;
 
+import ewha.backend.domain.user.entity.User;
+import ewha.backend.domain.user.repository.UserQueryRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class SearchService {
 
 	private final FeedQueryRepository feedQueryRepository;
+	private final UserQueryRepository userQueryRepository;
 
 	public Page<Feed> findAllFeedsPageByQueryParam(String sort, String queryParam, Integer page) {
 
@@ -29,5 +32,20 @@ public class SearchService {
 		PageRequest pageRequest = PageRequest.of(page - 1, 10);
 
 		return feedQueryRepository.findCategorySearchResultPage(category, sort, queryParam, pageRequest);
+	}
+
+	public Page<User> findUserPageByQuery(String query, Integer page) {
+
+		PageRequest pageRequest = PageRequest.of(page - 1, 10);
+
+		Page<User> userPage;
+
+		if (query.charAt(0) == '#') {
+			userPage = userQueryRepository.findUserPageByHashcode(query.substring(1), pageRequest);
+		} else {
+			userPage = userQueryRepository.findUserPageByNickname(query, pageRequest);
+		}
+
+		return userPage;
 	}
 }
