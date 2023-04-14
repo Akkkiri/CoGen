@@ -42,6 +42,7 @@ export default function Userpage() {
       .then((res) => {
         const obj = {
           userID: userID,
+          isFollow: res.data.isFollowing,
           nickname: res.data.nickname,
           hashcode: res.data.hashcode,
           profileImage: res.data.profileImage,

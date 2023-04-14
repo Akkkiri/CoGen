@@ -1,5 +1,6 @@
 import axios from "api/axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export interface FriendProps {
   userId: number;
@@ -32,11 +33,13 @@ export default function Friend({
   return (
     <div className="flex justify-between">
       <div className="flex items-center">
-        <img
-          src={profileImage}
-          alt="userprofileImage"
-          className="w-12 h-12 mr-2"
-        />
+        <Link to={`/user/${userId}`}>
+          <img
+            src={profileImage}
+            alt="userprofileImage"
+            className="w-12 h-12 mr-2"
+          />
+        </Link>
         <div>
           <span>{nickname}</span>
           <span className="text-xs text-y-lightGray font-light">

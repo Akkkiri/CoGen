@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "store/hook";
 import { id } from "store/modules/authSlice";
+import Swal from "sweetalert2";
 
 export default function SelfQna() {
   const { register, getValues, handleSubmit } = useForm();
@@ -44,9 +45,15 @@ export default function SelfQna() {
       axios
         .patch(`/users/${ID}/firstqna`, postBody)
         .then((res) => {
-          //제거
-          // navigate("/");
-          navigate("/login");
+          Swal.fire({
+            text: "회원가입이 완료되었습니다.",
+            confirmButtonColor: "#E74D47",
+            confirmButtonText: "로그인하러가기",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/login");
+            }
+          });
         })
         .catch((err) => console.log(err));
     } else {

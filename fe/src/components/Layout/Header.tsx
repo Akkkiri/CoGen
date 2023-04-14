@@ -1,5 +1,5 @@
 import { IoSearchOutline } from "react-icons/io5";
-import { VscBell } from "react-icons/vsc";
+import { VscBell, VscBellDot } from "react-icons/vsc";
 import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal";
 import NotifyModal from "./NotifyModal";
@@ -16,6 +16,7 @@ import { useAppDispatch } from "store/hook";
 export default function Header() {
   const [isSearching, setIsSearching] = useState(false);
   const [isNotifying, setIsNotifying] = useState(false);
+  const [hasNewNotify, setHasNewNotify] = useState(false);
 
   const TOKEN = useSelector(accessToken);
   const isLoginUser = useSelector(isLogin);
@@ -27,11 +28,19 @@ export default function Header() {
 
   useEffect(() => {
     if (isLoginUser) {
+      checkNotify();
       setInterval(() => {
         dispatch(getNewTokenAsync());
       }, 2 * 60 * 60 * 1000);
     }
   }, [isLoginUser, dispatch]);
+
+  const checkNotify = () => {
+    axios
+      .get("/notifications/check")
+      .then((res) => setHasNewNotify(res.data))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <header className="sticky top-0 z-10 bg-white w-full px-4 py-2 border-b border-y-lightGray">
@@ -51,7 +60,11 @@ export default function Header() {
             className="hover:text-y-red"
             onClick={() => setIsNotifying(true)}
           >
-            <VscBell size={30} />
+            {hasNewNotify ? (
+              <VscBellDot size={30} className="text-y-red" />
+            ) : (
+              <VscBell size={30} />
+            )}
           </button>
           {isNotifying ? <NotifyModal setIsNotifying={setIsNotifying} /> : null}
         </div>

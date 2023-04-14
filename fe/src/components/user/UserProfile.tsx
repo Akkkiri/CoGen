@@ -5,20 +5,23 @@ import { useAppSelector } from "store/hook";
 import { isLogin } from "store/modules/authSlice";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
+import { Point } from "util/LevelUtil";
 
 export interface UserProfileProps {
   userID?: number;
+  isFollow?: boolean;
   nickname: string;
   hashcode: string;
   profileImage: string;
   level: number;
-  ariFactor: number;
+  ariFactor: Point;
   friendsNum: number;
   isMine?: boolean;
 }
 
 export default function UserProfile({
   userID,
+  isFollow,
   nickname,
   hashcode,
   profileImage,
@@ -29,7 +32,7 @@ export default function UserProfile({
 }: UserProfileProps) {
   const navigate = useNavigate();
   const isLoginUser = useAppSelector(isLogin);
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(isFollow);
   const medal = (level: number) => {
     if (level === 50) return 50;
     else if (level >= 40) return 40;
@@ -48,15 +51,13 @@ export default function UserProfile({
   };
 
   useEffect(() => {
-    //setIsFollowing 으로 isFollowing 가져오는 로직 필요
-  }, []);
+    setIsFollowing(isFollow);
+  }, [isFollow]);
 
   const handleFollowing = () => {
     axios
       .post(`/follows/${userID}`)
       .then((res) => {
-        //제거
-        console.log(res);
         setIsFollowing(!isFollowing);
       })
       .catch((err) => console.log(err));
@@ -71,7 +72,9 @@ export default function UserProfile({
       <div className="w-full mx-4 mt-2">
         <div className="flex justify-between">
           <div className="flex items-end">
-            <span>{nickname}</span>
+            <span className={`${nickname.length === 8 ? "text-sm" : ""}`}>
+              {nickname}
+            </span>
             <span className="text-xs text-y-lightGray font-light">
               {hashcode}
             </span>

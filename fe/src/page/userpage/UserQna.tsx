@@ -15,7 +15,7 @@ export default function UserQna({ userID }: { userID: number }) {
   }, [userID]);
   return (
     <div>
-      <ul>
+      <ul className="flex flex-col gap-3 m-4">
         {userQnaList.map((el, idx) => {
           return (
             <li key={el.qnaId}>

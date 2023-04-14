@@ -30,6 +30,9 @@ const authAPI = {
         .post("/login", params)
         .then((res) => {
           signInSuccess(res);
+          axios.get("/subscribe", {
+            headers: { Accept: "text/event-stream" },
+          });
           // refresh token 만료되면 로그아웃
           setTimeout(authAPI.logout, REFRESH_EXPIRY_TIME);
           return resolve(res);
@@ -40,7 +43,15 @@ const authAPI = {
     });
   },
   logout: () => {
-    return resetUserData();
+    return new Promise((resolve, reject) => {
+      return axios
+        .post("/logout")
+        .then((_) => resolve(_))
+        .catch((err) => reject(err))
+        .finally(() => {
+          resetUserData();
+        });
+    });
   },
   refreshToken: () => {
     return new Promise((resolve) => {
