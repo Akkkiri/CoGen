@@ -70,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
 			String body = "작성하신 게시글 <" + findFeed.getTitle() + ">에 "
 				+ findUser.getNickname() + "님이 댓글을 남겼습니다.";
 			String content = findFeed.getTitle();
-			String url = "http://localhost:8080/feeds/" + findFeed.getId();
+			String url = "https://www.akkkiri.co.kr/post/" + findFeed.getId();
 			notificationService.send(findFeed.getUser(), url, body, content, NotificationType.COMMENT);
 		}
 

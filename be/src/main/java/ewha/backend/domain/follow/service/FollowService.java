@@ -71,7 +71,7 @@ public class FollowService {
 			userRepository.save(followingUser);
 
 			String body = followingUser.getNickname() + "님이 회원님을 팔로우하기 시작했습니다.";
-			String url = "http://localhost:8080/users/" + followingUser.getId();
+			String url = "https://www.akkkiri.co.kr/users/" + followingUser.getId();
 			notificationService.send(followedUser, url, body, null, NotificationType.FOLLOW);
 
 			return "Create Follow";

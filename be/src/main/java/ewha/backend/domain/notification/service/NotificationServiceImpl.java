@@ -37,9 +37,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 		User findUser = userService.getLoginUser();
 		Long userId = findUser.getId();
-
 		String connectId = userId + "_" + System.currentTimeMillis();
-
 		SseEmitter sseEmitter = emitterRepository.save(connectId, new SseEmitter(DEFAULT_TIMEOUT));
 
 		// 완료, 시간초과, 에러로 인해 요청 전송 불가시 저장해둔 sseEmitter 삭제
@@ -49,12 +47,21 @@ public class NotificationServiceImpl implements NotificationService {
 
 		sendToClient(sseEmitter, connectId, "Connected. [userId=" + userId + "]"); // 재연결 요청시 503 방지를 위한 더미 데이터
 
-		if (!lastEventId.isEmpty()) { // 클라이언트가 미수신한 Event 유실 예방
+		if (!lastEventId.isEmpty()) {
+			final SseEmitter finalSseEmitter = sseEmitter; // sseEmitter를 final 변수로 선언
 			Map<String, Object> events = emitterRepository.findAllEventCacheStartWithByUserId(String.valueOf(userId));
 			events.entrySet().stream()
 				.filter(entry -> lastEventId.compareTo(entry.getKey()) < 0)
-				.forEach(entry -> sendToClient(sseEmitter, entry.getKey(), entry.getValue()));
+				.forEach(entry -> sendToClient(finalSseEmitter, entry.getKey(), entry.getValue()));
 		}
+
+		// if (!lastEventId.isEmpty()) { // 클라이언트가 미수신한 Event 유실 예방
+		// 	Map<String, Object> events = emitterRepository.findAllEventCacheStartWithByUserId(String.valueOf(userId));
+		// 	events.entrySet().stream()
+		// 		.filter(entry -> lastEventId.compareTo(entry.getKey()) < 0)
+		// 		.forEach(entry -> sendToClient(sseEmitter, entry.getKey(), "test"));
+		// 		// .forEach(entry -> sendToClient(sseEmitter, entry.getKey(), entry.getValue()));
+		// }
 
 		return sseEmitter;
 	}
