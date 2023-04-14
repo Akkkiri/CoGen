@@ -15,7 +15,7 @@ spring:
       replica-aware: true
       command-timeout: 5000
       shutdown-timeout: 1000
-      validate-connection: true
+      validate-connection: false
       replica-verification: strict
     slave:
       host: redis-slave
