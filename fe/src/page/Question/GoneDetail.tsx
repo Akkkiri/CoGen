@@ -24,7 +24,7 @@ export default function GoneDetail() {
       .get(`/questions/${QuestionId}`)
       .then((response) => {
         setContent(response.data.content);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((err) => console.log(err));
   }, [QuestionId, sort]);

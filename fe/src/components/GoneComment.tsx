@@ -4,7 +4,7 @@ import { HiTrash } from "react-icons/hi";
 import UserInfo from "./user/UserInfo";
 import Swal from "sweetalert2";
 import axios from "../api/axios";
-import SmallInput from "../components/Inputs/SmallInput";
+import WarningBtn from "./ WarningBtn";
 import { id, isLogin } from "../store/modules/authSlice";
 import { useAppSelector } from "../store/hook";
 import { useState } from "react";
@@ -37,7 +37,11 @@ export default function GoneComment({
       .then(() => window.location.reload())
       .catch((err) => console.log(err));
   };
-
+  const warningComment = () => {
+    axios
+      .patch(`/answers/${commentId}/report`)
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="pb-2">
       <div className="p-4 border border-y-lightGray rounded-xl">
@@ -72,7 +76,25 @@ export default function GoneComment({
                   삭제
                 </button>
               </div>
-            ) : null}
+            ) : (
+              <WarningBtn
+                onClick={() => {
+                  Swal.fire({
+                    title: "CoGen",
+                    text: "게시글을 신고하시겠습니까?",
+                    showCancelButton: true,
+                    confirmButtonColor: "#E74D47",
+                    cancelButtonColor: "#A7A7A7",
+                    confirmButtonText: "신고",
+                    cancelButtonText: "취소",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      warningComment();
+                    }
+                  });
+                }}
+              />
+            )}
           </div>
         </div>
         <div className="mt-2 text-sm font-light">{contents}</div>
