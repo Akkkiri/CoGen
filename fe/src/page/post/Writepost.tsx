@@ -1,7 +1,6 @@
 import BigInput from "components/Inputs/BigInput";
 import { Select, SelectBoxMatcher } from "../../util/SelectUtil";
 import { useState, useEffect } from "react";
-import { IoWarning } from "react-icons/io5";
 import SelectBox from "../../components/SelectBox";
 import ImageUpload from "components/ImageUpload";
 import axios from "../../api/axios";
@@ -87,20 +86,14 @@ export default function Writepost() {
         <div className="m-2">
           <div className="mb-2 mt-6 text-lg font-semibold">카테고리</div>
           {category === "" ? (
-            <div className="flex text-y-red gap-1">
-              <IoWarning />
-              <div className="text-sm">{categoryErr}</div>
-            </div>
+            <div className="text-sm">{categoryErr}</div>
           ) : null}
           <SelectBox setSelect={setCategory} type={"category"} />
         </div>
         <div className="m-2">
           <div className="mb-2 mt-2 text-lg font-semibold">제목</div>
           {inputState.length < 1 ? (
-            <div className="flex text-y-red gap-1">
-              <IoWarning />
-              <div className="text-sm">{titleErr}</div>
-            </div>
+            <div className="text-sm">{titleErr}</div>
           ) : null}
 
           <section className="font-light block">
@@ -127,10 +120,7 @@ export default function Writepost() {
         <div className="m-2">
           <div className="mb-2 mt-4 text-lg font-semibold">본문</div>
           {content.length < 3 ? (
-            <div className="flex text-y-red gap-1">
-              <IoWarning />
-              <div className="text-sm">{contentLength}</div>
-            </div>
+            <div className="text-sm">{contentLength}</div>
           ) : null}
 
           <BigInput
