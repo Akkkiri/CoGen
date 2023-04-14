@@ -56,21 +56,21 @@ export default function Post() {
       <div className="p-2 border-b border-y-lightGray">
         <SelectBox setSelect={setSort} type={"sort"} />
       </div>
-      <div className="mb-3">
+      <div className="mb-20">
         <PostContainer postContainerProps={postProps} />
         <Pagenation page={page} setPage={setPage} totalPages={totalPages} />
-        <div className="relative m-3">
-          <div className="fixed bottom-[70px]">
-            {isLoginUser ? (
-              <NavLink to={"/writepost"}>
-                <button className="btn-r">게시글 작성</button>
-              </NavLink>
-            ) : (
-              <button onClick={goToLogin} className="btn-r">
-                게시글 작성
-              </button>
-            )}
-          </div>
+      </div>
+      <div className="relative m-3">
+        <div className="fixed bottom-[70px]">
+          {isLoginUser ? (
+            <NavLink to={"/writepost"}>
+              <button className="btn-r">게시글 작성</button>
+            </NavLink>
+          ) : (
+            <button onClick={goToLogin} className="btn-r">
+              게시글 작성
+            </button>
+          )}
         </div>
       </div>
     </>
