@@ -1,5 +1,6 @@
 import SelectBox from "../../components/SelectBox";
 import { useState, useEffect } from "react";
+import { IoMdClose } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import Pagenation from "../../components/Pagenation";
 import { Select, SelectBoxMatcher } from "../../util/SelectUtil";
@@ -68,7 +69,10 @@ export default function PostDetail() {
   return (
     <>
       <div className="p-3 border-b border-y-lightGray">
-        <CloseBtn />
+        <IoMdClose
+          onClick={() => navigate("/post")}
+          className="w-6 h-6 cursor-pointer absolute "
+        />
         <h1 className="text-center text-xl">게시판</h1>
       </div>
 
@@ -93,6 +97,7 @@ export default function PostDetail() {
                 ? postComment
                 : () => {
                     Swal.fire({
+                      title: "CoGen",
                       text: "로그인이 필요한 서비스 입니다.",
                       showCancelButton: true,
                       confirmButtonColor: "#E74D47",

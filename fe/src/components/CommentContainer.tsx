@@ -9,6 +9,7 @@ import { id, isLogin } from "../store/modules/authSlice";
 import { useAppSelector } from "../store/hook";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import WarningBtn from "./ WarningBtn";
 export interface CommentContainerProps {
   contents: string;
   nickname: string;
@@ -50,6 +51,11 @@ export default function CommentContainer({
       .catch((err) => console.log(err));
 
     setIsEditMode(false);
+  };
+  const warningComment = () => {
+    axios
+      .patch(`/comments/${commentId}/report`)
+      .catch((err) => console.log(err));
   };
   return (
     <div className="pb-2">
@@ -95,7 +101,25 @@ export default function CommentContainer({
                     삭제
                   </button>
                 </div>
-              ) : null}
+              ) : (
+                <WarningBtn
+                  onClick={() => {
+                    Swal.fire({
+                      title: "CoGen",
+                      text: "게시글을 신고하시겠습니까?",
+                      showCancelButton: true,
+                      confirmButtonColor: "#E74D47",
+                      cancelButtonColor: "#A7A7A7",
+                      confirmButtonText: "신고",
+                      cancelButtonText: "취소",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        warningComment();
+                      }
+                    });
+                  }}
+                />
+              )}
             </div>
           )}
         </div>
@@ -109,6 +133,7 @@ export default function CommentContainer({
                 ? patchComment
                 : () => {
                     Swal.fire({
+                      title: "CoGen",
                       text: "로그인이 필요한 서비스 입니다.",
                       showCancelButton: true,
                       confirmButtonColor: "#E74D47",
