@@ -34,14 +34,16 @@ export default function QuestionCommentContainer({
   const [isEditMode, setIsEditMode] = useState(false);
   const [inputState, setInputState] = useState<string>(contents);
   const isLoginUser = useAppSelector(isLogin);
+  const [isLike, setIsLike] = useState<boolean>();
+  const [likeCount, setLikeCount] = useState<number>();
   const navigate = useNavigate();
-  const deleteComment = () => {
+  const deleteAnswer = () => {
     axios
       .delete(`/answers/${commentId}/delete`)
       .then(() => window.location.reload())
       .catch((err) => console.log(err));
   };
-  const editComment = () => {
+  const editAnswer = () => {
     setIsEditMode(true);
   };
   const patchComment = () => {
@@ -53,11 +55,18 @@ export default function QuestionCommentContainer({
 
     setIsEditMode(false);
   };
-  const warningComment = () => {
+  const warningAnswer = () => {
     axios
       .patch(`/answers/${commentId}/report`)
       .catch((err) => console.log(err));
   };
+  const LikeAnswer = () => {
+    axios
+      .patch(`/answers/${commentId}/like`)
+      .then(() => window.location.reload())
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="pb-2">
       <div className="p-4 border border-y-lightGray rounded-xl">
@@ -78,7 +87,7 @@ export default function QuestionCommentContainer({
             <div>
               {myId === userid ? (
                 <div className="flex gap-1 px-4 text-sm self-center">
-                  <button onClick={editComment}>
+                  <button onClick={editAnswer}>
                     <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
                   </button>
                   <button
@@ -93,7 +102,7 @@ export default function QuestionCommentContainer({
                         cancelButtonText: "취소",
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          deleteComment();
+                          deleteAnswer();
                         }
                       });
                     }}
@@ -115,7 +124,7 @@ export default function QuestionCommentContainer({
                       cancelButtonText: "취소",
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        warningComment();
+                        warningAnswer();
                       }
                     });
                   }}

@@ -6,6 +6,7 @@ import axios from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import WarningBtn from "./ WarningBtn";
+
 interface PostContainerProps {
   title: string;
   contents: string;
@@ -36,6 +37,7 @@ export default function PostDetailContainer({
   const warningComment = () => {
     axios.patch(`/feeds/${PostId}/report`).catch((err) => console.log(err));
   };
+
   return (
     <div className="p-2 border-b border-y-lightGray">
       <div className="p-2">
@@ -95,8 +97,8 @@ export default function PostDetailContainer({
             />
           )}
         </div>
-        <div>{title}</div>
-        <div className="my-2 text-sm font-light">{contents}</div>
+        <div className="text-lg">{title}</div>
+        <div className="my-2 font-light">{contents}</div>
         <div className="text-sm text-y-gray">조회 {view}</div>
       </div>
     </div>

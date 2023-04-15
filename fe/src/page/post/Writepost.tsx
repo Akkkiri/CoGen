@@ -86,14 +86,14 @@ export default function Writepost() {
         <div className="m-2">
           <div className="mb-2 mt-6 text-lg font-semibold">카테고리</div>
           {category === "" ? (
-            <div className="text-sm">{categoryErr}</div>
+            <div className="text-y-red text-sm">{categoryErr}</div>
           ) : null}
           <SelectBox setSelect={setCategory} type={"category"} />
         </div>
         <div className="m-2">
           <div className="mb-2 mt-2 text-lg font-semibold">제목</div>
           {inputState.length < 1 ? (
-            <div className="text-sm">{titleErr}</div>
+            <div className="text-y-red text-sm">{titleErr}</div>
           ) : null}
 
           <section className="font-light block">
@@ -120,7 +120,7 @@ export default function Writepost() {
         <div className="m-2">
           <div className="mb-2 mt-4 text-lg font-semibold">본문</div>
           {content.length < 3 ? (
-            <div className="text-sm">{contentLength}</div>
+            <div className="text-y-red text-sm">{contentLength}</div>
           ) : null}
 
           <BigInput

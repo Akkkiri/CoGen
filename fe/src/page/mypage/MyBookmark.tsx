@@ -23,7 +23,7 @@ export default function MyBookmark() {
     <div>
       <BackBtn />
       <h1 className="page-title">내가 저장한 글</h1>
-      <div>
+      <div className="p-2">
         <PostContainer postContainerProps={postProps} bookmark={true} />
         <Pagenation page={page} setPage={setPage} totalPages={totalPages} />
       </div>
