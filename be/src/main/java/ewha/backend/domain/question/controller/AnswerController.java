@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ewha.backend.domain.like.service.LikeService;
 import ewha.backend.domain.question.dto.AnswerDto;
 import ewha.backend.domain.question.entity.Answer;
 import ewha.backend.domain.question.mapper.AnswerMapper;
@@ -33,6 +34,7 @@ public class AnswerController {
 
 	private final AnswerMapper answerMapper;
 	private final AnswerService answerService;
+	private final LikeService likeService;
 
 	@PostMapping("/questions/{question_id}/answer/add")
 	public ResponseEntity<AnswerDto.Response> postAnswer(
@@ -65,7 +67,7 @@ public class AnswerController {
 		@RequestParam(name = "page", defaultValue = "1") int page) {
 
 		Page<Answer> answerPage = answerService.findQuestionAnswers(questionId, sort, page);
-		PageImpl<AnswerDto.ListResponse> responses = answerMapper.answerPageToListResponse(answerPage);
+		PageImpl<AnswerDto.ListResponse> responses = answerMapper.answerPageToListResponse(answerPage, likeService);
 
 		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), answerPage));
 	}

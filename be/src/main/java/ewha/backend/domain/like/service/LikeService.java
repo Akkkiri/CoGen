@@ -2,6 +2,7 @@ package ewha.backend.domain.like.service;
 
 import ewha.backend.domain.comment.entity.Comment;
 import ewha.backend.domain.feed.entity.Feed;
+import ewha.backend.domain.question.entity.Answer;
 
 public interface LikeService {
 
@@ -22,4 +23,5 @@ public interface LikeService {
 	Boolean isLikedFeed(Feed feed);
 
 	Boolean isLikedComment(Comment comment);
+	Boolean isLikedAnswer(Answer answer);
 }

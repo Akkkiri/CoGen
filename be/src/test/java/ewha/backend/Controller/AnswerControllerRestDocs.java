@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 
+import ewha.backend.domain.like.service.LikeService;
 import ewha.backend.domain.question.dto.AnswerDto;
 import ewha.backend.domain.question.entity.Answer;
 import ewha.backend.domain.question.mapper.AnswerMapper;
@@ -146,7 +147,7 @@ public class AnswerControllerRestDocs {
 
 		given(answerService.findQuestionAnswers(anyLong(), anyString(), anyInt()))
 			.willReturn(new PageImpl<>(new ArrayList<>()));
-		given(answerMapper.answerPageToListResponse(Mockito.any()))
+		given(answerMapper.answerPageToListResponse(any(), any(LikeService.class)))
 			.willReturn(ANSWER_LIST_PAGE_RESPONSE);
 
 		ResultActions actions =

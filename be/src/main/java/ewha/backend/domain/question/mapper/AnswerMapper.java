@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
+import ewha.backend.domain.like.service.LikeService;
 import ewha.backend.domain.question.dto.AnswerDto;
 import ewha.backend.domain.question.entity.Answer;
 
@@ -26,7 +27,8 @@ public interface AnswerMapper {
 			.build();
 	}
 
-	default PageImpl<AnswerDto.ListResponse> answerPageToListResponse(Page<Answer> answerPage) {
+	default PageImpl<AnswerDto.ListResponse> answerPageToListResponse(
+		Page<Answer> answerPage, LikeService likeService) {
 
 		if (answerPage == null) {
 			return null;
@@ -47,6 +49,7 @@ public interface AnswerMapper {
 				listResponseBuilder.profileImage(answer.getUser().getProfileImage());
 				listResponseBuilder.thumbnailPath(answer.getUser().getThumbnailPath());
 				listResponseBuilder.answerBody(answer.getAnswerBody());
+				listResponseBuilder.isLiked(likeService.isLikedAnswer(answer));
 				listResponseBuilder.likeCount(answer.getLikeCount());
 				listResponseBuilder.reportCount(answer.getReportCount());
 				listResponseBuilder.createdAt(answer.getCreatedAt());

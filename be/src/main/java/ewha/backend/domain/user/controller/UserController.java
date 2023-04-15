@@ -34,6 +34,7 @@ import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.feed.mapper.FeedMapper;
 import ewha.backend.domain.follow.repository.FollowQueryRepository;
 import ewha.backend.domain.image.service.AwsS3Service;
+import ewha.backend.domain.like.service.LikeService;
 import ewha.backend.domain.qna.service.QnaService;
 import ewha.backend.domain.question.dto.QuestionDto;
 import ewha.backend.domain.question.entity.Question;
@@ -58,6 +59,7 @@ public class UserController {
 	private final QuestionMapper questionMapper;
 	private final AwsS3Service awsS3Service;
 	private final QnaService qnaService;
+	private final LikeService likeService;
 	private final FollowQueryRepository followQueryRepository;
 
 	@GetMapping("/oauth/signin")
@@ -190,7 +192,8 @@ public class UserController {
 	}
 
 	@GetMapping("/mypage/myquestions")
-	public ResponseEntity<MultiResponseDto<QuestionDto.PageResponse>> getMyQuestions(@RequestParam(name = "page", defaultValue = "1") int page) {
+	public ResponseEntity<MultiResponseDto<QuestionDto.PageResponse>> getMyQuestions(
+		@RequestParam(name = "page", defaultValue = "1") int page) {
 
 		Page<Question> questionPage = userService.findMyQuestions(page);
 		PageImpl<QuestionDto.PageResponse> responses =
@@ -200,7 +203,8 @@ public class UserController {
 	}
 
 	@GetMapping("/mypage/bookmarks")
-	public ResponseEntity<MultiResponseDto<FeedDto.PageResponse>> getMyBookmarks(@RequestParam(name = "page", defaultValue = "1") int page) {
+	public ResponseEntity<MultiResponseDto<FeedDto.PageResponse>> getMyBookmarks(
+		@RequestParam(name = "page", defaultValue = "1") int page) {
 
 		Page<Feed> feedPage = userService.findMyBookmark(page);
 		PageImpl<FeedDto.PageResponse> responses = feedMapper.myBookmarksToPageResponse(feedPage);
@@ -223,7 +227,7 @@ public class UserController {
 		@RequestParam(name = "page", defaultValue = "1") int page) {
 
 		Page<Comment> commentList = userService.findUserComments(page);
-		PageImpl<CommentDto.ListResponse> responses = commentMapper.myCommentsToPageResponse(commentList);
+		PageImpl<CommentDto.ListResponse> responses = commentMapper.myCommentsToPageResponse(commentList, likeService);
 
 		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), commentList));
 	}

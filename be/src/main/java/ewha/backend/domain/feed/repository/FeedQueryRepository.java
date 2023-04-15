@@ -199,18 +199,21 @@ public class FeedQueryRepository {
 		if (sort.equals("new")) {
 			feedList = basicResult
 				.orderBy(feed.createdAt.desc())
+				.distinct()
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
 		} else if (sort.equals("likes")) {
 			feedList = basicResult
 				.orderBy(feed.likeCount.desc())
+				.distinct()
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
 		} else {
 			feedList = basicResult
 				.orderBy(feed.viewCount.desc())
+				.distinct()
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
@@ -228,6 +231,7 @@ public class FeedQueryRepository {
 			.select(feed.count())
 			.from(feed)
 			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)))
+			.distinct()
 			.fetchOne();
 
 		return new PageImpl<>(feedList, pageable, total);
@@ -247,24 +251,28 @@ public class FeedQueryRepository {
 		if (sort.equals("new")) {
 			feedList = basicResult
 				.orderBy(feed.createdAt.desc())
+				.distinct()
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
 		} else if (sort.equals("likes")) {
 			feedList = basicResult
 				.orderBy(feed.likeCount.desc())
+				.distinct()
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
 		} else if (sort.equals("view")) {
 			feedList = basicResult
 				.orderBy(feed.viewCount.desc())
+				.distinct()
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
 		} else {
 			feedList = basicResult
 				.orderBy(feed.createdAt.desc())
+				.distinct()
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
@@ -285,6 +293,7 @@ public class FeedQueryRepository {
 			.from(feed)
 			.where(category.categoryType.stringValue().eq(categoryParam)
 				.and(feed.title.contains(queryParam).or(feed.body.contains(queryParam))))
+			.distinct()
 			.fetchOne();
 
 		return new PageImpl<>(feedList, pageable, total);

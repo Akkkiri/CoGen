@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 import ewha.backend.domain.notification.repository.EmitterRepository;
 import ewha.backend.global.security.cookieManager.CookieManager;
 import ewha.backend.global.security.jwtTokenizer.JwtTokenizer;
-
 import ewha.backend.global.security.refreshToken.repository.RefreshTokenQueriRepository;
-import ewha.backend.global.security.refreshToken.repository.RefreshTokenRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

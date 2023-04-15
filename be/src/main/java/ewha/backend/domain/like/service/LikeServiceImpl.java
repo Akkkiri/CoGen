@@ -327,6 +327,18 @@ public class LikeServiceImpl implements LikeService {
 		} else {
 			return false;
 		}
+	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Boolean isLikedAnswer(Answer answer) {
+
+		User findUser = userService.getLoginUserReturnNull();
+
+		if (findUser != null) {
+			return answerLikeQueryRepository.findAnswerLikeByAnswerAndUser(answer, findUser) != null;
+		} else {
+			return false;
+		}
 	}
 }

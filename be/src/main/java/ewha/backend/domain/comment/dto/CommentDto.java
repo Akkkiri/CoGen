@@ -104,6 +104,7 @@ public class CommentDto {
 		private String profileImage;
 		private String thumbnailPath;
 		private String body;
+		private Boolean isLiked;
 		private Long likeCount;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;

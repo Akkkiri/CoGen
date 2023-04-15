@@ -35,6 +35,7 @@ import ewha.backend.Controller.utils.WithMockCustomUser;
 import ewha.backend.domain.comment.mapper.CommentMapper;
 import ewha.backend.domain.feed.mapper.FeedMapper;
 import ewha.backend.domain.image.service.AwsS3Service;
+import ewha.backend.domain.like.service.LikeService;
 import ewha.backend.domain.qna.service.QnaService;
 import ewha.backend.domain.question.mapper.QuestionMapper;
 import ewha.backend.domain.user.dto.UserDto;
@@ -482,7 +483,7 @@ public class UserControllerRestDocs {
 		int page = 1;
 
 		given(userService.findUserComments(anyInt())).willReturn(new PageImpl<>(new ArrayList<>()));
-		given(commentMapper.myCommentsToPageResponse(Mockito.any())).willReturn(USER_COMMENT_RESPONSE_PAGE);
+		given(commentMapper.myCommentsToPageResponse(any(), any(LikeService.class))).willReturn(USER_COMMENT_RESPONSE_PAGE);
 
 		ResultActions actions =
 			mockMvc.perform(

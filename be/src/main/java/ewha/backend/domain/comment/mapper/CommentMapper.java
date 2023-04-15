@@ -75,7 +75,8 @@ public interface CommentMapper {
 			.build();
 	}
 
-	default PageImpl<CommentDto.ListResponse> myCommentsToPageResponse(Page<Comment> commentList) {
+	default PageImpl<CommentDto.ListResponse> myCommentsToPageResponse(
+		Page<Comment> commentList, LikeService likeService) {
 
 		if (commentList == null) {
 			return null;
@@ -95,6 +96,7 @@ public interface CommentMapper {
 					.profileImage(comment.getUser().getProfileImage())
 					.thumbnailPath(comment.getUser().getThumbnailPath())
 					.body(comment.getBody())
+					.isLiked(likeService.isLikedComment(comment))
 					.likeCount(comment.getLikeCount())
 					.createdAt(comment.getCreatedAt())
 					.modifiedAt(comment.getModifiedAt())

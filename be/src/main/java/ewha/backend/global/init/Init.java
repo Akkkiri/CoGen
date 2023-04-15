@@ -94,7 +94,7 @@ public class Init {
 		for (int i = 11; i <= 30; i++) {
 
 			Long rand = (long)(Math.random() * 50) + 1;
-			Long rand2 = (long)(Math.random() * 50) + 1;
+			Long rand2 = (long)(Math.random() * 50);
 
 			Random rand3 = new Random();
 			StringBuilder hashcode = new StringBuilder();
