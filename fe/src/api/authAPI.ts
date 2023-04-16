@@ -30,9 +30,6 @@ const authAPI = {
         .post("/login", params)
         .then((res) => {
           signInSuccess(res);
-          axios.get("/subscribe", {
-            headers: { Accept: "text/event-stream" },
-          });
           // refresh token 만료되면 로그아웃
           setTimeout(authAPI.logout, REFRESH_EXPIRY_TIME);
           return resolve(res);
