@@ -1,14 +1,13 @@
 import SelectBox from "../../components/SelectBox";
 import { useState, useEffect } from "react";
-import { IoMdClose } from "react-icons/io";
+import { IoMdClose, IoMdShare } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import Pagenation from "../../components/Pagenation";
-import { Select, SelectBoxMatcher } from "../../util/SelectUtil";
+import { Select } from "../../util/SelectUtil";
 import PostDetailContainer from "../../components/PostDetailContainer";
 import CommentContainer from "../../components/CommentContainer";
 import axios from "../../api/axios";
 import SmallInput from "../../components/Inputs/SmallInput";
-import CloseBtn from "../../components/Layout/CloseBtn";
 import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import Swal from "sweetalert2";
@@ -17,6 +16,7 @@ import { id } from "../../store/modules/authSlice";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import LikeBtn from "components/LikeBtn";
 import Empty from "components/Empty";
+import BookMarkBtn from "components/BookMark";
 export default function PostDetail() {
   const { PostId } = useParams();
   const [comment, setComment] = useState<Select>("new");
@@ -34,8 +34,8 @@ export default function PostDetail() {
   const [commentCount, setCommentCount] = useState<number>();
   const [isLike, setIsLike] = useState<boolean>(false);
   const [likeCounts, setLikeCounts] = useState<number>(0);
+  const [savePost, setSavePost] = useState<boolean>(false);
   const [isMine, setIsMine] = useState(false);
-  const [feed, setFeed] = useState([]);
   const userid = useAppSelector(id);
 
   const isLoginUser = useAppSelector(isLogin);
@@ -43,7 +43,7 @@ export default function PostDetail() {
 
   useEffect(() => {
     axios.get(`/feeds/${PostId}`).then((response) => {
-      // setFeed(response.data);
+      console.log(response.data);
       setTitle(response.data.title);
       setPostContents(response.data.body);
       setTag(response.data.category);
@@ -54,6 +54,7 @@ export default function PostDetail() {
       setCommentCount(response.data.commentCount);
       setLikeCounts(response.data.likeCount);
       setIsLike(response.data.isLiked);
+      setSavePost(response.data.isSavedFeed);
       if (response.data.userInfo.id === userid) {
         setIsMine(true);
       }
@@ -87,6 +88,14 @@ export default function PostDetail() {
         } else {
           setLikeCounts(likeCounts + 1);
         }
+      })
+      .catch((err) => console.log(err));
+  };
+  const SavePost = () => {
+    axios
+      .patch(`/feeds/${PostId}/save`)
+      .then(() => {
+        setSavePost(!savePost);
       })
       .catch((err) => console.log(err));
   };
@@ -135,8 +144,32 @@ export default function PostDetail() {
             likeCount={likeCounts}
             isLike={isLike}
           />
-          <div>저장하기</div>
-          <div>공유하기</div>
+          <BookMarkBtn
+            onClick={
+              isLoginUser
+                ? SavePost
+                : () => {
+                    Swal.fire({
+                      title: "CoGen",
+                      text: "로그인이 필요한 서비스 입니다.",
+                      showCancelButton: true,
+                      confirmButtonColor: "#E74D47",
+                      cancelButtonColor: "#A7A7A7",
+                      confirmButtonText: "로그인",
+                      cancelButtonText: "취소",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        navigate("/login");
+                      }
+                    });
+                  }
+            }
+            isSavedFeed={savePost}
+          />
+          <div className="flex">
+            <IoMdShare className="self-center text-lg" />
+            <span className="self-center">공유하기</span>
+          </div>
         </div>
         <div className="p-2">
           <SmallInput

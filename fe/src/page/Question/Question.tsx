@@ -112,6 +112,7 @@ export default function Question() {
                   like={el.likeCount}
                   userid={el.userId}
                   commentId={el.answerId}
+                  isLiked={el.isLiked}
                 />
               </div>
             ))}

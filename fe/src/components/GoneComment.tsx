@@ -9,6 +9,7 @@ import { id, isLogin } from "../store/modules/authSlice";
 import { useAppSelector } from "../store/hook";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LikeBtn from "./LikeBtn";
 export interface CommentContainerProps {
   contents: string;
   nickname: string;
@@ -17,6 +18,7 @@ export interface CommentContainerProps {
   like: string | number;
   userid: number;
   commentId: number;
+  isLiked: boolean;
 }
 
 export default function GoneComment({
@@ -27,10 +29,13 @@ export default function GoneComment({
   like,
   userid,
   commentId,
+  isLiked,
 }: CommentContainerProps) {
   const myId = useAppSelector(id);
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
+  const [isLike, setIsLike] = useState<boolean>(isLiked);
+  const [likeCount, setLikeCount] = useState<number>(Number(like));
   const deleteComment = () => {
     axios
       .delete(`/answers/${commentId}/delete`)
@@ -40,6 +45,19 @@ export default function GoneComment({
   const warningComment = () => {
     axios
       .patch(`/answers/${commentId}/report`)
+      .catch((err) => console.log(err));
+  };
+  const LikeComment = () => {
+    axios
+      .patch(`/comments/${commentId}/like`)
+      .then(() => {
+        setIsLike(!isLike);
+        if (isLike) {
+          setLikeCount(likeCount - 1);
+        } else {
+          setLikeCount(likeCount + 1);
+        }
+      })
       .catch((err) => console.log(err));
   };
   return (
@@ -98,11 +116,30 @@ export default function GoneComment({
           </div>
         </div>
         <div className="mt-2 text-sm font-light">{contents}</div>
-        <div className="flex justify-end text-xs">
-          <div className="flex ">
-            <IoHeartOutline className="text-lg" />
-            <div className="self-center">좋아요 {like}</div>
-          </div>
+        <div className="flex w-full justify-end">
+          <LikeBtn
+            onClick={
+              isLoginUser
+                ? LikeComment
+                : () => {
+                    Swal.fire({
+                      title: "CoGen",
+                      text: "로그인이 필요한 서비스 입니다.",
+                      showCancelButton: true,
+                      confirmButtonColor: "#E74D47",
+                      cancelButtonColor: "#A7A7A7",
+                      confirmButtonText: "로그인",
+                      cancelButtonText: "취소",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        navigate("/login");
+                      }
+                    });
+                  }
+            }
+            likeCount={likeCount}
+            isLike={isLike}
+          />
         </div>
       </div>
     </div>
