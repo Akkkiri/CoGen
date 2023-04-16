@@ -90,7 +90,6 @@ public class Init {
 
 		List<User> userList = new ArrayList<>();
 
-		Collections.shuffle(InitConstant.DUMMY_NICKNAME_LIST);
 		for (int i = 11; i <= 30; i++) {
 
 			Long rand = (long)(Math.random() * 50) + 1;
@@ -297,7 +296,7 @@ public class Init {
 		//         FEED STUB
 		//         ------------------------------------------------------------------------------------------
 
-		List<Feed> feedList = new ArrayList<>();
+		// List<Feed> feedList = new ArrayList<>();
 
 		Collections.shuffle(InitConstant.FEED_BODY_LIST);
 		Collections.shuffle(InitConstant.DUMMY_FEED_IMAGES);
@@ -322,10 +321,12 @@ public class Init {
 				.commentCount((long)(Math.random() * 10))
 				.build();
 
-			feedList.add(feed);
+			feedRepository.save(feed);
+
+			// feedList.add(feed);
 		}
 
-		log.info("FEED STUB: " + feedRepository.saveAll(feedList));
+		// log.info("FEED STUB: " + feedRepository.saveAll(feedList));
 		//         ------------------------------------------------------------------------------------------
 		//         ------------------------------------------------------------------------------------------
 		//         COMMENT STUB
