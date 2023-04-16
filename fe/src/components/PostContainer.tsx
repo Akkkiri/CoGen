@@ -42,20 +42,18 @@ export default function PostContainer({
                   </div>
                   <div className="flex justify-between text-xs">
                     <div className="flex text-y-gray">
-                      {el.nickname} <BsDot className="self-center" />{" "}
+                      {el.nickname} <BsDot className="self-center" />
                       {ToDateString(el.createdAt)}
                       <BsDot className="self-center" /> 조회 {el.viewCount}
                     </div>
-                    <div className="flex gap-2 text-y-gray text-xs">
+                    <div className="flex gap-1 text-y-gray text-xs">
                       <div className="flex">
                         <IoHeartOutline className="text-base" />
-                        <div className="self-center">좋아요 {el.likeCount}</div>
+                        <div className="self-center">{el.likeCount}</div>
                       </div>
                       <div className="flex ">
                         <IoChatbubbleEllipsesOutline className="text-base" />
-                        <div className="self-center">
-                          댓글 {el.commentCount}
-                        </div>
+                        <div className="self-center">{el.commentCount}</div>
                       </div>
                     </div>
                   </div>

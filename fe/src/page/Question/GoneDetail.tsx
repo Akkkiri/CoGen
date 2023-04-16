@@ -64,6 +64,7 @@ export default function GoneDetail() {
                   like={el.likeCount}
                   userid={el.userId}
                   commentId={el.answerId}
+                  isLiked={el.isLiked}
                 />
               </div>
             ))}

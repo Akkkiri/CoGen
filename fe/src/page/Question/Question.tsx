@@ -56,6 +56,7 @@ export default function Question() {
       ${page}`
         )
         .then((response) => {
+          console.log(response.data.data);
           setQuestComment(response.data.data);
           setTotalPages(response.data.pageInfo.totalPages);
           // console.log(response.data);
@@ -111,6 +112,7 @@ export default function Question() {
                   like={el.likeCount}
                   userid={el.userId}
                   commentId={el.answerId}
+                  isLiked={el.isLiked}
                 />
               </div>
             ))}
