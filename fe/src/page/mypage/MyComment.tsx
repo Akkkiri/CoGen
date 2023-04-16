@@ -27,7 +27,6 @@ export default function MyComment() {
     axios
       .get(`/mypage/mycomments?page=${page}`)
       .then((res) => {
-        console.log(res.data.data);
         setMyCommentsList(res.data.data);
         setTotalPages(res.data.pageInfo.totalPages);
       })
