@@ -33,22 +33,6 @@ export default function UserProfile({
   const navigate = useNavigate();
   const isLoginUser = useAppSelector(isLogin);
   const [isFollowing, setIsFollowing] = useState(isFollow);
-  const medal = (level: number) => {
-    if (level === 50) return 50;
-    else if (level >= 40) return 40;
-    else if (level >= 30) return 30;
-    else if (level >= 20) return 20;
-    else if (level >= 10) return 10;
-    else return 1;
-  };
-  const medalImg: any = {
-    1: "/images/level1.png",
-    10: "/images/level10.png",
-    20: "/images/level20.png",
-    30: "/images/level30.png",
-    40: "/images/level40.png",
-    50: "/images/level50.png",
-  };
 
   useEffect(() => {
     setIsFollowing(isFollow);
@@ -139,3 +123,20 @@ export default function UserProfile({
     </div>
   );
 }
+
+export const medal = (level: number) => {
+  if (level === 50) return 50;
+  else if (level >= 40) return 40;
+  else if (level >= 30) return 30;
+  else if (level >= 20) return 20;
+  else if (level >= 10) return 10;
+  else return 1;
+};
+export const medalImg: any = {
+  1: "/images/level1.png",
+  10: "/images/level10.png",
+  20: "/images/level20.png",
+  30: "/images/level30.png",
+  40: "/images/level40.png",
+  50: "/images/level50.png",
+};
