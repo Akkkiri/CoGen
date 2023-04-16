@@ -116,6 +116,7 @@ export default function UserProfile({
                 ? handleFollowing
                 : () => {
                     Swal.fire({
+                      title: "CoGen",
                       text: "로그인이 필요한 서비스입니다",
                       showCancelButton: true,
                       reverseButtons: true,

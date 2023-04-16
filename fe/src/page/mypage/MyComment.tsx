@@ -45,6 +45,7 @@ export default function MyComment() {
             return (
               <ul key={el.commentId}>
                 <CommentContainer
+                  isLiked={true}
                   contents={el.body}
                   nickname={el.nickname}
                   profileImage={el.profileImage}

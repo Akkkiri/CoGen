@@ -6,12 +6,18 @@ import PostContainer from "../../components/PostContainer";
 import axios from "../../api/axios";
 import CategorySwiper from "../../components/CategorySwiper";
 import { NavLink } from "react-router-dom";
+import { isLogin } from "../../store/modules/authSlice";
+import { useAppSelector } from "../../store/hook";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 export default function Post() {
   const [sort, setSort] = useState<Select>("new");
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [postProps, setPostProps] = useState<any>();
   const [category, setCategory] = useState<string>("전체");
+  const isLoginUser = useAppSelector(isLogin);
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(
@@ -29,6 +35,21 @@ export default function Post() {
     setPage(1);
   }, [category]);
 
+  const goToLogin = () => {
+    Swal.fire({
+      title: "CoGen",
+      text: "로그인이 필요한 서비스 입니다.",
+      showCancelButton: true,
+      confirmButtonColor: "#E74D47",
+      cancelButtonColor: "#A7A7A7",
+      confirmButtonText: "로그인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/login");
+      }
+    });
+  };
   return (
     <>
       <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
@@ -40,15 +61,21 @@ export default function Post() {
       <div className="p-2 border-b border-y-lightGray">
         <SelectBox setSelect={setSort} type={"sort"} />
       </div>
-      <div className="mb-3">
+      <div className="mb-20">
         <PostContainer postContainerProps={postProps} />
         <Pagenation page={page} setPage={setPage} totalPages={totalPages} />
-        <div className="relative m-3">
-          <div className="fixed bottom-[70px]">
+      </div>
+      <div className="relative m-3">
+        <div className="fixed bottom-[70px]">
+          {isLoginUser ? (
             <NavLink to={"/writepost"}>
               <button className="btn-r">게시글 작성</button>
             </NavLink>
-          </div>
+          ) : (
+            <button onClick={goToLogin} className="btn-r">
+              게시글 작성
+            </button>
+          )}
         </div>
       </div>
     </>

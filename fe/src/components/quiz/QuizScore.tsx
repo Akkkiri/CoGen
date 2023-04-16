@@ -58,6 +58,7 @@ export default function QuizScore({ score }: { score: number }) {
           onClick={() => {
             dispatch(saveScore(score));
             Swal.fire({
+              title: "CoGen",
               text: "저장되었습니다",
               confirmButtonColor: "#E74D47",
               confirmButtonText: "확인",

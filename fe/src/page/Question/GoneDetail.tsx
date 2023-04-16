@@ -24,7 +24,7 @@ export default function GoneDetail() {
       .get(`/questions/${QuestionId}`)
       .then((response) => {
         setContent(response.data.content);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((err) => console.log(err));
   }, [QuestionId, sort]);
@@ -64,6 +64,7 @@ export default function GoneDetail() {
                   like={el.likeCount}
                   userid={el.userId}
                   commentId={el.answerId}
+                  isLiked={el.isLiked}
                 />
               </div>
             ))}

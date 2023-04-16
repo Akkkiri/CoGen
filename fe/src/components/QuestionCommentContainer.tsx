@@ -9,6 +9,8 @@ import { id, isLogin } from "../store/modules/authSlice";
 import { useAppSelector } from "../store/hook";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import WarningBtn from "./ WarningBtn";
+import LikeBtn from "./LikeBtn";
 export interface CommentContainerProps {
   contents: string;
   nickname: string;
@@ -17,6 +19,7 @@ export interface CommentContainerProps {
   like: string | number;
   userid: number;
   commentId: number;
+  isLiked: boolean;
 }
 
 export default function QuestionCommentContainer({
@@ -27,30 +30,52 @@ export default function QuestionCommentContainer({
   like,
   userid,
   commentId,
+  isLiked,
 }: CommentContainerProps) {
   const myId = useAppSelector(id);
   const [isEditMode, setIsEditMode] = useState(false);
   const [inputState, setInputState] = useState<string>(contents);
   const isLoginUser = useAppSelector(isLogin);
+  const [isLike, setIsLike] = useState<boolean>(isLiked);
+  const [likeCount, setLikeCount] = useState<number>(Number(like));
   const navigate = useNavigate();
-  const deleteComment = () => {
+  const deleteAnswer = () => {
     axios
       .delete(`/answers/${commentId}/delete`)
       .then(() => window.location.reload())
       .catch((err) => console.log(err));
   };
-  const editComment = () => {
+  const editAnswer = () => {
     setIsEditMode(true);
   };
   const patchComment = () => {
     axios
-      .patch(`/comments/${commentId}/edit`, {
+      .patch(`/answers/${commentId}/edit`, {
         body: inputState,
       })
       .catch((err) => console.log(err));
 
     setIsEditMode(false);
   };
+  const warningAnswer = () => {
+    axios
+      .patch(`/answers/${commentId}/report`)
+      .catch((err) => console.log(err));
+  };
+  const LikeAnswer = () => {
+    axios
+      .patch(`/answers/${commentId}/like`)
+      .then(() => {
+        setIsLike(!isLike);
+        if (isLike) {
+          setLikeCount(likeCount - 1);
+        } else {
+          setLikeCount(likeCount + 1);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="pb-2">
       <div className="p-4 border border-y-lightGray rounded-xl">
@@ -71,7 +96,7 @@ export default function QuestionCommentContainer({
             <div>
               {myId === userid ? (
                 <div className="flex gap-1 px-4 text-sm self-center">
-                  <button onClick={editComment}>
+                  <button onClick={editAnswer}>
                     <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
                   </button>
                   <button
@@ -86,7 +111,7 @@ export default function QuestionCommentContainer({
                         cancelButtonText: "취소",
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          deleteComment();
+                          deleteAnswer();
                         }
                       });
                     }}
@@ -95,7 +120,25 @@ export default function QuestionCommentContainer({
                     삭제
                   </button>
                 </div>
-              ) : null}
+              ) : (
+                <WarningBtn
+                  onClick={() => {
+                    Swal.fire({
+                      title: "CoGen",
+                      text: "게시글을 신고하시겠습니까?",
+                      showCancelButton: true,
+                      confirmButtonColor: "#E74D47",
+                      cancelButtonColor: "#A7A7A7",
+                      confirmButtonText: "신고",
+                      cancelButtonText: "취소",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        warningAnswer();
+                      }
+                    });
+                  }}
+                />
+              )}
             </div>
           )}
         </div>
@@ -109,6 +152,7 @@ export default function QuestionCommentContainer({
                 ? patchComment
                 : () => {
                     Swal.fire({
+                      title: "CoGen",
                       text: "로그인이 필요한 서비스 입니다.",
                       showCancelButton: true,
                       confirmButtonColor: "#E74D47",
@@ -126,11 +170,30 @@ export default function QuestionCommentContainer({
         ) : (
           <div className="mt-2 text-sm font-light">{inputState}</div>
         )}
-        <div className="flex justify-end text-xs">
-          <div className="flex ">
-            <IoHeartOutline className="text-lg" />
-            <div className="self-center">좋아요 {like}</div>
-          </div>
+        <div className="flex w-full justify-end">
+          <LikeBtn
+            onClick={
+              isLoginUser
+                ? LikeAnswer
+                : () => {
+                    Swal.fire({
+                      title: "CoGen",
+                      text: "로그인이 필요한 서비스 입니다.",
+                      showCancelButton: true,
+                      confirmButtonColor: "#E74D47",
+                      cancelButtonColor: "#A7A7A7",
+                      confirmButtonText: "로그인",
+                      cancelButtonText: "취소",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        navigate("/login");
+                      }
+                    });
+                  }
+            }
+            likeCount={likeCount}
+            isLike={isLike}
+          />
         </div>
       </div>
     </div>

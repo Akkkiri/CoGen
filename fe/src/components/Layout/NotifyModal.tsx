@@ -22,7 +22,7 @@ export default function NotifyModal({
       axios
         .get("/notifications")
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setNotifyList(res.data.data);
         })
         .catch((err) => console.log(err));

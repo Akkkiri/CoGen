@@ -56,9 +56,10 @@ export default function Question() {
       ${page}`
         )
         .then((response) => {
+          console.log(response.data.data);
           setQuestComment(response.data.data);
           setTotalPages(response.data.pageInfo.totalPages);
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((err) => console.log(err));
     }
@@ -80,6 +81,7 @@ export default function Question() {
               ? postQuestion
               : () => {
                   Swal.fire({
+                    title: "CoGen",
                     text: "로그인이 필요한 서비스 입니다.",
                     showCancelButton: true,
                     confirmButtonColor: "#E74D47",
@@ -110,6 +112,7 @@ export default function Question() {
                   like={el.likeCount}
                   userid={el.userId}
                   commentId={el.answerId}
+                  isLiked={el.isLiked}
                 />
               </div>
             ))}
