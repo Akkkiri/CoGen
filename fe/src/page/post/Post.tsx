@@ -25,6 +25,10 @@ export default function Post() {
       });
   }, [category, page, sort]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [category]);
+
   return (
     <>
       <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
