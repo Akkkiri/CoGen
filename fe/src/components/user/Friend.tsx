@@ -1,6 +1,9 @@
 import axios from "api/axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppSelector } from "store/hook";
+import { isLogin } from "store/modules/authSlice";
+import Swal from "sweetalert2";
 
 export interface FriendProps {
   userId: number;
@@ -18,13 +21,13 @@ export default function Friend({
   profileImage,
   isFollowing,
 }: FriendProps) {
+  const navigate = useNavigate();
+  const isLoginUser = useAppSelector(isLogin);
   const [isFollow, setIsFollow] = useState<boolean>(isFollowing);
   const handleFollow = () => {
     axios
       .post(`/follows/${userId}`)
       .then((res) => {
-        //제거
-        // console.log(res);
         setIsFollow(!isFollow);
       })
       .catch((err) => console.log(err));
@@ -48,13 +51,53 @@ export default function Friend({
         </div>
       </div>
       {isFollow ? (
-        <button className="w-28 btn-r" onClick={handleFollow}>
+        <button
+          className="w-28 btn-r"
+          onClick={
+            isLoginUser
+              ? handleFollow
+              : () => {
+                  Swal.fire({
+                    title: "CoGen",
+                    text: "로그인이 필요한 서비스 입니다.",
+                    showCancelButton: true,
+                    reverseButtons: true,
+                    confirmButtonColor: "#E74D47",
+                    cancelButtonColor: "#A7A7A7",
+                    confirmButtonText: "로그인",
+                    cancelButtonText: "취소",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      navigate("/login");
+                    }
+                  });
+                }
+          }
+        >
           친구 삭제
         </button>
       ) : (
         <button
           className="w-28 btn-r bg-y-pink text-black hover:bg-red-200"
-          onClick={handleFollow}
+          onClick={
+            isLoginUser
+              ? handleFollow
+              : () => {
+                  Swal.fire({
+                    text: "로그인이 필요한 서비스 입니다.",
+                    showCancelButton: true,
+                    reverseButtons: true,
+                    confirmButtonColor: "#E74D47",
+                    cancelButtonColor: "#A7A7A7",
+                    confirmButtonText: "로그인",
+                    cancelButtonText: "취소",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      navigate("/login");
+                    }
+                  });
+                }
+          }
         >
           친구하기
         </button>
