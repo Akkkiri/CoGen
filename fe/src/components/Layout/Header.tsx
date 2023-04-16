@@ -34,7 +34,7 @@ export default function Header() {
       checkNotify();
       setInterval(() => {
         dispatch(getNewTokenAsync());
-      }, 2 * 60 * 60 * 1000);
+      }, 1 * 60 * 60 * 1000);
     }
   }, [isLoginUser, dispatch]);
 
