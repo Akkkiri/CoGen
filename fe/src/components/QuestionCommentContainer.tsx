@@ -18,8 +18,9 @@ export interface CommentContainerProps {
   date: string;
   like: string | number;
   userid: number;
-  commentId: number;
+  answerId: number;
   isLiked: boolean;
+  deleteAnswer: Function;
 }
 
 export default function QuestionCommentContainer({
@@ -29,8 +30,9 @@ export default function QuestionCommentContainer({
   date,
   like,
   userid,
-  commentId,
+  answerId,
   isLiked,
+  deleteAnswer,
 }: CommentContainerProps) {
   const myId = useAppSelector(id);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -39,18 +41,13 @@ export default function QuestionCommentContainer({
   const [isLike, setIsLike] = useState<boolean>(isLiked);
   const [likeCount, setLikeCount] = useState<number>(Number(like));
   const navigate = useNavigate();
-  const deleteAnswer = () => {
-    axios
-      .delete(`/answers/${commentId}/delete`)
-      .then(() => window.location.reload())
-      .catch((err) => console.log(err));
-  };
+
   const editAnswer = () => {
     setIsEditMode(true);
   };
   const patchComment = () => {
     axios
-      .patch(`/answers/${commentId}/edit`, {
+      .patch(`/answers/${answerId}/edit`, {
         body: inputState,
       })
       .catch((err) => console.log(err));
@@ -58,13 +55,11 @@ export default function QuestionCommentContainer({
     setIsEditMode(false);
   };
   const warningAnswer = () => {
-    axios
-      .patch(`/answers/${commentId}/report`)
-      .catch((err) => console.log(err));
+    axios.patch(`/answers/${answerId}/report`).catch((err) => console.log(err));
   };
   const LikeAnswer = () => {
     axios
-      .patch(`/answers/${commentId}/like`)
+      .patch(`/answers/${answerId}/like`)
       .then(() => {
         setIsLike(!isLike);
         if (isLike) {
@@ -95,7 +90,7 @@ export default function QuestionCommentContainer({
           ) : (
             <div>
               {myId === userid ? (
-                <div className="flex gap-1 px-4 text-sm self-center">
+                <div className="flex gap-1 text-sm self-center">
                   <button onClick={editAnswer}>
                     <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
                   </button>
@@ -168,7 +163,9 @@ export default function QuestionCommentContainer({
             }
           />
         ) : (
-          <div className="mt-2 text-sm font-light">{inputState}</div>
+          <div className="mt-2 text-sm font-light whitespace-pre-line">
+            {inputState}
+          </div>
         )}
         <div className="flex w-full justify-end">
           <LikeBtn
