@@ -6,6 +6,7 @@ import axios from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import WarningBtn from "./ WarningBtn";
+import FeedImage from "./FeedImage";
 
 interface PostContainerProps {
   title: string;
@@ -16,6 +17,7 @@ interface PostContainerProps {
   date: string;
   view: number;
   isMine: boolean;
+  image: string;
 }
 
 export default function PostDetailContainer({
@@ -27,6 +29,7 @@ export default function PostDetailContainer({
   date,
   view,
   isMine,
+  image,
 }: PostContainerProps) {
   const { PostId } = useParams();
   const navigate = useNavigate();
@@ -98,7 +101,16 @@ export default function PostDetailContainer({
           )}
         </div>
         <div className="text-lg">{title}</div>
-        <div className="my-2 font-light">{contents}</div>
+        <div className="my-2">
+          {/* <image
+            src={image}
+            alt="imageList"
+            width={300}
+            height={300}
+            className="m-auto h-full w-auto"
+          /> */}
+          <div className="font-light whitespace-pre-line">{contents}</div>
+        </div>
         <div className="text-sm text-y-gray">조회 {view}</div>
       </div>
     </div>
