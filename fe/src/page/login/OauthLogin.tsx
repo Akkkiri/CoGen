@@ -12,7 +12,13 @@ export default function OauthLogin() {
   useEffect(() => {
     const path = window.location.pathname;
     const code = window.location.search;
-    getOauthCode(path, code);
+    if (
+      code !== undefined &&
+      code !== "" &&
+      (path === "/oauth/naver" || path === "/oauth/kakao")
+    ) {
+      getOauthCode(path, code);
+    }
   }, []);
 
   const getOauthCode = (path: string, code: string) => {
