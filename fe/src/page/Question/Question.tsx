@@ -29,7 +29,7 @@ export default function Question() {
       axios
         .post(`/questions/${questionId}/answer/add`, reqBody)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           if (questComment === null) {
             setQuestComment([response.data]);
           } else {
@@ -56,7 +56,7 @@ export default function Question() {
       ${page}`
         )
         .then((response) => {
-          console.log(response.data.data);
+          // console.log(response.data.data);
           setQuestComment(response.data.data);
           setTotalPages(response.data.pageInfo.totalPages);
           // console.log(response.data);
@@ -71,7 +71,7 @@ export default function Question() {
       .then(() => {
         if (questComment !== null) {
           const filtered = questComment.filter((el) => {
-            console.log(el.answerId);
+            // console.log(el.answerId);
             return el.answerId !== answerId;
           });
           setQuestComment(filtered);
