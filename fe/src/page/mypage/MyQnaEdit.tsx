@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
-import { useAppSelector } from "store/hook";
-import { id } from "store/modules/authSlice";
 import Swal from "sweetalert2";
 
 export default function MyQnaEdit({
@@ -15,7 +13,6 @@ export default function MyQnaEdit({
   qnaData: string[];
   setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const ID = useAppSelector(id);
   const navigate = useNavigate();
   const [error, setError] = useState(false);
 
@@ -61,11 +58,10 @@ export default function MyQnaEdit({
       { qnaId: 9, answerBody: getValues("9") },
       { qnaId: 10, answerBody: getValues("10") },
     ];
-    console.log(postBody);
     if (isVaild()) {
       setError(false);
       axios
-        .patch(`/users/${ID}/firstqna`, postBody)
+        .patch(`/mypage/patchqna`, postBody)
         .then((res) => {
           Swal.fire({
             text: "수정이 완료되었습니다.",
