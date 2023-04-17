@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
+import ewha.backend.domain.user.dto.UserDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,7 +39,12 @@ public class AnswerDto {
 	public static class Response {
 
 		private Long answerId;
+		private UserDto.BasicResponse userInfo;
 		private String answerBody;
+		private Long likeCount;
+		private LocalDateTime createdAt;
+		private LocalDateTime modifiedAt;
+
 	}
 
 	@Getter

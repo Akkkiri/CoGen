@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageImpl;
 import ewha.backend.domain.like.service.LikeService;
 import ewha.backend.domain.question.dto.AnswerDto;
 import ewha.backend.domain.question.entity.Answer;
+import ewha.backend.domain.user.dto.UserDto;
+import ewha.backend.domain.user.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
@@ -21,9 +23,27 @@ public interface AnswerMapper {
 
 	default AnswerDto.Response answerToAnswerResponse(Answer answer) {
 
+		User user = answer.getUser();
+
+		String[] nick = user.getNickname().split("#");
+		String nickPre = nick[0];
+		String nickSuf = "#" + nick[1];
+
 		return AnswerDto.Response.builder()
 			.answerId(answer.getId())
+			.userInfo(UserDto.BasicResponse.builder()
+				.id(user.getId())
+				.userId(user.getUserId())
+				.nickname(nickPre)
+				.hashcode(nickSuf)
+				.level(user.getLevel())
+				.profileImage(user.getProfileImage())
+				.thumbnailPath(user.getThumbnailPath())
+				.build())
 			.answerBody(answer.getAnswerBody())
+			.likeCount(answer.getLikeCount())
+			.createdAt(answer.getCreatedAt())
+			.modifiedAt(answer.getModifiedAt())
 			.build();
 	}
 

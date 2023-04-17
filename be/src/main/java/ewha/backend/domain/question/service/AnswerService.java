@@ -37,6 +37,7 @@ public class AnswerService {
 				.answerBody(answer.getAnswerBody())
 				.user(findUser)
 				.question(question)
+				.likeCount(0L)
 				.build();
 
 		if (!findUser.getHasQuestion()) {
