@@ -34,7 +34,7 @@ public class NotificationQueryRepository {
 
 		return jpaQueryFactory
 			.selectFrom(notification)
-			.where(notification.user.id.eq(userId).and(notification.isRead.eq(false)))
+			.where(notification.user.id.eq(userId))
 			.orderBy(notification.createdAt.desc())
 			.fetch();
 	}
