@@ -107,6 +107,15 @@ public class UserController {
 		return ResponseEntity.ok().body(response);
 	}
 
+	@PatchMapping("/mypage/patchqna")
+	public ResponseEntity<String> updateQna(
+		@Valid @RequestBody List<LoginDto.QnaDto> qnaDtoList) {
+
+		String response = userService.updateMyQna(qnaDtoList);
+
+		return ResponseEntity.ok().body(response);
+	}
+
 	@PatchMapping("/mypage/patch")
 	public ResponseEntity<UserDto.Response> patchUser(
 		@Valid @RequestBody UserDto.UserInfo userInfo) throws Exception {

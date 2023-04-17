@@ -34,6 +34,7 @@ public interface UserService {
 	User onFirstLogin(Long userId, LoginDto.PatchDto patchDto);
 
 	String onFirstLoginQna(Long userId, List<LoginDto.QnaDto> qnaDtoList);
+	String updateMyQna(List<LoginDto.QnaDto> qnaDtoList);
 
 	Boolean verifyNicknameAndPhoneNumber(String nickname, String phoneNumber);
 

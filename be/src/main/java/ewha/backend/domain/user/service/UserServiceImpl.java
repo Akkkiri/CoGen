@@ -343,6 +343,8 @@ public class UserServiceImpl implements UserService {
 
 		User findUser = findVerifiedUser(userId);
 
+		userQnaRepository.deleteAllByUserId(userId);
+
 		List<LoginDto.QnaDto> filteredList = qnaDtoList.stream()
 			.filter(qnaDto -> !qnaDto.getAnswerBody().isBlank())
 			.collect(Collectors.toList());
@@ -367,6 +369,38 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(findUser);
 
 		return "QnA Inserted.";
+	}
+
+	@Override
+	@Transactional
+	public String updateMyQna(List<LoginDto.QnaDto> qnaDtoList) {
+
+		User findUser = getLoginUser();
+
+		userQnaRepository.deleteAllByUserId(findUser.getId());
+
+		List<LoginDto.QnaDto> filteredList = qnaDtoList.stream()
+			.filter(qnaDto -> !qnaDto.getAnswerBody().isBlank())
+			.collect(Collectors.toList());
+
+		if (filteredList.size() < 3) {
+			throw new BusinessLogicException(ExceptionCode.NOT_ENOUGH_QNA);
+		}
+
+		filteredList
+			.forEach(qnaDto -> {
+				Qna qna = qnaService.findVerifiedQna(qnaDto.getQnaId());
+				UserQna userQna = UserQna.builder()
+					.answerBody(qnaDto.getAnswerBody())
+					.user(findUser)
+					.qna(qna)
+					.build();
+				userQnaRepository.save(userQna);
+			});
+
+		userRepository.save(findUser);
+
+		return "QnA Updated.";
 	}
 
 	/*

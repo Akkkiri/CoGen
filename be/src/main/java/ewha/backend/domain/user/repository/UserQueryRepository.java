@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class UserQueryRepository {
+
 	private final JPAQueryFactory jpaQueryFactory;
 
 	// public void deleteNotVerifiedUsers() {
@@ -96,8 +97,8 @@ public class UserQueryRepository {
 
 		if (exactUserList.size() != 0) {
 			exactUserList.addAll(userList);
-			exactUserList.stream().distinct().collect(Collectors.toList());
-			return new PageImpl<>(exactUserList, pageable, total);
+			List<User> distinctUserList = exactUserList.stream().distinct().collect(Collectors.toList());
+			return new PageImpl<>(distinctUserList, pageable, total);
 		} else {
 			return new PageImpl<>(userList, pageable, total);
 		}

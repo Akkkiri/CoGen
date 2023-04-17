@@ -190,42 +190,46 @@ public class FeedQueryRepository {
 
 	public Page<Feed> findAllSearchResultPage(String sort, String queryParam, Pageable pageable) {
 
-		List<Feed> feedList = new ArrayList<>();
-
-		JPAQuery<Feed> basicResult = jpaQueryFactory
-			.selectFrom(feed)
-			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)));
-
-		if (sort.equals("new")) {
-			feedList = basicResult
-				.orderBy(feed.createdAt.desc())
-				.distinct()
-				.offset(pageable.getOffset())
-				.limit(pageable.getPageSize())
-				.fetch();
-		} else if (sort.equals("likes")) {
-			feedList = basicResult
-				.orderBy(feed.likeCount.desc())
-				.distinct()
-				.offset(pageable.getOffset())
-				.limit(pageable.getPageSize())
-				.fetch();
-		} else {
-			feedList = basicResult
-				.orderBy(feed.viewCount.desc())
-				.distinct()
-				.offset(pageable.getOffset())
-				.limit(pageable.getPageSize())
-				.fetch();
-		}
-
-		// List<Feed> feedList = jpaQueryFactory
+		// List<Feed> feedList = new ArrayList<>();
+		//
+		// JPAQuery<Feed> basicResult = jpaQueryFactory
 		// 	.selectFrom(feed)
-		// 	.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)))
-		// 	.orderBy(feed.createdAt.desc())
-		// 	.offset(pageable.getOffset())
-		// 	.limit(pageable.getPageSize())
-		// 	.fetch();
+		// 	.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)));
+		//
+		// if (sort.equals("new")) {
+		// 	feedList = basicResult
+		// 		.orderBy(feed.createdAt.desc())
+		// 		.distinct()
+		// 		.offset(pageable.getOffset())
+		// 		.limit(pageable.getPageSize())
+		// 		.fetch();
+		// } else if (sort.equals("likes")) {
+		// 	feedList = basicResult
+		// 		.orderBy(feed.likeCount.desc())
+		// 		.distinct()
+		// 		.offset(pageable.getOffset())
+		// 		.limit(pageable.getPageSize())
+		// 		.fetch();
+		// } else {
+		// 	feedList = basicResult
+		// 		.orderBy(feed.viewCount.desc())
+		// 		.distinct()
+		// 		.offset(pageable.getOffset())
+		// 		.limit(pageable.getPageSize())
+		// 		.fetch();
+		// }
+
+		List<Feed> feedList = jpaQueryFactory
+			.selectFrom(feed)
+			.where(feed.title.contains(queryParam).or(feed.body.contains(queryParam)))
+			.groupBy(feed.id)
+			.orderBy(
+				sort.equals("new") ? feed.createdAt.desc() :
+					sort.equals("likes") ? feed.likeCount.desc() :
+						feed.viewCount.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
 
 		Long total = jpaQueryFactory
 			.select(feed.count())
