@@ -29,7 +29,6 @@ export default function ImageUpload({ imageData, setImageData }: any) {
               const compressedFile = await imageCompression(imageFile, options);
               setImageData([...imageData, compressedFile]);
               let tmpUrl = URL.createObjectURL(compressedFile);
-              console.log(tmpUrl);
               setPreImg([...preImg, tmpUrl]);
               setShowModal(false);
             } catch (error) {
@@ -182,7 +181,7 @@ export default function ImageUpload({ imageData, setImageData }: any) {
                   onClick={(e) => {
                     handleDelete(e, 2);
                   }}
-                  className="absolute right-1 top-1 text-y-red  bg-y-pink rounded-full"
+                  className="absolute right-1 top-1 text-y-red bg-y-cream rounded-full"
                 >
                   <AiOutlineCloseCircle className="w-6 h-6" />
                 </span>

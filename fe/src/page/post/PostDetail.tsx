@@ -5,9 +5,7 @@ import { useParams } from "react-router-dom";
 import Pagenation from "../../components/Pagenation";
 import { Select } from "../../util/SelectUtil";
 import PostDetailContainer from "../../components/PostDetailContainer";
-import CommentContainer, {
-  CommentContainerProps,
-} from "../../components/CommentContainer";
+import CommentContainer from "../../components/CommentContainer";
 import axios from "../../api/axios";
 import SmallInput from "../../components/Inputs/SmallInput";
 import { isLogin } from "../../store/modules/authSlice";
@@ -29,7 +27,7 @@ export default function PostDetail() {
   const [postProfileImage, setPostProfileImage] = useState<string>("");
   const [viwe, SetView] = useState<number>(0);
   const [postDate, setPostDate] = useState<string>("");
-  const [postComments, setPostComments] = useState<CommentContainerProps[]>([]);
+  const [postComments, setPostComments] = useState([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [inputState, setInputState] = useState<string>("");
@@ -38,7 +36,6 @@ export default function PostDetail() {
   const [likeCounts, setLikeCounts] = useState<number>(0);
   const [savePost, setSavePost] = useState<boolean>(false);
   const [isMine, setIsMine] = useState(false);
-  const [image, setImage] = useState<string>("");
   const userid = useAppSelector(id);
 
   const isLoginUser = useAppSelector(isLogin);
@@ -58,7 +55,6 @@ export default function PostDetail() {
       setLikeCounts(response.data.likeCount);
       setIsLike(response.data.isLiked);
       setSavePost(response.data.isSavedFeed);
-      setImage(response.data.imagePath);
       if (response.data.userInfo.id === userid) {
         setIsMine(true);
       }
@@ -70,25 +66,16 @@ export default function PostDetail() {
       .get(`/feeds/${PostId}/comments?sort=${comment}&page=${page}`)
       .then((response) => {
         //제거
-        // console.log(response.data);
+        console.log(response.data);
         setPostComments(response.data.data);
         setTotalPages(response.data.pageInfo.totalPages);
       });
   }, [PostId, page, comment]);
-
   const postComment = () => {
     const reqBody = { body: inputState };
     axios
       .post(`/feeds/${PostId}/comments/add`, reqBody)
-      .then((response) => {
-        console.log(response.data);
-        if (postComments === null) {
-          setPostComments([response.data]);
-        } else {
-          setPostComments([response.data, ...postComments]);
-        }
-        setInputState("");
-      })
+      .then(() => window.location.reload())
       .catch((err) => console.log(err));
   };
   const LikePost = () => {
@@ -132,7 +119,6 @@ export default function PostDetail() {
           date={postDate}
           view={viwe}
           isMine={isMine}
-          image={image}
         />
         <div className="flex p-4 text-sm justify-between border-b border-y-lightGray">
           <LikeBtn

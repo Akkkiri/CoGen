@@ -115,9 +115,7 @@ export default function GoneComment({
             )}
           </div>
         </div>
-        <div className="mt-2 text-sm font-light whitespace-pre-line">
-          {contents}
-        </div>
+        <div className="mt-2 text-sm font-light">{contents}</div>
         <div className="flex w-full justify-end">
           <LikeBtn
             onClick={
