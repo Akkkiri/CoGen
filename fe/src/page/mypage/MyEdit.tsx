@@ -76,7 +76,10 @@ export default function MyEdit() {
           alt="profileImage"
           className="rounded-full w-28 h-28"
         ></img>
-        <button className="btn-r text-sm">프로필 사진 수정하기</button>
+        <label className="btn-r text-sm">
+          프로필 사진 수정하기
+          <input type="file" accept="image/*" className="hidden" />
+        </label>
       </div>
       <div>
         <div className="flex justify-between items-center p-4 border-b border-y-lightGray">
