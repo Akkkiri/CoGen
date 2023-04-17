@@ -136,19 +136,6 @@ export default function Header() {
             />
           ) : null}
         </div>
-        {/*  */}
-        <button
-          onClick={() => {
-            handleNotify({
-              id: Date.now(),
-              type: "FOLLOW",
-              message: "누구님이 좋아요를 눌렀습니다",
-              url: "post/1",
-            });
-          }}
-        >
-          알림
-        </button>
       </div>
     </header>
   );
