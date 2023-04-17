@@ -1,18 +1,20 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./modules/authSlice";
 import quizReducer from "./modules/quizSlice";
+import searchReducer from "./modules/searchSlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "quiz"],
+  whitelist: ["auth", "quiz", "search"],
 };
 
 export const rootReducer = combineReducers({
   auth: authReducer,
   quiz: quizReducer,
+  search: searchReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

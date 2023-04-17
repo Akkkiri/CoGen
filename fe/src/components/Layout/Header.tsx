@@ -1,3 +1,4 @@
+import logo from "asset/logo.png";
 import { IoSearchOutline } from "react-icons/io5";
 import { VscBell, VscBellDot } from "react-icons/vsc";
 import { useEffect, useState } from "react";
@@ -12,6 +13,8 @@ import {
 } from "store/modules/authSlice";
 import axios from "api/axios";
 import { useAppDispatch } from "store/hook";
+import { EventSourcePolyfill } from "event-source-polyfill";
+const EventSource = EventSourcePolyfill;
 
 export default function Header() {
   const [isSearching, setIsSearching] = useState(false);
@@ -31,9 +34,41 @@ export default function Header() {
       checkNotify();
       setInterval(() => {
         dispatch(getNewTokenAsync());
-      }, 2 * 60 * 60 * 1000);
+      }, 1 * 60 * 60 * 1000);
     }
   }, [isLoginUser, dispatch]);
+
+  useEffect(() => {
+    if (isLoginUser) {
+      // SSE 알림
+      // const eventSource = new EventSource(
+      //   `${process.env.REACT_APP_API_URL}/subscribe`,
+      //   {
+      //     headers: {
+      //       Authorization: TOKEN,
+      //     },
+      //     heartbeatTimeout: 180000,
+      //     withCredentials: true,
+      //   }
+      // );
+      // eventSource.onopen = (e) => {
+      //   console.log("Connection was opened1.");
+      //   console.log("onopen", e);
+      // };
+      // eventSource.addEventListener("sse", (e: any) => {
+      //   console.log("sse", e);
+      //   console.log("data!!", e.data);
+      // });
+      // eventSource.onerror = (e) => {
+      //   console.log("onerror", e);
+      // };
+      // if (TOKEN === "" || TOKEN === undefined) {
+      //   eventSource.close();
+      // }
+    } else {
+      setHasNewNotify(false);
+    }
+  }, [isLoginUser, TOKEN]);
 
   const checkNotify = () => {
     axios
@@ -46,7 +81,7 @@ export default function Header() {
     <header className="sticky top-0 z-10 bg-white w-full px-4 py-2 border-b border-y-lightGray">
       <div className="flex justify-between items-center max-w-5xl m-auto">
         <Link to="/">
-          <img src="images/logo.png" alt="CoGen logo" width={50}></img>
+          <img src={logo} alt="CoGen logo" width={50}></img>
         </Link>
         <div className="flex justify-center items-center">
           <button

@@ -14,6 +14,7 @@ export default function Home() {
   const [bestPostProps, setBestPostProps] = useState<any>();
   const [userprofile, setUserprofile] = useState<UserProfileProps>({
     nickname: "",
+    hashcode: "",
     profileImage: "",
     level: 0,
     ariFactor: 0,
@@ -25,6 +26,7 @@ export default function Home() {
         .then((res) => {
           const obj = {
             nickname: res.data.nickname,
+            hashcode: res.data.hashcode,
             profileImage: res.data.profileImage,
             level: res.data.level,
             ariFactor: res.data.ariFactor,

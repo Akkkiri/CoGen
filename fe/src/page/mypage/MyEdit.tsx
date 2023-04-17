@@ -67,9 +67,12 @@ export default function MyEdit() {
     <div>
       <BackBtn />
       <h1 className="page-title">회원정보 수정</h1>
-      <div className="flex flex-col justify-center items-center py-3 mt-5 gap-3 border-b border-y-lightGray/30">
+      <div className="flex flex-col justify-center items-center py-3 mt-2 gap-3 border-b border-y-lightGray/30">
+        <p className="text-y-lightGray text-sm mb-2">
+          등록하기 버튼을 눌러야 변경이 저장됩니다
+        </p>
         <img
-          src={"/images/user.png"}
+          src={profileImage}
           alt="profileImage"
           className="rounded-full w-28 h-28"
         ></img>

@@ -31,9 +31,11 @@ export default function QuizBtn({
   };
   return (
     <div className="flex flex-col text-center gap-4">
-      <h1 className="mt-10">{content}</h1>
+      <h1 className="mt-10 md:text-xl">{content}</h1>
       {showAnswer ? (
-        <p className="text-y-purple -my-2">정답은 "{answer}"입니다</p>
+        <p className="text-y-purple -my-2 md:text-lg">
+          정답은 "{answer}"입니다
+        </p>
       ) : null}
       {bodies?.map((el, idx) => {
         return (
@@ -41,7 +43,7 @@ export default function QuizBtn({
             key={idx}
             value={el}
             onClick={showAnswer ? () => {} : handleAnswer}
-            className={`flex justify-between items-center bg-y-pink rounded-lg py-2 ${
+            className={`flex justify-between items-center bg-y-pink rounded-lg py-2 md:text-xl ${
               showAnswer ? (el === answer ? "bg-y-purple text-y-pink" : "") : ""
             } ${
               showAnswer
@@ -70,7 +72,7 @@ export default function QuizBtn({
         );
       })}
       {showAnswer ? (
-        <p className="text-y-lightGray -mb-2"> {explanation}</p>
+        <p className="text-y-lightGray -mb-2 md:text-lg"> {explanation}</p>
       ) : null}
     </div>
   );

@@ -3,9 +3,11 @@ import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import { NavLink } from "react-router-dom";
 import { Point } from "util/LevelUtil";
+import { medal, medalImg } from "components/user/UserProfile";
 
 export interface UserProfileProps {
   nickname: string;
+  hashcode: string;
   profileImage: string;
   level: number;
   ariFactor: Point;
@@ -13,6 +15,7 @@ export interface UserProfileProps {
 
 export default function MainUser({
   nickname,
+  hashcode,
   profileImage,
   level,
   ariFactor,
@@ -35,8 +38,18 @@ export default function MainUser({
             className="rounded-full w-20 h-20"
           ></img>
           <div className="w-full mx-4 mt-2">
-            <div className="flex justify-between">
-              <span>{nickname}</span>
+            <div className="flex items-end">
+              <span className={`${nickname.length === 8 ? "text-sm" : ""}`}>
+                {nickname}
+              </span>
+              <span className="text-xs text-y-lightGray font-light">
+                {hashcode}
+              </span>
+              <img
+                src={medalImg[medal(level)]}
+                alt="level"
+                className="w-5 h-5"
+              ></img>
             </div>
             <Level level={level} ariFactor={ariFactor} />
           </div>

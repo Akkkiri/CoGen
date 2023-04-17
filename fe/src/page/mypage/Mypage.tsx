@@ -52,7 +52,7 @@ export default function Mypage() {
           to="/mypage/qna"
           className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red"
         >
-          <div className="flex items-center">
+          <div className="flex items-center md:text-lg">
             <IoLeafOutline className="mr-2 text-3xl rotate-90" />
             나의 문답
           </div>
@@ -62,7 +62,7 @@ export default function Mypage() {
           to="/mypage/question"
           className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red"
         >
-          <div className="flex items-center">
+          <div className="flex items-center md:text-lg">
             <BsQuestionCircle className="mr-2 text-3xl" />
             내가 답한 질문
           </div>
@@ -72,7 +72,7 @@ export default function Mypage() {
           to="/mypage/bookmark"
           className="flex justify-between items-center p-4 border-b border-y-lightGray  hover:text-y-red"
         >
-          <div className="flex items-center">
+          <div className="flex items-center md:text-lg">
             <BsBookmark className="mr-2 text-3xl" />
             내가 저장한 글
           </div>
@@ -82,7 +82,7 @@ export default function Mypage() {
           to="/mypage/post"
           className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red"
         >
-          <div className="flex items-center">
+          <div className="flex items-center md:text-lg">
             <BsPencil className="mr-2 text-3xl" />
             나의 게시글
           </div>
@@ -92,7 +92,7 @@ export default function Mypage() {
           to="/mypage/comment"
           className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red"
         >
-          <div className="flex items-center">
+          <div className="flex items-center md:text-lg">
             <IoChatbubbleEllipsesOutline className="mr-2 text-3xl " />
             나의 댓글
           </div>
@@ -104,7 +104,7 @@ export default function Mypage() {
             dispatch(logout());
             navigate("/");
           }}
-          className="flex w-full items-center p-4  hover:text-y-red"
+          className="flex w-full items-center p-4 md:text-lg hover:text-y-red"
         >
           <IoLogOutOutline className="mr-2 text-3xl" />
           로그아웃

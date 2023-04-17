@@ -20,11 +20,12 @@ import Signup from "page/signup/Signup";
 import OauthLogin from "page/login/OauthLogin";
 import Userpage from "page/userpage/Userpage";
 import UserFriend from "page/userpage/UserFriend";
-import MyEditPassword from "page/mypage/MyEditPassword";
 import IdentityVerification from "page/login/IdentityVerification";
 import GonQuestion from "page/Question/GoneQuestion";
 import Writepost from "page/post/Writepost";
 import GoneDetail from "page/Question/GoneDetail";
+import PostSearch from "page/search/PostSearch";
+import UserSearch from "page/search/UserSearch";
 
 export default function RoutesComponent() {
   return (
@@ -64,6 +65,9 @@ export default function RoutesComponent() {
       <Route path="/user/:id" element={<Userpage />} />
       <Route path="/user/:id/friend" element={<UserFriend />} />
       <Route path="/help/pw" element={<IdentityVerification type="find" />} />
+
+      <Route path="/search/post" element={<PostSearch />} />
+      <Route path="/search/user" element={<UserSearch />} />
     </Routes>
   );
 }
