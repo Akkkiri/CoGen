@@ -32,6 +32,8 @@ public interface FeedMapper {
 			.category(category)
 			.body(postFeed.getBody())
 			.imagePath(postFeed.getImagePath())
+			.imagePath2(postFeed.getImagePath2())
+			.imagePath3(postFeed.getImagePath3())
 			.thumbnailPath(postFeed.getThumbnailPath())
 			.build();
 	}
@@ -45,6 +47,8 @@ public interface FeedMapper {
 			.category(category)
 			.body(patchFeed.getBody())
 			.imagePath(patchFeed.getImagePath())
+			.imagePath2(patchFeed.getImagePath2())
+			.imagePath3(patchFeed.getImagePath3())
 			.thumbnailPath(patchFeed.getThumbnailPath())
 			.build();
 	}
@@ -82,6 +86,8 @@ public interface FeedMapper {
 			.likeCount(feed.getLikeCount())
 			.viewCount(feed.getViewCount())
 			.imagePath(feed.getImagePath())
+			.imagePath2(feed.getImagePath2())
+			.imagePath3(feed.getImagePath3())
 			.thumbnailPath(feed.getThumbnailPath())
 			.reportCount(feed.getReportCount())
 			.createdAt(feed.getCreatedAt())

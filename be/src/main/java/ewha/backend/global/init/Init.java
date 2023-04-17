@@ -301,7 +301,7 @@ public class Init {
 		Collections.shuffle(InitConstant.FEED_BODY_LIST);
 		Collections.shuffle(InitConstant.DUMMY_FEED_IMAGES);
 
-		for (int i = 1; i <= 40; i++) {
+		for (int i = 1; i <= 2; i++) {
 
 			Long rand = (long)((Math.random() * 7) + 1);
 
@@ -314,7 +314,33 @@ public class Init {
 				.category(category)
 				.user(userService.findVerifiedUser((long)((Math.random() * 20) + 2)))
 				.title("제목" + i)
-				.imagePath(InitConstant.DUMMY_FEED_IMAGES.get(i - 1))
+				.imagePath(InitConstant.DUMMY_FEED_IMAGES.get(i == 1? 0 : 3))
+				.imagePath2(InitConstant.DUMMY_FEED_IMAGES.get(i == 1? 1 : 4))
+				.imagePath3(InitConstant.DUMMY_FEED_IMAGES.get(i == 1? 2 : 5))
+				.body(InitConstant.FEED_BODY_LIST.get(i - 1))
+				.likeCount((long)(Math.random() * 50))
+				.viewCount((long)(Math.random() * 100))
+				.commentCount((long)(Math.random() * 10))
+				.build();
+
+			feedRepository.save(feed);
+
+		}
+
+		for (int i = 3; i <= 40; i++) {
+
+			Long rand = (long)((Math.random() * 7) + 1);
+
+			Category category = Category.builder()
+				.id(rand)
+				.categoryType(CategoryType.ETC)
+				.build();
+
+			Feed feed = Feed.builder()
+				.category(category)
+				.user(userService.findVerifiedUser((long)((Math.random() * 20) + 2)))
+				.title("제목" + i)
+				.imagePath(InitConstant.DUMMY_FEED_IMAGES.get(i + 3))
 				.body(InitConstant.FEED_BODY_LIST.get(i - 1))
 				.likeCount((long)(Math.random() * 50))
 				.viewCount((long)(Math.random() * 100))

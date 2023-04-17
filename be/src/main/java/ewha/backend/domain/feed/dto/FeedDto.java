@@ -32,6 +32,8 @@ public class FeedDto {
 		@Size(min = 3, max = 1000, message = "내용은 3자 이상 1000자 이하로 작성해야 합니다.")
 		private String body;
 		private String imagePath;
+		private String imagePath2;
+		private String imagePath3;
 		private String thumbnailPath;
 
 
@@ -52,6 +54,8 @@ public class FeedDto {
 		@Size(min = 3, max = 1000, message = "내용은 3자 이상 1000자 이하로 작성해야 합니다.")
 		private String body;
 		private String imagePath;
+		private String imagePath2;
+		private String imagePath3;
 		private String thumbnailPath;
 	}
 
@@ -80,6 +84,8 @@ public class FeedDto {
 		private Long likeCount;
 		private Long viewCount;
 		private String imagePath;
+		private String imagePath2;
+		private String imagePath3;
 		private String thumbnailPath;
 		private Long reportCount;
 		private LocalDateTime createdAt;

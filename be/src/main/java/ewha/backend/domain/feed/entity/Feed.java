@@ -57,6 +57,10 @@ public class Feed extends BaseTimeEntity implements Serializable {
 	@Column
 	private String imagePath;
 	@Column
+	private String imagePath2;
+	@Column
+	private String imagePath3;
+	@Column
 	private String thumbnailPath;
 	@Column(nullable = false, length = 30)
 	private String title;
@@ -165,6 +169,8 @@ public class Feed extends BaseTimeEntity implements Serializable {
 		this.body = feed.getBody();
 		this.category = feed.getCategory();
 		this.imagePath = feed.getImagePath();
+		this.imagePath2 = feed.getImagePath2();
+		this.imagePath3 = feed.getImagePath3();
 		this.thumbnailPath = feed.getThumbnailPath();
 	}
 

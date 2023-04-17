@@ -52,6 +52,8 @@ public class FeedServiceImpl implements FeedService {
 			.body(feed.getBody())
 			.category(feed.getCategory())
 			.imagePath(feed.getImagePath())
+			.imagePath2(feed.getImagePath2())
+			.imagePath3(feed.getImagePath3())
 			.thumbnailPath(feed.getThumbnailPath())
 			.viewCount(0L)
 			.likeCount(0L)
