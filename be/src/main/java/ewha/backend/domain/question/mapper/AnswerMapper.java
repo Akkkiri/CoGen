@@ -29,22 +29,21 @@ public interface AnswerMapper {
 		String nickPre = nick[0];
 		String nickSuf = "#" + nick[1];
 
-		return AnswerDto.Response.builder()
-			.answerId(answer.getId())
-			.userInfo(UserDto.BasicResponse.builder()
-				.id(user.getId())
-				.userId(user.getUserId())
-				.nickname(nickPre)
-				.hashcode(nickSuf)
-				.level(user.getLevel())
-				.profileImage(user.getProfileImage())
-				.thumbnailPath(user.getThumbnailPath())
-				.build())
-			.answerBody(answer.getAnswerBody())
-			.likeCount(answer.getLikeCount())
-			.createdAt(answer.getCreatedAt())
-			.modifiedAt(answer.getModifiedAt())
-			.build();
+		AnswerDto.Response.ResponseBuilder responseBuilder = AnswerDto.Response.builder();
+
+		responseBuilder.answerId(answer.getId());
+		responseBuilder.userId(answer.getUser().getId());
+		responseBuilder.nickname(nickPre);
+		responseBuilder.hashcode(nickSuf);
+		responseBuilder.profileImage(answer.getUser().getProfileImage());
+		responseBuilder.thumbnailPath(answer.getUser().getThumbnailPath());
+		responseBuilder.answerBody(answer.getAnswerBody());
+		responseBuilder.likeCount(answer.getLikeCount());
+		responseBuilder.reportCount(answer.getReportCount());
+		responseBuilder.createdAt(answer.getCreatedAt());
+		responseBuilder.modifiedAt(answer.getModifiedAt());
+
+		return responseBuilder.build();
 	}
 
 	default PageImpl<AnswerDto.ListResponse> answerPageToListResponse(

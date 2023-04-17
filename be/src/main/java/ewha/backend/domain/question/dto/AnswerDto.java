@@ -39,9 +39,14 @@ public class AnswerDto {
 	public static class Response {
 
 		private Long answerId;
-		private UserDto.BasicResponse userInfo;
+		private Long userId;
+		private String nickname;
+		private String hashcode;
+		private String profileImage;
+		private String thumbnailPath;
 		private String answerBody;
 		private Long likeCount;
+		private Long reportCount;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
 
