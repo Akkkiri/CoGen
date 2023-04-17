@@ -15,7 +15,7 @@ export default function OauthLogin() {
     if (
       code !== undefined &&
       code !== "" &&
-      (path === "/naver" || path === "/kakao")
+      (path === "/oauth/naver" || path === "/oauth/kakao")
     ) {
       getOauthCode(path, code);
     }
