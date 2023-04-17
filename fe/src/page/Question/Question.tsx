@@ -28,16 +28,16 @@ export default function Question() {
       const reqBody = { answerBody: inputState };
       axios
         .post(`/questions/${questionId}/answer/add`, reqBody)
-        // .then((response) => {
-        //   console.log(response.data);
-        //   if (questComment === null) {
-        //     setQuestComment([response.data]);
-        //   } else {
-        //     setQuestComment([response.data, ...questComment]);
-        //   }
-        //   setInputState("");
-        // })
-        .then(() => window.location.reload())
+        .then((response) => {
+          console.log(response.data);
+          if (questComment === null) {
+            setQuestComment([response.data]);
+          } else {
+            setQuestComment([response.data, ...questComment]);
+          }
+          setInputState("");
+        })
+        // .then(() => window.location.reload())
         .catch((err) => console.log(err));
     }
   };
@@ -65,13 +65,27 @@ export default function Question() {
     }
   }, [page, questionId, sort]);
 
+  const deleteAnswer = (answerId: number) => {
+    axios
+      .delete(`/answers/${answerId}/delete`)
+      .then(() => {
+        if (questComment !== null) {
+          const filtered = questComment.filter((el) => {
+            console.log(el.answerId);
+            return el.answerId !== answerId;
+          });
+          setQuestComment(filtered);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
         이번주 질문
       </h1>
       <div className="py-6 text-center border-b border-y-lightGray p-2">
-        <div className="text-lg">"{weeklyQuestions}"</div>
+        <div className="text-lg whitespace-pre-line">"{weeklyQuestions}"</div>
         <SmallInput
           inputState={inputState}
           setInputState={setInputState}
@@ -111,8 +125,9 @@ export default function Question() {
                   date={el.modifiedAt}
                   like={el.likeCount}
                   userid={el.userId}
-                  commentId={el.answerId}
+                  answerId={el.answerId}
                   isLiked={el.isLiked}
+                  deleteAnswer={deleteAnswer}
                 />
               </div>
             ))}

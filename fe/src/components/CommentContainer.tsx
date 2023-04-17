@@ -93,7 +93,7 @@ export default function CommentContainer({
           ) : (
             <div>
               {myId === userid ? (
-                <div className="flex gap-1 px-4 text-sm self-center">
+                <div className="flex gap-1 text-sm self-center">
                   <button onClick={editComment}>
                     <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
                   </button>
@@ -166,7 +166,9 @@ export default function CommentContainer({
             }
           />
         ) : (
-          <div className="mt-2 text-sm font-light">{inputState}</div>
+          <div className="mt-2 text-sm font-light whitespace-pre-line">
+            {inputState}
+          </div>
         )}
         <div className="flex w-full justify-end">
           <LikeBtn
