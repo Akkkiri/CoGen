@@ -145,15 +145,15 @@ public class KakaoService {
 			String providerId = element.getAsJsonObject().get("id").getAsString();
 			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 			String picture = properties.getAsJsonObject().get("profile_image").getAsString();
-			String email = null;
-			if (properties.getAsJsonObject().get("nickname") != null) {
-				email = kakao_account.getAsJsonObject().get("email").getAsString();
-			}
+			// String email = null;
+			// if (properties.getAsJsonObject().get("nickname") != null) {
+			// 	email = kakao_account.getAsJsonObject().get("email").getAsString();
+			// }
 
 			userInfo.put("providerId", providerId);
 			userInfo.put("nickname", nickname);
 			userInfo.put("profile_image", picture);
-			userInfo.put("email", email);
+			// userInfo.put("email", email);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

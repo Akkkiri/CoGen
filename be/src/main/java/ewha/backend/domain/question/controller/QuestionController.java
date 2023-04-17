@@ -109,7 +109,7 @@ public class QuestionController {
 	}
 
 	@GetMapping("/{question_id}")
-	public ResponseEntity<QuestionDto.Response> getQuestion(@PathVariable("question_id") Long questionId) {
+	public ResponseEntity<QuestionDto.Response> getQuestionById(@PathVariable("question_id") Long questionId) {
 
 		Question question = questionService.getPastQuestion(questionId);
 		QuestionDto.Response response = questionMapper.questionToQuestionResponse(question);

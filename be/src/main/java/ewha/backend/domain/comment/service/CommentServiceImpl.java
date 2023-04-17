@@ -60,8 +60,8 @@ public class CommentServiceImpl implements CommentService {
 			findUser.addAriFactor(1);
 			findUser.addDailyFeedCount();
 
-			if (findUser.getAriFactor() == 50) {
-				findUser.addLevel();
+			if (findUser.getAriFactor() >= 50) {
+				findUser.addLevel(findUser.getAriFactor());
 			}
 			userRepository.save(findUser);
 		}

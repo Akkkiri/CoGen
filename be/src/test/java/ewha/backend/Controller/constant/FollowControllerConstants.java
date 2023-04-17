@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.PageImpl;
 
 import ewha.backend.domain.follow.dto.FollowDto;
+import ewha.backend.global.dto.MultiResponseWithUserNicknameDto;
 
 public class FollowControllerConstants {
 
@@ -32,5 +33,4 @@ public class FollowControllerConstants {
 
 	public static final PageImpl<FollowDto.FollowingResponse> FOLLOWING_RESPONSE_PAGE =
 		new PageImpl<>(List.of(FOLLOWING_RESPONSE_DTO, FOLLOWING_RESPONSE_DTO));
-
 }

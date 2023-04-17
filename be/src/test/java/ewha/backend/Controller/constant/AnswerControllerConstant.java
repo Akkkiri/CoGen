@@ -29,11 +29,13 @@ public class AnswerControllerConstant {
 	public static final AnswerDto.ListResponse ANSWER_LIST_RESPONSE =
 		AnswerDto.ListResponse.builder()
 			.answerId(1L)
+			.userId(1L)
 			.nickname("사용자 닉네임")
 			.hashcode("#123456")
 			.profileImage("사용자 프로필 이미지")
 			.thumbnailPath("썸네일 경로")
 			.answerBody("답변 내용")
+			.isLiked(false)
 			.likeCount(10L)
 			.reportCount(0L)
 			.createdAt(LocalDateTime.now())

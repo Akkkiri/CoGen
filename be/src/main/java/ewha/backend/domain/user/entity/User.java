@@ -366,9 +366,9 @@ public class User extends BaseTimeEntity implements Serializable {
 		}
 	}
 
-	public void addLevel() {
+	public void addLevel(Integer ariFactor) {
 		this.level++;
-		this.ariFactor = 0;
+		this.ariFactor = ariFactor - 50;
 	}
 
 	public void addDailyFeedCount() {

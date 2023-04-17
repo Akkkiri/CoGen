@@ -61,8 +61,8 @@ public class FeedServiceImpl implements FeedService {
 			findUser.addAriFactor(2);
 			findUser.addDailyFeedCount();
 
-			if (findUser.getAriFactor() == 50) {
-				findUser.addLevel();
+			if (findUser.getAriFactor() >= 50) {
+				findUser.addLevel(findUser.getAriFactor());
 			}
 			userRepository.save(findUser);
 		}

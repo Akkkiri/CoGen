@@ -9,7 +9,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +22,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.Gson;
 
 import ewha.backend.Controller.utils.WithMockCustomUser;
 import ewha.backend.domain.comment.mapper.CommentMapper;
@@ -43,8 +42,6 @@ import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.mapper.UserMapper;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.security.dto.LoginDto;
-
-import com.google.gson.Gson;
 
 @Transactional
 @SpringBootTest
@@ -200,33 +197,49 @@ public class UserControllerRestDocs {
 	}
 
 	@Test
+	void updateQnaTest() throws Exception {
+
+		String content = gson.toJson(QNA_DTO_LIST);
+
+		String result = "QnA Updated.";
+
+		given(userService.updateMyQna(Mockito.anyList())).willReturn(result);
+
+		ResultActions actions =
+			mockMvc.perform(
+				RestDocumentationRequestBuilders.patch("/api/mypage/patchqna")
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(content)
+			);
+
+		actions
+			.andExpect(status().isOk())
+			.andDo(document(
+				"Update_My_QnA",
+				getDocumentRequest(),
+				requestFields(
+					List.of(
+						fieldWithPath("[].qnaId").type(JsonFieldType.NUMBER).description("문답 아이디"),
+						fieldWithPath("[].answerBody").type(JsonFieldType.STRING).description("문답 답변")
+					)
+				)));
+	}
+
+	@Test
 	@WithMockCustomUser
 	void patchUserTest() throws Exception {
 
 		String content = gson.toJson(PATCH_USER_DTO);
 
-		MockMultipartFile json =
-			new MockMultipartFile("patch", "dto",
-				"application/json", content.getBytes(StandardCharsets.UTF_8));
-
-		MockMultipartFile image =
-			new MockMultipartFile("image", "image.png",
-				"image/png", "<<png data>>".getBytes());
-
-		given(userService.getLoginUser()).willReturn(User.builder().build());
 		given(userService.updateUser(Mockito.any(UserDto.UserInfo.class))).willReturn(User.builder().build());
-		given(awsS3Service.uploadImageToS3(Mockito.any(MultipartFile.class), anyLong()))
-			.willReturn(new ArrayList<>());
-		doNothing().when(userService).saveUser(Mockito.any(User.class));
 		given(userMapper.userToUserResponse(Mockito.any(User.class))).willReturn(USER_RESPONSE_DTO);
 
 		ResultActions actions =
 			mockMvc.perform(
-				RestDocumentationRequestBuilders.multipart("/api/mypage/patch")
-					.file(json)
-					.file(image)
-					.contentType(MediaType.MULTIPART_FORM_DATA)
+				RestDocumentationRequestBuilders.patch("/api/mypage/patch")
 					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
 					.content(content)
 			);
 
@@ -261,6 +274,69 @@ public class UserControllerRestDocs {
 					)
 				)));
 	}
+
+	// @Test
+	// @WithMockCustomUser
+	// void patchUserTest() throws Exception {
+	//
+	// 	String content = gson.toJson(PATCH_USER_DTO);
+	//
+	// 	MockMultipartFile json =
+	// 		new MockMultipartFile("patch", "dto",
+	// 			"application/json", content.getBytes(StandardCharsets.UTF_8));
+	//
+	// 	MockMultipartFile image =
+	// 		new MockMultipartFile("image", "image.png",
+	// 			"image/png", "<<png data>>".getBytes());
+	//
+	// 	given(userService.getLoginUser()).willReturn(User.builder().build());
+	// 	given(userService.updateUser(Mockito.any(UserDto.UserInfo.class))).willReturn(User.builder().build());
+	// 	given(awsS3Service.uploadImageToS3(Mockito.any(MultipartFile.class), anyLong()))
+	// 		.willReturn(new ArrayList<>());
+	// 	doNothing().when(userService).saveUser(Mockito.any(User.class));
+	// 	given(userMapper.userToUserResponse(Mockito.any(User.class))).willReturn(USER_RESPONSE_DTO);
+	//
+	// 	ResultActions actions =
+	// 		mockMvc.perform(
+	// 			RestDocumentationRequestBuilders.multipart("/api/mypage/patch")
+	// 				.file(json)
+	// 				.file(image)
+	// 				.contentType(MediaType.MULTIPART_FORM_DATA)
+	// 				.accept(MediaType.APPLICATION_JSON)
+	// 				.content(content)
+	// 		);
+	//
+	// 	actions
+	// 		.andExpect(status().isOk())
+	// 		.andExpect(jsonPath("$.nickname").value(PATCH_USER_DTO.getNickname()))
+	// 		.andDo(document(
+	// 			"Patch_User",
+	// 			getDocumentRequest(),
+	// 			getDocumentResponse(),
+	// 			requestFields(
+	// 				List.of(
+	// 					fieldWithPath("nickname").type(JsonFieldType.STRING).description("회원 닉네임"),
+	// 					fieldWithPath("genderType").type(JsonFieldType.STRING).description("회원 성별"),
+	// 					fieldWithPath("ageType").type(JsonFieldType.STRING).description("회원 연령대"),
+	// 					fieldWithPath("profileImage").type(JsonFieldType.STRING).description("회원 프로필 사진")
+	// 				)
+	// 			),
+	// 			responseFields(
+	// 				List.of(
+	// 					fieldWithPath(".id").type(JsonFieldType.NUMBER).description("회원 번호"),
+	// 					fieldWithPath(".userId").type(JsonFieldType.STRING).description("회원 아이디"),
+	// 					fieldWithPath(".nickname").type(JsonFieldType.STRING).description("회원 닉네임"),
+	// 					fieldWithPath(".hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
+	// 					fieldWithPath(".genderType").type(JsonFieldType.STRING).description("회원 성별"),
+	// 					fieldWithPath(".ageType").type(JsonFieldType.STRING).description("회원 연령대"),
+	// 					fieldWithPath(".level").type(JsonFieldType.NUMBER).description("회원 레벨"),
+	// 					fieldWithPath(".ariFactor").type(JsonFieldType.NUMBER).description("코젠지수"),
+	// 					fieldWithPath(".role[]").type(JsonFieldType.ARRAY).description("회원 등급"),
+	// 					fieldWithPath(".profileImage").type(JsonFieldType.STRING).description("회원 프로필 사진"),
+	// 					fieldWithPath(".thumbnailPath").type(JsonFieldType.STRING).description("회원 프로필 썸네일")
+	// 				)
+	// 			)));
+	// }
 
 	@Test
 	void patchPasswordTest() throws Exception {
@@ -317,8 +393,8 @@ public class UserControllerRestDocs {
 						fieldWithPath(".friendsNum").type(JsonFieldType.NUMBER).description("친구 숫자"),
 						fieldWithPath(".level").type(JsonFieldType.NUMBER).description("회원 레벨"),
 						fieldWithPath(".ariFactor").type(JsonFieldType.NUMBER).description("코젠지수"),
-						fieldWithPath(".genderType").type(JsonFieldType.NUMBER).description("성별"),
-						fieldWithPath(".ageType").type(JsonFieldType.NUMBER).description("연령대"),
+						fieldWithPath(".genderType").type(JsonFieldType.STRING).description("성별"),
+						fieldWithPath(".ageType").type(JsonFieldType.STRING).description("연령대"),
 						fieldWithPath(".profileImage").type(JsonFieldType.STRING).description("회원 프로필 사진"),
 						fieldWithPath(".thumbnailPath").type(JsonFieldType.STRING).description("썸네일 경로")
 					)
@@ -483,7 +559,8 @@ public class UserControllerRestDocs {
 		int page = 1;
 
 		given(userService.findUserComments(anyInt())).willReturn(new PageImpl<>(new ArrayList<>()));
-		given(commentMapper.myCommentsToPageResponse(any(), any(LikeService.class))).willReturn(USER_COMMENT_RESPONSE_PAGE);
+		given(commentMapper.myCommentsToPageResponse(any(), any(LikeService.class))).willReturn(
+			USER_COMMENT_RESPONSE_PAGE);
 
 		ResultActions actions =
 			mockMvc.perform(
@@ -507,6 +584,7 @@ public class UserControllerRestDocs {
 						fieldWithPath("data[].profileImage").type(JsonFieldType.STRING).description("사용자 프로필 이미지"),
 						fieldWithPath("data[].thumbnailPath").type(JsonFieldType.STRING).description("썸네일 경로"),
 						fieldWithPath("data[].body").type(JsonFieldType.STRING).description("댓글 내용"),
+						fieldWithPath("data[].isLiked").type(JsonFieldType.BOOLEAN).description("좋아요 여부"),
 						fieldWithPath("data[].likeCount").type(JsonFieldType.NUMBER).description("댓글 좋아요"),
 						fieldWithPath("data[].createdAt").type(JsonFieldType.STRING).description("작성 날짜"),
 						fieldWithPath("data[].modifiedAt").type(JsonFieldType.STRING).description("마지막 수정 날짜"),
@@ -547,6 +625,7 @@ public class UserControllerRestDocs {
 						fieldWithPath(".userId").type(JsonFieldType.STRING).description("유저 아이디"),
 						fieldWithPath(".nickname").type(JsonFieldType.STRING).description("회원 닉네임"),
 						fieldWithPath(".hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
+						fieldWithPath(".isFollowing").type(JsonFieldType.BOOLEAN).description("친구신청 여부"),
 						fieldWithPath(".friendsNum").type(JsonFieldType.NUMBER).description("친구 숫자"),
 						fieldWithPath(".level").type(JsonFieldType.NUMBER).description("회원 레벨"),
 						fieldWithPath(".ariFactor").type(JsonFieldType.NUMBER).description("코젠지수"),

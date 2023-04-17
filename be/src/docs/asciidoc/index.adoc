@@ -13,7 +13,7 @@
 
 연락처: bangserin980302@gmail.com
 
-v1.0.9, 2023.4.4
+v1.1.0, 2023.4.17
 
 ***
 
@@ -190,6 +190,20 @@ include::{snippets}/Get_My_QnA/http-response.adoc[]
 
 .Response-Fields
 include::{snippets}/Get_My_QnA/response-fields.adoc[]
+
+=== 마이 페이지: 문답 업데이트
+
+.Curl-Request
+include::{snippets}/Update_My_QnA/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Update_My_QnA/http-request.adoc[]
+
+.Request-Fields
+include::{snippets}/Update_My_QnA/request-fields.adoc[]
+
+.Http-Response
+include::{snippets}/Update_My_QnA/http-response.adoc[]
 
 === 마이 페이지: 이번주 질문
 NOTE: 내가 답변한 이번주 질문을 표시합니다.
@@ -551,6 +565,52 @@ include::{snippets}/Delete_Comment/path-parameters.adoc[]
 .Http-Response
 include::{snippets}/Delete_Comment/http-response.adoc[]
 
+== BookmarkController
+
+=== 피드 북마크
+
+.Curl-Request
+include::{snippets}/Bookmark_Feed/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Bookmark_Feed/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Bookmark_Feed/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Bookmark_Feed/http-response.adoc[]
+
+== LikeController
+
+=== 피드 좋아요
+
+.Curl-Request
+include::{snippets}/Feed_Like/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Feed_Like/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Feed_Like/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Feed_Like/http-response.adoc[]
+
+=== 코멘트 좋아요
+
+.Curl-Request
+include::{snippets}/Comment_Like/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Comment_Like/http-request.adoc[]
+
+.Path-Parameters
+include::{snippets}/Comment_Like/path-parameters.adoc[]
+
+.Http-Response
+include::{snippets}/Comment_Like/http-response.adoc[]
+
 == QuestionController
 
 === 이주의 질문 작성
@@ -760,36 +820,6 @@ include::{snippets}/Delete_Quiz/path-parameters.adoc[]
 .Http-Response
 include::{snippets}/Delete_Quiz/http-response.adoc[]
 
-== LikeController
-
-=== 피드 좋아요
-
-.Curl-Request
-include::{snippets}/Feed_Like/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Feed_Like/http-request.adoc[]
-
-.Path-Parameters
-include::{snippets}/Feed_Like/path-parameters.adoc[]
-
-.Http-Response
-include::{snippets}/Feed_Like/http-response.adoc[]
-
-=== 코멘트 좋아요
-
-.Curl-Request
-include::{snippets}/Comment_Like/curl-request.adoc[]
-
-.Http-Request
-include::{snippets}/Comment_Like/http-request.adoc[]
-
-.Path-Parameters
-include::{snippets}/Comment_Like/path-parameters.adoc[]
-
-.Http-Response
-include::{snippets}/Comment_Like/http-response.adoc[]
-
 === 답변 좋아요
 
 .Curl-Request
@@ -896,6 +926,34 @@ include::{snippets}/SMS_Verification/request-fields.adoc[]
 
 .Http-Response
 include::{snippets}/SMS_Verification/http-response.adoc[]
+
+=== 비밀번호 분실시 휴대폰 인증번호 요청
+
+.Curl-Request
+include::{snippets}/Find_My_Password_Request/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Find_My_Password_Request/http-request.adoc[]
+
+.Request-Fields
+include::{snippets}/Find_My_Password_Request/request-fields.adoc[]
+
+.Http-Response
+include::{snippets}/Find_My_Password_Request/http-response.adoc[]
+
+=== 검증 이후 비밀번호 수정
+
+.Curl-Request
+include::{snippets}/Find_My_Password_Change_Password/curl-request.adoc[]
+
+.Http-Request
+include::{snippets}/Find_My_Password_Change_Password/http-request.adoc[]
+
+.Request-Fields
+include::{snippets}/Find_My_Password_Change_Password/request-fields.adoc[]
+
+.Http-Response
+include::{snippets}/Find_My_Password_Change_Password/http-response.adoc[]
 
 == NotificationController
 

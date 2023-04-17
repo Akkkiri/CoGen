@@ -64,8 +64,8 @@ public class FollowService {
 				followingUser.setHasFiftyFollowing(true);
 			}
 
-			if (followingUser.getAriFactor() == 50) {
-				followingUser.addLevel();
+			if (followingUser.getAriFactor() >= 50) {
+				followingUser.addLevel(followingUser.getAriFactor());
 			}
 
 			userRepository.save(followingUser);

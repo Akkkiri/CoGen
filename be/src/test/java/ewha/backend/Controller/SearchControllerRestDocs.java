@@ -1,6 +1,7 @@
 package ewha.backend.Controller;
 
 import static ewha.backend.Controller.constant.FeedControllerConstant.*;
+import static ewha.backend.Controller.constant.UserControllerConstant.*;
 import static ewha.backend.Controller.utils.ApiDocumentUtils.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ewha.backend.domain.feed.mapper.FeedMapper;
 import ewha.backend.domain.search.service.SearchService;
+import ewha.backend.domain.user.mapper.UserMapper;
 
 import com.google.gson.Gson;
 
@@ -46,6 +48,8 @@ public class SearchControllerRestDocs {
 	private SearchService searchService;
 	@MockBean
 	private FeedMapper feedMapper;
+	@MockBean
+	private UserMapper userMapper;
 
 	@Test
 	void getSearchResultTest() throws Exception {
@@ -98,6 +102,51 @@ public class SearchControllerRestDocs {
 						fieldWithPath(".pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
 						fieldWithPath(".pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 크기"),
 						fieldWithPath(".pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총 피드 수"),
+						fieldWithPath(".pageInfo.totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수")
+					)
+				)));
+	}
+
+	@Test
+	void getUserSearchResultTest() throws Exception {
+
+		String query = "검색어";
+		Integer page = 1;
+
+		given(searchService.findUserPageByQuery(anyString(), anyInt()))
+			.willReturn(new PageImpl<>(new ArrayList<>()));
+		given(userMapper.userPageToUserSearchResponse(Mockito.any(Page.class))).willReturn(USER_SEARCH_RESPONSE_PAGE);
+
+		ResultActions actions =
+			mockMvc.perform(
+				RestDocumentationRequestBuilders
+					.get("/api/search/user?query={query}&page={page}", query, page)
+					.accept(MediaType.APPLICATION_JSON)
+			);
+
+		actions
+			.andExpect(status().isOk())
+			.andDo(document(
+				"Get_User_Search_Result",
+				getDocumentRequest(),
+				getDocumentResponse(),
+				requestParameters(
+					parameterWithName("query").description("검색어"),
+					parameterWithName("page").description("페이지 번호")
+				),
+				responseFields(
+					List.of(
+						fieldWithPath("data.").type(JsonFieldType.ARRAY).description("결과 데이터"),
+						fieldWithPath("data[].userId").type(JsonFieldType.NUMBER).description("작성자 아이디"),
+						fieldWithPath("data[].nickname").type(JsonFieldType.STRING).description("사용자 닉네임"),
+						fieldWithPath("data[].hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
+						fieldWithPath("data[].profileImage").type(JsonFieldType.STRING).description("프로피 이미지"),
+						fieldWithPath("data[].thumbnailPath").type(JsonFieldType.STRING).description("썸네일 경로"),
+						fieldWithPath("data[].isFollowing").type(JsonFieldType.BOOLEAN).description("친구신청 여부"),
+						fieldWithPath(".pageInfo").type(JsonFieldType.OBJECT).description("Pageble 설정"),
+						fieldWithPath(".pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
+						fieldWithPath(".pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 크기"),
+						fieldWithPath(".pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총 사용자 수"),
 						fieldWithPath(".pageInfo.totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수")
 					)
 				)));

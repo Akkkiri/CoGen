@@ -1,5 +1,7 @@
 package ewha.backend.domain.notification.repository;
 
+import static ewha.backend.domain.notification.entity.QNotification.*;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,25 +25,26 @@ public class NotificationQueryRepository {
 	public Notification getMyNotification(Long userId, Long notificationId) {
 
 		return jpaQueryFactory
-			.selectFrom(QNotification.notification)
-			.where(QNotification.notification.user.id.eq(userId).and(QNotification.notification.id.eq(notificationId)))
+			.selectFrom(notification)
+			.where(notification.user.id.eq(userId).and(notification.id.eq(notificationId)))
 			.fetchOne();
 	}
 
 	public List<Notification> getMyNotifications(Long userId) {
 
 		return jpaQueryFactory
-			.selectFrom(QNotification.notification)
-			.where(QNotification.notification.user.id.eq(userId))
+			.selectFrom(notification)
+			.where(notification.user.id.eq(userId).and(notification.isRead.eq(false)))
+			.orderBy(notification.createdAt.desc())
 			.fetch();
 	}
 
 	public Boolean findIfNotReadNotifications(Long userId) {
 
 		Long size = jpaQueryFactory
-			.select(QNotification.notification.count())
-			.from(QNotification.notification)
-			.where(QNotification.notification.user.id.eq(userId).and(QNotification.notification.isRead.eq(false)))
+			.select(notification.count())
+			.from(notification)
+			.where(notification.user.id.eq(userId).and(notification.isRead.eq(false)))
 			.fetchOne();
 
 		if (size == 0) {
@@ -55,24 +58,24 @@ public class NotificationQueryRepository {
 	public void deleteNotifications(Long notificationId) {
 
 		jpaQueryFactory
-			.delete(QNotification.notification)
-			.where(QNotification.notification.id.eq(notificationId))
+			.delete(notification)
+			.where(notification.id.eq(notificationId))
 			.execute();
 	}
 
 	public void deleteAllMyNotifications(Long userId) {
 
 		jpaQueryFactory
-			.delete(QNotification.notification)
-			.where(QNotification.notification.user.id.eq(userId))
+			.delete(notification)
+			.where(notification.user.id.eq(userId))
 			.execute();
 	}
 
 	public Notification findNotificationByUserAndNotificationId(User findUser, Long notificationId) {
 
 		return jpaQueryFactory
-			.selectFrom(QNotification.notification)
-			.where(QNotification.notification.user.eq(findUser).and(QNotification.notification.id.eq(notificationId)))
+			.selectFrom(notification)
+			.where(notification.user.eq(findUser).and(notification.id.eq(notificationId)))
 			.fetchOne();
 	}
 }

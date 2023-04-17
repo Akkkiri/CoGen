@@ -60,8 +60,8 @@ public class QuizService {
 					findUser.setWeeklyQuizCount(0);
 				}
 
-				if (findUser.getAriFactor() == 50) {
-					findUser.addLevel();
+				if (findUser.getAriFactor() >= 50) {
+					findUser.addLevel(findUser.getAriFactor());
 				}
 				userRepository.save(findUser);
 			}

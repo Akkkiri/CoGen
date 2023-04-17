@@ -49,8 +49,8 @@ public class AnswerService {
 				findUser.setWeeklyQuestionCount(0);
 			}
 
-			if (findUser.getAriFactor() == 50) {
-				findUser.addLevel();
+			if (findUser.getAriFactor() >= 50) {
+				findUser.addLevel(findUser.getAriFactor());
 			}
 		}
 

@@ -1,6 +1,7 @@
 package ewha.backend.Controller;
 
 import static ewha.backend.Controller.constant.SmsControllerConstant.*;
+import static ewha.backend.Controller.constant.UserControllerConstant.*;
 import static ewha.backend.Controller.utils.ApiDocumentUtils.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 
+import ewha.backend.domain.user.dto.UserDto;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.global.smsAuth.dto.SmsDto;
 import ewha.backend.global.smsAuth.service.SmsService;
@@ -100,6 +102,92 @@ public class SmsControllerRestDocs {
 				)));
 	}
 
+	@Test
+	void findMyPasswordRequestTest() throws Exception {
+
+		String content = gson.toJson(FIND_PASSWORD_REQUEST_DTO);
+
+		doNothing().when(userService).verifyUserIdAndPhoneNumber(anyString());
+		doNothing().when(smsService).sendSms(anyString());
+
+		ResultActions actions =
+			mockMvc.perform(
+				RestDocumentationRequestBuilders.post("/api/find/password/sms/send")
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(content)
+			);
+
+		actions
+			.andExpect(status().isOk())
+			.andDo(document(
+				"Find_My_Password_Request",
+				getDocumentRequest(),
+				requestFields(
+					List.of(
+						fieldWithPath("phoneNumber").type(JsonFieldType.STRING).description("휴대전화 번호")
+					)
+				)));
+	}
+
+	@Test
+	void findMyPasswordVerificationTest() throws Exception {
+
+		String content = gson.toJson(FIND_PASSWORD_CERTIFICATION_REQUEST_DTO);
+
+		given(smsService.verifyCertification(Mockito.any(SmsDto.FindPasswordCertificationRequest.class)))
+			.willReturn("");
+
+		ResultActions actions =
+			mockMvc.perform(
+				RestDocumentationRequestBuilders.post("/api/find/password/sms/verification")
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(content)
+			);
+
+		actions
+			.andExpect(status().isOk())
+			.andDo(document(
+				"Find_My_Password_Verification",
+				getDocumentRequest(),
+				requestFields(
+					List.of(
+						fieldWithPath("phoneNumber").type(JsonFieldType.STRING).description("휴대전화 번호"),
+						fieldWithPath("certificationNumber").type(JsonFieldType.STRING).description("인증 번호")
+					)
+				)));
+	}
+
+	@Test
+	void patchPasswordTest() throws Exception {
+
+		String content = gson.toJson(CHANGE_PASSWORD_DTO);
+
+		doNothing().when(userService).updatePasswordWithSms(UserDto.Password.builder().build());
+
+		ResultActions actions =
+			mockMvc.perform(
+				RestDocumentationRequestBuilders.patch("/api/find/password/change")
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(content)
+			);
+
+		actions
+			.andExpect(status().isOk())
+			.andDo(document(
+				"Find_My_Password_Change_Password",
+				getDocumentRequest(),
+				requestFields(
+					List.of(
+						fieldWithPath("userId").type(JsonFieldType.STRING).description("휴대전화 번호"),
+						fieldWithPath("newPassword").type(JsonFieldType.STRING).description("새 비밀번호"),
+						fieldWithPath("newPasswordRepeat").type(JsonFieldType.STRING).description("새 비밀번호 확인")
+					)
+				)));
+	}
+
 	// @Test
 	// void findMyIdRequestTest() throws Exception {
 	//
@@ -160,63 +248,7 @@ public class SmsControllerRestDocs {
 	// 			)));
 	// }
 	//
-	// @Test
-	// void findMyPasswordRequestTest() throws Exception {
+
 	//
-	// 	String content = gson.toJson(FIND_PASSWORD_REQUEST_DTO);
-	//
-	// 	given(userService.verifyUserIdAndPhoneNumber(anyString(), anyString())).willReturn(Boolean.TRUE);
-	// 	doNothing().when(smsService).sendSms(anyString());
-	//
-	// 	ResultActions actions =
-	// 		mockMvc.perform(
-	// 			RestDocumentationRequestBuilders.post("/find/password/sms/send")
-	// 				.accept(MediaType.APPLICATION_JSON)
-	// 				.contentType(MediaType.APPLICATION_JSON)
-	// 				.content(content)
-	// 		);
-	//
-	// 	actions
-	// 		.andExpect(status().isOk())
-	// 		.andDo(document(
-	// 			"Find_My_Password_Request",
-	// 			getDocumentRequest(),
-	// 			requestFields(
-	// 				List.of(
-	// 					fieldWithPath("userId").type(JsonFieldType.STRING).description("회원 아이디"),
-	// 					fieldWithPath("phoneNumber").type(JsonFieldType.STRING).description("휴대전화 번호")
-	// 				)
-	// 			)));
-	// }
-	//
-	// @Test
-	// void findMyPasswordVerificationTest() throws Exception {
-	//
-	// 	String content = gson.toJson(FIND_PASSWORD_CERTIFICATION_REQUEST_DTO);
-	//
-	// 	given(smsService.findPasswordVerifyCertification(Mockito.any(SmsDto.FindPasswordCertificationRequest.class)))
-	// 		.willReturn("");
-	// 	given(userService.findByUserId(anyString())).willReturn(User.builder().build());
-	//
-	// 	ResultActions actions =
-	// 		mockMvc.perform(
-	// 			RestDocumentationRequestBuilders.post("/find/password/sms/verification")
-	// 				.accept(MediaType.APPLICATION_JSON)
-	// 				.contentType(MediaType.APPLICATION_JSON)
-	// 				.content(content)
-	// 		);
-	//
-	// 	actions
-	// 		.andExpect(status().isOk())
-	// 		.andDo(document(
-	// 			"Find_My_Password_Verification",
-	// 			getDocumentRequest(),
-	// 			requestFields(
-	// 				List.of(
-	// 					fieldWithPath("userId").type(JsonFieldType.STRING).description("회원 아이디"),
-	// 					fieldWithPath("phoneNumber").type(JsonFieldType.STRING).description("휴대전화 번호"),
-	// 					fieldWithPath("certificationNumber").type(JsonFieldType.STRING).description("인증 번호")
-	// 				)
-	// 			)));
-	// }
+
 }

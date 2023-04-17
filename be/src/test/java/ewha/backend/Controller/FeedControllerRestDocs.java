@@ -77,27 +77,15 @@ public class FeedControllerRestDocs {
 
 		String content = gson.toJson(POST_FEED_DTO);
 
-		MockMultipartFile json =
-			new MockMultipartFile("post", "dto",
-				"application/json", content.getBytes(StandardCharsets.UTF_8));
-
-		MockMultipartFile image =
-			new MockMultipartFile("image", "image.png",
-				"image/png", "<<png data>>".getBytes());
-
 		given(feedMapper.feedPostToFeed(Mockito.any(FeedDto.Post.class), Mockito.any(CategoryService.class)))
 			.willReturn(Feed.builder().build());
 		given(feedService.createFeed(Mockito.any(Feed.class))).willReturn(Feed.builder().build());
-		given(awsS3Service.uploadImageToS3(Mockito.any(MultipartFile.class), anyLong())).willReturn(new ArrayList<>());
-		// given(feedMapper.feedToFeedResponse(Mockito.any(Feed.class))).willReturn(response);
 
 		ResultActions actions =
 			mockMvc.perform(
-				RestDocumentationRequestBuilders.multipart("/api/feeds/add")
-					.file(json)
-					.file(image)
-					.contentType(MediaType.MULTIPART_FORM_DATA)
+				RestDocumentationRequestBuilders.post("/api/feeds/add")
 					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
 					.content(content)
 			);
 
@@ -106,37 +94,13 @@ public class FeedControllerRestDocs {
 			.andDo(document(
 				"Post_Feed",
 				getDocumentRequest(),
-				// getDocumentResponse(),
 				requestFields(
 					List.of(
 						fieldWithPath("title").type(JsonFieldType.STRING).description("피드 제목"),
 						fieldWithPath("body").type(JsonFieldType.STRING).description("피드 내용"),
 						fieldWithPath("category").type(JsonFieldType.STRING).description("피드 카테고리")
 					)
-					// ),
-					// responseFields(
-					// 	List.of(
-					// 		fieldWithPath("data.").type(JsonFieldType.OBJECT).description("결과 데이터"),
-					// 		fieldWithPath("data.feedId").type(JsonFieldType.NUMBER).description("피드 번호"),
-					// 		fieldWithPath("data.categories[]").type(JsonFieldType.ARRAY).description("피드 카테고리"),
-					// 		fieldWithPath("data.userInfo.userId").type(JsonFieldType.STRING).description("작성자 아이디"),
-					// 		fieldWithPath("data.userInfo.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
-					// 		fieldWithPath("data.userInfo.ariFactor").type(JsonFieldType.NUMBER).description("아리지수"),
-					// 		fieldWithPath("data.userInfo.role[]").type(JsonFieldType.ARRAY).description("작성자 역할"),
-					// 		fieldWithPath("data.userInfo.profileImage").type(JsonFieldType.STRING)
-					// 			.description("작성자 프로필 사진"),
-					// 		fieldWithPath("data.title").type(JsonFieldType.STRING).description("피드 제목"),
-					// 		fieldWithPath("data.body").type(JsonFieldType.STRING).description("피드 내용"),
-					// 		fieldWithPath("data.isLiked").type(JsonFieldType.BOOLEAN).description("피드 좋아요 여부"),
-					// 		fieldWithPath("data.likeCount").type(JsonFieldType.NUMBER).description("피드 좋아요"),
-					// 		fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("피드 조회수"),
-					// 		fieldWithPath("data.imagePath").type(JsonFieldType.STRING).description("이미지 주소"),
-					// 		fieldWithPath("data.comments[]").type(JsonFieldType.ARRAY).description("댓글"),
-					// 		fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("작성 날짜"),
-					// 		fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("마지막 수정 날짜")
-					// 	)
 				)));
-
 	}
 
 	@Test
@@ -146,28 +110,16 @@ public class FeedControllerRestDocs {
 
 		String content = gson.toJson(PATCH_FEED_DTO);
 
-		MockMultipartFile json =
-			new MockMultipartFile("patch", "dto",
-				"application/json", content.getBytes(StandardCharsets.UTF_8));
-
-		MockMultipartFile image =
-			new MockMultipartFile("image", "image.png",
-				"image/png", "<<png data>>".getBytes());
-
 		given(feedService.findVerifiedFeed(anyLong())).willReturn(Feed.builder().build());
 		given(feedMapper.feedPatchToFeed(Mockito.any(FeedDto.Patch.class), Mockito.any(CategoryService.class)))
 			.willReturn(Feed.builder().build());
 		given(feedService.updateFeed(Mockito.any(Feed.class), anyLong())).willReturn(Feed.builder().build());
-		// given(feedMapper.feedToFeedResponse(Mockito.any(Feed.class))).willReturn(POST_FEED_RESPONSE_DTO);
-		doNothing().when(feedService).saveFeed(Mockito.any(Feed.class));
 
 		ResultActions actions =
 			mockMvc.perform(
-				RestDocumentationRequestBuilders.multipart("/api/feeds/{feed_id}/edit", feedId)
-					.file(json)
-					.file(image)
-					.contentType(MediaType.MULTIPART_FORM_DATA)
+				RestDocumentationRequestBuilders.patch("/api/feeds/{feed_id}/edit", feedId)
 					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
 					.content(content)
 			);
 
@@ -176,7 +128,6 @@ public class FeedControllerRestDocs {
 			.andDo(document(
 				"Patch_Feed",
 				getDocumentRequest(),
-				// getDocumentResponse(),
 				pathParameters(
 					parameterWithName("feed_id").description("피드 번호")
 				),
@@ -185,32 +136,151 @@ public class FeedControllerRestDocs {
 						fieldWithPath("title").type(JsonFieldType.STRING).description("수정된 제목"),
 						fieldWithPath("body").type(JsonFieldType.STRING).description("수정된 내용"),
 						fieldWithPath("category").type(JsonFieldType.STRING).description("피드 카테고리"),
-						fieldWithPath("imagePath").type(JsonFieldType.STRING).description("이미지 주소")
+						fieldWithPath("imagePath").type(JsonFieldType.STRING).description("이미지 주소"),
+						fieldWithPath("thumbnailPath").type(JsonFieldType.STRING).description("썸네일 주소")
 					)
-					// ),
-					// responseFields(
-					// 	List.of(
-					// 		fieldWithPath("data.").type(JsonFieldType.OBJECT).description("결과 데이터"),
-					// 		fieldWithPath("data.feedId").type(JsonFieldType.NUMBER).description("피드 번호"),
-					// 		fieldWithPath("data.categories[]").type(JsonFieldType.ARRAY).description("피드 카테고리"),
-					// 		fieldWithPath("data.userInfo.userId").type(JsonFieldType.STRING).description("작성자 아이디"),
-					// 		fieldWithPath("data.userInfo.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
-					// 		fieldWithPath("data.userInfo.ariFactor").type(JsonFieldType.NUMBER).description("아리지수"),
-					// 		fieldWithPath("data.userInfo.role[]").type(JsonFieldType.ARRAY).description("작성자 역할"),
-					// 		fieldWithPath("data.userInfo.profileImage").type(JsonFieldType.STRING)
-					// 			.description("작성자 프로필 사진"),
-					// 		fieldWithPath("data.title").type(JsonFieldType.STRING).description("수정된 제목"),
-					// 		fieldWithPath("data.body").type(JsonFieldType.STRING).description("수정된 내용"),
-					// 		fieldWithPath("data.isLiked").type(JsonFieldType.BOOLEAN).description("피드 좋아요 여부"),
-					// 		fieldWithPath("data.likeCount").type(JsonFieldType.NUMBER).description("피드 좋아요"),
-					// 		fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("피드 조회수"),
-					// 		fieldWithPath("data.imagePath").type(JsonFieldType.STRING).description("이미지 주소"),
-					// 		fieldWithPath("data.comments[]").type(JsonFieldType.ARRAY).description("댓글"),
-					// 		fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("작성 날짜"),
-					// 		fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("마지막 수정 날짜")
-					// 	)
 				)));
 	}
+
+	// @Test
+	// void postFeedTest() throws Exception {
+	//
+	// 	String content = gson.toJson(POST_FEED_DTO);
+	//
+	// 	MockMultipartFile json =
+	// 		new MockMultipartFile("post", "dto",
+	// 			"application/json", content.getBytes(StandardCharsets.UTF_8));
+	//
+	// 	MockMultipartFile image =
+	// 		new MockMultipartFile("image", "image.png",
+	// 			"image/png", "<<png data>>".getBytes());
+	//
+	// 	given(feedMapper.feedPostToFeed(Mockito.any(FeedDto.Post.class), Mockito.any(CategoryService.class)))
+	// 		.willReturn(Feed.builder().build());
+	// 	given(feedService.createFeed(Mockito.any(Feed.class))).willReturn(Feed.builder().build());
+	// 	given(awsS3Service.uploadImageToS3(Mockito.any(MultipartFile.class), anyLong())).willReturn(new ArrayList<>());
+	// 	// given(feedMapper.feedToFeedResponse(Mockito.any(Feed.class))).willReturn(response);
+	//
+	// 	ResultActions actions =
+	// 		mockMvc.perform(
+	// 			RestDocumentationRequestBuilders.multipart("/api/feeds/add")
+	// 				.file(json)
+	// 				.file(image)
+	// 				.contentType(MediaType.MULTIPART_FORM_DATA)
+	// 				.accept(MediaType.APPLICATION_JSON)
+	// 				.content(content)
+	// 		);
+	//
+	// 	actions
+	// 		.andExpect(status().isCreated())
+	// 		.andDo(document(
+	// 			"Post_Feed",
+	// 			getDocumentRequest(),
+	// 			// getDocumentResponse(),
+	// 			requestFields(
+	// 				List.of(
+	// 					fieldWithPath("title").type(JsonFieldType.STRING).description("피드 제목"),
+	// 					fieldWithPath("body").type(JsonFieldType.STRING).description("피드 내용"),
+	// 					fieldWithPath("category").type(JsonFieldType.STRING).description("피드 카테고리")
+	// 				)
+	// 				// ),
+	// 				// responseFields(
+	// 				// 	List.of(
+	// 				// 		fieldWithPath("data.").type(JsonFieldType.OBJECT).description("결과 데이터"),
+	// 				// 		fieldWithPath("data.feedId").type(JsonFieldType.NUMBER).description("피드 번호"),
+	// 				// 		fieldWithPath("data.categories[]").type(JsonFieldType.ARRAY).description("피드 카테고리"),
+	// 				// 		fieldWithPath("data.userInfo.userId").type(JsonFieldType.STRING).description("작성자 아이디"),
+	// 				// 		fieldWithPath("data.userInfo.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
+	// 				// 		fieldWithPath("data.userInfo.ariFactor").type(JsonFieldType.NUMBER).description("아리지수"),
+	// 				// 		fieldWithPath("data.userInfo.role[]").type(JsonFieldType.ARRAY).description("작성자 역할"),
+	// 				// 		fieldWithPath("data.userInfo.profileImage").type(JsonFieldType.STRING)
+	// 				// 			.description("작성자 프로필 사진"),
+	// 				// 		fieldWithPath("data.title").type(JsonFieldType.STRING).description("피드 제목"),
+	// 				// 		fieldWithPath("data.body").type(JsonFieldType.STRING).description("피드 내용"),
+	// 				// 		fieldWithPath("data.isLiked").type(JsonFieldType.BOOLEAN).description("피드 좋아요 여부"),
+	// 				// 		fieldWithPath("data.likeCount").type(JsonFieldType.NUMBER).description("피드 좋아요"),
+	// 				// 		fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("피드 조회수"),
+	// 				// 		fieldWithPath("data.imagePath").type(JsonFieldType.STRING).description("이미지 주소"),
+	// 				// 		fieldWithPath("data.comments[]").type(JsonFieldType.ARRAY).description("댓글"),
+	// 				// 		fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("작성 날짜"),
+	// 				// 		fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("마지막 수정 날짜")
+	// 				// 	)
+	// 			)));
+	//
+	// }
+
+	// @Test
+	// void patchFeedTest() throws Exception {
+	//
+	// 	Long feedId = 1L;
+	//
+	// 	String content = gson.toJson(PATCH_FEED_DTO);
+	//
+	// 	MockMultipartFile json =
+	// 		new MockMultipartFile("patch", "dto",
+	// 			"application/json", content.getBytes(StandardCharsets.UTF_8));
+	//
+	// 	MockMultipartFile image =
+	// 		new MockMultipartFile("image", "image.png",
+	// 			"image/png", "<<png data>>".getBytes());
+	//
+	// 	given(feedService.findVerifiedFeed(anyLong())).willReturn(Feed.builder().build());
+	// 	given(feedMapper.feedPatchToFeed(Mockito.any(FeedDto.Patch.class), Mockito.any(CategoryService.class)))
+	// 		.willReturn(Feed.builder().build());
+	// 	given(feedService.updateFeed(Mockito.any(Feed.class), anyLong())).willReturn(Feed.builder().build());
+	// 	// given(feedMapper.feedToFeedResponse(Mockito.any(Feed.class))).willReturn(POST_FEED_RESPONSE_DTO);
+	// 	doNothing().when(feedService).saveFeed(Mockito.any(Feed.class));
+	//
+	// 	ResultActions actions =
+	// 		mockMvc.perform(
+	// 			RestDocumentationRequestBuilders.multipart("/api/feeds/{feed_id}/edit", feedId)
+	// 				.file(json)
+	// 				.file(image)
+	// 				.contentType(MediaType.MULTIPART_FORM_DATA)
+	// 				.accept(MediaType.APPLICATION_JSON)
+	// 				.content(content)
+	// 		);
+	//
+	// 	actions
+	// 		.andExpect(status().isOk())
+	// 		.andDo(document(
+	// 			"Patch_Feed",
+	// 			getDocumentRequest(),
+	// 			// getDocumentResponse(),
+	// 			pathParameters(
+	// 				parameterWithName("feed_id").description("피드 번호")
+	// 			),
+	// 			requestFields(
+	// 				List.of(
+	// 					fieldWithPath("title").type(JsonFieldType.STRING).description("수정된 제목"),
+	// 					fieldWithPath("body").type(JsonFieldType.STRING).description("수정된 내용"),
+	// 					fieldWithPath("category").type(JsonFieldType.STRING).description("피드 카테고리"),
+	// 					fieldWithPath("imagePath").type(JsonFieldType.STRING).description("이미지 주소")
+	// 				)
+	// 				// ),
+	// 				// responseFields(
+	// 				// 	List.of(
+	// 				// 		fieldWithPath("data.").type(JsonFieldType.OBJECT).description("결과 데이터"),
+	// 				// 		fieldWithPath("data.feedId").type(JsonFieldType.NUMBER).description("피드 번호"),
+	// 				// 		fieldWithPath("data.categories[]").type(JsonFieldType.ARRAY).description("피드 카테고리"),
+	// 				// 		fieldWithPath("data.userInfo.userId").type(JsonFieldType.STRING).description("작성자 아이디"),
+	// 				// 		fieldWithPath("data.userInfo.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
+	// 				// 		fieldWithPath("data.userInfo.ariFactor").type(JsonFieldType.NUMBER).description("아리지수"),
+	// 				// 		fieldWithPath("data.userInfo.role[]").type(JsonFieldType.ARRAY).description("작성자 역할"),
+	// 				// 		fieldWithPath("data.userInfo.profileImage").type(JsonFieldType.STRING)
+	// 				// 			.description("작성자 프로필 사진"),
+	// 				// 		fieldWithPath("data.title").type(JsonFieldType.STRING).description("수정된 제목"),
+	// 				// 		fieldWithPath("data.body").type(JsonFieldType.STRING).description("수정된 내용"),
+	// 				// 		fieldWithPath("data.isLiked").type(JsonFieldType.BOOLEAN).description("피드 좋아요 여부"),
+	// 				// 		fieldWithPath("data.likeCount").type(JsonFieldType.NUMBER).description("피드 좋아요"),
+	// 				// 		fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("피드 조회수"),
+	// 				// 		fieldWithPath("data.imagePath").type(JsonFieldType.STRING).description("이미지 주소"),
+	// 				// 		fieldWithPath("data.comments[]").type(JsonFieldType.ARRAY).description("댓글"),
+	// 				// 		fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("작성 날짜"),
+	// 				// 		fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("마지막 수정 날짜")
+	// 				// 	)
+	// 			)));
+	// }
 
 	@Test
 	@WithMockCustomUser
@@ -318,7 +388,8 @@ public class FeedControllerRestDocs {
 		ResultActions actions =
 			mockMvc.perform(
 				RestDocumentationRequestBuilders
-					.get("/api/feeds/categories?category={categoryName}&sort={sort}&page={page}", categoryName, sort, page)
+					.get("/api/feeds/categories?category={categoryName}&sort={sort}&page={page}", categoryName, sort,
+						page)
 					.accept(MediaType.APPLICATION_JSON)
 			);
 		actions

@@ -20,6 +20,7 @@ public class NotificationDto {
 	public static class Response {
 		private Long notificationId;
 		private NotificationType type;
+		private String body;
 		// private String receiverFeedTitle;
 		// private String receiverCommentBody;
 		private String receiverBody;

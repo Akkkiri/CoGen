@@ -172,11 +172,13 @@ public class AnswerControllerRestDocs {
 					List.of(
 						fieldWithPath("data.").type(JsonFieldType.ARRAY).description("결과 데이터"),
 						fieldWithPath(".data.[].answerId").type(JsonFieldType.NUMBER).description("답변 번호"),
+						fieldWithPath(".data.[].userId").type(JsonFieldType.NUMBER).description("사용자 번호"),
 						fieldWithPath(".data.[].nickname").type(JsonFieldType.STRING).description("사용자 닉네임"),
 						fieldWithPath(".data.[].hashcode").type(JsonFieldType.STRING).description("사용자 해시코드"),
 						fieldWithPath(".data.[].profileImage").type(JsonFieldType.STRING).description("사용자 프로필 이미지"),
 						fieldWithPath(".data.[].thumbnailPath").type(JsonFieldType.STRING).description("썸네일 이미지"),
 						fieldWithPath(".data.[].answerBody").type(JsonFieldType.STRING).description("답변 내용"),
+						fieldWithPath(".data.[].isLiked").type(JsonFieldType.BOOLEAN).description("좋아요 여부"),
 						fieldWithPath(".data.[].likeCount").type(JsonFieldType.NUMBER).description("좋아요 개수"),
 						fieldWithPath(".data.[].reportCount").type(JsonFieldType.NUMBER).description("신고 개수"),
 						fieldWithPath(".data.[].createdAt").type(JsonFieldType.STRING).description("작성 날짜"),

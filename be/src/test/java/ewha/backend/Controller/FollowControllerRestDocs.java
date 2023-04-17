@@ -1,5 +1,6 @@
 package ewha.backend.Controller;
 
+import static ewha.backend.Controller.constant.FollowControllerConstants.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.anyInt;
 import static org.mockito.BDDMockito.anyList;
@@ -34,9 +35,11 @@ import com.google.gson.Gson;
 import ewha.backend.Controller.utils.WithMockCustomUser;
 import ewha.backend.domain.follow.mapper.FollowMapper;
 import ewha.backend.domain.follow.service.FollowService;
+import ewha.backend.domain.user.entity.User;
 import ewha.backend.domain.user.service.UserService;
 import ewha.backend.Controller.constant.FollowControllerConstants;
 import ewha.backend.Controller.utils.ApiDocumentUtils;
+import ewha.backend.global.dto.MultiResponseWithUserNicknameDto;
 
 @Transactional
 @SpringBootTest
@@ -131,9 +134,10 @@ public class FollowControllerRestDocs {
 		Integer page = 1;
 
 		given(userService.getLoginUserReturnNull()).willReturn(null);
+		given(userService.findVerifiedUser(anyLong())).willReturn(User.builder().build());
 		given(followService.findFollowings(anyLong(), anyInt())).willReturn(new PageImpl<>(new ArrayList<>()));
 		given(followMapper.followingsToFollowingResponses(Mockito.any(PageImpl.class), anyList()))
-			.willReturn(FollowControllerConstants.FOLLOWING_RESPONSE_PAGE);
+			.willReturn(FOLLOWING_RESPONSE_PAGE);
 
 		ResultActions actions =
 			mockMvc.perform(
@@ -162,6 +166,7 @@ public class FollowControllerRestDocs {
 						fieldWithPath(".data[].thumbnailPath").type(JsonFieldType.STRING).description("썸네일 주소"),
 						fieldWithPath(".data[].isFollowing").type(JsonFieldType.BOOLEAN).description("팔로우 여부"),
 						fieldWithPath(".pageInfo").type(JsonFieldType.OBJECT).description("Pageble 설정"),
+						fieldWithPath(".pageInfo.nickname").type(JsonFieldType.NULL).description("사용자 닉네임"),
 						fieldWithPath(".pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
 						fieldWithPath(".pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 크기"),
 						fieldWithPath(".pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총 레이팅 수"),

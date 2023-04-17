@@ -17,9 +17,13 @@ public class MultiResponseWithUserNicknameDto<T> {
 
 	public MultiResponseWithUserNicknameDto(List<T> data, Page page, String nickname) {
 
-		String[] nick = nickname.split("#");
-		String nickPre = nick[0];
-		String nickSuf = "#" + nick[1];
+		String[] nick = nickname != null ? nickname.split("#") : new String[]{""};
+		String nickPre = nick.length > 1 ? nick[0] : null;
+		String nickSuf = nick.length > 1 ? "#" + nick[1] : null;
+
+		// String[] nick = nickname.split("#");
+		// String nickPre = nick[0];
+		// String nickSuf = "#" + nick[1];
 
 		this.data = data;
 		this.pageInfo = new PageInfoWithUserNickname(nickPre, page.getNumber() + 1,

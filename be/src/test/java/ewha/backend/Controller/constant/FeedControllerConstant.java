@@ -63,6 +63,7 @@ public class FeedControllerConstant {
 			.body("피드 내용")
 			.category(CategoryType.PLACE)
 			.imagePath("이미지 주소")
+			.thumbnailPath("썸네일 주소")
 			.build();
 
 	public static final FeedDto.Response GET_FEED_RESPONSE_DTO =

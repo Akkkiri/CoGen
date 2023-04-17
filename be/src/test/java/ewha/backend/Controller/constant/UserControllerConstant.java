@@ -109,6 +109,7 @@ public class UserControllerConstant {
 			.userId("01012345678")
 			.nickname("닉네임")
 			.hashcode("#123456")
+			.isFollowing(false)
 			.friendsNum(10L)
 			.level(1)
 			.ariFactor(10)
@@ -200,6 +201,7 @@ public class UserControllerConstant {
 			.profileImage("프로필 사진")
 			.thumbnailPath("썸네일 경로")
 			.body("댓글 내용")
+			.isLiked(false)
 			.likeCount(1L)
 			.createdAt(LocalDateTime.now())
 			.modifiedAt(LocalDateTime.now())
@@ -219,4 +221,17 @@ public class UserControllerConstant {
 			.role(List.of("ROLE_USER"))
 			.profileImage("프로필 이미지")
 			.build();
+
+	public static final UserDto.UserSearchResponse USER_SEARCH_RESPONSE =
+		UserDto.UserSearchResponse.builder()
+			.userId(1L)
+			.nickname("닉네임")
+			.hashcode("#123456")
+			.profileImage("프로필 이미지")
+			.thumbnailPath("썸네일 이미지")
+			.isFollowing(false)
+			.build();
+
+	public static final PageImpl<UserDto.UserSearchResponse> USER_SEARCH_RESPONSE_PAGE =
+		new PageImpl<>(List.of(USER_SEARCH_RESPONSE, USER_SEARCH_RESPONSE));
 }

@@ -177,6 +177,38 @@ public class QuestionControllerRestDocs {
 	}
 
 	@Test
+	void getQuestionByIdTest() throws Exception {
+
+		Long questionId = 1L;
+
+		given(questionService.getPastQuestion(anyLong())).willReturn(Question.builder().build());
+		given(questionMapper.questionToQuestionResponse(Mockito.any(Question.class))).willReturn(QUESTION_RESPONSE_DTO);
+
+		ResultActions actions =
+			mockMvc.perform(
+				RestDocumentationRequestBuilders.get("/api/questions/{question_id}", questionId)
+					.accept(MediaType.APPLICATION_JSON)
+			);
+
+		actions
+			.andExpect(status().isOk())
+			.andDo(document(
+				"Get_Passed_Question",
+				getDocumentResponse(),
+				pathParameters(
+					parameterWithName("question_id").description("질문 번호")
+				),
+				responseFields(
+					List.of(
+						fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 번호"),
+						fieldWithPath("content").type(JsonFieldType.STRING).description("질문 내용"),
+						fieldWithPath("imagePath").type(JsonFieldType.STRING).description("이미지 주소"),
+						fieldWithPath("thumbnailPath").type(JsonFieldType.STRING).description("썸네일 주소")
+					)
+				)));
+	}
+
+	@Test
 	void getPassedQuestionTest() throws Exception {
 
 		int page = 1;
@@ -194,7 +226,8 @@ public class QuestionControllerRestDocs {
 			.andExpect(status().isOk())
 			.andDo(document(
 				"Get_Question_List",
-				getDocumentResponse(),requestParameters(
+				getDocumentResponse(),
+				requestParameters(
 					parameterWithName("page").description("페이지 번호")
 				),
 
