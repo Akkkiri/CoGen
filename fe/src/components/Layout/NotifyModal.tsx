@@ -24,13 +24,31 @@ export default function NotifyModal({
       axios
         .get("/notifications")
         .then((res) => {
-          console.log("?????", res);
           setNotifyList(res.data.data);
           setHasNewNotify(false);
         })
         .catch((err) => console.log(err));
     }
   }, [isLoginUser, setHasNewNotify]);
+
+  const deleteNotify = (notificationId: number) => {
+    axios
+      .delete(`/notifications/${notificationId}/delete`)
+      .then((res) => {
+        const filtered = notifyList.filter((el) => {
+          return el.notificationId !== notificationId;
+        });
+        setNotifyList(filtered);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const deleteAllNotify = () => {
+    axios
+      .delete("/notifications/delete")
+      .then((res) => setNotifyList([]))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="relative">
@@ -44,7 +62,10 @@ export default function NotifyModal({
               </button>
             </div>
             <div className="flex justify-end mt-1 pb-1 text-xs font-light border-b border-y-lightGray/30">
-              <button className="text-y-lightGray hover:text-y-red mr-3">
+              <button
+                className="text-y-lightGray hover:text-y-red mr-3"
+                onClick={deleteAllNotify}
+              >
                 전체 삭제
               </button>
             </div>
@@ -62,7 +83,7 @@ export default function NotifyModal({
                         key={el.notificationId}
                         className="hover:bg-y-pink rounded-lg"
                       >
-                        <NotifyContainer {...el} />
+                        <NotifyContainer {...el} deleteNotify={deleteNotify} />
                       </div>
                     );
                   })}

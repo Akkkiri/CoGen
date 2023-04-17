@@ -60,13 +60,20 @@ export default function Header() {
             }
           );
           evtSource.onopen = (e) => {
-            console.log("Connection was opened1.");
+            // console.log("Connection was opened1.");
             // console.log("onopen", e);
           };
           evtSource.addEventListener("sse", (e: any) => {
-            console.log("sse", e);
+            // console.log("sse", e);
             if (e.data.slice(0, 9) !== "Connected") {
               setHasNewNotify(true);
+              const sseData = JSON.parse(e.data);
+              handleNotify({
+                id: sseData.id,
+                type: sseData.type,
+                message: sseData.body,
+                url: sseData.url,
+              });
             }
           });
           evtSource.onerror = (e) => {
@@ -76,12 +83,12 @@ export default function Header() {
       };
       sse();
       return () => {
-        console.log("close!!");
         return evtSource.close();
       };
     } else {
       setHasNewNotify(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoginUser, TOKEN]);
 
   const checkNotify = () => {
