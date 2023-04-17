@@ -33,22 +33,6 @@ export default function UserProfile({
   const navigate = useNavigate();
   const isLoginUser = useAppSelector(isLogin);
   const [isFollowing, setIsFollowing] = useState(isFollow);
-  const medal = (level: number) => {
-    if (level === 50) return 50;
-    else if (level >= 40) return 40;
-    else if (level >= 30) return 30;
-    else if (level >= 20) return 20;
-    else if (level >= 10) return 10;
-    else return 1;
-  };
-  const medalImg: any = {
-    1: "/images/level1.png",
-    10: "/images/level10.png",
-    20: "/images/level20.png",
-    30: "/images/level30.png",
-    40: "/images/level40.png",
-    50: "/images/level50.png",
-  };
 
   useEffect(() => {
     setIsFollowing(isFollow);
@@ -63,29 +47,31 @@ export default function UserProfile({
       .catch((err) => console.log(err));
   };
   return (
-    <div className="flex justify-center items-center mx-2">
+    <div className="flex justify-center items-center mx-2 mt-2">
       <img
         src={profileImage}
         alt="profileImage"
-        className="rounded-full w-20 h-20"
+        className="rounded-full w-20 h-20 md:w-24 md:h-24"
       ></img>
       <div className="w-full mx-4 mt-2">
         <div className="flex justify-between">
           <div className="flex items-end">
-            <span className={`${nickname.length === 8 ? "text-sm" : ""}`}>
+            <span
+              className={`${nickname.length === 8 ? "text-sm" : ""} md:text-xl`}
+            >
               {nickname}
             </span>
-            <span className="text-xs text-y-lightGray font-light">
+            <span className="text-xs text-y-lightGray font-light md:text-sm">
               {hashcode}
             </span>
             <img
               src={medalImg[medal(level)]}
               alt="level"
-              className="w-5 h-5"
+              className="w-5 h-5 md:w-6 md:h-6 "
             ></img>
           </div>
           <button
-            className="rounded-lg bg-y-sky py-0.5 px-4 text-xs"
+            className="rounded-lg bg-y-sky py-0.5 px-4 text-xs md:text-sm"
             onClick={() => {
               navigate(`friend`);
             }}
@@ -96,21 +82,21 @@ export default function UserProfile({
         <Level level={level} ariFactor={ariFactor} />
         {isMine ? (
           <button
-            className="w-full bg-y-red rounded-lg text-white text-xs py-1"
+            className="w-full bg-y-red rounded-lg text-white text-xs py-1 md:text-sm"
             onClick={() => navigate("/mypage/edit")}
           >
             회원정보 수정하기
           </button>
         ) : isFollowing ? (
           <button
-            className="w-full bg-y-red rounded-lg text-white text-xs py-1"
+            className="w-full bg-y-red rounded-lg text-white text-xs py-1 md:text-sm"
             onClick={handleFollowing}
           >
             친구 삭제
           </button>
         ) : (
           <button
-            className="w-full bg-y-pink rounded-lg text-black text-xs py-1"
+            className="w-full bg-y-pink rounded-lg text-black text-xs py-1 md:text-sm"
             onClick={
               isLoginUser
                 ? handleFollowing
@@ -139,3 +125,20 @@ export default function UserProfile({
     </div>
   );
 }
+
+export const medal = (level: number) => {
+  if (level === 50) return 50;
+  else if (level >= 40) return 40;
+  else if (level >= 30) return 30;
+  else if (level >= 20) return 20;
+  else if (level >= 10) return 10;
+  else return 1;
+};
+export const medalImg: any = {
+  1: "/images/level1.png",
+  10: "/images/level10.png",
+  20: "/images/level20.png",
+  30: "/images/level30.png",
+  40: "/images/level40.png",
+  50: "/images/level50.png",
+};

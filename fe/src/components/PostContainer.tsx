@@ -27,7 +27,7 @@ export default function PostContainer({
       ) : (
         containerProps?.map((el: any, idx: number) => (
           <div key={idx}>
-            {bookmark ? <BookmarkBtn /> : null}
+            {bookmark ? <BookmarkBtn feedId={el.feedId} /> : null}
             <NavLink to={`/post/${el.feedId}`}>
               <div className="p-2 border-b border-y-lightGray">
                 <div className="p-2">

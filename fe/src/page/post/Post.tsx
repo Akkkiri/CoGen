@@ -30,6 +30,11 @@ export default function Post() {
         setTotalPages(response.data.pageInfo.totalPages);
       });
   }, [category, page, sort]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [category]);
+
   const goToLogin = () => {
     Swal.fire({
       title: "CoGen",

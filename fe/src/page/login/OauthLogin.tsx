@@ -15,7 +15,7 @@ export default function OauthLogin() {
     if (
       code !== undefined &&
       code !== "" &&
-      (path === "/naver" || path === "/kakao")
+      (path === "/oauth/naver" || path === "/oauth/kakao")
     ) {
       getOauthCode(path, code);
     }
@@ -30,8 +30,6 @@ export default function OauthLogin() {
           axios.defaults.headers.common["Authorization"] =
             res.payload.headers.authorization;
           if (res.payload.data.isFirstLogin) {
-            //제거
-            // console.log(res.payload.data.isFirstLogin);
             dispatch(saveId(res.payload.data.id));
             navigate("/signup/info");
           } else {
