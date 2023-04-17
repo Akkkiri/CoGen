@@ -12,13 +12,7 @@ export default function OauthLogin() {
   useEffect(() => {
     const path = window.location.pathname;
     const code = window.location.search;
-    // if (
-    //   code !== undefined &&
-    //   code !== "" &&
-    //   (path === "/oauth/naver" || path === "/oauth/kakao")
-    // ) {
     getOauthCode(path, code);
-    // }
   }, []);
 
   const getOauthCode = (path: string, code: string) => {
@@ -26,12 +20,10 @@ export default function OauthLogin() {
       .then((res) => {
         if (res.type === "auth/oauth/fulfilled") {
           //제거
-          console.log("auth/oauth/fulfilled", res);
+          // console.log("auth/oauth/fulfilled", res);
           axios.defaults.headers.common["Authorization"] =
             res.payload.headers.authorization;
           if (res.payload.data.isFirstLogin) {
-            //제거
-            console.log("첫 로그인 여부", res.payload.data.isFirstLogin);
             dispatch(saveId(res.payload.data.id));
             navigate("/signup/info");
           } else {
@@ -39,7 +31,7 @@ export default function OauthLogin() {
           }
         } else if (res.type === "auth/oauth/rejected") {
           //제거
-          console.log("auth/oauth/rejected", res);
+          // console.log("auth/oauth/rejected", res);
           navigate("/login");
         }
       })
