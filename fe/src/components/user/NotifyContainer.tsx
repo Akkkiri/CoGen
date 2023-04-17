@@ -15,7 +15,6 @@ export default function NotifyContainer({
   notificationId,
   type,
   receiverBody,
-  isRead,
   createdAt,
 }: NotifyContainerProps) {
   const icon = {
@@ -26,9 +25,6 @@ export default function NotifyContainer({
 
   return (
     <li className="flex justify-center items-center p-2">
-      <div
-        className={`w-1 h-1 rounded-sm mr-1 ${isRead ? "" : "bg-y-red"}`}
-      ></div>
       <div className="w-12 h-12 rounded-full bg-y-red flex justify-center items-center text-white text-2xl">
         {icon[type]}
       </div>
