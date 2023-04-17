@@ -14,6 +14,11 @@ import {
 import axios from "api/axios";
 import { useAppDispatch } from "store/hook";
 import { EventSourcePolyfill } from "event-source-polyfill";
+import {
+  deleteNotify,
+  NotifyProps,
+  saveNotify,
+} from "store/modules/notifySlice";
 const EventSource = EventSourcePolyfill;
 
 export default function Header() {
@@ -41,30 +46,39 @@ export default function Header() {
   useEffect(() => {
     if (isLoginUser) {
       // SSE 알림
-      // const eventSource = new EventSource(
-      //   `${process.env.REACT_APP_API_URL}/subscribe`,
-      //   {
-      //     headers: {
-      //       Authorization: TOKEN,
-      //     },
-      //     heartbeatTimeout: 180000,
-      //     withCredentials: true,
-      //   }
-      // );
-      // eventSource.onopen = (e) => {
-      //   console.log("Connection was opened1.");
-      //   console.log("onopen", e);
-      // };
-      // eventSource.addEventListener("sse", (e: any) => {
-      //   console.log("sse", e);
-      //   console.log("data!!", e.data);
-      // });
-      // eventSource.onerror = (e) => {
-      //   console.log("onerror", e);
-      // };
-      // if (TOKEN === "" || TOKEN === undefined) {
-      //   eventSource.close();
-      // }
+      let evtSource: EventSourcePolyfill;
+      const sse = async () => {
+        try {
+          evtSource = new EventSource(
+            `${process.env.REACT_APP_API_URL}/subscribe`,
+            {
+              headers: {
+                Authorization: TOKEN,
+              },
+              heartbeatTimeout: 180000,
+              withCredentials: true,
+            }
+          );
+          evtSource.onopen = (e) => {
+            console.log("Connection was opened1.");
+            // console.log("onopen", e);
+          };
+          evtSource.addEventListener("sse", (e: any) => {
+            console.log("sse", e);
+            if (e.data.slice(0, 9) !== "Connected") {
+              setHasNewNotify(true);
+            }
+          });
+          evtSource.onerror = (e) => {
+            console.log("onerror", e);
+          };
+        } catch (error) {}
+      };
+      sse();
+      return () => {
+        console.log("close!!");
+        return evtSource.close();
+      };
     } else {
       setHasNewNotify(false);
     }
@@ -75,6 +89,13 @@ export default function Header() {
       .get("/notifications/check")
       .then((res) => setHasNewNotify(res.data))
       .catch((err) => console.log(err));
+  };
+
+  const handleNotify = ({ id, type, message, url }: NotifyProps) => {
+    dispatch(saveNotify({ id, type, message, url }));
+    setTimeout(() => {
+      dispatch(deleteNotify());
+    }, 6000);
   };
 
   return (
@@ -101,8 +122,26 @@ export default function Header() {
               <VscBell size={30} />
             )}
           </button>
-          {isNotifying ? <NotifyModal setIsNotifying={setIsNotifying} /> : null}
+          {isNotifying ? (
+            <NotifyModal
+              setIsNotifying={setIsNotifying}
+              setHasNewNotify={setHasNewNotify}
+            />
+          ) : null}
         </div>
+        {/*  */}
+        <button
+          onClick={() => {
+            handleNotify({
+              id: Date.now(),
+              type: "FOLLOW",
+              message: "누구님이 좋아요를 눌렀습니다",
+              url: "post/1",
+            });
+          }}
+        >
+          알림
+        </button>
       </div>
     </header>
   );

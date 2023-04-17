@@ -19,6 +19,7 @@ export default function OauthLogin() {
     ) {
       getOauthCode(path, code);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getOauthCode = (path: string, code: string) => {

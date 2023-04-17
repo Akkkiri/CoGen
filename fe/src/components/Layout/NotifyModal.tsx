@@ -11,8 +11,10 @@ import NotifyContainer, {
 
 export default function NotifyModal({
   setIsNotifying,
+  setHasNewNotify,
 }: {
   setIsNotifying: React.Dispatch<React.SetStateAction<boolean>>;
+  setHasNewNotify: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const isLoginUser = useAppSelector(isLogin);
   const [notifyList, setNotifyList] = useState<NotifyContainerProps[]>([]);
@@ -22,57 +24,13 @@ export default function NotifyModal({
       axios
         .get("/notifications")
         .then((res) => {
-          // console.log(res);
+          console.log("?????", res);
           setNotifyList(res.data.data);
+          setHasNewNotify(false);
         })
         .catch((err) => console.log(err));
     }
-  }, [isLoginUser]);
-
-  const sample: NotifyContainerProps[] = [
-    {
-      notificationId: 1,
-      type: "LIKE",
-      receiverBody: "누구누구씨가 누구님의 게시글에 좋아요를 눌렀습니다",
-      isRead: false,
-      createdAt: "2023-04-14T21:19:05.228188",
-    },
-    {
-      notificationId: 2,
-      type: "COMMENT",
-      receiverBody: "누구누구씨가 누구님의 게시글에 댓글을 남겼습니다",
-      isRead: true,
-      createdAt: "2023-04-14T21:19:05.228188",
-    },
-    {
-      notificationId: 3,
-      type: "FOLLOW",
-      receiverBody: "누구누구씨가 누구님과 친구하기를 눌렀습니다",
-      isRead: false,
-      createdAt: "2023-04-14T21:19:05.228188",
-    },
-    {
-      notificationId: 4,
-      type: "LIKE",
-      receiverBody: "누구누구씨가 누구님의 게시글에 좋아요를 눌렀습니다",
-      isRead: false,
-      createdAt: "2023-04-14T21:19:05.228188",
-    },
-    {
-      notificationId: 5,
-      type: "COMMENT",
-      receiverBody: "누구누구씨가 누구님의 게시글에 댓글을 남겼습니다",
-      isRead: true,
-      createdAt: "2023-04-14T21:19:05.228188",
-    },
-    {
-      notificationId: 6,
-      type: "FOLLOW",
-      receiverBody: "누구누구씨가 누구님과 친구하기를 눌렀습니다",
-      isRead: false,
-      createdAt: "2023-04-14T21:19:05.228188",
-    },
-  ];
+  }, [isLoginUser, setHasNewNotify]);
 
   return (
     <div className="relative">

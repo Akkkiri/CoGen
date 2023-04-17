@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./modules/authSlice";
 import quizReducer from "./modules/quizSlice";
 import searchReducer from "./modules/searchSlice";
+import notifyReducer from "./modules/notifySlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   quiz: quizReducer,
   search: searchReducer,
+  notify: notifyReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
