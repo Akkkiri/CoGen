@@ -46,7 +46,7 @@ export default function PostDetail() {
 
   useEffect(() => {
     axios.get(`/feeds/${PostId}`).then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       setTitle(response.data.title);
       setPostContents(response.data.body);
       setTag(response.data.category);
@@ -81,7 +81,7 @@ export default function PostDetail() {
     axios
       .post(`/feeds/${PostId}/comments/add`, reqBody)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         if (postComments === null) {
           setPostComments([response.data]);
         } else {

@@ -6,16 +6,20 @@ export interface NotifyContainerProps {
   notificationId: number;
   type: "LIKE" | "COMMENT" | "FOLLOW";
   receiverBody: string;
+  body: string;
   isRead: boolean;
   createdAt: string;
   stringUrl?: string;
+  deleteNotify: (notificationId: number) => void;
 }
 
 export default function NotifyContainer({
   notificationId,
+  body,
   type,
   receiverBody,
   createdAt,
+  deleteNotify,
 }: NotifyContainerProps) {
   const icon = {
     LIKE: <IoHeart />,
@@ -29,7 +33,7 @@ export default function NotifyContainer({
         {icon[type]}
       </div>
       <div>
-        <p className="text-sm max-w-[220px] mx-2">{receiverBody}</p>
+        <p className="text-sm max-w-[220px] mx-2">{body}</p>
         <p className="text-xs text-y-lightGray mx-2 font-light">
           {ToDateString(createdAt)}
         </p>
@@ -37,7 +41,7 @@ export default function NotifyContainer({
       <button
         className="text-y-lightGray hover:text-y-red text-lg"
         onClick={() => {
-          //하나 삭제
+          deleteNotify(notificationId);
         }}
       >
         <HiTrash />

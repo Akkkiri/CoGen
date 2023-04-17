@@ -19,7 +19,6 @@ export default function UserSearch() {
       axios
         .get(`/search/user?query=${encodeURIComponent(query)}&page=${page}`)
         .then((res) => {
-          console.log(res);
           setFriendsList(res.data.data);
           setTotalPages(res.data.pageInfo.totalPages);
         })
