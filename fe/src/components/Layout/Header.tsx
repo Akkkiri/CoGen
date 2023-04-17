@@ -77,7 +77,7 @@ export default function Header() {
             }
           });
           evtSource.onerror = (e) => {
-            console.log("onerror", e);
+            console.log(e);
           };
         } catch (error) {}
       };
