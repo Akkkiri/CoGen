@@ -63,7 +63,7 @@ public class Init {
 		QuestionService questionService, QuestionRepository questionRepository,
 		AnswerRepository answerRepository, QuizRepository quizRepository,
 		FeedService feedService, CategoryService categoryService, QnaRepository qnaRepository,
-		CommentRepository commentRepository, BCryptPasswordEncoder encoder) throws IOException {
+		CommentRepository commentRepository, BCryptPasswordEncoder encoder) throws IOException, InterruptedException {
 
 		for (int i = 0; i < 7; i++) {
 			Category category = Category.builder()
@@ -324,6 +324,7 @@ public class Init {
 				.build();
 
 			feedRepository.save(feed);
+			Thread.sleep(100);
 
 		}
 
@@ -348,6 +349,8 @@ public class Init {
 				.build();
 
 			feedRepository.save(feed);
+
+			Thread.sleep(100);
 
 			// feedList.add(feed);
 		}
