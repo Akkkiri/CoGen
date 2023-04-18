@@ -39,6 +39,8 @@ export default function PostDetail() {
   const [savePost, setSavePost] = useState<boolean>(false);
   const [isMine, setIsMine] = useState(false);
   const [image, setImage] = useState<string>("");
+  const [image2, setImage2] = useState<string>("");
+  const [image3, setImage3] = useState<string>("");
   const userid = useAppSelector(id);
 
   const isLoginUser = useAppSelector(isLogin);
@@ -59,6 +61,8 @@ export default function PostDetail() {
       setIsLike(response.data.isLiked);
       setSavePost(response.data.isSavedFeed);
       setImage(response.data.imagePath);
+      setImage2(response.data.imagePath2);
+      setImage3(response.data.imagePath3);
       if (response.data.userInfo.id === userid) {
         setIsMine(true);
       }
@@ -112,6 +116,20 @@ export default function PostDetail() {
       })
       .catch((err) => console.log(err));
   };
+  const deleteComment = (commentId: number) => {
+    axios
+      .delete(`/comments/${commentId}/delete`)
+      .then(() => {
+        if (postComments !== null) {
+          const filtered = postComments.filter((el) => {
+            // console.log(el.answerId);
+            return el.commentId !== commentId;
+          });
+          setPostComments(filtered);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <div className="p-3 border-b border-y-lightGray">
@@ -133,6 +151,8 @@ export default function PostDetail() {
           view={viwe}
           isMine={isMine}
           image={image}
+          image2={image2}
+          image3={image3}
         />
         <div className="flex p-4 text-sm justify-between border-b border-y-lightGray">
           <LikeBtn
@@ -232,6 +252,7 @@ export default function PostDetail() {
                     like={el.likeCount}
                     userid={el.userInfo.id}
                     commentId={el.commentId}
+                    deleteComment={deleteComment}
                   />
                 </div>
               ))}

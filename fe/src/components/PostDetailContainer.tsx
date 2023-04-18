@@ -6,7 +6,11 @@ import axios from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import WarningBtn from "./ WarningBtn";
-import FeedImage from "./FeedImage";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Pagination, Navigation } from "swiper";
 
 interface PostContainerProps {
   title: string;
@@ -18,6 +22,8 @@ interface PostContainerProps {
   view: number;
   isMine: boolean;
   image: string;
+  image2: string;
+  image3: string;
 }
 
 export default function PostDetailContainer({
@@ -30,6 +36,8 @@ export default function PostDetailContainer({
   view,
   isMine,
   image,
+  image2,
+  image3,
 }: PostContainerProps) {
   const { PostId } = useParams();
   const navigate = useNavigate();
@@ -102,13 +110,45 @@ export default function PostDetailContainer({
         </div>
         <div className="text-lg">{title}</div>
         <div className="my-2">
-          {/* <image
-            src={image}
-            alt="imageList"
-            width={300}
-            height={300}
-            className="m-auto h-full w-auto"
-          /> */}
+          <Swiper
+            pagination={true}
+            // navigation={true}
+            // loop={true}
+            modules={[Pagination, Navigation]}
+            className="overflow-clip h-72"
+          >
+            {!image ? null : (
+              <div>
+                <SwiperSlide>
+                  <img
+                    src={image}
+                    alt="imageList"
+                    width={300}
+                    height={300}
+                    className="m-auto h-full w-auto"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img
+                    src={image2}
+                    alt="imageList"
+                    width={300}
+                    height={300}
+                    className="m-auto h-full w-auto"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img
+                    src={image3}
+                    alt="imageList"
+                    width={300}
+                    height={300}
+                    className="m-auto h-full w-auto"
+                  />
+                </SwiperSlide>
+              </div>
+            )}
+          </Swiper>
           <div className="font-light whitespace-pre-line">{contents}</div>
         </div>
         <div className="text-sm text-y-gray">조회 {view}</div>

@@ -5,48 +5,80 @@ import SelectBox from "../../components/SelectBox";
 import ImageUpload from "components/ImageUpload";
 import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
-// import { Input } from "components/Inputs/Input";
-// import { useForm } from "react-hook-form";
-// interface IFormValues {
-//   name: string;
-//   text: string;
-// }
+import Swal from "sweetalert2";
+import AWS from "aws-sdk";
+import {
+  AWS_ACCESS_KEY,
+  AWS_SECRET_KEY,
+  AWS_S3_BUCKET,
+  AWS_S3_BUCKET_REGION,
+} from "util/AWSInfo";
+
 export default function Writepost() {
-  // const {
-  //   register,
-  //   getValues,
-  //   formState: { errors },
-  // } = useForm<IFormValues>({ mode: "onChange" });
   const [inputState, setInputState] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<Select>("");
-  const [imageData, setImageData] = useState([]);
+  const [imageData, setImageData] = useState<string>("");
   const [contentLength, setContentLength] = useState("");
   const [categoryErr, setCategoryErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
   const navigate = useNavigate();
-  // const onValid = (data: any) => {
-  //   // 기본으로 data 가져오기
-  //   // console.log(data);
-  //   const { text } = getValues();
-  //   postPost(text);
-  // };
+  const [random, setRandom] = useState("000000");
+  const [progress, setProgress] = useState(0);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputState(e.target.value);
   };
-  // useEffect(() => {
-  //   if (content.length >= 3) setContentLength(true);
-  //   else setContentLength(false);
-  // }, [content]);
-  // useEffect(() => {
-  //   if (category !== "") setCategoryErr(true);
-  //   else setCategoryErr(false);
-  // }, [category]);
-  // useEffect(() => {
-  //   if (inputState.length >= 1) setTitleErr(true);
-  //   else setTitleErr(false);
-  // }, [inputState.length]);
-  const postPost = () => {
+
+  AWS.config.update({
+    accessKeyId: AWS_ACCESS_KEY,
+    secretAccessKey: AWS_SECRET_KEY,
+  });
+  function rrr() {
+    setRandom(String(Math.floor(Math.random() * 1000000)).padStart(6, "0"));
+  }
+
+  const s3Bucket = new AWS.S3({
+    params: { Bucket: AWS_S3_BUCKET },
+    region: AWS_S3_BUCKET_REGION,
+  });
+  const handleSubmit = () => {
+    if (selectedFile) {
+      uploadFile(selectedFile);
+      postPost(
+        `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/FeedImages/${rrr}_${selectedFile.name.replace(
+          / /g,
+          ""
+        )}`
+      );
+    } else {
+      postPost();
+    }
+  };
+  const uploadFile = async (file: File) => {
+    setImageData(
+      `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/FeedImages/${rrr}_${file.name.replace(
+        / /g,
+        ""
+      )}`
+    );
+    const params = {
+      ACL: "public-read",
+      Body: file,
+      Bucket: AWS_S3_BUCKET,
+      Key: "FeedImages/" + rrr + "_" + file.name.replace(/ /g, ""),
+    };
+    s3Bucket
+      .putObject(params)
+      .on("httpUploadProgress", (e) => {
+        setProgress(Math.round((e.loaded / e.total) * 100));
+      })
+      .send((err) => {
+        if (err) console.log(err);
+      });
+  };
+
+  const postPost = (url?: string) => {
     if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
 
     if (category === "") setCategoryErr("카테고리를 선택해주세요");
@@ -57,6 +89,7 @@ export default function Writepost() {
       title: inputState,
       body: content,
       category: category,
+      imagePath: url ? url : imageData,
     };
     // const formData = new FormData();
     // for (const file of imageData) {
@@ -71,7 +104,11 @@ export default function Writepost() {
       .post(`/feeds/add`, jsonData)
       .then((res) => {
         const PostId = res.data;
-        navigate(`/post/${PostId}`);
+        if (progress === 0 || progress === 100) {
+          navigate(`/post/${PostId}`);
+        } else {
+          setTimeout(() => navigate(`/post/${PostId}`), 1000);
+        }
       })
 
       .catch((err) => console.log(err));
@@ -139,7 +176,7 @@ export default function Writepost() {
             취소하기
           </button>
 
-          <button onClick={postPost} className="flex-1 btn-r">
+          <button onClick={handleSubmit} className="flex-1 btn-r">
             등록하기
           </button>
         </div>

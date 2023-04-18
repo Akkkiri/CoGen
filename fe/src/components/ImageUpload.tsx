@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 export default function ImageUpload({ imageData, setImageData }: any) {
   const [preImg, setPreImg] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
+
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files !== null) {
       let imageFile = e.target.files[0];

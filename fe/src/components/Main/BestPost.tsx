@@ -27,7 +27,7 @@ export default function BestPost({ bestPostProps }: any) {
         slidesPerView={1.4}
         grabCursor={true}
         scrollbar={{ draggable: true }}
-        navigation
+        // navigation
         pagination={{ clickable: true }}
       >
         {bestPost?.map((el: any, idx: number) => (
