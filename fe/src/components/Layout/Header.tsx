@@ -10,6 +10,7 @@ import {
   accessToken,
   getNewTokenAsync,
   isLogin,
+  logout,
 } from "store/modules/authSlice";
 import axios from "api/axios";
 import { useAppDispatch } from "store/hook";
@@ -41,6 +42,7 @@ export default function Header() {
         dispatch(getNewTokenAsync());
       }, 1 * 60 * 60 * 1000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoginUser, dispatch]);
 
   useEffect(() => {
@@ -76,8 +78,8 @@ export default function Header() {
               });
             }
           });
-          evtSource.onerror = (e: any) => {
-            console.log(e);
+          evtSource.onerror = (e) => {
+            // console.log(e);
           };
         } catch (error) {}
       };
@@ -95,7 +97,13 @@ export default function Header() {
     axios
       .get("/notifications/check")
       .then((res) => setHasNewNotify(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 401) {
+          dispatch(logout());
+          window.location.href = "/";
+        }
+        console.log(err);
+      });
   };
 
   const handleNotify = ({ id, type, message, url }: NotifyProps) => {

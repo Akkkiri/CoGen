@@ -7,6 +7,14 @@ import { Select, AgeTypeMatcherToKor } from "util/SelectUtil";
 import { genderList } from "page/signup/Info";
 import Swal from "sweetalert2";
 import axios from "api/axios";
+import imageCompression from "browser-image-compression";
+import AWS from "aws-sdk";
+import {
+  AWS_ACCESS_KEY,
+  AWS_SECRET_KEY,
+  AWS_S3_BUCKET,
+  AWS_S3_BUCKET_REGION,
+} from "util/AWSInfo";
 
 export default function MyEdit() {
   const navigate = useNavigate();
@@ -14,8 +22,21 @@ export default function MyEdit() {
   const [nickname, setNickname] = useState("");
   const [hashcode, setHashcode] = useState("");
   const [profileImage, setProfileImage] = useState("");
+  const [preProfileImage, setPreProfileImage] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [progress, setProgress] = useState(0);
   const [genderType, setGenderType] = useState("");
   const [ageType, setAgeType] = useState<Select>("");
+
+  AWS.config.update({
+    accessKeyId: AWS_ACCESS_KEY,
+    secretAccessKey: AWS_SECRET_KEY,
+  });
+
+  const s3Bucket = new AWS.S3({
+    params: { Bucket: AWS_S3_BUCKET },
+    region: AWS_S3_BUCKET_REGION,
+  });
 
   useEffect(() => {
     axios
@@ -41,6 +62,25 @@ export default function MyEdit() {
     }
   };
 
+  const patchRequest = (url?: string) => {
+    const patchBody = {
+      nickname: nickname + hashcode,
+      profileImage: url ? url : profileImage,
+      genderType,
+      ageType,
+    };
+    axios
+      .patch("/mypage/patch", patchBody)
+      .then((res) => {
+        if (progress === 0 || progress === 100) {
+          navigate("/mypage");
+        } else {
+          setTimeout(() => navigate("/mypage"), 1000);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const handleSubmit = () => {
     if (error) {
       Swal.fire({
@@ -49,18 +89,91 @@ export default function MyEdit() {
         confirmButtonText: "확인",
       });
     } else {
-      const patchBody = {
-        nickname: nickname + hashcode,
-        profileImage,
-        genderType,
-        ageType,
+      if (selectedFile) {
+        uploadFile(selectedFile);
+        patchRequest(
+          `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/profileImages/${hashcode.slice(
+            1
+          )}_${selectedFile.name.replace(/ /g, "")}`
+        );
+      } else {
+        patchRequest();
+      }
+    }
+  };
+
+  const uploadFile = async (file: File) => {
+    setProfileImage(
+      `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/profileImages/${hashcode.slice(
+        1
+      )}_${file.name.replace(/ /g, "")}`
+    );
+    const params = {
+      ACL: "public-read",
+      Body: file,
+      Bucket: AWS_S3_BUCKET,
+      Key:
+        "profileImages/" +
+        hashcode.slice(1) +
+        "_" +
+        file.name.replace(/ /g, ""),
+    };
+    s3Bucket
+      .putObject(params)
+      .on("httpUploadProgress", (e) => {
+        setProgress(Math.round((e.loaded / e.total) * 100));
+      })
+      .send((err) => {
+        if (err) console.log(err);
+      });
+  };
+
+  const handleImageFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      let file = e.target.files[0];
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 320,
       };
-      axios
-        .patch("/mypage/patch", patchBody)
-        .then((res) => {
-          navigate("/mypage");
-        })
-        .catch((err) => console.log(err));
+      if (file.type.toLowerCase() === "image/heic") {
+        const heic2any = require("heic2any");
+        heic2any({ blob: file, toType: "image/jpeg", quality: 1 }).then(
+          async (res: File) => {
+            file = new File([res], file.name.split(".")[0] + ".jpeg", {
+              type: "image/jpeg",
+              lastModified: new Date().getTime(),
+            });
+            try {
+              const compressedFile = await imageCompression(file, options);
+              setSelectedFile(compressedFile);
+              const preUrl = URL.createObjectURL(compressedFile);
+              setPreProfileImage(preUrl);
+            } catch (err) {
+              Swal.fire({
+                title: "Sorry!",
+                text: "사진 업로드 중 오류가 발생했습니다. 지원하지 않는 형식의 파일이거나 오류로 인해 업로드가 불가합니다",
+                confirmButtonColor: "#E74D47",
+                confirmButtonText: "확인",
+              });
+            }
+          }
+        );
+      } else {
+        try {
+          const compressedFile = await imageCompression(file, options);
+          setSelectedFile(compressedFile);
+          const preUrl = URL.createObjectURL(compressedFile);
+          setPreProfileImage(preUrl);
+        } catch (err) {
+          Swal.fire({
+            title: "Sorry!",
+            text: "사진 업로드 중 오류가 발생했습니다. 지원하지 않는 형식의 파일이거나 오류로 인해 업로드가 불가합니다",
+            confirmButtonColor: "#E74D47",
+            confirmButtonText: "확인",
+          });
+        }
+      }
+      setProgress(0);
     }
   };
   return (
@@ -72,13 +185,18 @@ export default function MyEdit() {
           등록하기 버튼을 눌러야 변경이 저장됩니다
         </p>
         <img
-          src={profileImage}
+          src={preProfileImage ? preProfileImage : profileImage}
           alt="profileImage"
           className="rounded-full w-28 h-28"
         ></img>
         <label className="btn-r text-sm">
           프로필 사진 수정하기
-          <input type="file" accept="image/*" className="hidden" />
+          <input
+            type="file"
+            accept=".jpeg, .jpg, .png, .heic"
+            className="hidden"
+            onChange={handleImageFile}
+          />
         </label>
       </div>
       <div>
@@ -148,7 +266,9 @@ export default function MyEdit() {
             돌아가기
           </button>
           <button className="btn-r flex-1" onClick={handleSubmit}>
-            등록하기
+            {progress === 0 || progress === 100
+              ? "등록하기"
+              : `등록중(${progress})`}
           </button>
         </div>
         <div
