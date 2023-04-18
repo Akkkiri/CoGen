@@ -56,7 +56,7 @@ export default function Question() {
       ${page}`
         )
         .then((response) => {
-          console.log(response.data.data);
+          // console.log(response.data.data);
           setQuestComment(response.data.data);
           setTotalPages(response.data.pageInfo.totalPages);
           // console.log(response.data);

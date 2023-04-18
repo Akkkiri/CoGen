@@ -13,30 +13,25 @@ import {
   AWS_S3_BUCKET,
   AWS_S3_BUCKET_REGION,
 } from "util/AWSInfo";
-
 export default function Writepost() {
   const [inputState, setInputState] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<Select>("");
-  const [imageData, setImageData] = useState<string>("");
+  const [imageData, setImageData] = useState<string[]>([]);
   const [contentLength, setContentLength] = useState("");
   const [categoryErr, setCategoryErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
-  const navigate = useNavigate();
-  const [random, setRandom] = useState("000000");
   const [progress, setProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const navigate = useNavigate();
+  const [imgArr, setImgArr] = useState([]);
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputState(e.target.value);
   };
-
   AWS.config.update({
     accessKeyId: AWS_ACCESS_KEY,
     secretAccessKey: AWS_SECRET_KEY,
   });
-  function rrr() {
-    setRandom(String(Math.floor(Math.random() * 1000000)).padStart(6, "0"));
-  }
 
   const s3Bucket = new AWS.S3({
     params: { Bucket: AWS_S3_BUCKET },
@@ -46,7 +41,7 @@ export default function Writepost() {
     if (selectedFile) {
       uploadFile(selectedFile);
       postPost(
-        `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/FeedImages/${rrr}_${selectedFile.name.replace(
+        `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
           / /g,
           ""
         )}`
@@ -55,18 +50,19 @@ export default function Writepost() {
       postPost();
     }
   };
+
   const uploadFile = async (file: File) => {
-    setImageData(
-      `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/FeedImages/${rrr}_${file.name.replace(
+    setImageData([
+      `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${file.name.replace(
         / /g,
         ""
-      )}`
-    );
+      )}`,
+    ]);
     const params = {
       ACL: "public-read",
       Body: file,
       Bucket: AWS_S3_BUCKET,
-      Key: "FeedImages/" + rrr + "_" + file.name.replace(/ /g, ""),
+      Key: "feedImages/" + "_" + file.name.replace(/ /g, ""),
     };
     s3Bucket
       .putObject(params)
@@ -77,7 +73,7 @@ export default function Writepost() {
         if (err) console.log(err);
       });
   };
-
+  console.log(imageData[1]);
   const postPost = (url?: string) => {
     if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
 
@@ -90,6 +86,8 @@ export default function Writepost() {
       body: content,
       category: category,
       imagePath: url ? url : imageData,
+      imagePath2: url ? url : imageData[1],
+      imagePath3: url ? url : imageData[2],
     };
     // const formData = new FormData();
     // for (const file of imageData) {
@@ -104,11 +102,8 @@ export default function Writepost() {
       .post(`/feeds/add`, jsonData)
       .then((res) => {
         const PostId = res.data;
-        if (progress === 0 || progress === 100) {
-          navigate(`/post/${PostId}`);
-        } else {
-          setTimeout(() => navigate(`/post/${PostId}`), 1000);
-        }
+
+        navigate(`/post/${PostId}`);
       })
 
       .catch((err) => console.log(err));
@@ -143,17 +138,14 @@ export default function Writepost() {
                 onInputChange(e);
               }}
             />
-
-            {/* <Input
-                name="text"
-                type="text"
-                placeholder="제목을 입력해주세요!"
-                register={register}
-              /> */}
           </section>
         </div>
 
-        <ImageUpload imageData={imageData} setImageData={setImageData} />
+        <ImageUpload
+          imageData={imageData}
+          setImageData={setImageData}
+          setSelectedFile={setSelectedFile}
+        />
         <div className="m-2">
           <div className="mb-2 mt-4 text-lg font-semibold">본문</div>
           {content.length < 3 ? (
