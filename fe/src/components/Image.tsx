@@ -9,10 +9,10 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 // .env에서 aws 정보 읽어오기
-const awsAccessKey = process.env.MY_AWS_ACCESS_KEY;
-const awsSecretKey = process.env.MY_AWS_SECRET_KEY;
-const awsS3Bucket = process.env.MY_AWS_S3_BUCKET;
-const awsS3BucketRegion = process.env.MY_AWS_S3_BUCKET_REGION;
+const awsAccessKey = process.env.REACT_APP_MY_AWS_ACCESS_KEY;
+const awsSecretKey = process.env.REACT_APP_MY_AWS_SECRET_KEY;
+const awsS3Bucket = process.env.REACT_APP_MY_AWS_S3_BUCKET;
+const awsS3BucketRegion = process.env.REACT_APP_MY_AWS_S3_BUCKET_REGION;
 
 // s3 클라이언트 연결
 const s3 = new AWS.S3({
