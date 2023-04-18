@@ -59,7 +59,7 @@ export default function Header() {
               withCredentials: true,
             }
           );
-          evtSource.onopen = (e) => {
+          evtSource.onopen = (e: any) => {
             // console.log("Connection was opened1.");
             // console.log("onopen", e);
           };
@@ -76,7 +76,7 @@ export default function Header() {
               });
             }
           });
-          evtSource.onerror = (e) => {
+          evtSource.onerror = (e: any) => {
             console.log(e);
           };
         } catch (error) {}
