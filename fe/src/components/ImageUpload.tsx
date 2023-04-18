@@ -4,9 +4,14 @@ import { useState } from "react";
 import Loading from "./Loading";
 import Swal from "sweetalert2";
 
-export default function ImageUpload({ imageData, setImageData }: any) {
+export default function ImageUpload({
+  imageData,
+  setImageData,
+  setSelectedFile,
+}: any) {
   const [preImg, setPreImg] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
+
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files !== null) {
       let imageFile = e.target.files[0];
@@ -27,6 +32,7 @@ export default function ImageUpload({ imageData, setImageData }: any) {
             imageFile = response;
             try {
               const compressedFile = await imageCompression(imageFile, options);
+              setSelectedFile(compressedFile);
               setImageData([...imageData, compressedFile]);
               let tmpUrl = URL.createObjectURL(compressedFile);
               // console.log(tmpUrl);
@@ -46,6 +52,7 @@ export default function ImageUpload({ imageData, setImageData }: any) {
       } else {
         try {
           const compressedFile = await imageCompression(imageFile, options);
+          setSelectedFile(compressedFile);
           setImageData([...imageData, compressedFile]);
           let tmpUrl = URL.createObjectURL(compressedFile);
           setPreImg([...preImg, tmpUrl]);
@@ -102,7 +109,7 @@ export default function ImageUpload({ imageData, setImageData }: any) {
               <input
                 type="file"
                 id="file"
-                accept="image/*;camera"
+                accept=".jpeg, .jpg, .png, .heic"
                 className="hidden"
                 onChange={handleImageUpload}
               />
@@ -155,7 +162,7 @@ export default function ImageUpload({ imageData, setImageData }: any) {
                 <input
                   type="file"
                   id="file"
-                  accept="image/*;camera"
+                  accept=".jpeg, .jpg, .png, .heic"
                   className="hidden"
                   onChange={handleImageUpload}
                 />
@@ -195,7 +202,7 @@ export default function ImageUpload({ imageData, setImageData }: any) {
                 <input
                   type="file"
                   id="file"
-                  accept="image/*;camera"
+                  accept=".jpeg, .jpg, .png, .heic"
                   className="hidden"
                   onChange={handleImageUpload}
                 />
