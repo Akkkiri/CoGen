@@ -25,6 +25,7 @@ export default function MyEdit() {
   const [preProfileImage, setPreProfileImage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
+  const [showLoading, setShowLoading] = useState(false);
   const [genderType, setGenderType] = useState("");
   const [ageType, setAgeType] = useState<Select>("");
 
