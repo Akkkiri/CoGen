@@ -29,7 +29,7 @@ export default function CategorySwiper({
       slidesPerView={3.5}
       grabCursor={true}
       scrollbar={{ draggable: true }}
-      navigation
+      // navigation
       pagination={{ clickable: true }}
     >
       {categoryList.map((el: string, idx: number) => (

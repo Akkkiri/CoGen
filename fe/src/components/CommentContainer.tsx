@@ -19,6 +19,7 @@ export interface CommentContainerProps {
   userid: number;
   commentId: number;
   isLiked: boolean;
+  deleteComment: Function;
 }
 
 export default function CommentContainer({
@@ -30,6 +31,7 @@ export default function CommentContainer({
   userid,
   commentId,
   isLiked,
+  deleteComment,
 }: CommentContainerProps) {
   const myId = useAppSelector(id);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -38,11 +40,8 @@ export default function CommentContainer({
   const [likeCount, setLikeCount] = useState<number>(Number(like));
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
-  const deleteComment = () => {
-    axios
-      .delete(`/comments/${commentId}/delete`)
-      .then(() => window.location.reload())
-      .catch((err) => console.log(err));
+  const deleteComments = () => {
+    deleteComment(commentId);
   };
   const editComment = () => {
     setIsEditMode(true);
@@ -109,7 +108,7 @@ export default function CommentContainer({
                         cancelButtonText: "취소",
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          deleteComment();
+                          deleteComments();
                         }
                       });
                     }}

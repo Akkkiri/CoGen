@@ -5,48 +5,106 @@ import SelectBox from "../../components/SelectBox";
 import ImageUpload from "components/ImageUpload";
 import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
-// import { Input } from "components/Inputs/Input";
-// import { useForm } from "react-hook-form";
-// interface IFormValues {
-//   name: string;
-//   text: string;
-// }
+import Swal from "sweetalert2";
+import AWS from "aws-sdk";
+import {
+  AWS_ACCESS_KEY,
+  AWS_SECRET_KEY,
+  AWS_S3_BUCKET,
+  AWS_S3_BUCKET_REGION,
+} from "util/AWSInfo";
 export default function Writepost() {
-  // const {
-  //   register,
-  //   getValues,
-  //   formState: { errors },
-  // } = useForm<IFormValues>({ mode: "onChange" });
   const [inputState, setInputState] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<Select>("");
-  const [imageData, setImageData] = useState([]);
+  const [imageData, setImageData] = useState<string[]>([]);
   const [contentLength, setContentLength] = useState("");
   const [categoryErr, setCategoryErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
-  // const onValid = (data: any) => {
-  //   // 기본으로 data 가져오기
-  //   // console.log(data);
-  //   const { text } = getValues();
-  //   postPost(text);
-  // };
+  const [imgData, setImgData] = useState<string[]>([]);
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputState(e.target.value);
   };
-  // useEffect(() => {
-  //   if (content.length >= 3) setContentLength(true);
-  //   else setContentLength(false);
-  // }, [content]);
-  // useEffect(() => {
-  //   if (category !== "") setCategoryErr(true);
-  //   else setCategoryErr(false);
-  // }, [category]);
-  // useEffect(() => {
-  //   if (inputState.length >= 1) setTitleErr(true);
-  //   else setTitleErr(false);
-  // }, [inputState.length]);
-  const postPost = () => {
+  AWS.config.update({
+    accessKeyId: AWS_ACCESS_KEY,
+    secretAccessKey: AWS_SECRET_KEY,
+  });
+
+  const s3Bucket = new AWS.S3({
+    params: { Bucket: AWS_S3_BUCKET },
+    region: AWS_S3_BUCKET_REGION,
+  });
+  // const handleSubmit = () => {
+  //   if (imgData) {
+  //     postPost(imgData);
+  //   } else {
+  //     postPost([]);
+  //   }
+  // };
+  // const handleUpLoad = () => {
+  //   if (selectedFile) {
+  //     uploadFile(selectedFile);
+  //     const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
+  //       / /g,
+  //       ""
+  //     )}`;
+  //     setImgData([...imgData, ...[url]]);
+  //   }
+  // };
+  // const handleSubmit = () => {
+  //   if (selectedFile) {
+  //     uploadFile(selectedFile);
+  //     const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
+  //       / /g,
+  //       ""
+  //     )}`;
+  //     setImgData([...imgData, ...[url]]);
+  //     postPost(imgData);
+  //   } else {
+  //     postPost([]);
+  //   }
+  // };
+  const handleSubmit = () => {
+    if (selectedFile) {
+      uploadFile(selectedFile);
+      const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
+        / /g,
+        ""
+      )}`;
+
+      postPost(url);
+    } else {
+      postPost();
+    }
+  };
+  const uploadFile = async (file: File) => {
+    setImgData([
+      `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${file.name.replace(
+        / /g,
+        ""
+      )}`,
+    ]);
+
+    const params = {
+      ACL: "public-read",
+      Body: file,
+      Bucket: AWS_S3_BUCKET,
+      Key: "feedImages/" + "_" + file.name.replace(/ /g, ""),
+    };
+    s3Bucket
+      .putObject(params)
+      .on("httpUploadProgress", (e) => {
+        setProgress(Math.round((e.loaded / e.total) * 100));
+      })
+      .send((err) => {
+        if (err) console.log(err);
+      });
+  };
+  console.log(imgData);
+  const postPost = (url?: string) => {
     if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
 
     if (category === "") setCategoryErr("카테고리를 선택해주세요");
@@ -57,20 +115,16 @@ export default function Writepost() {
       title: inputState,
       body: content,
       category: category,
+      imagePath: url ? url : imgData[0],
+      // imagePath2: url ? url : imgData[1],
+      // imagePath3: url ? url : imgData[2],
     };
-    // const formData = new FormData();
-    // for (const file of imageData) {
-    //   formData.append("files", file);
-    // }
-    // formData.append(
-    //   "post",
-    //   new Blob([JSON.stringify(jsonData)], { type: "application/json" })
-    // );
-    // setFinalData(formData);
+
     axios
       .post(`/feeds/add`, jsonData)
       .then((res) => {
         const PostId = res.data;
+
         navigate(`/post/${PostId}`);
       })
 
@@ -106,17 +160,17 @@ export default function Writepost() {
                 onInputChange(e);
               }}
             />
-
-            {/* <Input
-                name="text"
-                type="text"
-                placeholder="제목을 입력해주세요!"
-                register={register}
-              /> */}
           </section>
         </div>
 
-        <ImageUpload imageData={imageData} setImageData={setImageData} />
+        <ImageUpload
+          imageData={imageData}
+          setImageData={setImageData}
+          setSelectedFile={setSelectedFile}
+          setImgData={setImgData}
+          imgData={imgData}
+          // handleUpLoad={handleUpLoad}
+        />
         <div className="m-2">
           <div className="mb-2 mt-4 text-lg font-semibold">본문</div>
           {content.length < 3 ? (
@@ -139,7 +193,7 @@ export default function Writepost() {
             취소하기
           </button>
 
-          <button onClick={postPost} className="flex-1 btn-r">
+          <button onClick={handleSubmit} className="flex-1 btn-r">
             등록하기
           </button>
         </div>

@@ -45,6 +45,9 @@ export default function QuestionCommentContainer({
   const editAnswer = () => {
     setIsEditMode(true);
   };
+  const deleteComment = () => {
+    deleteAnswer(answerId);
+  };
   const patchComment = () => {
     axios
       .patch(`/answers/${answerId}/edit`, {
@@ -106,7 +109,7 @@ export default function QuestionCommentContainer({
                         cancelButtonText: "취소",
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          deleteAnswer();
+                          deleteComment();
                         }
                       });
                     }}

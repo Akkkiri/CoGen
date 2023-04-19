@@ -22,7 +22,20 @@ export default function MyComment() {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [myCommentsList, setMyCommentsList] = useState<CommentElement[]>([]);
-
+  const deleteComment = (commentId: number) => {
+    axios
+      .delete(`/comments/${commentId}/delete`)
+      .then(() => {
+        if (myCommentsList !== null) {
+          const filtered = myCommentsList.filter((el) => {
+            // console.log(el.answerId);
+            return el.commentId !== commentId;
+          });
+          setMyCommentsList(filtered);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     axios
       .get(`/mypage/mycomments?page=${page}`)
@@ -53,6 +66,7 @@ export default function MyComment() {
                   like={el.likeCount}
                   userid={el.userid}
                   commentId={el.commentId}
+                  deleteComment={deleteComment}
                 />
               </ul>
             );
