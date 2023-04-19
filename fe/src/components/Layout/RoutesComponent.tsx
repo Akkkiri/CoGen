@@ -26,6 +26,7 @@ import Writepost from "page/post/Writepost";
 import GoneDetail from "page/Question/GoneDetail";
 import PostSearch from "page/search/PostSearch";
 import UserSearch from "page/search/UserSearch";
+import NotFound from "page/NotFound";
 
 export default function RoutesComponent() {
   return (
@@ -68,6 +69,8 @@ export default function RoutesComponent() {
 
       <Route path="/search/post" element={<PostSearch />} />
       <Route path="/search/user" element={<UserSearch />} />
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
