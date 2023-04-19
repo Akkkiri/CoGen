@@ -8,10 +8,11 @@ export default function ImageUpload({
   imageData,
   setImageData,
   setSelectedFile,
+  handleUpdate,
 }: any) {
-  const [preImg, setPreImg] = useState<string[]>([]);
+  // const [preImg, setPreImg] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
-
+  const [preImg, setPreImg] = useState<string[]>([]);
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files !== null) {
       let imageFile = e.target.files[0];
@@ -37,6 +38,7 @@ export default function ImageUpload({
               let tmpUrl = URL.createObjectURL(compressedFile);
               // console.log(tmpUrl);
               setPreImg([...preImg, tmpUrl]);
+
               setShowModal(false);
             } catch (error) {
               setShowModal(false);
@@ -111,7 +113,9 @@ export default function ImageUpload({
                 id="file"
                 accept=".jpeg, .jpg, .png, .heic"
                 className="hidden"
-                onChange={handleImageUpload}
+                onChange={(e) => {
+                  handleImageUpload(e);
+                }}
               />
             </>
           ) : (

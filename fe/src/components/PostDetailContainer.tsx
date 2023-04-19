@@ -115,7 +115,7 @@ export default function PostDetailContainer({
             // navigation={true}
             // loop={true}
             modules={[Pagination, Navigation]}
-            className="overflow-clip h-72"
+            className="overflow-clip"
           >
             {!image ? null : (
               <div>
@@ -125,25 +125,33 @@ export default function PostDetailContainer({
                     alt="imageList"
                     width={300}
                     height={300}
-                    className="m-auto h-full w-auto"
+                    className="m-auto w-auto h-72"
                   />
                 </SwiperSlide>
+              </div>
+            )}
+            {!image2 ? null : (
+              <div>
                 <SwiperSlide>
                   <img
                     src={image2}
                     alt="imageList"
                     width={300}
                     height={300}
-                    className="m-auto h-full w-auto"
+                    className="m-auto h-72 w-auto"
                   />
                 </SwiperSlide>
+              </div>
+            )}
+            {!image3 ? null : (
+              <div>
                 <SwiperSlide>
                   <img
                     src={image3}
                     alt="imageList"
                     width={300}
                     height={300}
-                    className="m-auto h-full w-auto"
+                    className="m-auto h-72 w-auto"
                   />
                 </SwiperSlide>
               </div>

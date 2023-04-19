@@ -24,7 +24,7 @@ export default function Writepost() {
   const [progress, setProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
-  const [imgArr, setImgArr] = useState([]);
+  const [imgData, setImgData] = useState<string[]>([]);
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputState(e.target.value);
   };
@@ -37,27 +37,57 @@ export default function Writepost() {
     params: { Bucket: AWS_S3_BUCKET },
     region: AWS_S3_BUCKET_REGION,
   });
+  // const handleSubmit = () => {
+  //   if (imgData) {
+  //     postPost(imgData);
+  //   } else {
+  //     postPost([]);
+  //   }
+  // };
+  // const handleUpLoad = () => {
+  //   if (selectedFile) {
+  //     uploadFile(selectedFile);
+  //     const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
+  //       / /g,
+  //       ""
+  //     )}`;
+  //     setImgData([...imgData, ...[url]]);
+  //   }
+  // };
+  // const handleSubmit = () => {
+  //   if (selectedFile) {
+  //     uploadFile(selectedFile);
+  //     const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
+  //       / /g,
+  //       ""
+  //     )}`;
+  //     setImgData([...imgData, ...[url]]);
+  //     postPost(imgData);
+  //   } else {
+  //     postPost([]);
+  //   }
+  // };
   const handleSubmit = () => {
     if (selectedFile) {
       uploadFile(selectedFile);
-      postPost(
-        `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
-          / /g,
-          ""
-        )}`
-      );
+      const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
+        / /g,
+        ""
+      )}`;
+
+      postPost(url);
     } else {
       postPost();
     }
   };
-
   const uploadFile = async (file: File) => {
-    setImageData([
+    setImgData([
       `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${file.name.replace(
         / /g,
         ""
       )}`,
     ]);
+
     const params = {
       ACL: "public-read",
       Body: file,
@@ -73,7 +103,7 @@ export default function Writepost() {
         if (err) console.log(err);
       });
   };
-  console.log(imageData[1]);
+  console.log(imgData);
   const postPost = (url?: string) => {
     if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
 
@@ -85,19 +115,11 @@ export default function Writepost() {
       title: inputState,
       body: content,
       category: category,
-      imagePath: url ? url : imageData,
-      imagePath2: url ? url : imageData[1],
-      imagePath3: url ? url : imageData[2],
+      imagePath: url ? url : imgData[0],
+      // imagePath2: url ? url : imgData[1],
+      // imagePath3: url ? url : imgData[2],
     };
-    // const formData = new FormData();
-    // for (const file of imageData) {
-    //   formData.append("files", file);
-    // }
-    // formData.append(
-    //   "post",
-    //   new Blob([JSON.stringify(jsonData)], { type: "application/json" })
-    // );
-    // setFinalData(formData);
+
     axios
       .post(`/feeds/add`, jsonData)
       .then((res) => {
@@ -145,6 +167,9 @@ export default function Writepost() {
           imageData={imageData}
           setImageData={setImageData}
           setSelectedFile={setSelectedFile}
+          setImgData={setImgData}
+          imgData={imgData}
+          // handleUpLoad={handleUpLoad}
         />
         <div className="m-2">
           <div className="mb-2 mt-4 text-lg font-semibold">본문</div>
