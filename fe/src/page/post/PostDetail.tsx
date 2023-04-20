@@ -78,7 +78,7 @@ export default function PostDetail() {
           navigate("/404");
         }
       });
-  }, [PostId, page, userId, userid]);
+  }, [PostId, navigate, page, userId, userid]);
 
   useEffect(() => {
     axios

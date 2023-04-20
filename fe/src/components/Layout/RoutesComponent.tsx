@@ -35,6 +35,7 @@ import PostHumor from "page/post/PostHumor";
 import PostDaily from "page/post/PostDaily";
 import PostEtc from "page/post/PostEtc";
 import NotFound from "page/NotFound";
+import EditPost from "page/post/EditPost";
 
 export default function RoutesComponent() {
   return (
@@ -55,6 +56,7 @@ export default function RoutesComponent() {
 
       <Route path="/post/:PostId" element={<PostDetail />} />
       <Route path="/writepost" element={<Writepost />} />
+      <Route path="/editpost/:PostId" element={<EditPost />} />
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/mypage" element={<Mypage />} />
       <Route path="/login" element={<Login />} />

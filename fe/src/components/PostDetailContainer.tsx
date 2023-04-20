@@ -67,7 +67,7 @@ export default function PostDetailContainer({
 
           {isMine ? (
             <div className="flex gap-1 px-4 text-sm md:text-base self-center">
-              <button>
+              <button onClick={() => navigate(`/editpost/${PostId}`)}>
                 <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
               </button>
               <button
