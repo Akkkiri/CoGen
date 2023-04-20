@@ -40,7 +40,7 @@ export default function Friend({
           <img
             src={profileImage}
             alt="userprofileImage"
-            className="w-12 h-12 mr-2"
+            className="w-12 h-12 rounded-full mr-2"
           />
         </Link>
         <div>
