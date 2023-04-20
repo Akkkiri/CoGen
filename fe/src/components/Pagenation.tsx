@@ -16,7 +16,7 @@ export default function Pagenation({
   return totalPages < 2 ? null : (
     <div className="flex justify-center items-center mt-2">
       <button
-        className="px-2 bg-y-pink w-8 h-8 rounded-[6px] mx-0.5"
+        className="px-2 bg-y-pink w-8 h-8 md:w-11 md:h-11 rounded-[6px] mx-0.5"
         onClick={() => {
           setPage(1);
         }}
@@ -24,7 +24,7 @@ export default function Pagenation({
         <IoPlayBack />
       </button>
       <button
-        className="px-2 bg-y-pink w-8 h-8 rounded-[6px] mx-0.5 text-sm"
+        className="px-2 bg-y-pink w-8 h-8 md:w-11 md:h-11 rounded-[6px] mx-0.5 text-sm md:text-base"
         onClick={() => {
           if (page > 1) {
             setPage(page - 1);
@@ -41,7 +41,7 @@ export default function Pagenation({
             onClick={(e) => {
               setPage(Number(e.currentTarget.value));
             }}
-            className={`w-8 h-8 rounded-[6px] text-sm mx-0.5 ${
+            className={`w-8 h-8 md:w-11 md:h-11 rounded-[6px] text-sm mx-0.5 md:text-base ${
               page === el + idx ? "bg-y-red text-white" : "bg-y-pink"
             }
             ${
@@ -67,7 +67,7 @@ export default function Pagenation({
         );
       })}
       <button
-        className="px-2 bg-y-pink w-8 h-8 rounded-[6px] mx-0.5 text-sm"
+        className="px-2 bg-y-pink w-8 h-8 md:w-11 md:h-11 rounded-[6px] mx-0.5 text-sm md:text-base"
         onClick={() => {
           if (totalPages > page) {
             setPage(page + 1);
@@ -77,7 +77,7 @@ export default function Pagenation({
         <BsCaretRightFill />
       </button>
       <button
-        className="px-2 bg-y-pink w-8 h-8 rounded-[6px] mx-0.5"
+        className="px-2 bg-y-pink w-8 h-8 md:w-11 md:h-11 rounded-[6px] mx-0.5"
         onClick={() => {
           setPage(totalPages);
         }}

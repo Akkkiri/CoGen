@@ -64,8 +64,8 @@ export default function CategorySwiper({
           to="/post/ALL"
           className={({ isActive }) =>
             isActive
-              ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
+              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
           }
         >
           <div>전체</div>
@@ -76,8 +76,8 @@ export default function CategorySwiper({
           to="/post/WORRY"
           className={({ isActive }) =>
             isActive
-              ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
+              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
           }
         >
           <div>고민</div>
@@ -88,8 +88,8 @@ export default function CategorySwiper({
           to="/post/TIP"
           className={({ isActive }) =>
             isActive
-              ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
+              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
           }
         >
           <div>꿀팁</div>
@@ -100,8 +100,8 @@ export default function CategorySwiper({
           to="/post/PLACE"
           className={({ isActive }) =>
             isActive
-              ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
+              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
           }
         >
           <div>장소공유</div>
@@ -112,8 +112,8 @@ export default function CategorySwiper({
           to="/post/QUOTE"
           className={({ isActive }) =>
             isActive
-              ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
+              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
           }
         >
           <div>명언</div>
@@ -124,8 +124,8 @@ export default function CategorySwiper({
           to="/post/HUMOR"
           className={({ isActive }) =>
             isActive
-              ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
+              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
           }
         >
           <div>유머</div>
@@ -136,8 +136,8 @@ export default function CategorySwiper({
           to="/post/DAILY"
           className={({ isActive }) =>
             isActive
-              ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
+              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
           }
         >
           <div>일상</div>
@@ -148,8 +148,8 @@ export default function CategorySwiper({
           to="/post/ETC"
           className={({ isActive }) =>
             isActive
-              ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
+              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
           }
         >
           <div>기타</div>

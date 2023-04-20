@@ -113,9 +113,7 @@ export default function ImageUpload({
                 id="file"
                 accept=".jpeg, .jpg, .png, .heic"
                 className="hidden"
-                onChange={(e) => {
-                  handleImageUpload(e);
-                }}
+                onChange={handleImageUpload}
               />
             </>
           ) : (

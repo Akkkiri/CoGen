@@ -55,7 +55,7 @@ export default function PostPlace() {
   };
   return (
     <>
-      <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
+      <h1 className="text-center text-xl p-3 border-b border-y-lightGray md:text-2xl">
         게시판
       </h1>
       <div className="p-2 border-b border-y-lightGray">

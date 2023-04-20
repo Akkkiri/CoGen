@@ -203,8 +203,8 @@ export default function PostDetail() {
             isSavedFeed={savePost}
           />
           <div className="flex">
-            <IoMdShare className="self-center text-lg" />
-            <span className="self-center">공유하기</span>
+            <IoMdShare className="self-center text-lg md:text-2xl" />
+            <span className="self-center md:text-base">공유하기</span>
           </div>
         </div>
         <div className="p-2">

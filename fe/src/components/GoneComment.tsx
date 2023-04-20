@@ -73,7 +73,7 @@ export default function GoneComment({
 
           <div>
             {myId === userid ? (
-              <div className="flex gap-1 px-4 text-sm self-center">
+              <div className="flex gap-1 px-4 text-sm self-center md:text-base">
                 <button
                   onClick={() => {
                     Swal.fire({
@@ -116,7 +116,7 @@ export default function GoneComment({
             )}
           </div>
         </div>
-        <div className="mt-2 text-sm font-light whitespace-pre-line">
+        <div className="mt-2 text-sm font-light whitespace-pre-line md:text-lg">
           {contents}
         </div>
         <div className="flex w-full justify-end">

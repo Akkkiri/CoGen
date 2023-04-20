@@ -31,28 +31,28 @@ export default function PostContainer({
             <NavLink to={`/post/${el.feedId}`}>
               <div className="p-2 border-b border-y-lightGray">
                 <div className="p-2">
-                  <div className="bg-y-red text-white p-1 w-16 text-center text-xs rounded-md mb-2">
+                  <div className="bg-y-red text-white p-1 w-16 text-center text-xs rounded-md mb-2 md:text-base md:w-20">
                     {Category(el.category)}
                   </div>
-                  <div>{el.title}</div>
+                  <div className="md:text-xl">{el.title}</div>
                   <div className="h-20">
-                    <div className="my-2 text-sm font-light line-clamp-3">
+                    <div className="my-2 text-sm font-light line-clamp-3 md:text-lg">
                       {el.body}
                     </div>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-xs md:text-base">
                     <div className="flex text-y-gray">
                       {el.nickname} <BsDot className="self-center" />
                       {ToDateString(el.createdAt)}
                       <BsDot className="self-center" /> 조회 {el.viewCount}
                     </div>
-                    <div className="flex gap-1 text-y-gray text-xs">
+                    <div className="flex gap-1 text-y-gray text-xs md:text-base">
                       <div className="flex">
-                        <IoHeartOutline className="text-base" />
+                        <IoHeartOutline className="text-base md:text-2xl" />
                         <div className="self-center">{el.likeCount}</div>
                       </div>
                       <div className="flex ">
-                        <IoChatbubbleEllipsesOutline className="text-base" />
+                        <IoChatbubbleEllipsesOutline className="text-base md:text-2xl" />
                         <div className="self-center">{el.commentCount}</div>
                       </div>
                     </div>

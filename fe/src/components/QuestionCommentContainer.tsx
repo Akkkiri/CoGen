@@ -85,7 +85,7 @@ export default function QuestionCommentContainer({
             userId={userid}
           />
           {isEditMode ? (
-            <div className="flex px-4 text-sm self-center">
+            <div className="flex px-4 text-sm self-center md:text-base">
               <button onClick={() => setIsEditMode(false)}>
                 <MdOutlineCancel className="text-y-red inline mr-1" />
                 취소
@@ -94,7 +94,7 @@ export default function QuestionCommentContainer({
           ) : (
             <div>
               {myId === userid ? (
-                <div className="flex gap-1 text-sm self-center">
+                <div className="flex gap-1 text-sm self-center md:text-base">
                   <button onClick={editAnswer}>
                     <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
                   </button>
@@ -167,7 +167,7 @@ export default function QuestionCommentContainer({
             }
           />
         ) : (
-          <div className="mt-2 text-sm font-light whitespace-pre-line">
+          <div className="mt-2 text-sm font-light whitespace-pre-line md:text-lg">
             {inputState}
           </div>
         )}

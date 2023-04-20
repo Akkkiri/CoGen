@@ -21,6 +21,7 @@ export default function Question() {
   const [sort, setSort] = useState<Select>("new");
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [img, setImg] = useState<string>("");
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
   const postQuestion = () => {
@@ -44,6 +45,7 @@ export default function Question() {
 
   useEffect(() => {
     axios.get(`/questions/weekly`).then((response) => {
+      setImg(response.data.imagePath);
       SetWeeklyQuestions(response.data.content);
       setQuestionId(response.data.questionId);
     });
@@ -59,7 +61,7 @@ export default function Question() {
           // console.log(response.data.data);
           setQuestComment(response.data.data);
           setTotalPages(response.data.pageInfo.totalPages);
-          // console.log(response.data);
+          console.log(response.data);
         })
         .catch((err) => console.log(err));
     }
@@ -81,11 +83,24 @@ export default function Question() {
   };
   return (
     <>
-      <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
+      <h1 className="text-center text-xl md:text-2xl  p-3 border-b border-y-lightGray">
         이번주 질문
       </h1>
       <div className="py-6 text-center border-b border-y-lightGray p-2">
-        <div className="text-lg whitespace-pre-line">"{weeklyQuestions}"</div>
+        <div className="text-lg md:text-2xl whitespace-pre-line">
+          "{weeklyQuestions}"
+        </div>
+        {img ? (
+          <div>
+            <img
+              src={img}
+              alt="questionimg"
+              width={300}
+              height={300}
+              className="m-auto w-auto h-72"
+            />
+          </div>
+        ) : null}
         <SmallInput
           inputState={inputState}
           setInputState={setInputState}
