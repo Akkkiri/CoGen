@@ -15,6 +15,7 @@ import {
   AWS_S3_BUCKET,
   AWS_S3_BUCKET_REGION,
 } from "util/AWSInfo";
+import Loading from "components/Loading";
 
 export default function MyEdit() {
   const navigate = useNavigate();
@@ -24,8 +25,9 @@ export default function MyEdit() {
   const [profileImage, setProfileImage] = useState("");
   const [preProfileImage, setPreProfileImage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(100);
   const [showLoading, setShowLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [genderType, setGenderType] = useState("");
   const [ageType, setAgeType] = useState<Select>("");
 
@@ -52,6 +54,15 @@ export default function MyEdit() {
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    if (showModal && progress) {
+      if (progress === 100) {
+        setShowModal(false);
+        navigate("/mypage");
+      }
+    }
+  }, [showModal, progress, navigate]);
+
   const isVaild = (inputState: string) => {
     if (
       inputState.length > 1 &&
@@ -73,10 +84,10 @@ export default function MyEdit() {
     axios
       .patch("/mypage/patch", patchBody)
       .then((res) => {
-        if (progress === 0 || progress === 100) {
+        if (progress === 100) {
           navigate("/mypage");
         } else {
-          setTimeout(() => navigate("/mypage"), 1000);
+          setShowModal(true);
         }
       })
       .catch((err) => console.log(err));
@@ -137,6 +148,7 @@ export default function MyEdit() {
         maxWidthOrHeight: 320,
       };
       if (file.type.toLowerCase() === "image/heic") {
+        setShowLoading(true);
         const heic2any = require("heic2any");
         heic2any({ blob: file, toType: "image/jpeg", quality: 1 }).then(
           async (res: File) => {
@@ -149,6 +161,7 @@ export default function MyEdit() {
               setSelectedFile(compressedFile);
               const preUrl = URL.createObjectURL(compressedFile);
               setPreProfileImage(preUrl);
+              setShowLoading(false);
             } catch (err) {
               Swal.fire({
                 title: "Sorry!",
@@ -185,11 +198,30 @@ export default function MyEdit() {
         <p className="text-y-lightGray text-sm mb-2">
           등록하기 버튼을 눌러야 변경이 저장됩니다
         </p>
-        <img
-          src={preProfileImage ? preProfileImage : profileImage}
-          alt="profileImage"
-          className="rounded-full w-28 h-28"
-        ></img>
+        {showModal ? (
+          <div className="fixed inset-0 w-full h-full z-50 bg-black/50">
+            <div className="m-auto mt-32 bg-white rounded-lg w-50% py-4 flex flex-col justify-center items-center gap-4">
+              <Loading />
+              <p className="text-xs text-y-lightGray md:text-sm">
+                변경 사항 저장중...
+              </p>
+            </div>
+          </div>
+        ) : null}
+        {showLoading ? (
+          <>
+            <Loading />
+            <p className="text-xs text-y-lightGray md:text-sm">
+              사진 변환중...
+            </p>
+          </>
+        ) : (
+          <img
+            src={preProfileImage ? preProfileImage : profileImage}
+            alt="profileImage"
+            className="rounded-full w-28 h-28"
+          ></img>
+        )}
         <label className="btn-r text-sm">
           프로필 사진 수정하기
           <input
@@ -269,7 +301,7 @@ export default function MyEdit() {
           <button className="btn-r flex-1" onClick={handleSubmit}>
             {progress === 0 || progress === 100
               ? "등록하기"
-              : `등록중(${progress})`}
+              : `등록중(${progress})%`}
           </button>
         </div>
         <div
