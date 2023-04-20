@@ -40,8 +40,12 @@ export default function Mypage() {
         };
         setUserprofile(obj);
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => {
+        if (err.response.data.status === 401) {
+          dispatch(logout());
+        }
+      });
+  }, [dispatch]);
 
   return (
     <>

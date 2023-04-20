@@ -48,34 +48,42 @@ export default function PostDetail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`/feeds/${PostId}`).then((response) => {
-      setTitle(response.data.title);
-      setPostContents(response.data.body);
-      setTag(response.data.category);
-      setPostNickName(response.data.userInfo.nickname);
-      setPostProfileImage(response.data.userInfo.profileImage);
-      setUserID(response.data.userInfo.id);
-      SetView(response.data.viewCount);
-      setPostDate(response.data.createdAt);
-      setCommentCount(response.data.commentCount);
-      setLikeCounts(response.data.likeCount);
-      setIsLike(response.data.isLiked);
-      setSavePost(response.data.isSavedFeed);
-      setImage(response.data.imagePath);
-      setImage2(response.data.imagePath2);
-      setImage3(response.data.imagePath3);
-      if (userId === userid) {
-        setIsMine(true);
-      }
-    });
+    axios
+      .get(`/feeds/${PostId}`)
+      .then((response) => {
+        setTitle(response.data.title);
+        setPostContents(response.data.body);
+        setTag(response.data.category);
+        setPostNickName(response.data.userInfo.nickname);
+        setPostProfileImage(response.data.userInfo.profileImage);
+        setUserID(response.data.userInfo.id);
+        SetView(response.data.viewCount);
+        setPostDate(response.data.createdAt);
+        setCommentCount(response.data.commentCount);
+        setLikeCounts(response.data.likeCount);
+        setIsLike(response.data.isLiked);
+        setSavePost(response.data.isSavedFeed);
+        setImage(response.data.imagePath);
+        setImage2(response.data.imagePath2);
+        setImage3(response.data.imagePath3);
+        if (userId === userid) {
+          setIsMine(true);
+        }
+      })
+      .catch((err) => {
+        if (
+          err.response.data.status === 404 ||
+          err.response.data.status === 500
+        ) {
+          navigate("/404");
+        }
+      });
   }, [PostId, page, userId, userid]);
 
   useEffect(() => {
     axios
       .get(`/feeds/${PostId}/comments?sort=${comment}&page=${page}`)
       .then((response) => {
-        //제거
-        // console.log(response.data);
         setPostComments(response.data.data);
         setTotalPages(response.data.pageInfo.totalPages);
       });
@@ -86,7 +94,6 @@ export default function PostDetail() {
     axios
       .post(`/feeds/${PostId}/comments/add`, reqBody)
       .then((response) => {
-        // console.log(response.data);
         if (postComments === null) {
           setPostComments([response.data]);
         } else {
@@ -123,7 +130,6 @@ export default function PostDetail() {
       .then(() => {
         if (postComments !== null) {
           const filtered = postComments.filter((el) => {
-            // console.log(el.answerId);
             return el.commentId !== commentId;
           });
           setPostComments(filtered);

@@ -11,6 +11,7 @@ import {
   saveFirstQuiz,
   saveScore,
 } from "store/modules/quizSlice";
+import { logout } from "store/modules/authSlice";
 
 export default function Quiz() {
   const [order, setOrder] = useState(1);
@@ -37,7 +38,12 @@ export default function Quiz() {
           dispatch(saveFirstQuiz(res.data[0].content));
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.data.status === 401) {
+          dispatch(logout());
+        }
+        // console.log(err);
+      });
   }, [dispatch, savedFirstQuiz]);
 
   return (
