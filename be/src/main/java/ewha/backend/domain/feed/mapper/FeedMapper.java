@@ -243,9 +243,10 @@ public interface FeedMapper {
 
 				return FeedDto.BestResponse.builder()
 					.feedId(feed.getId())
+					.id(feed.getUser().getId())
+					.userId(feed.getUser().getUserId())
 					.title(feed.getTitle())
 					.body(feed.getBody())
-					.userId(feed.getUser().getUserId())
 					.nickname(nickPre)
 					.hashcode(nickSuf)
 					.profileImage(feed.getUser().getProfileImage())

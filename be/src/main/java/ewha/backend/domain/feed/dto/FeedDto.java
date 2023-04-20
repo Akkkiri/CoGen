@@ -138,9 +138,10 @@ public class FeedDto {
 	public static class BestResponse {
 
 		private Long feedId;
+		private Long id;
+		private String userId;
 		private String title;
 		private String body;
-		private String userId;
 		private String nickname;
 		private String hashcode;
 		private String profileImage;
