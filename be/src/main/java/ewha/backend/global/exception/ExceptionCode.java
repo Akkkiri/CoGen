@@ -24,6 +24,7 @@ public enum ExceptionCode {
 	UNLIKED(409, "Already Unliked"),
 	FAIL_TO_LIKE(409, "Fail To Like"),
 	ALREADY_REPORTED(409, "Already Reported"),
+	CANNOT_FOLLOW_MYSELF(400, "Cannot Follow Myself"),
 
 	IMAGE_IS_EMPTY(404, "Image Is Empty"),
 	CATEGORY_NOT_FOUND(404, "Category Not Found"),
