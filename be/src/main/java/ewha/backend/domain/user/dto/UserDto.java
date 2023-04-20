@@ -119,6 +119,7 @@ public class UserDto {
 		private GenderType genderType;
 		@NotNull
 		private AgeType ageType;
+
 	}
 
 	@Getter

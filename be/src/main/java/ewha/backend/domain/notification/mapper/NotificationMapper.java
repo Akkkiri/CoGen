@@ -42,6 +42,7 @@ public interface NotificationMapper {
 					.notificationId(notification.getId())
 					.type(notification.getType())
 					.body(notification.getBody())
+					.url(notification.getUrl())
 					.receiverBody(notification.getReceiverBody())
 					// .receiverFeedTitle(notification.getReceiverFeedTitle())
 					// .receiverCommentBody(notification.getReceiverCommentBody())

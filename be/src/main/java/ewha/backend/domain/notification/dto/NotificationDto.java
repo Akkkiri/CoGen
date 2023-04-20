@@ -21,6 +21,7 @@ public class NotificationDto {
 		private Long notificationId;
 		private NotificationType type;
 		private String body;
+		private String url;
 		// private String receiverFeedTitle;
 		// private String receiverCommentBody;
 		private String receiverBody;

@@ -18,6 +18,8 @@ import ewha.backend.domain.comment.entity.Comment;
 import ewha.backend.domain.comment.repository.CommentQueryRepository;
 import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.feed.repository.FeedQueryRepository;
+import ewha.backend.domain.image.service.AwsS3Service;
+import ewha.backend.domain.image.service.AwsS3ServiceForDeletion;
 import ewha.backend.domain.qna.entity.Qna;
 import ewha.backend.domain.qna.service.QnaService;
 import ewha.backend.domain.question.entity.Answer;
@@ -58,6 +60,7 @@ public class UserServiceImpl implements UserService {
 	private final CategoryService categoryService;
 	private final UserQnaRepository userQnaRepository;
 	private final QnaService qnaService;
+	private final AwsS3ServiceForDeletion awsS3ServiceForDeletion;
 
 	@Override
 	@Transactional
@@ -107,7 +110,19 @@ public class UserServiceImpl implements UserService {
 
 		User findUser = getLoginUser();
 
-		findUser.updateUserInfo(userInfo);
+		String oldProfileImage = findUser.getProfileImage();
+		String newProfileImage = userInfo.getProfileImage();
+
+		if (oldProfileImage.equals(newProfileImage)) {
+			findUser.updateUserInfo(userInfo);
+		} else {
+			if (oldProfileImage.contains("dummy/")) {
+				findUser.updateUserInfo(userInfo);
+			} else {
+				awsS3ServiceForDeletion.deleteProfileImageFromS3(oldProfileImage);
+				findUser.updateUserInfo(userInfo);
+			}
+		}
 
 		return userRepository.save(findUser);
 	}
