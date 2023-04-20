@@ -4,14 +4,14 @@
 import Pagenation from "../../components/Pagenation";
 import { Select } from "../../util/SelectUtil";
 import axios from "../../api/axios";
-import Swal from "sweetalert2";
-import { useNavigate, NavLink, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SelectBox from "../../components/SelectBox";
 import CloseBtn from "../../components/Layout/CloseBtn";
 import GoneComment, { CommentContainerProps } from "components/GoneComment";
 export default function GoneDetail() {
   const { QuestionId } = useParams();
+  const navigate = useNavigate();
   const [content, setContent] = useState<string>("");
   const [sort, setSort] = useState<Select>("new");
   const [page, setPage] = useState<number>(1);
@@ -23,11 +23,20 @@ export default function GoneDetail() {
     axios
       .get(`/questions/${QuestionId}`)
       .then((response) => {
+        if (response.data.length === 0) {
+          navigate("/404");
+        }
         setContent(response.data.content);
-        // console.log(response.data);
       })
-      .catch((err) => console.log(err));
-  }, [QuestionId, sort]);
+      .catch((err) => {
+        if (
+          err.response.data.status === 404 ||
+          err.response.data.status === 500
+        ) {
+          navigate("/404");
+        }
+      });
+  }, [QuestionId, sort, navigate]);
   useEffect(() => {
     axios
       .get(
