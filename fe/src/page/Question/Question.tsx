@@ -11,6 +11,7 @@ import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import Swal from "sweetalert2";
 import { useNavigate, NavLink } from "react-router-dom";
+import { TiArrowBack } from "react-icons/ti";
 export default function Question() {
   const [weeklyQuestions, SetWeeklyQuestions] = useState<string>("");
   const [questionId, setQuestionId] = useState<number>();
@@ -135,7 +136,10 @@ export default function Question() {
         <div className="relative m-1">
           <div className="fixed bottom-[70px]">
             <NavLink to={"/question/all"}>
-              <button className="btn-r">지나간 질문</button>
+              <button className="btn-r shadow-xl flex items-center justify-center">
+                <TiArrowBack className="mr-1 text-xl" />
+                지나간 질문
+              </button>
             </NavLink>
           </div>
         </div>
