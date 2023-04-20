@@ -5,7 +5,7 @@ type ButtonProps = {
 };
 export default function WarningBtn({ onClick }: ButtonProps) {
   return (
-    <div className="flex-1 flex justify-end items-center  text-y-brown text-sm">
+    <div className="flex-1 flex justify-end items-center  text-y-brown text-sm md:text-base">
       <button className="flex items-center mr-1" onClick={onClick}>
         <RiAlarmWarningFill className="mb-[1px] text-y-red" />
         <span className="text-y-black ml-[1px]">신고하기</span>

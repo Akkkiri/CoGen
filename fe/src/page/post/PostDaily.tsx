@@ -11,14 +11,13 @@ import { useAppSelector } from "../../store/hook";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
-import { FaPlus } from "react-icons/fa";
-export default function Post() {
+export default function PostDaily() {
   const [sort, setSort] = useState<Select>("new");
 
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [postProps, setPostProps] = useState<any>();
-  const [category, setCategory] = useState<string>(`전체`);
+  const [category, setCategory] = useState<string>(`일상`);
   const isLoginUser = useAppSelector(isLogin);
 
   const navigate = useNavigate();
@@ -56,7 +55,7 @@ export default function Post() {
   };
   return (
     <>
-      <h1 className="text-center text-xl p-3 border-b border-y-lightGray md:text-2xl">
+      <h1 className="text-center text-xl p-3 border-b border-y-lightGray">
         게시판
       </h1>
       <div className="p-2 border-b border-y-lightGray">
@@ -73,13 +72,10 @@ export default function Post() {
         <div className="fixed bottom-[70px]">
           {isLoginUser ? (
             <NavLink to={"/writepost"}>
-              <button className="btn-r shadow-xl flex items-center justify-center">
-                <FaPlus className="mr-1" />
-                게시글 작성
-              </button>
+              <button className="btn-r">게시글 작성</button>
             </NavLink>
           ) : (
-            <button onClick={goToLogin} className="btn-r shadow-xl">
+            <button onClick={goToLogin} className="btn-r">
               게시글 작성
             </button>
           )}

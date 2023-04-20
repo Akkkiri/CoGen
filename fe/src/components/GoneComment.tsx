@@ -5,7 +5,7 @@ import UserInfo from "./user/UserInfo";
 import Swal from "sweetalert2";
 import axios from "../api/axios";
 import WarningBtn from "./ WarningBtn";
-import { id, isLogin } from "../store/modules/authSlice";
+import { myid, isLogin } from "../store/modules/authSlice";
 import { useAppSelector } from "../store/hook";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ export default function GoneComment({
   commentId,
   isLiked,
 }: CommentContainerProps) {
-  const myId = useAppSelector(id);
+  const myId = useAppSelector(myid);
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState<boolean>(isLiked);
@@ -68,11 +68,12 @@ export default function GoneComment({
             nickname={nickname}
             profileImage={profileImage}
             date={date}
+            userId={userid}
           />
 
           <div>
             {myId === userid ? (
-              <div className="flex gap-1 px-4 text-sm self-center">
+              <div className="flex gap-1 px-4 text-sm self-center md:text-base">
                 <button
                   onClick={() => {
                     Swal.fire({
@@ -115,7 +116,7 @@ export default function GoneComment({
             )}
           </div>
         </div>
-        <div className="mt-2 text-sm font-light whitespace-pre-line">
+        <div className="mt-2 text-sm font-light whitespace-pre-line md:text-lg">
           {contents}
         </div>
         <div className="flex w-full justify-end">

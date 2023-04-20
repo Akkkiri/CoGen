@@ -4,14 +4,14 @@ import UserProfile, { UserProfileProps } from "components/user/UserProfile";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "store/hook";
-import { id } from "store/modules/authSlice";
+import { myid } from "store/modules/authSlice";
 import UserPost from "./UserPost";
 import UserQna from "./UserQna";
 import UserQuestion from "./UserQuestion";
 
 export default function Userpage() {
   const userID = Number(window.location.pathname.replace(/[^0-9]/g, ""));
-  const ID = useAppSelector(id);
+  const ID = useAppSelector(myid);
   const navigate = useNavigate();
 
   useEffect(() => {

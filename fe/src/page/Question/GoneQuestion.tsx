@@ -11,6 +11,7 @@ export default function GonQuestion() {
     axios
       .get(`/questions/list?page=${page}`)
       .then((res) => {
+        console.log(res.data);
         setQuestions(res.data.data);
         setTotalPages(res.data.pageInfo.totalPages);
       })
@@ -21,7 +22,7 @@ export default function GonQuestion() {
     <>
       <div className="p-3 border-b border-y-lightGray">
         <CloseBtn />
-        <h1 className="text-center text-xl">지나간 질문</h1>
+        <h1 className="text-center text-xl md:text-2xl">지나간 질문</h1>
       </div>
       {questions.map((el: any, idx: number) => (
         <div key={idx}>

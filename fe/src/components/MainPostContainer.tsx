@@ -26,6 +26,7 @@ export default function MainPostContainer({
             nickname={"닉네임"}
             profileImage={"/images/user.png"}
             date={"2023.03.22"}
+            userId={1}
           />
           <div className="flex text-xs gap-2">
             <div className="flex self-center">

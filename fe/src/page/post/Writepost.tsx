@@ -123,9 +123,7 @@ export default function Writepost() {
     axios
       .post(`/feeds/add`, jsonData)
       .then((res) => {
-        const PostId = res.data;
-
-        navigate(`/post/${PostId}`);
+        navigate(`/post/ALL`);
       })
 
       .catch((err) => console.log(err));

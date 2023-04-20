@@ -54,7 +54,7 @@ export default function SelectBox({ type, setSelect, curState }: SortBoxProps) {
         onClick={() => setShowModal(!showModal)}
         className={`flex items-center ${
           type === "ageType" ? "w-52" : "w-28"
-        } border border-y-lightGray rounded-xl py-1.5 px-2`}
+        } border border-y-lightGray rounded-xl py-1.5 px-2 md:text-lg`}
       >
         <GoTriangleDown className="w-3 h-3 mt-[1px] mr-1 text-y-gray" />
         <span>{curChoice}</span>
@@ -65,7 +65,7 @@ export default function SelectBox({ type, setSelect, curState }: SortBoxProps) {
             {list?.map((el, idx) => (
               <li
                 key={idx}
-                className="pl-5 py-1 hover:bg-y-pink rounded-lg"
+                className="pl-5 py-1 hover:bg-y-pink rounded-lg md:text-lg"
                 onClick={() => {
                   handleChoice(el);
                 }}

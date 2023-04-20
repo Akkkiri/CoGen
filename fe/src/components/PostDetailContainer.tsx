@@ -24,6 +24,7 @@ interface PostContainerProps {
   image: string;
   image2: string;
   image3: string;
+  userId: number;
 }
 
 export default function PostDetailContainer({
@@ -38,6 +39,7 @@ export default function PostDetailContainer({
   image,
   image2,
   image3,
+  userId,
 }: PostContainerProps) {
   const { PostId } = useParams();
   const navigate = useNavigate();
@@ -52,7 +54,7 @@ export default function PostDetailContainer({
   return (
     <div className="p-2 border-b border-y-lightGray">
       <div className="p-2">
-        <div className="bg-y-red text-white p-1 w-16 text-center text-xs rounded-md mb-2">
+        <div className="bg-y-red text-white p-1 w-16 text-center text-xs rounded-md mb-2 md:text-base md:w-20">
           {Category(tag)}
         </div>
         <div className="flex justify-between pb-2">
@@ -60,10 +62,11 @@ export default function PostDetailContainer({
             nickname={nickname}
             profileImage={profileImage}
             date={date}
+            userId={userId}
           />
 
           {isMine ? (
-            <div className="flex gap-1 px-4 text-sm self-center">
+            <div className="flex gap-1 px-4 text-sm md:text-base self-center">
               <button>
                 <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
               </button>
@@ -108,8 +111,8 @@ export default function PostDetailContainer({
             />
           )}
         </div>
-        <div className="text-lg">{title}</div>
-        <div className="my-2">
+        <div className="text-lg md:text-2xl">{title}</div>
+        <div className="my-5">
           <Swiper
             pagination={true}
             // navigation={true}
@@ -125,7 +128,7 @@ export default function PostDetailContainer({
                     alt="imageList"
                     width={300}
                     height={300}
-                    className="m-auto w-auto h-72"
+                    className="m-auto w-auto h-72 md:h-96"
                   />
                 </SwiperSlide>
               </div>
@@ -138,7 +141,7 @@ export default function PostDetailContainer({
                     alt="imageList"
                     width={300}
                     height={300}
-                    className="m-auto h-72 w-auto"
+                    className="m-auto h-72 w-auto md:h-96"
                   />
                 </SwiperSlide>
               </div>
@@ -151,15 +154,19 @@ export default function PostDetailContainer({
                     alt="imageList"
                     width={300}
                     height={300}
-                    className="m-auto h-72 w-auto"
+                    className="m-auto h-72 w-auto md:h-96"
                   />
                 </SwiperSlide>
               </div>
             )}
           </Swiper>
-          <div className="font-light whitespace-pre-line">{contents}</div>
         </div>
-        <div className="text-sm text-y-gray">조회 {view}</div>
+        <div className="my-2">
+          <div className="font-light whitespace-pre-line md:text-xl">
+            {contents}
+          </div>
+        </div>
+        <div className="text-sm text-y-gray md:text-lg">조회 {view}</div>
       </div>
     </div>
   );

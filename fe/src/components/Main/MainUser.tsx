@@ -22,7 +22,7 @@ export default function MainUser({
 }: UserProfileProps) {
   const isLoginUser = useAppSelector(isLogin);
   return (
-    <div className="p-2 mx-2 my-4 rounded-xl border-2 border-y-lightGray">
+    <div className="p-2 mx-2 my-4 rounded-xl border-2 border-y-lightGray  md:text-lg">
       <div>
         <img
           src="/images/cogenlogo-p.png"
@@ -31,29 +31,31 @@ export default function MainUser({
         ></img>
       </div>
       {isLoginUser ? (
-        <div className="flex justify-center items-center mx-2">
-          <img
-            src={profileImage}
-            alt="profileImage"
-            className="rounded-full w-20 h-20"
-          ></img>
-          <div className="w-full mx-4 mt-2">
-            <div className="flex items-end">
-              <span className={`${nickname.length === 8 ? "text-sm" : ""}`}>
-                {nickname}
-              </span>
-              <span className="text-xs text-y-lightGray font-light">
-                {hashcode}
-              </span>
-              <img
-                src={medalImg[medal(level)]}
-                alt="level"
-                className="w-5 h-5"
-              ></img>
+        <NavLink to={`/mypage`}>
+          <div className="flex justify-center items-center mx-2">
+            <img
+              src={profileImage}
+              alt="profileImage"
+              className="rounded-full w-20 h-20"
+            ></img>
+            <div className="w-full mx-4 mt-2">
+              <div className="flex items-end">
+                <span className={`${nickname.length === 8 ? "text-sm" : ""}`}>
+                  {nickname}
+                </span>
+                <span className="text-xs text-y-lightGray font-light">
+                  {hashcode}
+                </span>
+                <img
+                  src={medalImg[medal(level)]}
+                  alt="level"
+                  className="w-5 h-5"
+                ></img>
+              </div>
+              <Level level={level} ariFactor={ariFactor} />
             </div>
-            <Level level={level} ariFactor={ariFactor} />
           </div>
-        </div>
+        </NavLink>
       ) : (
         <div className="p-2 text-center">
           <div className="pb-3">로그인 후 답변과 퀴즈를 작성해보세요!!</div>

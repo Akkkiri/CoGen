@@ -16,6 +16,7 @@ export default function GoneDetail() {
   const [sort, setSort] = useState<Select>("new");
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [img, setImg] = useState<string>("");
   const [questComment, setQuestComment] = useState<
     CommentContainerProps[] | null
   >(null);
@@ -27,6 +28,7 @@ export default function GoneDetail() {
           navigate("/404");
         }
         setContent(response.data.content);
+        setImg(response.data.imagePath);
       })
       .catch((err) => {
         if (
@@ -53,10 +55,21 @@ export default function GoneDetail() {
     <>
       <div className="p-3 border-b border-y-lightGray">
         <CloseBtn />
-        <h1 className="text-center text-xl">지나간 질문</h1>
+        <h1 className="text-center text-xl md:text-2xl">지나간 질문</h1>
       </div>
       <div className="py-6 text-center border-b border-y-lightGray p-2">
-        <div className="text-lg">"{content}"</div>
+        <div className="text-lg pb-3 md:text-2xl">"{content}"</div>
+        {img ? (
+          <div>
+            <img
+              src={img}
+              alt="questionimg"
+              width={300}
+              height={300}
+              className="m-auto w-auto h-72 md:h-96"
+            />
+          </div>
+        ) : null}
       </div>
       <div className="p-2">
         <SelectBox setSelect={setSort} type={"comment"} />

@@ -7,10 +7,10 @@ type LikeProps = {
 };
 export default function LikeBtn({ onClick, likeCount, isLike }: LikeProps) {
   return (
-    <button onClick={onClick} className="flex text-sm">
+    <button onClick={onClick} className="flex text-sm md:text-base">
       <div className="flex">
         {!isLike ? (
-          <IoHeartOutline className="text-lg " />
+          <IoHeartOutline className="text-lg md:text-2xl" />
         ) : (
           <IoHeart className="text-lg text-y-red" />
         )}

@@ -4,7 +4,7 @@ import UserInfo from "./user/UserInfo";
 import Swal from "sweetalert2";
 import axios from "../api/axios";
 import SmallInput from "../components/Inputs/SmallInput";
-import { id, isLogin } from "../store/modules/authSlice";
+import { myid, isLogin } from "../store/modules/authSlice";
 import { useAppSelector } from "../store/hook";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ export default function CommentContainer({
   isLiked,
   deleteComment,
 }: CommentContainerProps) {
-  const myId = useAppSelector(id);
+  const myId = useAppSelector(myid);
   const [isEditMode, setIsEditMode] = useState(false);
   const [inputState, setInputState] = useState<string>(contents);
   const [isLike, setIsLike] = useState<boolean>(isLiked);
@@ -81,9 +81,10 @@ export default function CommentContainer({
             nickname={nickname}
             profileImage={profileImage}
             date={date}
+            userId={userid}
           />
           {isEditMode ? (
-            <div className="flex px-4 text-sm self-center">
+            <div className="flex px-4 text-sm self-center md:text-base">
               <button onClick={() => setIsEditMode(false)}>
                 <MdOutlineCancel className="text-y-red inline mr-1" />
                 취소
@@ -92,7 +93,7 @@ export default function CommentContainer({
           ) : (
             <div>
               {myId === userid ? (
-                <div className="flex gap-1 text-sm self-center">
+                <div className="flex gap-1 text-sm self-center md:text-base">
                   <button onClick={editComment}>
                     <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
                   </button>
@@ -165,7 +166,7 @@ export default function CommentContainer({
             }
           />
         ) : (
-          <div className="mt-2 text-sm font-light whitespace-pre-line">
+          <div className="mt-2 text-sm font-light whitespace-pre-line md:text-lg">
             {inputState}
           </div>
         )}
