@@ -132,25 +132,27 @@ export default function Writepost() {
   return (
     <>
       <div className="p-3 border-b border-y-lightGray">
-        <h1 className="text-center text-xl ">글 작성</h1>
+        <h1 className="text-center text-xl md:text-2xl">글 작성</h1>
       </div>
       <div>
         <div className="m-2">
-          <div className="mb-2 mt-6 text-lg font-semibold">카테고리</div>
+          <div className="mb-2 mt-6 text-lg font-semibold md:text-xl">
+            카테고리
+          </div>
           {category === "" ? (
             <div className="text-y-red text-sm">{categoryErr}</div>
           ) : null}
           <SelectBox setSelect={setCategory} type={"category"} />
         </div>
         <div className="m-2">
-          <div className="mb-2 mt-2 text-lg font-semibold">제목</div>
+          <div className="mb-2 mt-2 text-lg font-semibold md:text-xl">제목</div>
           {inputState.length < 1 ? (
-            <div className="text-y-red text-sm">{titleErr}</div>
+            <div className="text-y-red text-sm md:text-base">{titleErr}</div>
           ) : null}
 
           <section className="font-light block">
             <input
-              className="border border-y-lightGray rounded-xl focus:outline-y-red focus:ring-1 block w-full p-2.5 placeholder-slate-300"
+              className="border border-y-lightGray rounded-xl focus:outline-y-red focus:ring-1 block w-full p-2.5 placeholder-slate-300 md:text-lg"
               type="text"
               placeholder="제목을 입력해주세요"
               value={inputState}
@@ -170,9 +172,11 @@ export default function Writepost() {
           // handleUpLoad={handleUpLoad}
         />
         <div className="m-2">
-          <div className="mb-2 mt-4 text-lg font-semibold">본문</div>
+          <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">본문</div>
           {content.length < 3 ? (
-            <div className="text-y-red text-sm">{contentLength}</div>
+            <div className="text-y-red text-sm md:text-base">
+              {contentLength}
+            </div>
           ) : null}
 
           <BigInput

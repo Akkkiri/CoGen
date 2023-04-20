@@ -98,7 +98,9 @@ export default function ImageUpload({
 
   return (
     <div className="m-2">
-      <div className="mb-2 mt-4 text-lg font-semibold">사진 업로드</div>
+      <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">
+        사진 업로드
+      </div>
 
       <form className="grid grid-cols-3 gap-2 h-[105px] md:h-64 sm:h-48">
         {/* first Image */}
