@@ -21,7 +21,7 @@ export default function BigInput({
     <>
       <form className="font-light relative">
         <textarea
-          className="w-full h-36 rounded-xl p-3 border border-y-lightGray  focus:outline-y-red placeholder-slate-300 resize-none"
+          className="w-full h-36 rounded-xl p-3 border border-y-lightGray md:text-lg focus:outline-y-red placeholder-slate-300 resize-none"
           placeholder={placeholder}
           value={inputState}
           maxLength={1000}
@@ -29,7 +29,7 @@ export default function BigInput({
             onInputChange(e);
           }}
         />
-        <div className="text-right text-slate-300 right-4 absolute top-28">
+        <div className="text-right text-slate-300 right-4 absolute top-28 md:text-lg">
           {`(${inputLen}/1000)`}
         </div>
       </form>

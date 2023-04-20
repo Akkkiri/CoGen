@@ -62,7 +62,7 @@ export default function Question() {
           // console.log(response.data.data);
           setQuestComment(response.data.data);
           setTotalPages(response.data.pageInfo.totalPages);
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((err) => console.log(err));
     }
