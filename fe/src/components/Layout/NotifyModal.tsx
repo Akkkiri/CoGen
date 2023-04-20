@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { VscBellSlash } from "react-icons/vsc";
 import axios from "api/axios";
+import { Link } from "react-router-dom";
 import NotifyContainer, {
   NotifyContainerProps,
 } from "components/user/NotifyContainer";
@@ -79,12 +80,13 @@ export default function NotifyModal({
                 <ul className="flex flex-col max-h-[400px] overflow-scroll cursor-pointer">
                   {notifyList.map((el) => {
                     return (
-                      <div
+                      <Link
+                        to={`${el.url}`}
                         key={el.notificationId}
                         className="hover:bg-y-pink rounded-lg"
                       >
                         <NotifyContainer {...el} deleteNotify={deleteNotify} />
-                      </div>
+                      </Link>
                     );
                   })}
                 </ul>

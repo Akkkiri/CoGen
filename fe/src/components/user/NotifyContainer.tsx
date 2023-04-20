@@ -9,7 +9,7 @@ export interface NotifyContainerProps {
   body: string;
   isRead: boolean;
   createdAt: string;
-  stringUrl?: string;
+  url?: string;
   deleteNotify: (notificationId: number) => void;
 }
 

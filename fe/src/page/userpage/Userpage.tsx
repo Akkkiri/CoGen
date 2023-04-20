@@ -53,8 +53,15 @@ export default function Userpage() {
         };
         setUserInfo(obj);
       })
-      .catch((err) => console.log(err));
-  }, [userID]);
+      .catch((err) => {
+        if (
+          err.response.data.status === 404 ||
+          err.response.data.status === 500
+        ) {
+          navigate("/404");
+        }
+      });
+  }, [userID, navigate]);
 
   return (
     <div>
