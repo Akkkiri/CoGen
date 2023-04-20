@@ -32,41 +32,42 @@ export default function BestPost({ bestPostProps }: any) {
       >
         {bestPost?.map((el: any, idx: number) => (
           <SwiperSlide key={idx}>
-            <NavLink to={`/post/${el.feedId}`}>
-              <div className="p-2">
-                <div
-                  className={`${
-                    idx % 2 === 0
-                      ? "bg-y-sky rounded-2xl"
-                      : "bg-y-pink rounded-2xl"
-                  } p-4`}
-                >
+            <div className="p-2">
+              <div
+                className={`${
+                  idx % 2 === 0
+                    ? "bg-y-sky rounded-2xl"
+                    : "bg-y-pink rounded-2xl"
+                } p-4`}
+              >
+                <NavLink to={`/post/${el.feedId}`}>
                   <div className="truncate">{el.title}</div>
                   <div className="h-20">
                     <div className="my-2 text-sm font-light break-all overflow-hidden line-clamp-3">
                       {el.body}
                     </div>
                   </div>
-                  <div className="flex justify-between">
-                    <UserInfo
-                      nickname={el.nickname}
-                      profileImage={el.profileImage}
-                      date={el.createdAt}
-                    />
-                    <div className="flex text-xs gap-2">
-                      <div className="flex self-center">
-                        <IoHeartOutline className="self-center text-lg" />
-                        {el.likeCount}
-                      </div>
-                      <div className="flex self-center">
-                        <IoChatbubbleEllipsesOutline className="self-center text-lg" />
-                        {el.commentCount}
-                      </div>
+                </NavLink>
+                <div className="flex justify-between">
+                  <UserInfo
+                    nickname={el.nickname}
+                    profileImage={el.profileImage}
+                    date={el.createdAt}
+                    userId={1}
+                  />
+                  <div className="flex text-xs gap-2">
+                    <div className="flex self-center">
+                      <IoHeartOutline className="self-center text-lg" />
+                      {el.likeCount}
+                    </div>
+                    <div className="flex self-center">
+                      <IoChatbubbleEllipsesOutline className="self-center text-lg" />
+                      {el.commentCount}
                     </div>
                   </div>
                 </div>
               </div>
-            </NavLink>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>

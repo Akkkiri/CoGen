@@ -11,13 +11,13 @@ import { useAppSelector } from "../../store/hook";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
-export default function PostPlace() {
+export default function PostEtc() {
   const [sort, setSort] = useState<Select>("new");
 
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [postProps, setPostProps] = useState<any>();
-  const [category, setCategory] = useState<string>(`전체`);
+  const [category, setCategory] = useState<string>(`기타`);
   const isLoginUser = useAppSelector(isLogin);
 
   const navigate = useNavigate();

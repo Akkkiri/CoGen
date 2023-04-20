@@ -4,7 +4,7 @@ import UserInfo from "./user/UserInfo";
 import Swal from "sweetalert2";
 import axios from "../api/axios";
 import SmallInput from "../components/Inputs/SmallInput";
-import { id, isLogin } from "../store/modules/authSlice";
+import { myid, isLogin } from "../store/modules/authSlice";
 import { useAppSelector } from "../store/hook";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ export default function CommentContainer({
   isLiked,
   deleteComment,
 }: CommentContainerProps) {
-  const myId = useAppSelector(id);
+  const myId = useAppSelector(myid);
   const [isEditMode, setIsEditMode] = useState(false);
   const [inputState, setInputState] = useState<string>(contents);
   const [isLike, setIsLike] = useState<boolean>(isLiked);
@@ -81,6 +81,7 @@ export default function CommentContainer({
             nickname={nickname}
             profileImage={profileImage}
             date={date}
+            userId={userid}
           />
           {isEditMode ? (
             <div className="flex px-4 text-sm self-center">

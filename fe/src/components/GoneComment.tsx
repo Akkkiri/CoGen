@@ -5,7 +5,7 @@ import UserInfo from "./user/UserInfo";
 import Swal from "sweetalert2";
 import axios from "../api/axios";
 import WarningBtn from "./ WarningBtn";
-import { id, isLogin } from "../store/modules/authSlice";
+import { myid, isLogin } from "../store/modules/authSlice";
 import { useAppSelector } from "../store/hook";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ export default function GoneComment({
   commentId,
   isLiked,
 }: CommentContainerProps) {
-  const myId = useAppSelector(id);
+  const myId = useAppSelector(myid);
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState<boolean>(isLiked);
@@ -68,6 +68,7 @@ export default function GoneComment({
             nickname={nickname}
             profileImage={profileImage}
             date={date}
+            userId={userid}
           />
 
           <div>

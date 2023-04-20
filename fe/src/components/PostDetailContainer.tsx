@@ -24,6 +24,7 @@ interface PostContainerProps {
   image: string;
   image2: string;
   image3: string;
+  userId: number;
 }
 
 export default function PostDetailContainer({
@@ -38,6 +39,7 @@ export default function PostDetailContainer({
   image,
   image2,
   image3,
+  userId,
 }: PostContainerProps) {
   const { PostId } = useParams();
   const navigate = useNavigate();
@@ -60,6 +62,7 @@ export default function PostDetailContainer({
             nickname={nickname}
             profileImage={profileImage}
             date={date}
+            userId={userId}
           />
 
           {isMine ? (
@@ -109,7 +112,7 @@ export default function PostDetailContainer({
           )}
         </div>
         <div className="text-lg">{title}</div>
-        <div className="my-2">
+        <div className="my-5">
           <Swiper
             pagination={true}
             // navigation={true}
@@ -157,6 +160,8 @@ export default function PostDetailContainer({
               </div>
             )}
           </Swiper>
+        </div>
+        <div className="my-2">
           <div className="font-light whitespace-pre-line">{contents}</div>
         </div>
         <div className="text-sm text-y-gray">조회 {view}</div>

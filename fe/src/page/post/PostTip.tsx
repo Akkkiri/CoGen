@@ -11,23 +11,19 @@ import { useAppSelector } from "../../store/hook";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
-export default function PostPlace() {
+export default function TipPost() {
   const [sort, setSort] = useState<Select>("new");
 
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [postProps, setPostProps] = useState<any>();
-  const [category, setCategory] = useState<string>(`전체`);
+  const [category, setCategory] = useState<string>("꿀팁");
   const isLoginUser = useAppSelector(isLogin);
 
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(
-        `/feeds/categories?category=${SelectBoxMatcher(
-          category
-        )}&sort=${sort}&page=${page}`
-      )
+      .get(`/feeds/categories?category=TIP&sort=${sort}&page=${page}`)
       .then((response) => {
         setPostProps(response.data.data);
         setTotalPages(response.data.pageInfo.totalPages);

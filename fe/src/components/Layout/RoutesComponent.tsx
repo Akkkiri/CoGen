@@ -26,6 +26,13 @@ import Writepost from "page/post/Writepost";
 import GoneDetail from "page/Question/GoneDetail";
 import PostSearch from "page/search/PostSearch";
 import UserSearch from "page/search/UserSearch";
+import PostWorry from "page/post/PostWorry";
+import PostTip from "page/post/PostTip";
+import PostPlace from "page/post/PostPlace";
+import PostQuote from "page/post/PostQuote";
+import PostHumor from "page/post/PostHumor";
+import PostDaily from "page/post/PostDaily";
+import PostEtc from "page/post/PostEtc";
 
 export default function RoutesComponent() {
   return (
@@ -34,7 +41,16 @@ export default function RoutesComponent() {
       <Route path="/question" element={<Question />} />
       <Route path="/question/all" element={<GonQuestion />} />
       <Route path="/question/:QuestionId" element={<GoneDetail />} />
-      <Route path="/post" element={<Post />} />
+
+      <Route path="/post/ALL" element={<Post />} />
+      <Route path="/post/WORRY" element={<PostWorry />} />
+      <Route path="/post/TIP" element={<PostTip />} />
+      <Route path="/post/PLACE" element={<PostPlace />} />
+      <Route path="/post/QUOTE" element={<PostQuote />} />
+      <Route path="/post/HUMOR" element={<PostHumor />} />
+      <Route path="/post/DAILY" element={<PostDaily />} />
+      <Route path="/post/ETC" element={<PostEtc />} />
+
       <Route path="/post/:PostId" element={<PostDetail />} />
       <Route path="/writepost" element={<Writepost />} />
       <Route path="/quiz" element={<Quiz />} />

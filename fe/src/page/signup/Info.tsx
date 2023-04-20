@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "store/hook";
-import { id } from "store/modules/authSlice";
+import { myid } from "store/modules/authSlice";
 
 export const genderList = [
   { kor: "남자", eng: "MALE" },
@@ -25,7 +25,7 @@ const agegroupList = [
 export default function Info() {
   const { register, getValues, handleSubmit } = useForm();
   const navigate = useNavigate();
-  const ID = useAppSelector(id);
+  const ID = useAppSelector(myid);
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     axios
       .patch(`/users/${ID}/firstlogin`, data)

@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import Friend, { FriendProps } from "components/user/Friend";
 import axios from "api/axios";
 import { useAppSelector } from "store/hook";
-import { id } from "store/modules/authSlice";
+import { myid } from "store/modules/authSlice";
 import Empty from "components/Empty";
 
 export default function MyFriend() {
-  const ID = useAppSelector(id);
+  const ID = useAppSelector(myid);
   const [friendsList, setFriendsList] = useState<FriendProps[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);

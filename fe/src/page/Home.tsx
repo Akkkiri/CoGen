@@ -44,7 +44,7 @@ export default function Home() {
   // 이번주 질문
   useEffect(() => {
     axios.get(`/feeds/weekly`).then((response) => {
-      // console.log(response.data);
+      console.log(response.data);
       setBestPostProps(response.data);
     });
   }, []);

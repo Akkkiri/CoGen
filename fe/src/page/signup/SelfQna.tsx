@@ -4,14 +4,14 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "store/hook";
-import { id } from "store/modules/authSlice";
+import { myid } from "store/modules/authSlice";
 import Swal from "sweetalert2";
 
 export default function SelfQna() {
   const { register, getValues, handleSubmit } = useForm();
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  const ID = useAppSelector(id);
+  const ID = useAppSelector(myid);
 
   const isVaild = () => {
     const answered = [];

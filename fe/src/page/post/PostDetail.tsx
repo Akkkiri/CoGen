@@ -14,7 +14,7 @@ import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { id } from "../../store/modules/authSlice";
+import { myid } from "../../store/modules/authSlice";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import LikeBtn from "components/LikeBtn";
 import Empty from "components/Empty";
@@ -35,25 +35,26 @@ export default function PostDetail() {
   const [inputState, setInputState] = useState<string>("");
   const [commentCount, setCommentCount] = useState<number>();
   const [isLike, setIsLike] = useState<boolean>(false);
+  const [userId, setUserID] = useState<number>(0);
   const [likeCounts, setLikeCounts] = useState<number>(0);
   const [savePost, setSavePost] = useState<boolean>(false);
   const [isMine, setIsMine] = useState(false);
   const [image, setImage] = useState<string>("");
   const [image2, setImage2] = useState<string>("");
   const [image3, setImage3] = useState<string>("");
-  const userid = useAppSelector(id);
+  const userid = useAppSelector(myid);
 
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`/feeds/${PostId}`).then((response) => {
-      // console.log(response.data);
       setTitle(response.data.title);
       setPostContents(response.data.body);
       setTag(response.data.category);
       setPostNickName(response.data.userInfo.nickname);
       setPostProfileImage(response.data.userInfo.profileImage);
+      setUserID(response.data.userInfo.id);
       SetView(response.data.viewCount);
       setPostDate(response.data.createdAt);
       setCommentCount(response.data.commentCount);
@@ -63,11 +64,11 @@ export default function PostDetail() {
       setImage(response.data.imagePath);
       setImage2(response.data.imagePath2);
       setImage3(response.data.imagePath3);
-      if (response.data.userInfo.id === userid) {
+      if (userId === userid) {
         setIsMine(true);
       }
     });
-  }, [PostId, page, userid]);
+  }, [PostId, page, userId, userid]);
 
   useEffect(() => {
     axios
@@ -134,7 +135,7 @@ export default function PostDetail() {
     <>
       <div className="p-3 border-b border-y-lightGray">
         <IoMdClose
-          onClick={() => navigate("/post")}
+          onClick={() => navigate(-1)}
           className="w-6 h-6 cursor-pointer absolute "
         />
         <h1 className="text-center text-xl">게시판</h1>
@@ -149,6 +150,7 @@ export default function PostDetail() {
           profileImage={postProfileImage}
           date={postDate}
           view={viwe}
+          userId={userId}
           isMine={isMine}
           image={image}
           image2={image2}

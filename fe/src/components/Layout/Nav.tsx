@@ -34,7 +34,7 @@ export default function Nav() {
         </div>
         <div className="w-20">
           <NavLink
-            to="/post"
+            to="/post/ALL"
             className={({ isActive }) => (isActive ? "text-y-red" : "")}
           >
             <div className="flex flex-col items-center text-sm">
