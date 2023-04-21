@@ -41,9 +41,9 @@ export default function BestPost({ bestPostProps }: any) {
                 } p-4 mb:p-8`}
               >
                 <NavLink to={`/post/${el.feedId}`}>
-                  <div className="truncate">{el.title}</div>
-                  <div className="h-20">
-                    <div className="my-2 text-sm md:text-base  font-light break-all overflow-hidden line-clamp-3">
+                  <div className="truncate md:text-xl">{el.title}</div>
+                  <div className="h-20 md:h-28">
+                    <div className="my-2 text-sm md:text-lg  font-light break-all overflow-hidden line-clamp-3">
                       {el.body}
                     </div>
                   </div>
