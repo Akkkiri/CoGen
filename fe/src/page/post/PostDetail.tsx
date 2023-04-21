@@ -249,8 +249,8 @@ export default function PostDetail() {
             <Empty str={"댓글이"} />
           ) : (
             <>
-              {postComments.map((el: any) => (
-                <div key={el.commentId}>
+              {postComments.map((el: any, idx: number) => (
+                <div key={idx}>
                   <CommentContainer
                     isLiked={el.isLiked}
                     contents={el.body}

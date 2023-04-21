@@ -1,5 +1,6 @@
 import BigInput from "components/Inputs/BigInput";
-import { Select, SelectBoxMatcher } from "../../util/SelectUtil";
+import { Select, Category } from "../../util/SelectUtil";
+
 import { useState, useEffect } from "react";
 import SelectBox from "../../components/SelectBox";
 import ImageUpload from "components/ImageUpload";
@@ -14,19 +15,21 @@ import {
   AWS_S3_BUCKET_REGION,
 } from "util/AWSInfo";
 import { userId } from "store/modules/authSlice";
+import EditImage from "components/EditImage";
 export default function EditPost() {
   const { PostId } = useParams();
   const [inputState, setInputState] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<Select>("");
-  const [imageData, setImageData] = useState<string[]>([]);
+  const [imageData, setImageData] = useState<File[]>([]);
   const [contentLength, setContentLength] = useState("");
   const [categoryErr, setCategoryErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
   const [progress, setProgress] = useState(0);
+  const [defaulturl, setDefaultUrl] = useState<any>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [types, setTypes] = useState<any>([]);
   const navigate = useNavigate();
-  const [imgData, setImgData] = useState<string[]>([]);
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputState(e.target.value);
   };
@@ -39,73 +42,72 @@ export default function EditPost() {
     params: { Bucket: AWS_S3_BUCKET },
     region: AWS_S3_BUCKET_REGION,
   });
-  // const handleSubmit = () => {
-  //   if (imgData) {
-  //     postPost(imgData);
-  //   } else {
-  //     postPost([]);
-  //   }
-  // };
-  // const handleUpLoad = () => {
-  //   if (selectedFile) {
-  //     uploadFile(selectedFile);
-  //     const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
-  //       / /g,
-  //       ""
-  //     )}`;
-  //     setImgData([...imgData, ...[url]]);
-  //   }
-  // };
-  // const handleSubmit = () => {
-  //   if (selectedFile) {
-  //     uploadFile(selectedFile);
-  //     const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
-  //       / /g,
-  //       ""
-  //     )}`;
-  //     setImgData([...imgData, ...[url]]);
-  //     postPost(imgData);
-  //   } else {
-  //     postPost([]);
-  //   }
-  // };
+
   useEffect(() => {
     axios.get(`/feeds/${PostId}`).then((response) => {
       setInputState(response.data.title);
       setContent(response.data.body);
       setCategory(response.data.category);
-
-      // setImage(response.data.imagePath);
-      // setImage2(response.data.imagePath2);
-      // setImage3(response.data.imagePath3);
+      console.log(response.data);
+      if (!response.data.imagePath) {
+        setDefaultUrl([]);
+      } else if (!response.data.imagePath2) {
+        setDefaultUrl([response.data.imagePath]);
+      } else if (!response.data.imagePath3) {
+        setDefaultUrl([response.data.imagePath, response.data.imagePath2]);
+      } else {
+        setDefaultUrl([
+          response.data.imagePath,
+          response.data.imagePath2,
+          response.data.imagePath3,
+        ]);
+      }
     });
   }, [PostId]);
-  const handleSubmit = () => {
-    if (selectedFile) {
-      uploadFile(selectedFile);
-      const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
-        / /g,
-        ""
-      )}`;
+  // console.log(defaulturl);
+  const isVaild = () => {
+    if (category === "" || inputState === "" || content.length < 3) {
+      if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
 
-      editPost(url);
+      if (category === "") setCategoryErr("카테고리를 선택해주세요");
+
+      if (inputState.length < 1) setTitleErr("한글자 이상 작성해주세요");
+      return false;
     } else {
-      editPost();
+      return true;
     }
   };
-  const uploadFile = async (file: File) => {
-    setImgData([
-      `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${file.name.replace(
-        / /g,
-        ""
-      )}`,
-    ]);
 
+  const handleSubmit = async () => {
+    if (isVaild()) {
+      if (imageData.length) {
+        let imageList = [];
+        for (let i = 0; i < imageData.length; i++) {
+          const uuid = crypto.randomUUID();
+          let url = `https://${AWS_S3_BUCKET}.s3.${AWS_S3_BUCKET_REGION}.amazonaws.com/${
+            "feedImages/" + uuid + "_" + imageData[i].name.replace(/ /g, "")
+          }`;
+          imageList.push(url);
+
+          uploadFile(imageData[i], uuid);
+        }
+        editPost([...defaulturl, ...imageList]);
+      } else {
+        editPost(defaulturl);
+      }
+    }
+  };
+
+  const uploadFile = async (file: File | null, uuid: string) => {
+    if (!file) {
+      return "";
+    }
+    // return new Promise<string>((resolve, reject) => {
     const params = {
       ACL: "public-read",
       Body: file,
       Bucket: AWS_S3_BUCKET,
-      Key: "feedImages/" + "_" + file.name.replace(/ /g, ""),
+      Key: "feedImages/" + uuid + "_" + file.name.replace(/ /g, ""),
     };
     s3Bucket
       .putObject(params)
@@ -113,24 +115,19 @@ export default function EditPost() {
         setProgress(Math.round((e.loaded / e.total) * 100));
       })
       .send((err) => {
-        if (err) console.log(err);
+        console.log(err);
       });
   };
-  // console.log(imgData);
-  const editPost = (url?: string) => {
-    if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
 
-    if (category === "") setCategoryErr("카테고리를 선택해주세요");
-
-    if (inputState.length < 1) setTitleErr("한글자 이상 작성해주세요");
-
+  const editPost = (urls: string[]) => {
+    console.log(urls);
     const jsonData = {
       title: inputState,
       body: content,
       category: category,
-      imagePath: url ? url : imgData[0],
-      // imagePath2: url ? url : imgData[1],
-      // imagePath3: url ? url : imgData[2],
+      imagePath: urls[0] || "",
+      imagePath2: urls[1] || "",
+      imagePath3: urls[2] || "",
     };
 
     axios
@@ -155,7 +152,11 @@ export default function EditPost() {
           {category === "" ? (
             <div className="text-y-red text-sm">{categoryErr}</div>
           ) : null}
-          <SelectBox setSelect={setCategory} type={"category"} />
+          <SelectBox
+            setSelect={setCategory}
+            type={"category"}
+            curState={Category(category)}
+          />
         </div>
         <div className="m-2">
           <div className="mb-2 mt-2 text-lg font-semibold md:text-xl">제목</div>
@@ -176,13 +177,23 @@ export default function EditPost() {
           </section>
         </div>
 
-        <ImageUpload
+        {/* <ImageUpload
+          imageData={imageData}
+          setImageData={setImageData}
+          url={defaulturl}
+          setUrl={setDefaultUrl}
+          type={types}
+          setType={setTypes}
+          // handleUpLoad={handleUpLoad}
+        /> */}
+        <EditImage
           imageData={imageData}
           setImageData={setImageData}
           setSelectedFile={setSelectedFile}
-          setImgData={setImgData}
-          imgData={imgData}
-          // handleUpLoad={handleUpLoad}
+          url={defaulturl}
+          setUrl={setDefaultUrl}
+          type={types}
+          setType={setTypes}
         />
         <div className="m-2">
           <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">본문</div>
