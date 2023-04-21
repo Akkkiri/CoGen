@@ -61,12 +61,7 @@ export default function Header() {
               withCredentials: true,
             }
           );
-          evtSource.onopen = (e: any) => {
-            // console.log("Connection was opened1.");
-            // console.log("onopen", e);
-          };
           evtSource.addEventListener("sse", (e: any) => {
-            // console.log("sse", e);
             if (e.data.slice(0, 9) !== "Connected") {
               setHasNewNotify(true);
               const sseData = JSON.parse(e.data);
@@ -78,9 +73,6 @@ export default function Header() {
               });
             }
           });
-          evtSource.onerror = (e) => {
-            // console.log(e);
-          };
         } catch (error) {}
       };
       sse();

@@ -116,7 +116,7 @@ export default function EditPost() {
         if (err) console.log(err);
       });
   };
-  console.log(imgData);
+  // console.log(imgData);
   const editPost = (url?: string) => {
     if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
 
