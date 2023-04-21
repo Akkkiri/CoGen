@@ -48,6 +48,10 @@
   font-display: swap;
 }
 
+.swiper {
+  --swiper-theme-color: #7254e9;
+}
+
 @layer components {
   .btn-r {
     @apply bg-y-red text-white rounded-lg py-2 px-4 m-1 focus:outline-none hover:bg-red-600 md:text-xl;
