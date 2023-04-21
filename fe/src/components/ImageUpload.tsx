@@ -8,8 +8,8 @@ export default function ImageUpload({
   imageData,
   setImageData,
   setSelectedFile,
-  // handleUpdate,
-}: any) {
+}: // handleUpdate,
+any) {
   // const [preImg, setPreImg] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [preImg, setPreImg] = useState<string[]>([]);
@@ -29,8 +29,15 @@ export default function ImageUpload({
         setShowModal(true);
         const heic2any = require("heic2any");
         heic2any({ blob: imageFile, toType: "image/jpeg", quality: 1 }).then(
-          async (response: any) => {
-            imageFile = response;
+          async (res: File) => {
+            imageFile = new File(
+              [res],
+              imageFile.name.split(".")[0] + ".jpeg",
+              {
+                type: "image/jpeg",
+                lastModified: new Date().getTime(),
+              }
+            );
             try {
               const compressedFile = await imageCompression(imageFile, options);
               setSelectedFile(compressedFile);
@@ -55,8 +62,6 @@ export default function ImageUpload({
         try {
           const compressedFile = await imageCompression(imageFile, options);
           setSelectedFile(compressedFile);
-          //제거
-          console.log()
           setImageData([...imageData, compressedFile]);
           let tmpUrl = URL.createObjectURL(compressedFile);
           setPreImg([...preImg, tmpUrl]);

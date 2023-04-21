@@ -17,19 +17,15 @@ export default function Writepost() {
   const [inputState, setInputState] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<Select>("");
-  const [imageData, setImageData] = useState<string[]>([]);
+  const [imageData, setImageData] = useState<File[]>([]);
   const [contentLength, setContentLength] = useState("");
   const [categoryErr, setCategoryErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
   const [progress, setProgress] = useState(0);
-  // const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  //
-  const [selectedFile1, setSelectedFile1] = useState<File | null>(null);
-  const [selectedFile2, setSelectedFile2] = useState<File | null>(null);
-  const [selectedFile3, setSelectedFile3] = useState<File | null>(null);
+  const [imgList, setImgList] = useState<string[]>([]);
+
   const navigate = useNavigate();
-  const [imgData, setImgData] = useState<string[]>([]);
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputState(e.target.value);
   };
@@ -43,68 +39,53 @@ export default function Writepost() {
     region: AWS_S3_BUCKET_REGION,
   });
 
-
-  // const handleSubmit = async () => {
-  //   const urls = await Promise.all([
-  //     uploadFile(selectedFiles[0]),
-  //     uploadFile(selectedFiles[1]),
-  //     uploadFile(selectedFiles[2]),
-  //   ]);
-  //   postPost(urls);
-  // };
-
-  // const handleSubmit = async () => {
-  //   const urls = await Promise.all(selectedFiles.map(uploadFile));
-  //   postPost(urls);
-  // };
-
-  // const handleSubmit = async () => {
-  //   const urls = await Promise.all([
-  //     uploadFile(selectedFile1),
-  //     uploadFile(selectedFile2),
-  //     uploadFile(selectedFile3),
-  //   ]);
-  //   postPost(urls);
-  // };
+  const isVaild = () => {
+    if (category === "" || inputState === "" || content.length < 3) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   const handleSubmit = async () => {
-    const urls = await Promise.all([selectedFile1, selectedFile2, selectedFile3]
-      .filter(file => file)
-      .map(file => uploadFile(file))
-    );
-    postPost(urls);
-  };
-
-  const uploadFile = async (file: File | null) => {
-
-    if (!file) {
-      return '';
+    if (isVaild()) {
+      if (imageData.length) {
+        let imageList = [];
+        for (let i = 0; i < imageData.length; i++) {
+          const uuid = crypto.randomUUID();
+          let url = `https://${AWS_S3_BUCKET}.s3.${AWS_S3_BUCKET_REGION}.amazonaws.com/${
+            "feedImages/" + uuid + "_" + imageData[i].name.replace(/ /g, "")
+          }`;
+          imageList.push(url);
+          uploadFile(imageData[i], uuid);
+        }
+        postPost(imageList);
+      } else {
+        postPost(["", "", ""]);
+      }
     }
-
-    return new Promise<string>((resolve, reject) => {
-      const params = {
-        ACL: "public-read",
-        Body: file,
-        Bucket: AWS_S3_BUCKET,
-        Key: "feedImages/" + "_" + file.name.replace(/ /g, ""),
-      };
-      s3Bucket
-        .putObject(params)
-        .on("httpUploadProgress", (e) => {
-          setProgress(Math.round((e.loaded / e.total) * 100));
-        })
-        .send((err) => {
-          if (err) reject(err);
-          else {
-            const url = `https://${AWS_S3_BUCKET}.s3.${AWS_S3_BUCKET_REGION}.amazonaws.com/${params.Key}`;
-            setImgData([...imgData, url]);
-            // setImgData((prev) => [...prev, url]);
-            resolve(url);
-          }
-        });
-    });
   };
-  console.log(imgData);
+
+  const uploadFile = async (file: File | null, uuid: string) => {
+    if (!file) {
+      return "";
+    }
+    // return new Promise<string>((resolve, reject) => {
+    const params = {
+      ACL: "public-read",
+      Body: file,
+      Bucket: AWS_S3_BUCKET,
+      Key: "feedImages/" + uuid + "_" + file.name.replace(/ /g, ""),
+    };
+    s3Bucket
+      .putObject(params)
+      .on("httpUploadProgress", (e) => {
+        setProgress(Math.round((e.loaded / e.total) * 100));
+      })
+      .send((err) => {
+        console.log(err);
+      });
+  };
 
   const postPost = (urls: string[]) => {
     if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
@@ -117,9 +98,9 @@ export default function Writepost() {
       title: inputState,
       body: content,
       category: category,
-      imagePath: imgData.length >= 1 ? imgData[0] : "",
-      imagePath2: imgData.length >= 2 ? imgData[1] : "",
-      imagePath3: imgData.length === 3 ? imgData[2] : "",
+      imagePath: urls[0] || "",
+      imagePath2: urls[1] || "",
+      imagePath3: urls[2] || "",
     };
 
     axios
@@ -169,9 +150,6 @@ export default function Writepost() {
           imageData={imageData}
           setImageData={setImageData}
           setSelectedFile={setSelectedFile}
-        // setImgData={setImgData}
-        // imgData={imgData}
-        // handleUpLoad={handleUpLoad}
         />
         <div className="m-2">
           <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">본문</div>
