@@ -8,7 +8,7 @@ export default function ImageUpload({
   imageData,
   setImageData,
   setSelectedFile,
-  handleUpdate,
+  // handleUpdate,
 }: any) {
   // const [preImg, setPreImg] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -55,6 +55,8 @@ export default function ImageUpload({
         try {
           const compressedFile = await imageCompression(imageFile, options);
           setSelectedFile(compressedFile);
+          //제거
+          console.log()
           setImageData([...imageData, compressedFile]);
           let tmpUrl = URL.createObjectURL(compressedFile);
           setPreImg([...preImg, tmpUrl]);
