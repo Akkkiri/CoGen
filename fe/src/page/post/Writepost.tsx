@@ -17,14 +17,15 @@ export default function Writepost() {
   const [inputState, setInputState] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<Select>("");
-  const [imageData, setImageData] = useState<string[]>([]);
+  const [imageData, setImageData] = useState<File[]>([]);
   const [contentLength, setContentLength] = useState("");
   const [categoryErr, setCategoryErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
   const [progress, setProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imgList, setImgList] = useState<string[]>([]);
+
   const navigate = useNavigate();
-  const [imgData, setImgData] = useState<string[]>([]);
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputState(e.target.value);
   };
@@ -37,62 +38,44 @@ export default function Writepost() {
     params: { Bucket: AWS_S3_BUCKET },
     region: AWS_S3_BUCKET_REGION,
   });
-  // const handleSubmit = () => {
-  //   if (imgData) {
-  //     postPost(imgData);
-  //   } else {
-  //     postPost([]);
-  //   }
-  // };
-  // const handleUpLoad = () => {
-  //   if (selectedFile) {
-  //     uploadFile(selectedFile);
-  //     const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
-  //       / /g,
-  //       ""
-  //     )}`;
-  //     setImgData([...imgData, ...[url]]);
-  //   }
-  // };
-  // const handleSubmit = () => {
-  //   if (selectedFile) {
-  //     uploadFile(selectedFile);
-  //     const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
-  //       / /g,
-  //       ""
-  //     )}`;
-  //     setImgData([...imgData, ...[url]]);
-  //     postPost(imgData);
-  //   } else {
-  //     postPost([]);
-  //   }
-  // };
-  const handleSubmit = () => {
-    if (selectedFile) {
-      uploadFile(selectedFile);
-      const url = `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${selectedFile.name.replace(
-        / /g,
-        ""
-      )}`;
 
-      postPost(url);
+  const isVaild = () => {
+    if (category === "" || inputState === "" || content.length < 3) {
+      return false;
     } else {
-      postPost();
+      return true;
     }
   };
-  const uploadFile = async (file: File) => {
-    setImgData([
-      `https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/feedImages/_${file.name.replace(
-        / /g,
-        ""
-      )}`,
-    ]);
 
+  const handleSubmit = async () => {
+    if (isVaild()) {
+      if (imageData.length) {
+        let imageList = [];
+        for (let i = 0; i < imageData.length; i++) {
+          const uuid = crypto.randomUUID();
+          let url = `https://${AWS_S3_BUCKET}.s3.${AWS_S3_BUCKET_REGION}.amazonaws.com/${
+            "feedImages/" + uuid + "_" + imageData[i].name.replace(/ /g, "")
+          }`;
+          imageList.push(url);
+          uploadFile(imageData[i], uuid);
+        }
+        postPost(imageList);
+      } else {
+        postPost(["", "", ""]);
+      }
+    }
+  };
+
+  const uploadFile = async (file: File | null, uuid: string) => {
+    if (!file) {
+      return "";
+    }
+    // return new Promise<string>((resolve, reject) => {
     const params = {
       ACL: "public-read",
       Body: file,
       Bucket: AWS_S3_BUCKET,
-      Key: "feedImages/" + "_" + file.name.replace(/ /g, ""),
+      Key: "feedImages/" + uuid + "_" + file.name.replace(/ /g, ""),
     };
     s3Bucket
       .putObject(params)
@@ -100,11 +83,11 @@ export default function Writepost() {
         setProgress(Math.round((e.loaded / e.total) * 100));
       })
       .send((err) => {
-        if (err) console.log(err);
+        console.log(err);
       });
   };
-  console.log(imgData);
-  const postPost = (url?: string) => {
+
+  const postPost = (urls: string[]) => {
     if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
 
     if (category === "") setCategoryErr("카테고리를 선택해주세요");
@@ -115,9 +98,9 @@ export default function Writepost() {
       title: inputState,
       body: content,
       category: category,
-      imagePath: url ? url : imgData[0],
-      // imagePath2: url ? url : imgData[1],
-      // imagePath3: url ? url : imgData[2],
+      imagePath: urls[0] || "",
+      imagePath2: urls[1] || "",
+      imagePath3: urls[2] || "",
     };
 
     axios
@@ -167,9 +150,6 @@ export default function Writepost() {
           imageData={imageData}
           setImageData={setImageData}
           setSelectedFile={setSelectedFile}
-          setImgData={setImgData}
-          imgData={imgData}
-          // handleUpLoad={handleUpLoad}
         />
         <div className="m-2">
           <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">본문</div>
