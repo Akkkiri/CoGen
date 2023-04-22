@@ -115,7 +115,7 @@ export default function PostDetailContainer({
         <div className="my-5">
           <Swiper
             pagination={true}
-            // navigation={true}
+            navigation={true}
             // loop={true}
             modules={[Pagination, Navigation]}
             className="overflow-clip"
