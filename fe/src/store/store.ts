@@ -3,6 +3,7 @@ import authReducer from "./modules/authSlice";
 import quizReducer from "./modules/quizSlice";
 import searchReducer from "./modules/searchSlice";
 import notifyReducer from "./modules/notifySlice";
+import postReduucer from "./modules/postSlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -15,6 +16,7 @@ const persistConfig = {
 export const rootReducer = combineReducers({
   auth: authReducer,
   quiz: quizReducer,
+  post: postReduucer,
   search: searchReducer,
   notify: notifyReducer,
 });
