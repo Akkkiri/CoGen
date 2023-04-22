@@ -90,3 +90,21 @@ export const AgeTypeMatcherToKor = (str: string) => {
       return "공개안함";
   }
 };
+export const Category = (str: string) => {
+  switch (str) {
+    case "WORRY":
+      return "고민";
+    case "TIP":
+      return "꿀팁";
+    case "PLACE":
+      return "장소공유";
+    case "QUOTE":
+      return "명언";
+    case "HUMOR":
+      return "유머";
+    case "DAILY":
+      return "일상";
+    case "ETC":
+      return "기타";
+  }
+};
