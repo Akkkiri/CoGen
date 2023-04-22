@@ -41,6 +41,11 @@ export default function Writepost() {
 
   const isVaild = () => {
     if (category === "" || inputState === "" || content.length < 3) {
+      if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
+
+      if (category === "") setCategoryErr("카테고리를 선택해주세요");
+
+      if (inputState.length < 1) setTitleErr("한글자 이상 작성해주세요");
       return false;
     } else {
       return true;
@@ -57,6 +62,7 @@ export default function Writepost() {
             "feedImages/" + uuid + "_" + imageData[i].name.replace(/ /g, "")
           }`;
           imageList.push(url);
+          console.log(imageList);
           uploadFile(imageData[i], uuid);
         }
         postPost(imageList);
@@ -124,9 +130,13 @@ export default function Writepost() {
             카테고리
           </div>
           {category === "" ? (
-            <div className="text-y-red text-sm">{categoryErr}</div>
+            <div className="text-y-red text-sm md:text-base">{categoryErr}</div>
           ) : null}
-          <SelectBox setSelect={setCategory} type={"category"} />
+          <SelectBox
+            setSelect={setCategory}
+            type={"category"}
+            curState={"카테고리"}
+          />
         </div>
         <div className="m-2">
           <div className="mb-2 mt-2 text-lg font-semibold md:text-xl">제목</div>

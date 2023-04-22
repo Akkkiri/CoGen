@@ -115,17 +115,17 @@ export default function PostDetailContainer({
         <div className="my-5">
           <Swiper
             pagination={true}
-            // navigation={true}
+            navigation={true}
             // loop={true}
             modules={[Pagination, Navigation]}
             className="overflow-clip"
           >
             {!image ? null : (
               <div>
-                <SwiperSlide>
+                <SwiperSlide key={1}>
                   <img
                     src={image}
-                    alt="imageList"
+                    alt="imageList1"
                     width={300}
                     height={300}
                     className="m-auto w-auto h-72 md:h-96"
@@ -135,10 +135,10 @@ export default function PostDetailContainer({
             )}
             {!image2 ? null : (
               <div>
-                <SwiperSlide>
+                <SwiperSlide key={2}>
                   <img
                     src={image2}
-                    alt="imageList"
+                    alt="imageList2"
                     width={300}
                     height={300}
                     className="m-auto h-72 w-auto md:h-96"
@@ -148,10 +148,10 @@ export default function PostDetailContainer({
             )}
             {!image3 ? null : (
               <div>
-                <SwiperSlide>
+                <SwiperSlide key={3}>
                   <img
                     src={image3}
-                    alt="imageList"
+                    alt="imageList3"
                     width={300}
                     height={300}
                     className="m-auto h-72 w-auto md:h-96"
