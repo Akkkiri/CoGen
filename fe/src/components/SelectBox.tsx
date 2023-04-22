@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { GoTriangleDown } from "react-icons/go";
-import { Select, SelectBoxMatcher } from "../util/SelectUtil";
+import { useAppDispatch, useAppSelector } from "store/hook";
+import { beforeSort, saveSort } from "store/modules/postSlice";
+import {
+  Select,
+  SelectBoxMatcher,
+  SortSelectBoxMatcher,
+} from "../util/SelectUtil";
 
 type SortBoxProps = {
   type: "sort" | "category" | "comment" | "ageType";
@@ -12,10 +18,10 @@ export default function SelectBox({ type, setSelect, curState }: SortBoxProps) {
   const [list, setList] = useState<string[]>();
   const [curChoice, setCurChoice] = useState<string>();
   const [showModal, setShowModal] = useState(false);
-
+  const savedSort = useAppSelector(beforeSort);
   useEffect(() => {
     if (type === "sort") {
-      setCurChoice("최신순");
+      setCurChoice(SortSelectBoxMatcher(savedSort));
       setList(["최신순", "공감순", "조회순"]);
     } else if (type === "comment") {
       setCurChoice("최신순");
@@ -38,14 +44,18 @@ export default function SelectBox({ type, setSelect, curState }: SortBoxProps) {
         "공개안함",
       ]);
     }
-  }, [type, curState]);
+  }, [type, curState, savedSort]);
 
+  const dispatch = useAppDispatch();
   const handleChoice = (el: string) => {
     setCurChoice(el);
     setShowModal(false);
     const newChoice = SelectBoxMatcher(el);
     if (newChoice !== undefined) {
       setSelect(newChoice);
+      if (type === "sort") {
+        dispatch(saveSort(newChoice));
+      }
     }
   };
 
