@@ -125,11 +125,12 @@ any) {
       <form className="grid grid-cols-3 gap-2 h-[105px] md:h-64 sm:h-48">
         {/* first Image */}
         <div className="bg-y-pink flex justify-center items-center rounded-xl overflow-hidden relative">
-          {url[0] === undefined ? (
+          {preImg[0] === undefined && url[0] === undefined ? (
             <>
               <label htmlFor="file">
                 <AiOutlinePlus className="w-10 h-10" />
               </label>
+
               <input
                 type="file"
                 id="file"
@@ -168,7 +169,7 @@ any) {
             {preImg[1] !== undefined || url[1] !== undefined ? (
               <>
                 <img
-                  src={url[1] ? url[1] : preImg[1]}
+                  src={preImg[1] ? preImg[1] : url[1]}
                   alt="bg"
                   width={500}
                   height={500}

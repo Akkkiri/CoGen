@@ -133,6 +133,7 @@ export default function EditPost() {
     axios
       .patch(`/feeds/${PostId}/edit`, jsonData)
       .then((res) => {
+        navigate(`/post/ALL`);
         navigate(`/post/${PostId}`);
       })
 
@@ -142,7 +143,7 @@ export default function EditPost() {
   return (
     <>
       <div className="p-3 border-b border-y-lightGray">
-        <h1 className="text-center text-xl md:text-2xl">글 작성</h1>
+        <h1 className="text-center text-xl md:text-2xl">글 수정</h1>
       </div>
       <div>
         <div className="m-2">

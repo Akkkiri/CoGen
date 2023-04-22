@@ -31,10 +31,10 @@ export default function CategorySwiper({
       slidesPerView={3.5}
       grabCursor={true}
       scrollbar={{ draggable: true }}
-      // navigation
+      slideToClickedSlide={true}
       pagination={{ clickable: true }}
     >
-      {/* {categoryList.map((el: string, idx: number) => (
+      {categoryList.map((el: string, idx: number) => (
         <SwiperSlide key={idx}>
           <div key={idx.toString()}>
             <input
@@ -57,9 +57,9 @@ export default function CategorySwiper({
             </label>
           </div>
         </SwiperSlide>
-      ))} */}
+      ))}
 
-      <SwiperSlide>
+      {/* <SwiperSlide>
         <NavLink
           to="/post/ALL"
           className={({ isActive }) =>
@@ -154,7 +154,7 @@ export default function CategorySwiper({
         >
           <div>기타</div>
         </NavLink>
-      </SwiperSlide>
+      </SwiperSlide> */}
     </Swiper>
   );
 }
