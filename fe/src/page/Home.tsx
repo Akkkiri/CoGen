@@ -6,6 +6,7 @@ import MainQnaContainer from "../components/Main/MainQnaContainer";
 import MainQuizContainer from "../components/Main/MainQuizContainer";
 import MainUser, { UserProfileProps } from "../components/Main/MainUser";
 import axios from "../api/axios";
+import Footer from "components/Layout/Footer";
 
 export default function Home() {
   const isLoginUser = useAppSelector(isLogin);
@@ -77,6 +78,7 @@ export default function Home() {
       <div className="py-4 px-2">
         <BestPost bestPostProps={bestPostProps} />
       </div>
+      <Footer />
     </>
   );
 }
