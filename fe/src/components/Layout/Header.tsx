@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal";
 import NotifyModal from "./NotifyModal";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
   accessToken,
   getNewTokenAsync,
@@ -13,7 +12,7 @@ import {
   logout,
 } from "store/modules/authSlice";
 import axios from "api/axios";
-import { useAppDispatch } from "store/hook";
+import { useAppDispatch, useAppSelector } from "store/hook";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import {
   deleteNotify,
@@ -27,8 +26,8 @@ export default function Header() {
   const [isNotifying, setIsNotifying] = useState(false);
   const [hasNewNotify, setHasNewNotify] = useState(false);
 
-  const TOKEN = useSelector(accessToken);
-  const isLoginUser = useSelector(isLogin);
+  const TOKEN = useAppSelector(accessToken);
+  const isLoginUser = useAppSelector(isLogin);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -41,9 +40,19 @@ export default function Header() {
       setInterval(() => {
         dispatch(getNewTokenAsync());
       }, 1 * 60 * 60 * 1000);
+      window.addEventListener("beforeunload", (e) => {
+        e.preventDefault();
+        dispatch(getNewTokenAsync());
+      });
     }
+    return () => {
+      window.removeEventListener("beforeunload", (e) => {
+        e.preventDefault();
+        dispatch(getNewTokenAsync());
+      });
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoginUser, dispatch]);
+  }, [isLoginUser]);
 
   useEffect(() => {
     if (isLoginUser) {

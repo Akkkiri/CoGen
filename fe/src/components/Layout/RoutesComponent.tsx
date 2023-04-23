@@ -28,8 +28,12 @@ import PostSearch from "page/search/PostSearch";
 import UserSearch from "page/search/UserSearch";
 import NotFound from "page/NotFound";
 import EditPost from "page/post/EditPost";
+import { useAppSelector } from "store/hook";
+import { isLogin } from "store/modules/authSlice";
+import NavigateLogin from "./NavigateLogin";
 
 export default function RoutesComponent() {
+  const isLoginUser = useAppSelector(isLogin);
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -42,30 +46,81 @@ export default function RoutesComponent() {
       <Route path="/writepost" element={<Writepost />} />
       <Route path="/editpost/:PostId" element={<EditPost />} />
       <Route path="/quiz" element={<Quiz />} />
-      <Route path="/mypage" element={<Mypage />} />
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/mypage"
+        element={isLoginUser ? <Mypage /> : <NavigateLogin url="/login" />}
+      />
+      <Route
+        path="/login"
+        element={isLoginUser ? <NavigateLogin url="/mypage" /> : <Login />}
+      />
       <Route path="/oauth/:site" element={<OauthLogin />} />
 
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/signup/nickname" element={<Nickname />} />
-      <Route path="/signup/info" element={<Info />} />
-      <Route path="/signup/qna" element={<SelfQna />} />
+      <Route
+        path="/signup"
+        element={isLoginUser ? <NavigateLogin url="/mypage" /> : <Signup />}
+      />
+      <Route
+        path="/signup/nickname"
+        element={isLoginUser ? <NavigateLogin url="/mypage" /> : <Nickname />}
+      />
+      <Route
+        path="/signup/info"
+        element={isLoginUser ? <NavigateLogin url="/mypage" /> : <Info />}
+      />
+      <Route
+        path="/signup/qna"
+        element={isLoginUser ? <NavigateLogin url="/mypage" /> : <SelfQna />}
+      />
 
-      <Route path="/mypage/qna" element={<MyQna />} />
-      <Route path="/mypage/question" element={<MyQuestion />} />
-      <Route path="/mypage/bookmark" element={<MyBookmark />} />
-      <Route path="/mypage/post" element={<MyPost />} />
-      <Route path="/mypage/comment" element={<MyComment />} />
-      <Route path="/mypage/edit" element={<MyEdit />} />
+      <Route
+        path="/mypage/qna"
+        element={isLoginUser ? <MyQna /> : <NavigateLogin url="/login" />}
+      />
+      <Route
+        path="/mypage/question"
+        element={isLoginUser ? <MyQuestion /> : <NavigateLogin url="/login" />}
+      />
+      <Route
+        path="/mypage/bookmark"
+        element={isLoginUser ? <MyBookmark /> : <NavigateLogin url="/login" />}
+      />
+      <Route
+        path="/mypage/post"
+        element={isLoginUser ? <MyPost /> : <NavigateLogin url="/login" />}
+      />
+      <Route
+        path="/mypage/comment"
+        element={isLoginUser ? <MyComment /> : <NavigateLogin url="/login" />}
+      />
+      <Route
+        path="/mypage/edit"
+        element={isLoginUser ? <MyEdit /> : <NavigateLogin url="/login" />}
+      />
       <Route
         path="/mypage/edit/pw"
-        element={<IdentityVerification type="change" />}
+        element={
+          isLoginUser ? (
+            <IdentityVerification type="change" />
+          ) : (
+            <NavigateLogin url="/login" />
+          )
+        }
       />
       <Route
         path="/mypage/edit/signout"
-        element={<IdentityVerification type="signout" />}
+        element={
+          isLoginUser ? (
+            <IdentityVerification type="signout" />
+          ) : (
+            <NavigateLogin url="/login" />
+          )
+        }
       />
-      <Route path="/mypage/friend" element={<MyFriend />} />
+      <Route
+        path="/mypage/friend"
+        element={isLoginUser ? <MyFriend /> : <NavigateLogin url="/login" />}
+      />
       <Route path="/user/:id" element={<Userpage />} />
       <Route path="/user/:id/friend" element={<UserFriend />} />
       <Route path="/help/pw" element={<IdentityVerification type="find" />} />

@@ -84,6 +84,7 @@ export default function NotifyModal({
                         to={`${el.url}`}
                         key={el.notificationId}
                         className="hover:bg-y-pink rounded-lg"
+                        onClick={() => setIsNotifying(false)}
                       >
                         <NotifyContainer {...el} deleteNotify={deleteNotify} />
                       </Link>

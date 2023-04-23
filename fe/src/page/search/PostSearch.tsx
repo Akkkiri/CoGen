@@ -13,6 +13,7 @@ import {
   beforePage,
   beforeSort,
 } from "store/modules/postSlice";
+import useDidMountEffect from "util/useDidMountEffect";
 
 export default function PostSearch() {
   const location = useLocation();
@@ -43,7 +44,7 @@ export default function PostSearch() {
     }
   }, [mode, category, query, sort, page]);
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     setPage(1);
   }, [category]);
 
