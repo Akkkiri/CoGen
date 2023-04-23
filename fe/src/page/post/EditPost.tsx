@@ -48,7 +48,7 @@ export default function EditPost() {
       setInputState(response.data.title);
       setContent(response.data.body);
       setCategory(response.data.category);
-      console.log(response.data);
+      // console.log(response.data);
       if (!response.data.imagePath) {
         setDefaultUrl([]);
       } else if (!response.data.imagePath2) {
@@ -62,6 +62,11 @@ export default function EditPost() {
           response.data.imagePath3,
         ]);
       }
+      // setDefaultUrl([
+      //   response.data.imagePath,
+      //   response.data.imagePath2,
+      //   response.data.imagePath3,
+      // ]);
     });
   }, [PostId]);
   // console.log(defaulturl);
@@ -133,7 +138,7 @@ export default function EditPost() {
     axios
       .patch(`/feeds/${PostId}/edit`, jsonData)
       .then((res) => {
-        navigate(`/post/ALL`);
+        navigate(`/post`);
         navigate(`/post/${PostId}`);
       })
 

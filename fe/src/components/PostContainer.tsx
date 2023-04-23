@@ -21,7 +21,7 @@ export default function PostContainer({
     if (postContainerProps !== undefined) setContainerProps(postContainerProps);
   }, [postContainerProps]);
   return (
-    <div>
+    <div className="p-2">
       {containerProps?.length === 0 ? (
         <Empty str={"게시글이"} />
       ) : (
