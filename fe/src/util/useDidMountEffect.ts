@@ -1,0 +1,15 @@
+import { useEffect, useRef } from "react";
+
+const useDidMountEffect = (func: any, deps: any) => {
+  const didMount = useRef(false);
+
+  useEffect(() => {
+    if (didMount.current) {
+      console.log("가자!");
+      func();
+    } else didMount.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+};
+
+export default useDidMountEffect;
