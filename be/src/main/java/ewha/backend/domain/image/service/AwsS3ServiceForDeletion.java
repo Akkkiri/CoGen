@@ -30,4 +30,13 @@ public class AwsS3ServiceForDeletion {
 
 		em.flush();
 	}
+
+	public void deleteFeedImageFromS3(String imagePath) {
+
+		String extracted = imagePath.substring(imagePath.indexOf("feedImages/"));
+
+		amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, extracted));
+
+		em.flush();
+	}
 }

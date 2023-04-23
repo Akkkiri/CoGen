@@ -1,5 +1,6 @@
 package ewha.backend.domain.feed.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ import ewha.backend.domain.feed.entity.Feed;
 import ewha.backend.domain.feed.repository.FeedQueryRepository;
 import ewha.backend.domain.feed.repository.FeedRepository;
 import ewha.backend.domain.image.service.AwsS3Service;
+import ewha.backend.domain.image.service.AwsS3ServiceForDeletion;
 import ewha.backend.domain.like.entity.CommentLike;
 import ewha.backend.domain.like.repository.CommentLikeQueryRepository;
 import ewha.backend.domain.user.entity.User;
@@ -39,6 +41,7 @@ public class FeedServiceImpl implements FeedService {
 	private final CommentLikeQueryRepository commentLikeQueryRepository;
 	private final BookmarkRepository bookmarkRepository;
 	private final AwsS3Service awsS3Service;
+	private final AwsS3ServiceForDeletion awsS3ServiceForDeletion;
 
 	@Override
 	@Transactional
@@ -80,14 +83,49 @@ public class FeedServiceImpl implements FeedService {
 
 		Feed findFeed = findVerifiedFeed(feedId);
 
-		if (findUser.equals(findFeed.getUser())) {
-
-			findFeed.updateFeed(feed);
-
-			return feedRepository.save(findFeed);
-		} else {
+		if (!findUser.equals(findFeed.getUser())) {
 			throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED);
 		}
+
+		List<String> findImagePaths =
+			Arrays.asList(findFeed.getImagePath(), findFeed.getImagePath2(), findFeed.getImagePath3());
+		List<String> updatedImagePaths =
+			Arrays.asList(feed.getImagePath(), feed.getImagePath2(), feed.getImagePath3());
+
+		for (String imagePath : findImagePaths) {
+			if (!updatedImagePaths.contains(imagePath)) {
+				awsS3ServiceForDeletion.deleteFeedImageFromS3(imagePath);
+			}
+		}
+
+		findFeed.updateFeed(feed);
+
+		return feedRepository.save(findFeed);
+
+		// if (findUser.equals(findFeed.getUser())) {
+		//
+		// 	if (!feed.getImagePath().equals(findFeed.getImagePath())
+		// 		&& !feed.getImagePath().equals(findFeed.getImagePath2())
+		// 		&& !feed.getImagePath().equals(findFeed.getImagePath3())) {
+		// 		awsS3ServiceForDeletion.deleteFeedImageFromS3(findFeed.getImagePath());
+		// 	}
+		// 	if (!feed.getImagePath2().equals(findFeed.getImagePath2())
+		// 		&& !feed.getImagePath2().equals(findFeed.getImagePath())
+		// 		&& !feed.getImagePath2().equals(findFeed.getImagePath3())) {
+		// 		awsS3ServiceForDeletion.deleteFeedImageFromS3(findFeed.getImagePath2());
+		// 	}
+		// 	if (!feed.getImagePath3().equals(findFeed.getImagePath3())
+		// 		&& !feed.getImagePath3().equals(findFeed.getImagePath())
+		// 		&& !feed.getImagePath3().equals(findFeed.getImagePath2())) {
+		// 		awsS3ServiceForDeletion.deleteFeedImageFromS3(findFeed.getImagePath3());
+		// 	}
+		//
+		// 	findFeed.updateFeed(feed);
+		//
+		// 	return feedRepository.save(findFeed);
+		// } else {
+		// 	throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED);
+		// }
 	}
 
 	public Feed updateFeedImage(

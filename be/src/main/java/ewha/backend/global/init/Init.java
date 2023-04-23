@@ -138,14 +138,47 @@ public class Init {
 		//         QUESTION STUB
 		//         ------------------------------------------------------------------------------------------
 
-		Collections.shuffle(InitConstant.DUMMY_QUESTION);
+		List<List<String>> tsvList = new ArrayList<List<String>>();
+
+		InputStream tsvinputStream = getClass().getClassLoader().getResourceAsStream("question.tsv");
+
+		File tsv = convertInputStreamToFile(tsvinputStream);
+		// File csv = new File(FILE_PATH);
+		BufferedReader bfr = null;
+		String lines = "";
+
+		try {
+			bfr = new BufferedReader(new FileReader(tsv));
+			while ((lines = bfr.readLine()) != null) { // readLine()은 파일에서 개행된 한 줄의 데이터를 읽어온다.
+				List<String> aLine = new ArrayList<String>();
+				String[] lineArr = lines.split("\t"); // 파일의 한 줄을 ,로 나누어 배열에 저장 후 리스트로 변환한다.
+				aLine = Arrays.asList(lineArr);
+				tsvList.add(aLine);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (bfr != null) {
+					bfr.close(); // 사용 후 BufferedReader를 닫아준다.
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Collections.shuffle(InitConstant.DUMMY_QUESTION);
 		LocalDate thisMonday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 90; i++) {
+
+			List<String> list = tsvList.get(i - 1);
 
 			if (i == 1) {
 				Question question = Question.builder()
 					.content(InitConstant.DUMMY_QUESTION.get(0))
-					.imagePath("https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/dummy/123.png")
+					// .imagePath("https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/dummy/123.png")
 					.openDate(thisMonday)
 					.isOpened(true)
 					.build();
@@ -154,8 +187,8 @@ public class Init {
 			}
 
 			Question question = Question.builder()
-				.content(InitConstant.DUMMY_QUESTION.get(i - 1))
-				.imagePath("https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/dummy/123.png")
+				.content(list.get(0))
+				// .imagePath("https://ewha-image-bucket.s3.ap-northeast-2.amazonaws.com/dummy/123.png")
 				.openDate(thisMonday.plusWeeks(i - 1))
 				// .openDate(LocalDate.now().plusDays(i - 1))
 				.isOpened(true)
@@ -169,20 +202,20 @@ public class Init {
 		//         ANSWER STUB
 		//         ------------------------------------------------------------------------------------------
 
-		for (int i = 1; i <= 40; i++) {
-
-			Long rand = (long)(Math.random() * 15);
-
-			Answer answer = Answer.builder()
-				.answerBody(DUMMY_ANSWER_LIST.get(rand.intValue()))
-				.user(userService.findVerifiedUser((long)(Math.random() * 20) + 1))
-				.question(questionService.findVerifiedQuestion((long)(Math.random() * 10) + 1))
-				.likeCount((long)(Math.random() * 15))
-				.reportCount((long)(Math.random() * 15))
-				.build();
-
-			answerRepository.save(answer);
-		}
+		// for (int i = 1; i <= 40; i++) {
+		//
+		// 	Long rand = (long)(Math.random() * 15);
+		//
+		// 	Answer answer = Answer.builder()
+		// 		.answerBody(DUMMY_ANSWER_LIST.get(rand.intValue()))
+		// 		.user(userService.findVerifiedUser((long)(Math.random() * 20) + 1))
+		// 		.question(questionService.findVerifiedQuestion((long)(Math.random() * 10) + 1))
+		// 		.likeCount((long)(Math.random() * 15))
+		// 		.reportCount((long)(Math.random() * 15))
+		// 		.build();
+		//
+		// 	answerRepository.save(answer);
+		// }
 
 		//         ------------------------------------------------------------------------------------------
 		//         ------------------------------------------------------------------------------------------
@@ -298,62 +331,62 @@ public class Init {
 
 		// List<Feed> feedList = new ArrayList<>();
 
-		Collections.shuffle(InitConstant.FEED_BODY_LIST);
-		Collections.shuffle(InitConstant.DUMMY_FEED_IMAGES);
-
-		for (int i = 1; i <= 2; i++) {
-
-			Long rand = (long)((Math.random() * 7) + 1);
-
-			Category category = Category.builder()
-				.id(rand)
-				.categoryType(CategoryType.ETC)
-				.build();
-
-			Feed feed = Feed.builder()
-				.category(category)
-				.user(userService.findVerifiedUser((long)((Math.random() * 20) + 2)))
-				.title("제목" + i)
-				.imagePath(InitConstant.DUMMY_FEED_IMAGES.get(i == 1? 0 : 3))
-				.imagePath2(InitConstant.DUMMY_FEED_IMAGES.get(i == 1? 1 : 4))
-				.imagePath3(InitConstant.DUMMY_FEED_IMAGES.get(i == 1? 2 : 5))
-				.body(InitConstant.FEED_BODY_LIST.get(i - 1))
-				.likeCount((long)(Math.random() * 50))
-				.viewCount((long)(Math.random() * 100))
-				.commentCount((long)(Math.random() * 10))
-				.build();
-
-			feedRepository.save(feed);
-			Thread.sleep(100);
-
-		}
-
-		for (int i = 3; i <= 40; i++) {
-
-			Long rand = (long)((Math.random() * 7) + 1);
-
-			Category category = Category.builder()
-				.id(rand)
-				.categoryType(CategoryType.ETC)
-				.build();
-
-			Feed feed = Feed.builder()
-				.category(category)
-				.user(userService.findVerifiedUser((long)((Math.random() * 20) + 2)))
-				.title("제목" + i)
-				.imagePath(InitConstant.DUMMY_FEED_IMAGES.get(i + 3))
-				.body(InitConstant.FEED_BODY_LIST.get(i - 1))
-				.likeCount((long)(Math.random() * 50))
-				.viewCount((long)(Math.random() * 100))
-				.commentCount((long)(Math.random() * 10))
-				.build();
-
-			feedRepository.save(feed);
-
-			Thread.sleep(100);
-
-			// feedList.add(feed);
-		}
+		// Collections.shuffle(InitConstant.FEED_BODY_LIST);
+		// Collections.shuffle(InitConstant.DUMMY_FEED_IMAGES);
+		//
+		// for (int i = 1; i <= 2; i++) {
+		//
+		// 	Long rand = (long)((Math.random() * 7) + 1);
+		//
+		// 	Category category = Category.builder()
+		// 		.id(rand)
+		// 		.categoryType(CategoryType.ETC)
+		// 		.build();
+		//
+		// 	Feed feed = Feed.builder()
+		// 		.category(category)
+		// 		.user(userService.findVerifiedUser((long)((Math.random() * 20) + 2)))
+		// 		.title("제목" + i)
+		// 		.imagePath(InitConstant.DUMMY_FEED_IMAGES.get(i == 1? 0 : 3))
+		// 		.imagePath2(InitConstant.DUMMY_FEED_IMAGES.get(i == 1? 1 : 4))
+		// 		.imagePath3(InitConstant.DUMMY_FEED_IMAGES.get(i == 1? 2 : 5))
+		// 		.body(InitConstant.FEED_BODY_LIST.get(i - 1))
+		// 		.likeCount((long)(Math.random() * 50))
+		// 		.viewCount((long)(Math.random() * 100))
+		// 		.commentCount((long)(Math.random() * 10))
+		// 		.build();
+		//
+		// 	feedRepository.save(feed);
+		// 	Thread.sleep(100);
+		//
+		// }
+		//
+		// for (int i = 3; i <= 40; i++) {
+		//
+		// 	Long rand = (long)((Math.random() * 7) + 1);
+		//
+		// 	Category category = Category.builder()
+		// 		.id(rand)
+		// 		.categoryType(CategoryType.ETC)
+		// 		.build();
+		//
+		// 	Feed feed = Feed.builder()
+		// 		.category(category)
+		// 		.user(userService.findVerifiedUser((long)((Math.random() * 20) + 2)))
+		// 		.title("제목" + i)
+		// 		.imagePath(InitConstant.DUMMY_FEED_IMAGES.get(i + 3))
+		// 		.body(InitConstant.FEED_BODY_LIST.get(i - 1))
+		// 		.likeCount((long)(Math.random() * 50))
+		// 		.viewCount((long)(Math.random() * 100))
+		// 		.commentCount((long)(Math.random() * 10))
+		// 		.build();
+		//
+		// 	feedRepository.save(feed);
+		//
+		// 	Thread.sleep(100);
+		//
+		// 	// feedList.add(feed);
+		// }
 
 		// log.info("FEED STUB: " + feedRepository.saveAll(feedList));
 		//         ------------------------------------------------------------------------------------------
@@ -361,21 +394,21 @@ public class Init {
 		//         COMMENT STUB
 		//         ------------------------------------------------------------------------------------------
 
-		List<Comment> commentList = new ArrayList<>();
-
-		for (int i = 1; i <= 80; i++) {
-
-			Comment comment = Comment.builder()
-				.body("comment body" + i)
-				.user(userService.findVerifiedUser((long)(Math.random() * 20) + 2))
-				.feed(feedService.findVerifiedFeed((long)(Math.random() * 40) + 1))
-				.likeCount((long)(Math.random() * 10) + 1)
-				.build();
-
-			commentList.add(comment);
-		}
-
-		log.info("COMMENT STUB: " + commentRepository.saveAll(commentList));
+		// List<Comment> commentList = new ArrayList<>();
+		//
+		// for (int i = 1; i <= 80; i++) {
+		//
+		// 	Comment comment = Comment.builder()
+		// 		.body("comment body" + i)
+		// 		.user(userService.findVerifiedUser((long)(Math.random() * 20) + 2))
+		// 		.feed(feedService.findVerifiedFeed((long)(Math.random() * 40) + 1))
+		// 		.likeCount((long)(Math.random() * 10) + 1)
+		// 		.build();
+		//
+		// 	commentList.add(comment);
+		// }
+		//
+		// log.info("COMMENT STUB: " + commentRepository.saveAll(commentList));
 		//         ------------------------------------------------------------------------------------------
 		return null;
 	}
