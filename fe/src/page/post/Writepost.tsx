@@ -113,6 +113,7 @@ export default function Writepost() {
       .post(`/feeds/add`, jsonData)
       .then((res) => {
         navigate(`/post/ALL`);
+        navigate(`/post/${res.data}`);
       })
 
       .catch((err) => console.log(err));

@@ -2,19 +2,28 @@ import axios from "api/axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Select, SelectBoxMatcher } from "../../util/SelectUtil";
-import CategorySwiper from "components/CategorySwiper";
 import SelectBox from "components/SelectBox";
 import PostContainer from "components/PostContainer";
 import Pagenation from "components/Pagenation";
 import BackBtn from "components/BackBtn";
+import SearchCategorySwiper from "components/SearchCategorySwiper";
+import { useAppSelector } from "store/hook";
+import {
+  beforeCategory,
+  beforePage,
+  beforeSort,
+} from "store/modules/postSlice";
 
 export default function PostSearch() {
   const location = useLocation();
   const query = location.state.query;
   const mode = location.state.mode;
-  const [category, setCategory] = useState("전체");
-  const [sort, setSort] = useState<Select>("new");
-  const [page, setPage] = useState(1);
+  const savedCategory = useAppSelector(beforeCategory);
+  const savedSort = useAppSelector(beforeSort);
+  const savedPage = useAppSelector(beforePage);
+  const [category, setCategory] = useState(savedCategory);
+  const [sort, setSort] = useState<Select>(savedSort);
+  const [page, setPage] = useState(savedPage);
   const [totalPages, setTotalPages] = useState(1);
   const [searchProps, setSearchProps] = useState<any>();
 
@@ -43,7 +52,7 @@ export default function PostSearch() {
       <BackBtn />
       <h1 className="page-title">"{query}" 검색 결과</h1>
       <div className="p-2 border-b border-y-lightGray">
-        <CategorySwiper setSelected={setCategory} checked={category} />
+        <SearchCategorySwiper setSelected={setCategory} checked={category} />
       </div>
       <div className="p-2 border-b border-y-lightGray">
         <SelectBox setSelect={setSort} type={"sort"} />

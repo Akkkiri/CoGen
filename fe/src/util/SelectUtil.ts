@@ -21,6 +21,17 @@ export type Select =
   | "OTHERS"
   | "";
 
+export const SortSelectBoxMatcher = (str: string) => {
+  switch (str) {
+    case "new":
+      return "최신순";
+    case "likes":
+      return "공감순";
+    case "view":
+      return "조회순";
+  }
+};
+
 export const SelectBoxMatcher = (str: string) => {
   switch (str) {
     case "최신순":

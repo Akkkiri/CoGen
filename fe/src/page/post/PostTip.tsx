@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import { useNavigate } from "react-router-dom";
+import { FaPlus } from "react-icons/fa";
 
 import Swal from "sweetalert2";
 export default function TipPost() {
@@ -68,10 +69,13 @@ export default function TipPost() {
         <div className="fixed bottom-[70px]">
           {isLoginUser ? (
             <NavLink to={"/writepost"}>
-              <button className="btn-r">게시글 작성</button>
+              <button className="btn-r shadow-xl flex items-center justify-center">
+                <FaPlus className="mr-1" />
+                게시글 작성
+              </button>
             </NavLink>
           ) : (
-            <button onClick={goToLogin} className="btn-r">
+            <button onClick={goToLogin} className="btn-r shadow-xl">
               게시글 작성
             </button>
           )}
