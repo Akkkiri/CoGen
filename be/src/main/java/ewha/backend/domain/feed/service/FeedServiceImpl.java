@@ -93,7 +93,7 @@ public class FeedServiceImpl implements FeedService {
 			Arrays.asList(feed.getImagePath(), feed.getImagePath2(), feed.getImagePath3());
 
 		for (String imagePath : findImagePaths) {
-			if (!updatedImagePaths.contains(imagePath)) {
+			if (!imagePath.equals("") && !updatedImagePaths.contains(imagePath)) {
 				awsS3ServiceForDeletion.deleteFeedImageFromS3(imagePath);
 			}
 		}
