@@ -19,6 +19,8 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import LikeBtn from "components/LikeBtn";
 import Empty from "components/Empty";
 import BookMarkBtn from "components/BookMark";
+import KakaoShareButton from "components/KakaoShareButton";
+import { useLocation } from "react-router-dom";
 export default function PostDetail() {
   const { PostId } = useParams();
   const [comment, setComment] = useState<Select>("new");
@@ -43,7 +45,8 @@ export default function PostDetail() {
   const [image2, setImage2] = useState<string>("");
   const [image3, setImage3] = useState<string>("");
   const userid = useAppSelector(myid);
-
+  const location = useLocation();
+  const baseUrl = "https://www.akkkiri.co.kr";
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
 
@@ -137,6 +140,22 @@ export default function PostDetail() {
       })
       .catch((err) => console.log(err));
   };
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      Swal.fire({
+        title: "CoGen",
+        text: "링크복사가 완료되었습니다. 게시글을 공유해보세요!",
+        showCancelButton: true,
+        confirmButtonColor: "#E74D47",
+        cancelButtonColor: "#A7A7A7",
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <div className="p-3 border-b border-y-lightGray">
@@ -208,9 +227,15 @@ export default function PostDetail() {
             }
             isSavedFeed={savePost}
           />
-          <div className="flex">
+          <div
+            className="flex"
+            onClick={() =>
+              handleCopyClipBoard(`${baseUrl}${location.pathname}`)
+            }
+          >
             <IoMdShare className="self-center text-lg md:text-2xl" />
             <span className="self-center md:text-base">공유하기</span>
+            <KakaoShareButton />
           </div>
         </div>
         <div className="p-2">
