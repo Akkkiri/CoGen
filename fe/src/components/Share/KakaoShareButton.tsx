@@ -13,11 +13,10 @@ const KakaoShareButton = ({ title, img, contents }: props) => {
     createKakaoButton();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const API_KEY = `${process.env.REACT_APP_KAKAO_REST_KEY}`;
+  // console.log(API_KEY);
   const createKakaoButton = () => {
     if (window.Kakao) {
-      const API_KEY = `${process.env.REACT_APP_KAKAO_API_KEY}`;
-      // console.log(API_KEY);
       const kakao = window.Kakao;
       // 중복 initialization 방지
       if (!kakao.isInitialized()) {
