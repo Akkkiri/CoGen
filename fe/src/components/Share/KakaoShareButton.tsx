@@ -16,12 +16,12 @@ const KakaoShareButton = ({ title, img, contents }: props) => {
 
   const createKakaoButton = () => {
     if (window.Kakao) {
-      // const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
+      const API_KEY = `${process.env.REACT_APP_KAKAO_API_KEY}`;
       // console.log(API_KEY);
       const kakao = window.Kakao;
       // 중복 initialization 방지
       if (!kakao.isInitialized()) {
-        kakao.init(`${process.env.REACT_APP_KAKAO_API_KEY}`);
+        kakao.init(API_KEY);
       }
 
       kakao.Link.createDefaultButton({
