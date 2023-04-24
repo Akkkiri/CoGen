@@ -1,9 +1,10 @@
 import { AiOutlinePlus, AiOutlineCloseCircle } from "react-icons/ai";
 import imageCompression from "browser-image-compression";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Loading from "./Loading";
 import Swal from "sweetalert2";
 
+import axios from "../api/axios";
 export default function EditImage({
   imageData,
   setImageData,
@@ -15,8 +16,25 @@ export default function EditImage({
 }: // handleUpdate,
 any) {
   // const [preImg, setPreImg] = useState<string[]>([]);
+
   const [showModal, setShowModal] = useState(false);
   const [preImg, setPreImg] = useState<string[]>([]);
+
+  // useEffect(() => {
+  //   if (url[0] === undefined && url[1] === undefined && url[2] === undefined) {
+  //     setPreImg([]);
+  //   } else if (url[1] === undefined && url[2] === undefined) {
+  //     setPreImg([url[0]]);
+  //   } else if (url[2] === undefined) {
+  //     setPreImg([url[0], url[1]]);
+  //   } else if (
+  //     url[0] !== undefined &&
+  //     url[1] !== undefined &&
+  //     url[2] !== undefined
+  //   ) {
+  //     setPreImg([url[0], url[1], url[2]]);
+  //   }
+  // }, [url]);
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files !== null) {
       let imageFile = e.target.files[0];
@@ -47,6 +65,7 @@ any) {
               setSelectedFile(compressedFile);
               setImageData([...imageData, compressedFile]);
               let tmpUrl = URL.createObjectURL(compressedFile);
+              // setPreImg([...url]);
               setType([...type, "file"]);
               setPreImg([...preImg, tmpUrl]);
               setShowModal(false);
@@ -68,7 +87,7 @@ any) {
           setImageData([...imageData, compressedFile]);
           let tmpUrl = URL.createObjectURL(compressedFile);
           setPreImg([...preImg, tmpUrl]);
-          // setType([...type, "file"]);
+          setType([...type, "file"]);
         } catch (error) {
           console.log(error);
           Swal.fire({
@@ -115,7 +134,8 @@ any) {
     setImageData([...selectUploadUrl, ...copyUploadUrl]);
     setType([...selectType, ...copyType]);
   };
-
+  console.log(preImg);
+  // console.log(url);
   return (
     <div className="m-2">
       <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">
@@ -125,11 +145,12 @@ any) {
       <form className="grid grid-cols-3 gap-2 h-[105px] md:h-64 sm:h-48">
         {/* first Image */}
         <div className="bg-y-pink flex justify-center items-center rounded-xl overflow-hidden relative">
-          {url[0] === undefined ? (
+          {preImg[0] === undefined && url[0] === undefined ? (
             <>
               <label htmlFor="file">
                 <AiOutlinePlus className="w-10 h-10" />
               </label>
+
               <input
                 type="file"
                 id="file"
@@ -161,14 +182,14 @@ any) {
           )}
         </div>
         {/* second Image */}
-        {preImg[0] === undefined && url[0] === undefined ? (
+        {url[0] === undefined && preImg[0] === undefined ? (
           <div className="border-2 border-y-lightGray border-dashed flex justify-center items-center rounded-xl"></div>
         ) : (
           <div className="bg-y-pink flex justify-center items-center rounded-xl overflow-hidden relative">
             {preImg[1] !== undefined || url[1] !== undefined ? (
               <>
                 <img
-                  src={url[1] ? url[1] : preImg[1]}
+                  src={preImg[1] ? preImg[1] : url[1]}
                   alt="bg"
                   width={500}
                   height={500}
@@ -208,7 +229,7 @@ any) {
             {preImg[2] !== undefined || url[2] !== undefined ? (
               <>
                 <img
-                  src={url[2] ? url[2] : preImg[2]}
+                  src={!preImg[2] ? url[2] : preImg[2]}
                   alt="bg"
                   width={500}
                   height={500}

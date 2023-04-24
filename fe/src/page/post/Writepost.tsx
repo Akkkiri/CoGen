@@ -112,7 +112,7 @@ export default function Writepost() {
     axios
       .post(`/feeds/add`, jsonData)
       .then((res) => {
-        navigate(`/post/ALL`);
+        navigate(`/post`);
         navigate(`/post/${res.data}`);
       })
 
