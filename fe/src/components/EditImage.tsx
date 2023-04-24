@@ -1,10 +1,10 @@
-import { AiOutlinePlus, AiOutlineCloseCircle } from "react-icons/ai";
-import imageCompression from "browser-image-compression";
-import { useState, useEffect } from "react";
-import Loading from "./Loading";
-import Swal from "sweetalert2";
+import { AiOutlinePlus, AiOutlineCloseCircle } from 'react-icons/ai';
+import imageCompression from 'browser-image-compression';
+import { useState, useEffect } from 'react';
+import Loading from './Loading';
+import Swal from 'sweetalert2';
 
-import axios from "../api/axios";
+import axios from '../api/axios';
 export default function EditImage({
   imageData,
   setImageData,
@@ -20,21 +20,17 @@ any) {
   const [showModal, setShowModal] = useState(false);
   const [preImg, setPreImg] = useState<string[]>([]);
 
-  // useEffect(() => {
-  //   if (url[0] === undefined && url[1] === undefined && url[2] === undefined) {
-  //     setPreImg([]);
-  //   } else if (url[1] === undefined && url[2] === undefined) {
-  //     setPreImg([url[0]]);
-  //   } else if (url[2] === undefined) {
-  //     setPreImg([url[0], url[1]]);
-  //   } else if (
-  //     url[0] !== undefined &&
-  //     url[1] !== undefined &&
-  //     url[2] !== undefined
-  //   ) {
-  //     setPreImg([url[0], url[1], url[2]]);
-  //   }
-  // }, [url]);
+  useEffect(() => {
+    if (url[0] === undefined && url[1] === undefined && url[2] === undefined) {
+      setPreImg([]);
+    } else if (url[1] === undefined && url[2] === undefined) {
+      setPreImg([url[0]]);
+    } else if (url[2] === undefined) {
+      setPreImg([url[0], url[1]]);
+    } else if (url[0] !== undefined && url[1] !== undefined && url[2] !== undefined) {
+      setPreImg([url[0], url[1], url[2]]);
+    }
+  }, [url]);
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files !== null) {
       let imageFile = e.target.files[0];
@@ -45,56 +41,50 @@ any) {
         useWebWorker: true,
       };
       if (
-        imageFile.type.toLowerCase() === "image/heic" ||
-        imageFile.name.toLowerCase().includes(".heic")
+        imageFile.type.toLowerCase() === 'image/heic' ||
+        imageFile.name.toLowerCase().includes('.heic')
       ) {
         setShowModal(true);
-        const heic2any = require("heic2any");
-        heic2any({ blob: imageFile, toType: "image/jpeg", quality: 1 }).then(
-          async (res: File) => {
-            imageFile = new File(
-              [res],
-              imageFile.name.split(".")[0] + ".jpeg",
-              {
-                type: "image/jpeg",
-                lastModified: new Date().getTime(),
-              }
-            );
-            try {
-              const compressedFile = await imageCompression(imageFile, options);
-              setSelectedFile(compressedFile);
-              setImageData([...imageData, compressedFile]);
-              let tmpUrl = URL.createObjectURL(compressedFile);
-              // setPreImg([...url]);
-              setType([...type, "file"]);
-              setPreImg([...preImg, tmpUrl]);
-              setShowModal(false);
-            } catch (error) {
-              setShowModal(false);
-              Swal.fire({
-                title: "Sorry!",
-                text: "지원하지 않는 형식의 파일입니다.",
-                confirmButtonColor: "#E74D47",
-                confirmButtonText: "확인",
-              });
-            }
+        const heic2any = require('heic2any');
+        heic2any({ blob: imageFile, toType: 'image/jpeg', quality: 1 }).then(async (res: File) => {
+          imageFile = new File([res], imageFile.name.split('.')[0] + '.jpeg', {
+            type: 'image/jpeg',
+            lastModified: new Date().getTime(),
+          });
+          try {
+            const compressedFile = await imageCompression(imageFile, options);
+            setSelectedFile(compressedFile);
+            setImageData([...imageData, compressedFile]);
+            let tmpUrl = URL.createObjectURL(compressedFile);
+            setType([...type, 'file']);
+            setPreImg([...preImg, tmpUrl]);
+            setShowModal(false);
+          } catch (error) {
+            setShowModal(false);
+            Swal.fire({
+              title: 'Sorry!',
+              text: '지원하지 않는 형식의 파일입니다.',
+              confirmButtonColor: '#E74D47',
+              confirmButtonText: '확인',
+            });
           }
-        );
+        });
       } else {
         try {
           const compressedFile = await imageCompression(imageFile, options);
           setSelectedFile(compressedFile);
           setImageData([...imageData, compressedFile]);
           let tmpUrl = URL.createObjectURL(compressedFile);
+
           setPreImg([...preImg, tmpUrl]);
-          setType([...type, "file"]);
+          setType([...type, 'file']);
         } catch (error) {
           console.log(error);
           Swal.fire({
-            title: "Sorry!",
-            text: "지원하지 않는 형식의 파일입니다.",
-            confirmButtonColor: "#E74D47",
-            confirmButtonText: "확인",
+            title: 'Sorry!',
+            text: '지원하지 않는 형식의 파일입니다.',
+            confirmButtonColor: '#E74D47',
+            confirmButtonText: '확인',
           });
         }
       }
@@ -134,13 +124,11 @@ any) {
     setImageData([...selectUploadUrl, ...copyUploadUrl]);
     setType([...selectType, ...copyType]);
   };
-  console.log(preImg);
+  // console.log(preImg);
   // console.log(url);
   return (
     <div className="m-2">
-      <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">
-        사진 업로드
-      </div>
+      <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">사진 업로드</div>
 
       <form className="grid grid-cols-3 gap-2 h-[105px] md:h-64 sm:h-48">
         {/* first Image */}
@@ -161,12 +149,7 @@ any) {
             </>
           ) : (
             <>
-              <img
-                src={url[0] ? url[0] : preImg[0]}
-                alt="bg"
-                width={500}
-                height={500}
-              />
+              <img src={url[0] ? url[0] : preImg[0]} alt="bg" width={500} height={500} />
               <span className="absolute bg-y-red py-1 px-2 rounded-md text-xs left-1 top-1 text-white">
                 대표
               </span>

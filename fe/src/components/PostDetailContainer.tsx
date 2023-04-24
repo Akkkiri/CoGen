@@ -1,18 +1,18 @@
-import { MdModeEdit } from "react-icons/md";
-import { HiTrash } from "react-icons/hi";
-import UserInfo from "./user/UserInfo";
-import { Category } from "../util/CategoryUtil";
-import axios from "../api/axios";
-import { useNavigate, useParams } from "react-router-dom";
-import Swal from "sweetalert2";
-import WarningBtn from "./ WarningBtn";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { Pagination, Navigation } from "swiper";
-import { isLogin } from "../store/modules/authSlice";
-import { useAppSelector } from "../store/hook";
+import { MdModeEdit } from 'react-icons/md';
+import { HiTrash } from 'react-icons/hi';
+import UserInfo from './user/UserInfo';
+import { Category } from '../util/CategoryUtil';
+import axios from '../api/axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import WarningBtn from './ WarningBtn';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { Pagination, Navigation } from 'swiper';
+import { isLogin } from '../store/modules/authSlice';
+import { useAppSelector } from '../store/hook';
 interface PostContainerProps {
   title: string;
   contents: string;
@@ -54,16 +54,16 @@ export default function PostDetailContainer({
   };
   const goToLogin = () => {
     Swal.fire({
-      title: "CoGen",
-      text: "로그인이 필요한 서비스 입니다.",
+      title: 'CoGen',
+      text: '로그인이 필요한 서비스 입니다.',
       showCancelButton: true,
-      confirmButtonColor: "#E74D47",
-      cancelButtonColor: "#A7A7A7",
-      confirmButtonText: "로그인",
-      cancelButtonText: "취소",
+      confirmButtonColor: '#E74D47',
+      cancelButtonColor: '#A7A7A7',
+      confirmButtonText: '로그인',
+      cancelButtonText: '취소',
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate("/login");
+        navigate('/login');
       }
     });
   };
@@ -74,22 +74,11 @@ export default function PostDetailContainer({
           {Category(tag)}
         </div>
         <div className="flex justify-between pb-2">
-          <UserInfo
-            nickname={nickname}
-            profileImage={profileImage}
-            date={date}
-            userId={userId}
-          />
+          <UserInfo nickname={nickname} profileImage={profileImage} date={date} userId={userId} />
 
-          {isMine ? (
+          {isMine && isLoginUser ? (
             <div className="flex gap-1 px-4 text-sm md:text-base self-center">
-              <button
-                onClick={
-                  isLoginUser
-                    ? () => navigate(`/editpost/${PostId}`)
-                    : goToLogin
-                }
-              >
+              <button onClick={isLoginUser ? () => navigate(`/editpost/${PostId}`) : goToLogin}>
                 <MdModeEdit className="text-y-red inline -mr-0.5" /> 수정
               </button>
               <button
@@ -97,13 +86,13 @@ export default function PostDetailContainer({
                   isLoginUser
                     ? () => {
                         Swal.fire({
-                          title: "게시글을 삭제하시겠습니까?",
-                          text: "삭제하시면 다시 복구시킬 수 없습니다.",
+                          title: '게시글을 삭제하시겠습니까?',
+                          text: '삭제하시면 다시 복구시킬 수 없습니다.',
                           showCancelButton: true,
-                          confirmButtonColor: "#E74D47",
-                          cancelButtonColor: "#A7A7A7",
-                          confirmButtonText: "삭제",
-                          cancelButtonText: "취소",
+                          confirmButtonColor: '#E74D47',
+                          cancelButtonColor: '#A7A7A7',
+                          confirmButtonText: '삭제',
+                          cancelButtonText: '취소',
                         }).then((result) => {
                           if (result.isConfirmed) {
                             deletepost();
@@ -121,13 +110,13 @@ export default function PostDetailContainer({
             <WarningBtn
               onClick={() => {
                 Swal.fire({
-                  title: "CoGen",
-                  text: "게시글을 신고하시겠습니까?",
+                  title: 'CoGen',
+                  text: '게시글을 신고하시겠습니까?',
                   showCancelButton: true,
-                  confirmButtonColor: "#E74D47",
-                  cancelButtonColor: "#A7A7A7",
-                  confirmButtonText: "신고",
-                  cancelButtonText: "취소",
+                  confirmButtonColor: '#E74D47',
+                  cancelButtonColor: '#A7A7A7',
+                  confirmButtonText: '신고',
+                  cancelButtonText: '취소',
                 }).then((result) => {
                   if (result.isConfirmed) {
                     warningComment();
@@ -188,9 +177,7 @@ export default function PostDetailContainer({
           </Swiper>
         </div>
         <div className="my-2">
-          <div className="font-light whitespace-pre-line md:text-xl">
-            {contents}
-          </div>
+          <div className="font-light whitespace-pre-line md:text-xl">{contents}</div>
         </div>
         <div className="text-sm text-y-gray md:text-lg">조회 {view}</div>
       </div>
