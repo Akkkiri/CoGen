@@ -21,7 +21,7 @@ const KakaoShareButton = ({ title, img, contents }: props) => {
       const kakao = window.Kakao;
       // 중복 initialization 방지
       if (!kakao.isInitialized()) {
-        kakao.init(`${API_KEY}`);
+        kakao.init(API_KEY);
       }
 
       kakao.Link.createDefaultButton({
