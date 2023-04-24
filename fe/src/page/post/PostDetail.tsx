@@ -1,46 +1,51 @@
-import SelectBox from '../../components/SelectBox';
-import { useState, useEffect } from 'react';
-import { IoMdClose, IoMdShare } from 'react-icons/io';
-import { useParams, useNavigate } from 'react-router-dom';
-import Pagenation from '../../components/Pagenation';
-import { Select } from '../../util/SelectUtil';
-import PostDetailContainer from '../../components/PostDetailContainer';
-import CommentContainer, { CommentContainerProps } from '../../components/CommentContainer';
-import axios from '../../api/axios';
-import SmallInput from '../../components/Inputs/SmallInput';
-import { isLogin } from '../../store/modules/authSlice';
-import { useAppSelector } from '../../store/hook';
-import Swal from 'sweetalert2';
-import { myid } from '../../store/modules/authSlice';
-import { IoChatbubbleEllipsesOutline } from 'react-icons/io5';
-import LikeBtn from 'components/LikeBtn';
-import Empty from 'components/Empty';
-import BookMarkBtn from 'components/BookMark';
-import ShareModal from 'components/Share/ShareModal';
+import SelectBox from "../../components/SelectBox";
+import { useState, useEffect } from "react";
+import { IoMdClose, IoMdShare } from "react-icons/io";
+import { useParams, useNavigate } from "react-router-dom";
+import Pagenation from "../../components/Pagenation";
+import { Select } from "../../util/SelectUtil";
+import PostDetailContainer from "../../components/PostDetailContainer";
+import CommentContainer, {
+  CommentContainerProps,
+} from "../../components/CommentContainer";
+import axios from "../../api/axios";
+import SmallInput from "../../components/Inputs/SmallInput";
+import { isLogin } from "../../store/modules/authSlice";
+import { useAppSelector } from "../../store/hook";
+import Swal from "sweetalert2";
+import { myid } from "../../store/modules/authSlice";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import LikeBtn from "components/LikeBtn";
+import Empty from "components/Empty";
+import BookMarkBtn from "components/BookMark";
+import ShareModal from "components/Share/ShareModal";
+import Loading from "components/Loading";
 
 export default function PostDetail() {
   const { PostId } = useParams();
-  const [comment, setComment] = useState<Select>('new');
-  const [title, setTitle] = useState<string>('');
-  const [postContents, setPostContents] = useState<string>('');
-  const [tag, setTag] = useState<string>('');
-  const [PostNickname, setPostNickName] = useState<string>('');
-  const [postProfileImage, setPostProfileImage] = useState<string>('');
+  const [sort, setSort] = useState<Select>("new");
+  const [title, setTitle] = useState<string>("");
+  const [postContents, setPostContents] = useState<string>("");
+  const [tag, setTag] = useState<string>("");
+  const [PostNickname, setPostNickName] = useState<string>("");
+  const [postProfileImage, setPostProfileImage] = useState<string>("");
   const [viwe, SetView] = useState<number>(0);
-  const [postDate, setPostDate] = useState<string>('');
-  const [postComments, setPostComments] = useState<CommentContainerProps[]>([]);
+  const [postDate, setPostDate] = useState<string>("");
+  const [postComments, setPostComments] = useState<
+    CommentContainerProps[] | null
+  >(null);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [inputState, setInputState] = useState<string>('');
+  const [inputState, setInputState] = useState<string>("");
   const [commentCount, setCommentCount] = useState<number>();
   const [isLike, setIsLike] = useState<boolean>(false);
   const [userId, setUserID] = useState<number>(0);
   const [likeCounts, setLikeCounts] = useState<number>(0);
   const [savePost, setSavePost] = useState<boolean>(false);
   const [isMine, setIsMine] = useState(false);
-  const [image, setImage] = useState<string>('');
-  const [image2, setImage2] = useState<string>('');
-  const [image3, setImage3] = useState<string>('');
+  const [image, setImage] = useState<string>("");
+  const [image2, setImage2] = useState<string>("");
+  const [image3, setImage3] = useState<string>("");
   const [modalOpen, setModalOpen] = useState(false);
   const userid = useAppSelector(myid);
   const isLoginUser = useAppSelector(isLogin);
@@ -70,19 +75,24 @@ export default function PostDetail() {
         }
       })
       .catch((err) => {
-        if (err.response.data.status === 404 || err.response.data.status === 500) {
-          navigate('/404');
+        if (
+          err.response.data.status === 404 ||
+          err.response.data.status === 500
+        ) {
+          navigate("/404");
         }
       });
   }, [PostId, navigate, page, userId, userid]);
-
   useEffect(() => {
-    axios.get(`/feeds/${PostId}/comments?sort=${comment}&page=${page}`).then((response) => {
-      setPostComments(response.data.data);
-      setTotalPages(response.data.pageInfo.totalPages);
-    });
-  }, [PostId, page, comment]);
-
+    if (PostId !== undefined) {
+      axios
+        .get(`/feeds/${PostId}/comments?sort=${sort}&page=${page}`)
+        .then((response) => {
+          setPostComments(response.data.data);
+          setTotalPages(response.data.pageInfo.totalPages);
+        });
+    }
+  }, [PostId, page, sort]);
   const postComment = () => {
     const reqBody = { body: inputState };
     axios
@@ -93,10 +103,13 @@ export default function PostDetail() {
         } else {
           setPostComments([response.data, ...postComments]);
         }
-        setInputState('');
+
+        setInputState("");
       })
       .catch((err) => console.log(err));
   };
+  // console.log(sort);
+  // console.log(postComments);
   const LikePost = () => {
     axios
       .patch(`/feeds/${PostId}/like`)
@@ -137,7 +150,10 @@ export default function PostDetail() {
   return (
     <>
       <div className="p-3 border-b border-y-lightGray">
-        <IoMdClose onClick={() => navigate(-1)} className="w-6 h-6 cursor-pointer absolute " />
+        <IoMdClose
+          onClick={() => navigate(-1)}
+          className="w-6 h-6 cursor-pointer absolute "
+        />
         <h1 className="text-center text-xl">게시판</h1>
       </div>
 
@@ -163,16 +179,16 @@ export default function PostDetail() {
                 ? LikePost
                 : () => {
                     Swal.fire({
-                      title: 'CoGen',
-                      text: '로그인이 필요한 서비스 입니다.',
+                      title: "CoGen",
+                      text: "로그인이 필요한 서비스 입니다.",
                       showCancelButton: true,
-                      confirmButtonColor: '#E74D47',
-                      cancelButtonColor: '#A7A7A7',
-                      confirmButtonText: '로그인',
-                      cancelButtonText: '취소',
+                      confirmButtonColor: "#E74D47",
+                      cancelButtonColor: "#A7A7A7",
+                      confirmButtonText: "로그인",
+                      cancelButtonText: "취소",
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        navigate('/login');
+                        navigate("/login");
                       }
                     });
                   }
@@ -186,16 +202,16 @@ export default function PostDetail() {
                 ? SavePost
                 : () => {
                     Swal.fire({
-                      title: 'CoGen',
-                      text: '로그인이 필요한 서비스 입니다.',
+                      title: "CoGen",
+                      text: "로그인이 필요한 서비스 입니다.",
                       showCancelButton: true,
-                      confirmButtonColor: '#E74D47',
-                      cancelButtonColor: '#A7A7A7',
-                      confirmButtonText: '로그인',
-                      cancelButtonText: '취소',
+                      confirmButtonColor: "#E74D47",
+                      cancelButtonColor: "#A7A7A7",
+                      confirmButtonText: "로그인",
+                      cancelButtonText: "취소",
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        navigate('/login');
+                        navigate("/login");
                       }
                     });
                   }
@@ -219,40 +235,41 @@ export default function PostDetail() {
           <SmallInput
             inputState={inputState}
             setInputState={setInputState}
-            placeholder={'댓글을 작성해주세요.'}
+            placeholder={"댓글을 작성해주세요."}
             postFunc={
               isLoginUser
                 ? postComment
                 : () => {
                     Swal.fire({
-                      title: 'CoGen',
-                      text: '로그인이 필요한 서비스 입니다.',
+                      title: "CoGen",
+                      text: "로그인이 필요한 서비스 입니다.",
                       showCancelButton: true,
-                      confirmButtonColor: '#E74D47',
-                      cancelButtonColor: '#A7A7A7',
-                      confirmButtonText: '로그인',
-                      cancelButtonText: '취소',
+                      confirmButtonColor: "#E74D47",
+                      cancelButtonColor: "#A7A7A7",
+                      confirmButtonText: "로그인",
+                      cancelButtonText: "취소",
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        navigate('/login');
+                        navigate("/login");
                       }
                     });
                   }
             }
           />
           <div className="flex justify-between">
-            <SelectBox setSelect={setComment} type={'comment'} />
+            <SelectBox setSelect={setSort} type={"comment"} />
+
             <div className="flex self-center mr-2 gap-1">
               <IoChatbubbleEllipsesOutline className="text-lg self-center" />
               댓글 {commentCount}
             </div>
           </div>
-          {postComments.length === 0 ? (
-            <Empty str={'댓글이'} />
+          {postComments === null ? (
+            <Empty str={"댓글이"} />
           ) : (
             <>
-              {postComments.map((el: any, idx: number) => (
-                <div key={idx}>
+              {postComments.map((el: any) => (
+                <div key={el.commentId}>
                   <CommentContainer
                     isLiked={el.isLiked}
                     contents={el.body}

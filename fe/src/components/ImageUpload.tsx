@@ -92,16 +92,16 @@ any) {
   };
 
   // 썸네일 사진 선택
-  const selectThumnail = (idx: number) => {
-    let copyUrl = preImg.slice();
-    const copyUploadUrl = imageData.slice();
+  // const selectThumnail = (idx: number) => {
+  //   let copyUrl = preImg.slice();
+  //   const copyUploadUrl = imageData.slice();
 
-    let selectUrl = copyUrl.splice(idx, 1);
-    let selectUploadUrl = copyUploadUrl.splice(idx, 1);
+  //   let selectUrl = copyUrl.splice(idx, 1);
+  //   let selectUploadUrl = copyUploadUrl.splice(idx, 1);
 
-    setPreImg([...selectUrl, ...copyUrl]);
-    setImageData([...selectUploadUrl, ...copyUploadUrl]);
-  };
+  //   setPreImg([...selectUrl, ...copyUrl]);
+  //   setImageData([...selectUploadUrl, ...copyUploadUrl]);
+  // };
 
   return (
     <div className="m-2">
@@ -154,7 +154,7 @@ any) {
                   alt="bg"
                   width={500}
                   height={500}
-                  onClick={() => selectThumnail(1)}
+                  // onClick={() => selectThumnail(1)}
                 />
                 <span
                   onClick={(e) => {
@@ -194,7 +194,7 @@ any) {
                   alt="bg"
                   width={500}
                   height={500}
-                  onClick={() => selectThumnail(2)}
+                  // onClick={() => selectThumnail(2)}
                 />
                 <span
                   onClick={(e) => {

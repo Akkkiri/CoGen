@@ -31,7 +31,6 @@ export default function Question() {
       axios
         .post(`/questions/${questionId}/answer/add`, reqBody)
         .then((response) => {
-          // console.log(response.data);
           if (questComment === null) {
             setQuestComment([response.data]);
           } else {
@@ -62,7 +61,6 @@ export default function Question() {
           // console.log(response.data.data);
           setQuestComment(response.data.data);
           setTotalPages(response.data.pageInfo.totalPages);
-          // console.log(response.data);
         })
         .catch((err) => console.log(err));
     }

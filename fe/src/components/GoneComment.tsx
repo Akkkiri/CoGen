@@ -1,5 +1,3 @@
-import { IoHeartOutline } from "react-icons/io5";
-import { MdModeEdit, MdOutlineCancel } from "react-icons/md";
 import { HiTrash } from "react-icons/hi";
 import UserInfo from "./user/UserInfo";
 import Swal from "sweetalert2";
