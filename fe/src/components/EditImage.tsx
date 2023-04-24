@@ -15,22 +15,28 @@ export default function EditImage({
   setType,
 }: // handleUpdate,
 any) {
-  // const [preImg, setPreImg] = useState<string[]>([]);
-
+  const urls = [];
+  if (url[1] === undefined && url[2] === undefined) {
+    urls.push(url[0]);
+  } else if (url[2] === undefined) {
+    urls.push(url[0], url[1]);
+  } else if (url[0] !== undefined && url[1] !== undefined && url[2] !== undefined) {
+    urls.push(url[0], url[1], url[2]);
+  }
   const [showModal, setShowModal] = useState(false);
-  const [preImg, setPreImg] = useState<string[]>([]);
+  const [preImg, setPreImg] = useState<string[]>(urls);
 
-  useEffect(() => {
-    if (url[0] === undefined && url[1] === undefined && url[2] === undefined) {
-      setPreImg([]);
-    } else if (url[1] === undefined && url[2] === undefined) {
-      setPreImg([url[0]]);
-    } else if (url[2] === undefined) {
-      setPreImg([url[0], url[1]]);
-    } else if (url[0] !== undefined && url[1] !== undefined && url[2] !== undefined) {
-      setPreImg([url[0], url[1], url[2]]);
-    }
-  }, [url]);
+  // useEffect(() => {
+  //   if (url[0] === undefined && url[1] === undefined && url[2] === undefined) {
+  //     setPreImg([]);
+  //   } else if (url[1] === undefined && url[2] === undefined) {
+  //     setPreImg([url[0]]);
+  //   } else if (url[2] === undefined) {
+  //     setPreImg([url[0], url[1]]);
+  //   } else if (url[0] !== undefined && url[1] !== undefined && url[2] !== undefined) {
+  //     setPreImg([url[0], url[1], url[2]]);
+  //   }
+  // }, [url]);
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files !== null) {
       let imageFile = e.target.files[0];
@@ -56,6 +62,7 @@ any) {
             setSelectedFile(compressedFile);
             setImageData([...imageData, compressedFile]);
             let tmpUrl = URL.createObjectURL(compressedFile);
+
             setType([...type, 'file']);
             setPreImg([...preImg, tmpUrl]);
             setShowModal(false);
@@ -75,7 +82,9 @@ any) {
           setSelectedFile(compressedFile);
           setImageData([...imageData, compressedFile]);
           let tmpUrl = URL.createObjectURL(compressedFile);
-
+          if (url[2] === undefined) {
+            preImg.slice(undefined, 1);
+          }
           setPreImg([...preImg, tmpUrl]);
           setType([...type, 'file']);
         } catch (error) {
@@ -124,7 +133,7 @@ any) {
     setImageData([...selectUploadUrl, ...copyUploadUrl]);
     setType([...selectType, ...copyType]);
   };
-  // console.log(preImg);
+  console.log(preImg);
   // console.log(url);
   return (
     <div className="m-2">
