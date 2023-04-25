@@ -33,8 +33,8 @@ export default function Login() {
   };
 
   return (
-    <div className="max-w-md m-auto flex flex-col justify-center items-center mt-12 px-4">
-      <img src="/images/logo.png" alt="logo" width={90}></img>
+    <div className="max-w-md m-auto flex flex-col justify-center items-center mt-8 px-4">
+      <img src="/images/logo_2.png" alt="logo" width={90}></img>
       <h1 className="font-bold text-2xl mt-3 mb-6">로그인</h1>
       <form
         className="w-full flex flex-col gap-2"
