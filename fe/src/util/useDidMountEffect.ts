@@ -5,7 +5,6 @@ const useDidMountEffect = (func: any, deps: any) => {
 
   useEffect(() => {
     if (didMount.current) {
-      console.log("가자!");
       func();
     } else didMount.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps

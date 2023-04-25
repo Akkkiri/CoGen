@@ -36,20 +36,15 @@ export const AxiosInterceptor = ({ children }: any) => {
         return response;
       },
       (error) => {
-        console.log("hh", error);
         if (error.response.status === 404 || error.response.status >= 500) {
           navigate("/404");
         }
         if (error.response.status === 401) {
-          console.log("리프레쉬 필요");
           authAPI
             .refreshToken()
-            .then((res) => {
-              console.log("47: 리프레쉬 완료");
-            })
+            .then((res) => {})
             .catch((err) => {
-              console.log(err);
-              // dispatch(logout());
+              dispatch(logout());
             });
         }
         return Promise.reject(error);
