@@ -79,6 +79,8 @@ export default function GoneDetail() {
           : questComment.map((el: any) => (
               <div key={el.answerId}>
                 <GoneComment
+                  ageType={el.ageType}
+                  genderType={el.genderType}
                   contents={el.answerBody}
                   nickname={el.nickname}
                   profileImage={el.profileImage}

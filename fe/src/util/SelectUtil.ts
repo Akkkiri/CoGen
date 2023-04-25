@@ -101,6 +101,17 @@ export const AgeTypeMatcherToKor = (str: string) => {
       return "공개안함";
   }
 };
+export const GenderTypeMatcherToKor = (str: string) => {
+  switch (str) {
+    case "MALE":
+      return "남자";
+    case "FEMALE":
+      return "여자";
+    case "NOBODY":
+      return "공개안함";
+  }
+};
+
 export const Category = (str: string) => {
   switch (str) {
     case "WORRY":
