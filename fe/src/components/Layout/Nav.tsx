@@ -29,7 +29,7 @@ export default function Nav() {
             <div className="flex flex-col items-center text-sm">
               <BsPatchQuestion className="text-3xl" />
               <span>함께</span>
-              <span>알아가요</span>
+              <span>이해해요</span>
             </div>
           </NavLink>
         </div>
