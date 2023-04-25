@@ -58,7 +58,7 @@ const KakaoShareButton = ({ title, img, contents }: props) => {
   return (
     <button type="button" id="kakao-link-btn" className="rounded-xl">
       <img
-        className="w-10 h-10 rounded-xl"
+        className="w-10 h-10 md:w-14 md:h-14 rounded-xl"
         src={kakao}
         alt="kakao"
         width={100}
