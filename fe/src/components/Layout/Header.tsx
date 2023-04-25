@@ -5,12 +5,7 @@ import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal";
 import NotifyModal from "./NotifyModal";
 import { Link } from "react-router-dom";
-import {
-  accessToken,
-  getNewTokenAsync,
-  isLogin,
-  logout,
-} from "store/modules/authSlice";
+import { accessToken, isLogin, logout } from "store/modules/authSlice";
 import axios from "api/axios";
 import { useAppDispatch, useAppSelector } from "store/hook";
 import { EventSourcePolyfill } from "event-source-polyfill";
@@ -19,6 +14,7 @@ import {
   NotifyProps,
   saveNotify,
 } from "store/modules/notifySlice";
+import authAPI from "api/authAPI";
 const EventSource = EventSourcePolyfill;
 
 export default function Header() {
@@ -30,27 +26,27 @@ export default function Header() {
   const isLoginUser = useAppSelector(isLogin);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    axios.defaults.headers.common["Authorization"] = TOKEN;
-  }, [TOKEN]);
+  // useEffect(() => {
+  //   axios.defaults.headers.common["Authorization"] = TOKEN;
+  // }, [TOKEN]);
 
   useEffect(() => {
     if (isLoginUser) {
       checkNotify();
-      setInterval(() => {
-        dispatch(getNewTokenAsync());
-      }, 1 * 60 * 60 * 1000);
-      window.addEventListener("beforeunload", (e) => {
-        e.preventDefault();
-        dispatch(getNewTokenAsync());
-      });
+      //   setInterval(() => {
+      //     dispatch(getNewTokenAsync());
+      //   }, 1 * 60 * 60 * 1000);
+      //   window.addEventListener("beforeunload", (e) => {
+      //     e.preventDefault();
+      //     dispatch(getNewTokenAsync());
+      //   });
+      // }
+      // return () => {
+      //   window.removeEventListener("beforeunload", (e) => {
+      //     e.preventDefault();
+      //     dispatch(getNewTokenAsync());
+      //   });
     }
-    return () => {
-      window.removeEventListener("beforeunload", (e) => {
-        e.preventDefault();
-        dispatch(getNewTokenAsync());
-      });
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoginUser]);
 
@@ -99,9 +95,13 @@ export default function Header() {
       .get("/notifications/check")
       .then((res) => setHasNewNotify(res.data))
       .catch((err) => {
-        if (err.response.status === 401) {
-          dispatch(logout());
-          window.location.href = "/";
+        if (err.response.data.status === 401) {
+          authAPI
+            .refreshToken()
+            .then((res) => {})
+            .catch((err) => {
+              dispatch(logout());
+            });
         }
         console.log(err);
       });

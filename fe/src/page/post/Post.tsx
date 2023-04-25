@@ -16,6 +16,8 @@ import {
 } from "store/modules/postSlice";
 import Swal from "sweetalert2";
 import { FaPlus } from "react-icons/fa";
+import useDidMountEffect from "util/useDidMountEffect";
+
 export default function Post() {
   const savedCategory = useAppSelector(beforeCategory);
   const savedSort = useAppSelector(beforeSort);
@@ -41,7 +43,7 @@ export default function Post() {
       });
   }, [category, page, sort]);
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     setPage(1);
   }, [category]);
 
@@ -63,7 +65,7 @@ export default function Post() {
   return (
     <>
       <h1 className="text-center text-xl p-3 border-b border-y-lightGray md:text-2xl">
-        게시판
+        함께 나눠요
       </h1>
       <div className="p-2 border-b border-y-lightGray">
         <CategorySwiper setSelected={setCategory} checked={category} />
@@ -85,7 +87,10 @@ export default function Post() {
               </button>
             </NavLink>
           ) : (
-            <button onClick={goToLogin} className="btn-r shadow-xl">
+            <button
+              onClick={goToLogin}
+              className="btn-r shadow-xl flex items-center justify-center"
+            >
               <FaPlus className="mr-1" />
               게시글 작성
             </button>

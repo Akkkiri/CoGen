@@ -1,15 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
+import notfound from "asset/notfound.png";
 
 export default function NotFound() {
   const navigate = useNavigate();
   return (
     <div className="flex flex-col justify-center items-center mt-44 md:mt-24">
-      <img
-        src="images/notfound.png"
-        alt="NotFound"
-        className="w-60 mb-4 md:w-80"
-      />
+      <img src={notfound} alt="NotFound" className="w-60 mb-4 md:w-80" />
       <h2 className="text-lg lg:text-2xl mb-2 font-bold">
         페이지를 찾을 수 없습니다
       </h2>

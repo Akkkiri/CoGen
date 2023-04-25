@@ -18,7 +18,7 @@ export default function Level({
             onClick={() => {
               Swal.fire({
                 title: "CoGen",
-                text: "레벨은 총 50까지 있으며, 코젠 포인트가 50 쌓일때마다 레벨 up! 코젠 포인트는 게시글, 댓글, 퀴즈 등 활동을 통해 쌓을 수 있어요! 레벨이 올라가면 멋진 메달을 받을 수 있어요 :)",
+                text: "레벨은 총 50까지 있으며, 코젠 포인트가 50 쌓일때마다 레벨 up! 코젠 포인트는 게시글, 댓글, 퀴즈 풀기 등 활동을 통해 쌓을 수 있어요! 레벨이 올라가면 멋진 메달을 받을 수 있어요 :)",
                 confirmButtonColor: "#7254E9",
                 confirmButtonText: "확인",
               });

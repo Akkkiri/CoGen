@@ -162,7 +162,7 @@ export default function PostDetail() {
           onClick={() => navigate(-1)}
           className="w-6 h-6 cursor-pointer absolute "
         />
-        <h1 className="text-center text-xl">게시판</h1>
+        <h1 className="text-center text-xl">함께 나눠요</h1>
       </div>
 
       <div>

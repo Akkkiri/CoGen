@@ -28,7 +28,7 @@ export default function Nav() {
           >
             <div className="flex flex-col items-center text-sm">
               <BsPatchQuestion className="text-3xl" />
-              이번주 질문
+              <span>+이해해요</span>
             </div>
           </NavLink>
         </div>
@@ -39,7 +39,7 @@ export default function Nav() {
           >
             <div className="flex flex-col items-center text-sm">
               <SlSpeech className="text-3xl" />
-              게시판
+              <span>+나눠요</span>
             </div>
           </NavLink>
         </div>
@@ -50,7 +50,7 @@ export default function Nav() {
           >
             <div className="flex flex-col items-center text-sm">
               <IoExtensionPuzzleOutline className="text-3xl" />
-              퀴즈
+              <span>+배워요</span>
             </div>
           </NavLink>
         </div>
