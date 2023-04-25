@@ -23,6 +23,7 @@ export default function EditPost() {
   const [titleErr, setTitleErr] = useState("");
   const [progress, setProgress] = useState(100);
   const [defaulturl, setDefaultUrl] = useState<any>([]);
+  const [preImg, setPreImg] = useState<any>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [types, setTypes] = useState<any>([]);
   const navigate = useNavigate();
@@ -45,6 +46,19 @@ export default function EditPost() {
       setContent(response.data.body);
       setCategory(response.data.category);
       // console.log(response.data);
+      if (!response.data.imagePath) {
+        setPreImg([]);
+      } else if (!response.data.imagePath2) {
+        setPreImg([response.data.imagePath]);
+      } else if (!response.data.imagePath3) {
+        setPreImg([response.data.imagePath, response.data.imagePath2]);
+      } else {
+        setPreImg([
+          response.data.imagePath,
+          response.data.imagePath2,
+          response.data.imagePath3,
+        ]);
+      }
       if (!response.data.imagePath) {
         setDefaultUrl([]);
       } else if (!response.data.imagePath2) {
@@ -187,6 +201,8 @@ export default function EditPost() {
           setUrl={setDefaultUrl}
           type={types}
           setType={setTypes}
+          setPreImg={setPreImg}
+          preImg={preImg}
         />
         <div className="m-2">
           <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">본문</div>

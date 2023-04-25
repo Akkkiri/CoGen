@@ -185,7 +185,9 @@ export default function Writepost() {
           </button>
 
           <button onClick={handleSubmit} className="flex-1 btn-r">
-            등록하기
+            {progress === 0 || progress === 100
+              ? "등록하기"
+              : `등록중(${progress})%`}
           </button>
         </div>
       </div>
