@@ -8,5 +8,6 @@ public enum CategoryType {
 	QUOTE(),
 	HUMOR(),
 	DAILY(),
+	POETRY(),
 	ETC();
 }

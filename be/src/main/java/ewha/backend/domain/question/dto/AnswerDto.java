@@ -5,7 +5,11 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.context.annotation.Primary;
+
 import ewha.backend.domain.user.dto.UserDto;
+import ewha.backend.domain.user.entity.enums.AgeType;
+import ewha.backend.domain.user.entity.enums.GenderType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -61,6 +65,8 @@ public class AnswerDto {
 		private Long userId;
 		private String nickname;
 		private String hashcode;
+		private GenderType genderType;
+		private AgeType ageType;
 		private String profileImage;
 		private String thumbnailPath;
 		private String answerBody;

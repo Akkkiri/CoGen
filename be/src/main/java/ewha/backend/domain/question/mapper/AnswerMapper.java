@@ -57,7 +57,9 @@ public interface AnswerMapper {
 			.map(answer -> {
 				AnswerDto.ListResponse.ListResponseBuilder listResponseBuilder = AnswerDto.ListResponse.builder();
 
-				String[] nick = answer.getUser().getNickname().split("#");
+				User finduser = answer.getUser();
+
+				String[] nick = finduser.getNickname().split("#");
 				String nickPre = nick[0];
 				String nickSuf = "#" + nick[1];
 
@@ -65,8 +67,10 @@ public interface AnswerMapper {
 				listResponseBuilder.userId(answer.getUser().getId());
 				listResponseBuilder.nickname(nickPre);
 				listResponseBuilder.hashcode(nickSuf);
-				listResponseBuilder.profileImage(answer.getUser().getProfileImage());
-				listResponseBuilder.thumbnailPath(answer.getUser().getThumbnailPath());
+				listResponseBuilder.genderType(finduser.getGenderType());
+				listResponseBuilder.ageType(finduser.getAgeType());
+				listResponseBuilder.profileImage(finduser.getProfileImage());
+				listResponseBuilder.thumbnailPath(finduser.getThumbnailPath());
 				listResponseBuilder.answerBody(answer.getAnswerBody());
 				listResponseBuilder.isLiked(likeService.isLikedAnswer(answer));
 				listResponseBuilder.likeCount(answer.getLikeCount());
