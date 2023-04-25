@@ -46,6 +46,8 @@ public class AnswerDto {
 		private Long userId;
 		private String nickname;
 		private String hashcode;
+		private GenderType genderType;
+		private AgeType ageType;
 		private String profileImage;
 		private String thumbnailPath;
 		private String answerBody;

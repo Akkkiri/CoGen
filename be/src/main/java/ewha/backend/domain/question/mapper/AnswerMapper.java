@@ -35,6 +35,8 @@ public interface AnswerMapper {
 		responseBuilder.userId(answer.getUser().getId());
 		responseBuilder.nickname(nickPre);
 		responseBuilder.hashcode(nickSuf);
+		responseBuilder.genderType(answer.getUser().getGenderType());
+		responseBuilder.ageType(answer.getUser().getAgeType());
 		responseBuilder.profileImage(answer.getUser().getProfileImage());
 		responseBuilder.thumbnailPath(answer.getUser().getThumbnailPath());
 		responseBuilder.answerBody(answer.getAnswerBody());

@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import ewha.backend.domain.image.service.AwsS3Service;
 import ewha.backend.domain.question.dto.QuestionDto;
 import ewha.backend.domain.question.entity.Question;
 import ewha.backend.domain.question.mapper.QuestionMapper;
+import ewha.backend.domain.question.repository.QuestionQueryRepository;
 import ewha.backend.domain.question.service.QuestionService;
 import ewha.backend.global.dto.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/questions")
 @RequiredArgsConstructor
 public class QuestionController {
+	private final QuestionQueryRepository questionQueryRepository;
 	private final QuestionService questionService;
 	private final QuestionMapper questionMapper;
 	private final AwsS3Service awsS3Service;
@@ -125,6 +128,12 @@ public class QuestionController {
 		PageImpl<QuestionDto.Response> responses = questionMapper.questionsToPageResponse(questionPage);
 
 		return ResponseEntity.ok(new MultiResponseDto<>(responses.getContent(), questionPage));
+	}
+
+	@PatchMapping("/test")
+	@Transactional
+	public void test() {
+		questionQueryRepository.test();
 	}
 
 	@DeleteMapping("/{question_id}/delete")

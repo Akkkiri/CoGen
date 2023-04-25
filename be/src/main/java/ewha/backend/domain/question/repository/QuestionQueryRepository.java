@@ -118,4 +118,12 @@ public class QuestionQueryRepository {
 			.where(question.openDate.eq(LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))))
 			.execute();
 	}
+
+	public void test() {
+		jpaQueryFactory
+			.update(question)
+			.set(question.isOpened, false)
+			.where(question.id.goe(3))
+			.execute();
+	}
 }
