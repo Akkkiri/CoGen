@@ -19,7 +19,7 @@ export default function BestPost({ bestPostProps }: any) {
           alt="logo"
           className="w-9 h-6 self-center"
         ></img>
-        <div className="text-lg md:text-xl"> 인기 게시글</div>
+        <div className="text-lg md:text-xl">함께 나눠요</div>
       </div>
 
       <Swiper
