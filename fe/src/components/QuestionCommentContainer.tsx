@@ -1,4 +1,3 @@
-import { IoHeartOutline } from "react-icons/io5";
 import { MdModeEdit, MdOutlineCancel } from "react-icons/md";
 import { HiTrash } from "react-icons/hi";
 import UserInfo from "./user/UserInfo";
@@ -11,6 +10,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import WarningBtn from "./ WarningBtn";
 import LikeBtn from "./LikeBtn";
+import {
+  AgeTypeMatcherToKor,
+  GenderTypeMatcherToKor,
+} from "../util/SelectUtil";
 export interface CommentContainerProps {
   contents: string;
   nickname: string;
@@ -21,6 +24,8 @@ export interface CommentContainerProps {
   answerId: number;
   isLiked: boolean;
   deleteAnswer: Function;
+  genderType: string;
+  ageType: string;
 }
 
 export default function QuestionCommentContainer({
@@ -33,6 +38,8 @@ export default function QuestionCommentContainer({
   answerId,
   isLiked,
   deleteAnswer,
+  genderType,
+  ageType,
 }: CommentContainerProps) {
   const myId = useAppSelector(myid);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -77,13 +84,27 @@ export default function QuestionCommentContainer({
   return (
     <div className="pb-2">
       <div className="p-4 border border-y-lightGray rounded-xl">
+        <div className="flex gap-1 self-center pb-3">
+          {genderType === "NOBODY" ? null : (
+            <div className="text-xs md:text-base md:w-16 bg-y-pink p-1 w-12 text-center rounded-lg">
+              {GenderTypeMatcherToKor(genderType)}
+            </div>
+          )}
+          {ageType === "NOBODY" ? null : (
+            <div className="text-xs md:text-base md:w-16  bg-y-sky p-1 w-12 text-center rounded-lg">
+              {AgeTypeMatcherToKor(ageType)}
+            </div>
+          )}
+        </div>
         <div className="flex justify-between pb-2">
-          <UserInfo
-            nickname={nickname}
-            profileImage={profileImage}
-            date={date}
-            userId={userid}
-          />
+          <div className="">
+            <UserInfo
+              nickname={nickname}
+              profileImage={profileImage}
+              date={date}
+              userId={userid}
+            />
+          </div>
           {isEditMode ? (
             <div className="flex px-4 text-sm self-center md:text-base">
               <button onClick={() => setIsEditMode(false)}>
@@ -120,23 +141,25 @@ export default function QuestionCommentContainer({
                   </button>
                 </div>
               ) : (
-                <WarningBtn
-                  onClick={() => {
-                    Swal.fire({
-                      title: "CoGen",
-                      text: "게시글을 신고하시겠습니까?",
-                      showCancelButton: true,
-                      confirmButtonColor: "#E74D47",
-                      cancelButtonColor: "#A7A7A7",
-                      confirmButtonText: "신고",
-                      cancelButtonText: "취소",
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        warningAnswer();
-                      }
-                    });
-                  }}
-                />
+                <div className="self-center">
+                  <WarningBtn
+                    onClick={() => {
+                      Swal.fire({
+                        title: "CoGen",
+                        text: "게시글을 신고하시겠습니까?",
+                        showCancelButton: true,
+                        confirmButtonColor: "#E74D47",
+                        cancelButtonColor: "#A7A7A7",
+                        confirmButtonText: "신고",
+                        cancelButtonText: "취소",
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          warningAnswer();
+                        }
+                      });
+                    }}
+                  />
+                </div>
               )}
             </div>
           )}

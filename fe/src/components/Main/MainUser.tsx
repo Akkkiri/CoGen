@@ -22,7 +22,7 @@ export default function MainUser({
 }: UserProfileProps) {
   const isLoginUser = useAppSelector(isLogin);
   return (
-    <div className="p-2 mx-2 my-4 rounded-xl border-2 border-y-lightGray  md:text-lg">
+    <div className="p-3 mx-2 my-4 rounded-xl border-2 border-y-lightGray  md:text-lg">
       <div>
         <img
           src="/images/cogenlogo-p.png"

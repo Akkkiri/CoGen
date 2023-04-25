@@ -1,11 +1,10 @@
 import BigInput from "components/Inputs/BigInput";
-import { Select, SelectBoxMatcher } from "../../util/SelectUtil";
-import { useState, useEffect } from "react";
+import { Select } from "../../util/SelectUtil";
+import { useState } from "react";
 import SelectBox from "../../components/SelectBox";
 import ImageUpload from "components/ImageUpload";
 import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import AWS from "aws-sdk";
 import {
   AWS_ACCESS_KEY,
@@ -23,7 +22,6 @@ export default function Writepost() {
   const [titleErr, setTitleErr] = useState("");
   const [progress, setProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imgList, setImgList] = useState<string[]>([]);
 
   const navigate = useNavigate();
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

@@ -82,8 +82,6 @@ export default function PostDetail() {
           navigate("/404");
         }
       });
-  }, [PostId, navigate, page, userId, userid]);
-  useEffect(() => {
     if (PostId !== undefined) {
       axios
         .get(`/feeds/${PostId}/comments?sort=${sort}&page=${page}`)
@@ -92,7 +90,17 @@ export default function PostDetail() {
           setTotalPages(response.data.pageInfo.totalPages);
         });
     }
-  }, [PostId, page, sort]);
+  }, [PostId, navigate, page, sort, userId, userid]);
+  // useEffect(() => {
+  //   if (PostId !== undefined) {
+  //     axios
+  //       .get(`/feeds/${PostId}/comments?sort=${sort}&page=${page}`)
+  //       .then((response) => {
+  //         setPostComments(response.data.data);
+  //         setTotalPages(response.data.pageInfo.totalPages);
+  //       });
+  //   }
+  // }, [PostId, page, sort]);
   const postComment = () => {
     const reqBody = { body: inputState };
     axios
