@@ -7,6 +7,7 @@ import MainQuizContainer from "../components/Main/MainQuizContainer";
 import MainUser, { UserProfileProps } from "../components/Main/MainUser";
 import axios from "../api/axios";
 import Footer from "components/Layout/Footer";
+import banner from "asset/banner.png";
 
 export default function Home() {
   const isLoginUser = useAppSelector(isLogin);
@@ -72,6 +73,12 @@ export default function Home() {
 
   return (
     <>
+      <img
+        src={banner}
+        alt="kakao"
+        // width={100}
+        // height={100}
+      />
       <MainUser {...userprofile} />
       <MainQnaContainer question={weeklyQuestions} />
       <MainQuizContainer question={weeklyquiz} />

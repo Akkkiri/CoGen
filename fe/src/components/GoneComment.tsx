@@ -8,6 +8,10 @@ import { useAppSelector } from "../store/hook";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LikeBtn from "./LikeBtn";
+import {
+  AgeTypeMatcherToKor,
+  GenderTypeMatcherToKor,
+} from "../util/SelectUtil";
 export interface CommentContainerProps {
   contents: string;
   nickname: string;
@@ -17,6 +21,8 @@ export interface CommentContainerProps {
   userid: number;
   commentId: number;
   isLiked: boolean;
+  genderType: string;
+  ageType: string;
 }
 
 export default function GoneComment({
@@ -28,6 +34,8 @@ export default function GoneComment({
   userid,
   commentId,
   isLiked,
+  genderType,
+  ageType,
 }: CommentContainerProps) {
   const myId = useAppSelector(myid);
   const isLoginUser = useAppSelector(isLogin);
@@ -61,6 +69,18 @@ export default function GoneComment({
   return (
     <div className="pb-2">
       <div className="p-4 border border-y-lightGray rounded-xl">
+        <div className="flex gap-1 self-center pb-3">
+          {genderType === "NOBODY" ? null : (
+            <div className="text-xs md:text-base md:w-16 bg-y-pink p-1 w-12 text-center rounded-lg">
+              {GenderTypeMatcherToKor(genderType)}
+            </div>
+          )}
+          {ageType === "NOBODY" ? null : (
+            <div className="text-xs md:text-base md:w-16  bg-y-sky p-1 w-12 text-center rounded-lg">
+              {AgeTypeMatcherToKor(ageType)}
+            </div>
+          )}
+        </div>
         <div className="flex justify-between pb-2">
           <UserInfo
             nickname={nickname}

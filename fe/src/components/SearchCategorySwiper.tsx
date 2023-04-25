@@ -18,7 +18,7 @@ export default function SearchCategorySwiper({
     "꿀팁",
     "장소공유",
     "명언",
-    "유머",
+    "시와 사진",
     "일상",
     "기타",
   ];

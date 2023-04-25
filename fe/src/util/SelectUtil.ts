@@ -7,7 +7,7 @@ export type Select =
   | "TIP"
   | "PLACE"
   | "QUOTE"
-  | "HUMOR"
+  | "POETRY"
   | "DAILY"
   | "ETC"
   | "TEENAGER"
@@ -50,8 +50,8 @@ export const SelectBoxMatcher = (str: string) => {
       return "PLACE";
     case "명언":
       return "QUOTE";
-    case "유머":
-      return "HUMOR";
+    case "시와 사진":
+      return "POETRY";
     case "일상":
       return "DAILY";
     case "기타":
@@ -101,6 +101,17 @@ export const AgeTypeMatcherToKor = (str: string) => {
       return "공개안함";
   }
 };
+export const GenderTypeMatcherToKor = (str: string) => {
+  switch (str) {
+    case "MALE":
+      return "남자";
+    case "FEMALE":
+      return "여자";
+    case "NOBODY":
+      return "공개안함";
+  }
+};
+
 export const Category = (str: string) => {
   switch (str) {
     case "WORRY":
@@ -111,8 +122,8 @@ export const Category = (str: string) => {
       return "장소공유";
     case "QUOTE":
       return "명언";
-    case "HUMOR":
-      return "유머";
+    case "POETRY":
+      return "시와 사진";
     case "DAILY":
       return "일상";
     case "ETC":
