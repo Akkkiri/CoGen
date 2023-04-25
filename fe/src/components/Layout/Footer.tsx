@@ -8,7 +8,7 @@ export default function Footer() {
         문의: sskeiair@naver.com
       </div>
       <div className="text-y-lightGray text-[10px] md:text-sm">
-        이화여자대학교 커뮤니케이션·미디어학부/연령통합 고령사회 연구소
+        이화여자대학교 연령통합고령사회연구소
       </div>
     </footer>
   );
