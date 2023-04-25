@@ -10,8 +10,8 @@ export const Category = (str: string) => {
       return "장소공유";
     case "QUOTE":
       return "명언";
-    case "HUMOR":
-      return "유머";
+    case "POETRY":
+      return "시와 사진";
     case "DAILY":
       return "일상";
     case "ETC":
@@ -30,8 +30,8 @@ export const CategoryEg = (str: string) => {
       return "PLACE";
     case "명언":
       return "QUOTE";
-    case "유머":
-      return "HUMOR";
+    case "시와 사진":
+      return "POETRY";
     case "일상":
       return "DAILY";
     case "기타":

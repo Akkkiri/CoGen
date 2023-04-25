@@ -86,6 +86,7 @@ export default function Post() {
             </NavLink>
           ) : (
             <button onClick={goToLogin} className="btn-r shadow-xl">
+              <FaPlus className="mr-1" />
               게시글 작성
             </button>
           )}

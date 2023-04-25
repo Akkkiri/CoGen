@@ -29,7 +29,15 @@ export default function SelectBox({ type, setSelect, curState }: SortBoxProps) {
     } else if (type === "category") {
       setCurChoice(curState);
 
-      setList(["고민", "꿀팁", "장소공유", "명언", "유머", "일상", "기타"]);
+      setList([
+        "고민",
+        "꿀팁",
+        "장소공유",
+        "명언",
+        "시와 사진",
+        "일상",
+        "기타",
+      ]);
     } else if (type === "ageType") {
       setCurChoice(curState);
       setList([

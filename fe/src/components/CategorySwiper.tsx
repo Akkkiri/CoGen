@@ -18,7 +18,7 @@ export default function CategorySwiper({
     "꿀팁",
     "장소공유",
     "명언",
-    "유머",
+    "시와 사진",
     "일상",
     "기타",
   ];
@@ -33,7 +33,6 @@ export default function CategorySwiper({
       slidesPerView={3.5}
       grabCursor={true}
       scrollbar={{ draggable: true }}
-      slideToClickedSlide={true}
       pagination={{ clickable: true }}
     >
       {categoryList.map((el: string, idx: number) => (
