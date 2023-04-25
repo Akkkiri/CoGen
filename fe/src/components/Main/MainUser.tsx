@@ -58,7 +58,9 @@ export default function MainUser({
         </NavLink>
       ) : (
         <div className="p-2 text-center">
-          <div className="pb-3">로그인 후 답변과 퀴즈를 작성해보세요!!</div>
+          <div className="pb-3">
+            로그인 후 '함께 알아가요'과 '함께 배워요'를 작성해보세요!!
+          </div>
           <NavLink to="/login">
             <button className="btn-p rounded-lg px-4 py-2 text-white text-sm">
               로그인

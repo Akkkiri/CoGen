@@ -48,7 +48,7 @@ export default function Quiz() {
 
   return (
     <div>
-      <h1 className="page-title">퀴즈</h1>
+      <h1 className="page-title">함께 배워요</h1>
       <div className="mx-4">
         <LinearBar order={order} setOrder={setOrder} />
         {order < 6 ? (

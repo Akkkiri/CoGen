@@ -83,7 +83,7 @@ export default function Question() {
   return (
     <>
       <h1 className="text-center text-xl md:text-2xl  p-3 border-b border-y-lightGray">
-        이번주 질문
+        함께 알아가요
       </h1>
       <div className="py-6 text-center border-b border-y-lightGray p-2">
         <div className="text-lg md:text-2xl whitespace-pre-line">

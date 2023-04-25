@@ -12,7 +12,7 @@ export default function MainQnaContainer({ question }: QnaContainerProps) {
           alt="logo"
           className="w-9 h-6 self-center"
         ></img>
-        <div className="text-lg md:text-xl"> 이번주 질문</div>
+        <div className="text-lg md:text-xl"> 함께 알아가요</div>
       </div>
       <div className="bg-y-pink rounded-l-3xl rounded-t-3xl p-4 text-center m-1">
         <div className="p-3">"{question}"</div>

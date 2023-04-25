@@ -63,7 +63,7 @@ export default function Post() {
   return (
     <>
       <h1 className="text-center text-xl p-3 border-b border-y-lightGray md:text-2xl">
-        게시판
+        함께 나눠요
       </h1>
       <div className="p-2 border-b border-y-lightGray">
         <CategorySwiper setSelected={setCategory} checked={category} />
