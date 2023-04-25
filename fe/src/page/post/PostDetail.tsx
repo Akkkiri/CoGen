@@ -1,7 +1,7 @@
 import SelectBox from "../../components/SelectBox";
 import { useState, useEffect } from "react";
 import { IoMdClose, IoMdShare } from "react-icons/io";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Pagenation from "../../components/Pagenation";
 import { Select } from "../../util/SelectUtil";
 import PostDetailContainer from "../../components/PostDetailContainer";
@@ -13,15 +13,17 @@ import SmallInput from "../../components/Inputs/SmallInput";
 import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 import { myid } from "../../store/modules/authSlice";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import LikeBtn from "components/LikeBtn";
 import Empty from "components/Empty";
 import BookMarkBtn from "components/BookMark";
+import ShareModal from "components/Share/ShareModal";
+import Loading from "components/Loading";
+
 export default function PostDetail() {
   const { PostId } = useParams();
-  const [comment, setComment] = useState<Select>("new");
+  const [sort, setSort] = useState<Select>("new");
   const [title, setTitle] = useState<string>("");
   const [postContents, setPostContents] = useState<string>("");
   const [tag, setTag] = useState<string>("");
@@ -29,7 +31,9 @@ export default function PostDetail() {
   const [postProfileImage, setPostProfileImage] = useState<string>("");
   const [viwe, SetView] = useState<number>(0);
   const [postDate, setPostDate] = useState<string>("");
-  const [postComments, setPostComments] = useState<CommentContainerProps[]>([]);
+  const [postComments, setPostComments] = useState<
+    CommentContainerProps[] | null
+  >(null);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [inputState, setInputState] = useState<string>("");
@@ -42,8 +46,8 @@ export default function PostDetail() {
   const [image, setImage] = useState<string>("");
   const [image2, setImage2] = useState<string>("");
   const [image3, setImage3] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState(false);
   const userid = useAppSelector(myid);
-
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
 
@@ -79,16 +83,16 @@ export default function PostDetail() {
         }
       });
   }, [PostId, navigate, page, userId, userid]);
-
   useEffect(() => {
-    axios
-      .get(`/feeds/${PostId}/comments?sort=${comment}&page=${page}`)
-      .then((response) => {
-        setPostComments(response.data.data);
-        setTotalPages(response.data.pageInfo.totalPages);
-      });
-  }, [PostId, page, comment]);
-
+    if (PostId !== undefined) {
+      axios
+        .get(`/feeds/${PostId}/comments?sort=${sort}&page=${page}`)
+        .then((response) => {
+          setPostComments(response.data.data);
+          setTotalPages(response.data.pageInfo.totalPages);
+        });
+    }
+  }, [PostId, page, sort]);
   const postComment = () => {
     const reqBody = { body: inputState };
     axios
@@ -99,10 +103,13 @@ export default function PostDetail() {
         } else {
           setPostComments([response.data, ...postComments]);
         }
+
         setInputState("");
       })
       .catch((err) => console.log(err));
   };
+  // console.log(sort);
+  // console.log(postComments);
   const LikePost = () => {
     axios
       .patch(`/feeds/${PostId}/like`)
@@ -136,6 +143,9 @@ export default function PostDetail() {
         }
       })
       .catch((err) => console.log(err));
+  };
+  const showModal = () => {
+    setModalOpen(true);
   };
   return (
     <>
@@ -208,11 +218,19 @@ export default function PostDetail() {
             }
             isSavedFeed={savePost}
           />
-          <div className="flex">
+          <div className="flex" onClick={showModal}>
             <IoMdShare className="self-center text-lg md:text-2xl" />
             <span className="self-center md:text-base">공유하기</span>
           </div>
         </div>
+        {modalOpen ? (
+          <ShareModal
+            setModalOpen={setModalOpen}
+            title={title}
+            img={image}
+            contents={postContents}
+          />
+        ) : null}
         <div className="p-2">
           <SmallInput
             inputState={inputState}
@@ -239,18 +257,19 @@ export default function PostDetail() {
             }
           />
           <div className="flex justify-between">
-            <SelectBox setSelect={setComment} type={"comment"} />
+            <SelectBox setSelect={setSort} type={"comment"} />
+
             <div className="flex self-center mr-2 gap-1">
               <IoChatbubbleEllipsesOutline className="text-lg self-center" />
               댓글 {commentCount}
             </div>
           </div>
-          {postComments.length === 0 ? (
+          {postComments === null ? (
             <Empty str={"댓글이"} />
           ) : (
             <>
-              {postComments.map((el: any, idx: number) => (
-                <div key={idx}>
+              {postComments.map((el: any) => (
+                <div key={el.commentId}>
                   <CommentContainer
                     isLiked={el.isLiked}
                     contents={el.body}

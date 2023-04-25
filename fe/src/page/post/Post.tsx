@@ -9,16 +9,22 @@ import { NavLink } from "react-router-dom";
 import { isLogin } from "../../store/modules/authSlice";
 import { useAppSelector } from "../../store/hook";
 import { useNavigate } from "react-router-dom";
-
+import {
+  beforeCategory,
+  beforePage,
+  beforeSort,
+} from "store/modules/postSlice";
 import Swal from "sweetalert2";
 import { FaPlus } from "react-icons/fa";
 export default function Post() {
-  const [sort, setSort] = useState<Select>("new");
-
-  const [page, setPage] = useState<number>(1);
+  const savedCategory = useAppSelector(beforeCategory);
+  const savedSort = useAppSelector(beforeSort);
+  const savedPage = useAppSelector(beforePage);
+  const [sort, setSort] = useState<Select>(savedSort);
+  const [page, setPage] = useState(savedPage);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [postProps, setPostProps] = useState<any>();
-  const [category, setCategory] = useState<string>(`전체`);
+  const [category, setCategory] = useState(savedCategory);
   const isLoginUser = useAppSelector(isLogin);
 
   const navigate = useNavigate();

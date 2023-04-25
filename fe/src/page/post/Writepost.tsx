@@ -62,7 +62,7 @@ export default function Writepost() {
             "feedImages/" + uuid + "_" + imageData[i].name.replace(/ /g, "")
           }`;
           imageList.push(url);
-          console.log(imageList);
+          // console.log(imageList);
           uploadFile(imageData[i], uuid);
         }
         postPost(imageList);
@@ -112,7 +112,7 @@ export default function Writepost() {
     axios
       .post(`/feeds/add`, jsonData)
       .then((res) => {
-        navigate(`/post/ALL`);
+        navigate(`/post`);
         navigate(`/post/${res.data}`);
       })
 

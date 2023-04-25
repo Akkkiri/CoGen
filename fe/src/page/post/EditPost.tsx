@@ -1,12 +1,9 @@
 import BigInput from "components/Inputs/BigInput";
 import { Select, Category } from "../../util/SelectUtil";
-
 import { useState, useEffect } from "react";
 import SelectBox from "../../components/SelectBox";
-import ImageUpload from "components/ImageUpload";
 import axios from "../../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Swal from "sweetalert2";
 import AWS from "aws-sdk";
 import {
   AWS_ACCESS_KEY,
@@ -14,7 +11,6 @@ import {
   AWS_S3_BUCKET,
   AWS_S3_BUCKET_REGION,
 } from "util/AWSInfo";
-import { userId } from "store/modules/authSlice";
 import EditImage from "components/EditImage";
 export default function EditPost() {
   const { PostId } = useParams();
@@ -25,7 +21,7 @@ export default function EditPost() {
   const [contentLength, setContentLength] = useState("");
   const [categoryErr, setCategoryErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(100);
   const [defaulturl, setDefaultUrl] = useState<any>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [types, setTypes] = useState<any>([]);
@@ -48,7 +44,7 @@ export default function EditPost() {
       setInputState(response.data.title);
       setContent(response.data.body);
       setCategory(response.data.category);
-      console.log(response.data);
+      // console.log(response.data);
       if (!response.data.imagePath) {
         setDefaultUrl([]);
       } else if (!response.data.imagePath2) {
@@ -62,9 +58,14 @@ export default function EditPost() {
           response.data.imagePath3,
         ]);
       }
+      // setDefaultUrl([
+      //   response.data.imagePath,
+      //   response.data.imagePath2,
+      //   response.data.imagePath3,
+      // ]);
     });
   }, [PostId]);
-  // console.log(defaulturl);
+
   const isVaild = () => {
     if (category === "" || inputState === "" || content.length < 3) {
       if (content.length < 3) setContentLength("세글자 이상 작성해주세요");
@@ -82,6 +83,7 @@ export default function EditPost() {
     if (isVaild()) {
       if (imageData.length) {
         let imageList = [];
+
         for (let i = 0; i < imageData.length; i++) {
           const uuid = crypto.randomUUID();
           let url = `https://${AWS_S3_BUCKET}.s3.${AWS_S3_BUCKET_REGION}.amazonaws.com/${
@@ -120,7 +122,6 @@ export default function EditPost() {
   };
 
   const editPost = (urls: string[]) => {
-    console.log(urls);
     const jsonData = {
       title: inputState,
       body: content,
@@ -133,6 +134,7 @@ export default function EditPost() {
     axios
       .patch(`/feeds/${PostId}/edit`, jsonData)
       .then((res) => {
+        navigate(`/post`);
         navigate(`/post/${PostId}`);
       })
 
@@ -142,7 +144,7 @@ export default function EditPost() {
   return (
     <>
       <div className="p-3 border-b border-y-lightGray">
-        <h1 className="text-center text-xl md:text-2xl">글 작성</h1>
+        <h1 className="text-center text-xl md:text-2xl">글 수정</h1>
       </div>
       <div>
         <div className="m-2">
@@ -177,15 +179,6 @@ export default function EditPost() {
           </section>
         </div>
 
-        {/* <ImageUpload
-          imageData={imageData}
-          setImageData={setImageData}
-          url={defaulturl}
-          setUrl={setDefaultUrl}
-          type={types}
-          setType={setTypes}
-          // handleUpLoad={handleUpLoad}
-        /> */}
         <EditImage
           imageData={imageData}
           setImageData={setImageData}
@@ -220,7 +213,9 @@ export default function EditPost() {
           </button>
 
           <button onClick={handleSubmit} className="flex-1 btn-r">
-            등록하기
+            {progress === 0 || progress === 100
+              ? "등록하기"
+              : `등록중(${progress})%`}
           </button>
         </div>
       </div>

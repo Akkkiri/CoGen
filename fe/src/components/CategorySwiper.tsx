@@ -1,7 +1,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { NavLink } from "react-router-dom";
+import { useAppDispatch } from "store/hook";
+import { saveCategory } from "store/modules/postSlice";
 type categoryProps = {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
   checked: string;
@@ -21,9 +22,10 @@ export default function CategorySwiper({
     "일상",
     "기타",
   ];
-
+  const dispatch = useAppDispatch();
   const onClick = (e: React.MouseEvent<HTMLInputElement>) => {
     setSelected((e.target as HTMLInputElement).value);
+    dispatch(saveCategory((e.target as HTMLInputElement).value));
   };
   return (
     <Swiper
@@ -31,10 +33,10 @@ export default function CategorySwiper({
       slidesPerView={3.5}
       grabCursor={true}
       scrollbar={{ draggable: true }}
-      // navigation
+      slideToClickedSlide={true}
       pagination={{ clickable: true }}
     >
-      {/* {categoryList.map((el: string, idx: number) => (
+      {categoryList.map((el: string, idx: number) => (
         <SwiperSlide key={idx}>
           <div key={idx.toString()}>
             <input
@@ -49,112 +51,15 @@ export default function CategorySwiper({
               htmlFor={el}
               className={`${
                 checked === el
-                  ? "border border-y-red text-y-red text-base block cursor-pointer select-none rounded-xl p-1 text-center"
-                  : "text-base block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
+                  ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
+                  : "text-base md:text-lg  block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
               }`}
             >
               {el}
             </label>
           </div>
         </SwiperSlide>
-      ))} */}
-
-      <SwiperSlide>
-        <NavLink
-          to="/post/ALL"
-          className={({ isActive }) =>
-            isActive
-              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
-          }
-        >
-          <div>전체</div>
-        </NavLink>
-      </SwiperSlide>
-      <SwiperSlide>
-        <NavLink
-          to="/post/WORRY"
-          className={({ isActive }) =>
-            isActive
-              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
-          }
-        >
-          <div>고민</div>
-        </NavLink>
-      </SwiperSlide>
-      <SwiperSlide>
-        <NavLink
-          to="/post/TIP"
-          className={({ isActive }) =>
-            isActive
-              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
-          }
-        >
-          <div>꿀팁</div>
-        </NavLink>
-      </SwiperSlide>
-      <SwiperSlide>
-        <NavLink
-          to="/post/PLACE"
-          className={({ isActive }) =>
-            isActive
-              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
-          }
-        >
-          <div>장소공유</div>
-        </NavLink>
-      </SwiperSlide>
-      <SwiperSlide>
-        <NavLink
-          to="/post/QUOTE"
-          className={({ isActive }) =>
-            isActive
-              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
-          }
-        >
-          <div>명언</div>
-        </NavLink>
-      </SwiperSlide>
-      <SwiperSlide>
-        <NavLink
-          to="/post/HUMOR"
-          className={({ isActive }) =>
-            isActive
-              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
-          }
-        >
-          <div>유머</div>
-        </NavLink>
-      </SwiperSlide>
-      <SwiperSlide>
-        <NavLink
-          to="/post/DAILY"
-          className={({ isActive }) =>
-            isActive
-              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
-          }
-        >
-          <div>일상</div>
-        </NavLink>
-      </SwiperSlide>
-      <SwiperSlide>
-        <NavLink
-          to="/post/ETC"
-          className={({ isActive }) =>
-            isActive
-              ? "border border-y-red text-y-red text-base md:text-lg block cursor-pointer select-none rounded-xl p-1 text-center"
-              : "text-base md:text-lg block border-y-lightGray cursor-pointer select-none rounded-xl p-1 text-center border"
-          }
-        >
-          <div>기타</div>
-        </NavLink>
-      </SwiperSlide>
+      ))}
     </Swiper>
   );
 }

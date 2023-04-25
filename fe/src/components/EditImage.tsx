@@ -1,9 +1,10 @@
 import { AiOutlinePlus, AiOutlineCloseCircle } from "react-icons/ai";
 import imageCompression from "browser-image-compression";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Loading from "./Loading";
 import Swal from "sweetalert2";
-
+import { AWS_S3_BUCKET, AWS_S3_BUCKET_REGION } from "util/AWSInfo";
+import axios from "../api/axios";
 export default function EditImage({
   imageData,
   setImageData,
@@ -14,9 +15,42 @@ export default function EditImage({
   setType,
 }: // handleUpdate,
 any) {
-  // const [preImg, setPreImg] = useState<string[]>([]);
+  // const urls = [];
+  // if (url[0] === undefined && url[1] === undefined && url[2] === undefined) {
+  //   urls.push();
+  // } else if (url[1] === undefined && url[2] === undefined) {
+  //   urls.push(url[0]);
+  // } else if (url[2] === undefined) {
+  //   urls.push(url[0], url[1]);
+  // } else if (
+  //   url[0] !== undefined &&
+  //   url[1] !== undefined &&
+  //   url[2] !== undefined
+  // ) {
+  //   urls.push(url[0], url[1], url[2]);
+  // }
+  // console.log(urls);
   const [showModal, setShowModal] = useState(false);
   const [preImg, setPreImg] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (url[0] === undefined && url[1] === undefined && url[2] === undefined) {
+      setPreImg([]);
+    } else if (url[1] === undefined && url[2] === undefined) {
+      setPreImg([url[0]]);
+    } else if (url[2] === undefined) {
+      setPreImg([url[0], url[1]]);
+    } else if (
+      url[0] !== undefined &&
+      url[1] !== undefined &&
+      url[2] !== undefined
+    ) {
+      setPreImg([url[0], url[1], url[2]]);
+    }
+  }, [url]);
+  // useEffect(() => {
+  //   setPreImg([url[0], url[1], url[2]]);
+  // }, [url]);
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files !== null) {
       let imageFile = e.target.files[0];
@@ -68,7 +102,7 @@ any) {
           setImageData([...imageData, compressedFile]);
           let tmpUrl = URL.createObjectURL(compressedFile);
           setPreImg([...preImg, tmpUrl]);
-          // setType([...type, "file"]);
+          setType([...type, "file"]);
         } catch (error) {
           console.log(error);
           Swal.fire({
@@ -87,35 +121,41 @@ any) {
     e.preventDefault();
 
     const copyUrl = url.slice();
+    const copypreUrl = preImg.slice();
     const copyUploadUrl = imageData.slice();
     const copyType = type.slice();
 
     copyUrl.splice(idx, 1);
+    copypreUrl.splice(idx, 1);
     copyUploadUrl.splice(idx, 1);
     copyType.splice(idx, 1);
 
     setUrl(copyUrl);
-    setPreImg(copyUrl);
+    setPreImg(copypreUrl);
     setImageData(copyUploadUrl);
     setType(copyType);
   };
 
   // 썸네일 사진 선택
-  const selectThumnail = (idx: number) => {
-    let copyUrl = url.slice();
-    let copyUploadUrl = imageData.slice();
-    let copyType = type.slice();
+  // const selectThumnail = (idx: number) => {
+  //   let copyUrl = url.slice();
+  //   let copypreUrl = preImg.slice();
+  //   let copyUploadUrl = imageData.slice();
+  //   let copyType = type.slice();
 
-    let selectUrl = copyUrl.splice(idx, 1);
-    let selectUploadUrl = copyUploadUrl.splice(idx, 1);
-    let selectType = copyType.splice(idx, 1);
+  //   let selectUrl = copyUrl.splice(idx, 1);
+  //   let selectpreUrl = copypreUrl.splice(idx, 1);
+  //   let selectUploadUrl = copyUploadUrl.splice(idx, 1);
+  //   let selectType = copyType.splice(idx, 1);
 
-    setUrl([...selectUrl, ...copyUrl]);
-    setPreImg([...selectUrl, ...copyUrl]);
-    setImageData([...selectUploadUrl, ...copyUploadUrl]);
-    setType([...selectType, ...copyType]);
-  };
-
+  //   setUrl([...selectUrl, ...copyUrl]);
+  //   setPreImg([...selectpreUrl, ...copypreUrl]);
+  //   setImageData([...selectUploadUrl, ...copyUploadUrl]);
+  //   setType([...selectType, ...copyType]);
+  // };
+  // console.log(preImg);
+  // console.log(url);
+  // console.log(url);
   return (
     <div className="m-2">
       <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">
@@ -125,11 +165,12 @@ any) {
       <form className="grid grid-cols-3 gap-2 h-[105px] md:h-64 sm:h-48">
         {/* first Image */}
         <div className="bg-y-pink flex justify-center items-center rounded-xl overflow-hidden relative">
-          {url[0] === undefined ? (
+          {preImg[0] === undefined && url[0] === undefined ? (
             <>
               <label htmlFor="file">
                 <AiOutlinePlus className="w-10 h-10" />
               </label>
+
               <input
                 type="file"
                 id="file"
@@ -161,19 +202,20 @@ any) {
           )}
         </div>
         {/* second Image */}
-        {preImg[0] === undefined && url[0] === undefined ? (
+        {url[0] === undefined && preImg[0] === undefined ? (
           <div className="border-2 border-y-lightGray border-dashed flex justify-center items-center rounded-xl"></div>
         ) : (
           <div className="bg-y-pink flex justify-center items-center rounded-xl overflow-hidden relative">
             {preImg[1] !== undefined || url[1] !== undefined ? (
               <>
                 <img
-                  src={url[1] ? url[1] : preImg[1]}
+                  src={preImg[1] ? preImg[1] : url[1]}
                   alt="bg"
                   width={500}
                   height={500}
-                  onClick={() => selectThumnail(1)}
+                  // onClick={() => selectThumnail(1)}
                 />
+
                 <span
                   onClick={(e) => {
                     handleDelete(e, 1);
@@ -208,11 +250,11 @@ any) {
             {preImg[2] !== undefined || url[2] !== undefined ? (
               <>
                 <img
-                  src={url[2] ? url[2] : preImg[2]}
+                  src={!preImg[2] ? url[2] : preImg[2]}
                   alt="bg"
                   width={500}
                   height={500}
-                  onClick={() => selectThumnail(2)}
+                  // onClick={() => selectThumnail(2)}
                 />
                 <span
                   onClick={(e) => {
