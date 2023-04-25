@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="flex flex-col justify-center items-center mt-44 md:mt-24">
       <img
-        src="images/notfound.png"
+        src="asset/notfound.png"
         alt="NotFound"
         className="w-60 mb-4 md:w-80"
       />
