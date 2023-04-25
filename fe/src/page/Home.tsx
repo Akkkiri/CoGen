@@ -7,6 +7,7 @@ import MainQuizContainer from "../components/Main/MainQuizContainer";
 import MainUser, { UserProfileProps } from "../components/Main/MainUser";
 import axios from "../api/axios";
 import Footer from "components/Layout/Footer";
+import authAPI from "api/authAPI";
 
 export default function Home() {
   const isLoginUser = useAppSelector(isLogin);
@@ -37,7 +38,12 @@ export default function Home() {
         })
         .catch((err) => {
           if (err.response.data.status === 401) {
-            dispatch(logout());
+            authAPI
+              .refreshToken()
+              .then((res) => {})
+              .catch((err) => {
+                dispatch(logout());
+              });
           }
         });
     }
@@ -48,7 +54,12 @@ export default function Home() {
       .then((response) => SetWeeklyQuestions(response.data.content))
       .catch((err) => {
         if (err.response.data.status === 401) {
-          dispatch(logout());
+          authAPI
+            .refreshToken()
+            .then((res) => {})
+            .catch((err) => {
+              dispatch(logout());
+            });
         }
       });
   }, [dispatch]);
@@ -65,7 +76,12 @@ export default function Home() {
       .then((response) => SetWeeklyquiz(response.data[0].content))
       .catch((err) => {
         if (err.response.data.status === 401) {
-          dispatch(logout());
+          authAPI
+            .refreshToken()
+            .then((res) => {})
+            .catch((err) => {
+              dispatch(logout());
+            });
         }
       });
   }, [dispatch]);

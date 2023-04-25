@@ -42,7 +42,12 @@ export default function Mypage() {
       })
       .catch((err) => {
         if (err.response.data.status === 401) {
-          dispatch(logout());
+          authAPI
+            .refreshToken()
+            .then((res) => {})
+            .catch((err) => {
+              dispatch(logout());
+            });
         }
       });
   }, [dispatch]);

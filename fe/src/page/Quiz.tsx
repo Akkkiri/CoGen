@@ -12,6 +12,7 @@ import {
   saveScore,
 } from "store/modules/quizSlice";
 import { logout } from "store/modules/authSlice";
+import authAPI from "api/authAPI";
 
 export default function Quiz() {
   const [order, setOrder] = useState(1);
@@ -40,9 +41,13 @@ export default function Quiz() {
       })
       .catch((err) => {
         if (err.response.data.status === 401) {
-          dispatch(logout());
+          authAPI
+            .refreshToken()
+            .then((res) => {})
+            .catch((err) => {
+              dispatch(logout());
+            });
         }
-        // console.log(err);
       });
   }, [dispatch, savedFirstQuiz]);
 
