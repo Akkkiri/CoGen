@@ -1,3 +1,4 @@
+import axios from "api/axios";
 import { useAppDispatch } from "store/hook";
 import { saveScore } from "store/modules/quizSlice";
 import Swal from "sweetalert2";
@@ -56,6 +57,7 @@ export default function QuizScore({ score }: { score: number }) {
         </button>
         <button
           onClick={() => {
+            axios.post("/api/quizzes/weekly/clear");
             dispatch(saveScore(score));
             Swal.fire({
               title: "CoGen",

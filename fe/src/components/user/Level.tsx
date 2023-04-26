@@ -9,7 +9,7 @@ export default function Level({
   level: number;
 }) {
   return (
-    <div className="my-2 text-xs">
+    <div className="my-2 text-xs md:text-sm">
       <div className="flex justify-between mb-1">
         <span className="flex justify-center">
           레벨 {level}
