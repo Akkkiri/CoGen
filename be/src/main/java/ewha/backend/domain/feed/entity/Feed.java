@@ -206,8 +206,8 @@ public class Feed extends BaseTimeEntity implements Serializable {
 	}
 
 	public void removeCommentCount() {
-		if (likeCount > 0) {
-			this.likeCount--;
+		if (commentCount > 0) {
+			this.commentCount--;
 		}
 	}
 
