@@ -9,10 +9,12 @@ import axios from "../api/axios";
 import Footer from "components/Layout/Footer";
 import authAPI from "api/authAPI";
 import banner from "asset/banner.png";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const isLoginUser = useAppSelector(isLogin);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [weeklyQuestions, SetWeeklyQuestions] = useState<string>("");
   const [weeklyquiz, SetWeeklyquiz] = useState<string>("");
   const [bestPostProps, setBestPostProps] = useState<any>();
@@ -38,14 +40,20 @@ export default function Home() {
           setUserprofile(obj);
         })
         .catch((err) => {
-          if (err.response.data.status === 401) {
-            authAPI
-              .refreshToken()
-              .then((res) => {})
-              .catch((err) => {
-                dispatch(logout());
-              });
-          }
+          //에러
+          // if (
+          //   err.response.data.status === 401 &&
+          //   err.config.url !== "/logout"
+          // ) {
+          //   authAPI
+          //     .refreshToken()
+          //     .then((res) => {})
+          //     .catch((err) => {
+          //       authAPI.logout();
+          //       dispatch(logout());
+          //       navigate("/");
+          //     });
+          // }
         });
     }
   }, [isLoginUser, dispatch]);
@@ -54,14 +62,17 @@ export default function Home() {
       .get(`/questions/weekly`)
       .then((response) => SetWeeklyQuestions(response.data.content))
       .catch((err) => {
-        if (err.response.data.status === 401) {
-          authAPI
-            .refreshToken()
-            .then((res) => {})
-            .catch((err) => {
-              dispatch(logout());
-            });
-        }
+        //에러
+        // if (err.response.data.status === 401 && err.config.url !== "/logout") {
+        //   authAPI
+        //     .refreshToken()
+        //     .then((res) => {})
+        //     .catch((err) => {
+        //       authAPI.logout();
+        //       dispatch(logout());
+        //       navigate("/");
+        //     });
+        // }
       });
   }, [dispatch]);
 
@@ -76,14 +87,17 @@ export default function Home() {
       .get(`/quizzes/weekly`)
       .then((response) => SetWeeklyquiz(response.data[0].content))
       .catch((err) => {
-        if (err.response.data.status === 401) {
-          authAPI
-            .refreshToken()
-            .then((res) => {})
-            .catch((err) => {
-              dispatch(logout());
-            });
-        }
+        //에러
+        // if (err.response.data.status === 401 && err.config.url !== "/logout") {
+        //   authAPI
+        //     .refreshToken()
+        //     .then((res) => {})
+        //     .catch((err) => {
+        //       authAPI.logout();
+        //       dispatch(logout());
+        //       navigate("/");
+        //     });
+        // }
       });
   }, [dispatch]);
 

@@ -48,18 +48,22 @@ export const AxiosInterceptor = ({ children }: any) => {
           error.response.status === 401 &&
           error.config.url === "/token/refresh"
         ) {
+          authAPI.logout();
           dispatch(logout());
-        } else if (error.response.status === 401) {
+          navigate("/");
+        } else if (
+          error.response.status === 401 &&
+          error.config.url !== "/logout"
+        ) {
           authAPI
             .refreshToken()
             .then((res) => {})
             .catch((err) => {
+              authAPI.logout();
               dispatch(logout());
+              navigate("/");
             });
-        } else if (
-          error.response.status === 404 ||
-          error.response.status >= 500
-        ) {
+        } else if (error.response.status === 404) {
           navigate("/404");
         }
         return Promise.reject(error);
@@ -75,18 +79,3 @@ export const AxiosInterceptor = ({ children }: any) => {
 };
 
 export default instance;
-
-// const reqInterceptor = instance.interceptors.request.use(
-//   (config) => {
-//     const storage = localStorage.getItem("persist:root");
-//     if (storage) {
-//       const auth = JSON.parse(storage).auth;
-//       const token = JSON.parse(auth).token;
-//       config.headers.Authorization = token;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );

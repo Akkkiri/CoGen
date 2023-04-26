@@ -4,7 +4,7 @@ import { VscBell, VscBellDot } from "react-icons/vsc";
 import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal";
 import NotifyModal from "./NotifyModal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { accessToken, isLogin, logout } from "store/modules/authSlice";
 import axios from "api/axios";
 import { useAppDispatch, useAppSelector } from "store/hook";
@@ -25,6 +25,7 @@ export default function Header() {
   const TOKEN = useAppSelector(accessToken);
   const isLoginUser = useAppSelector(isLogin);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   axios.defaults.headers.common["Authorization"] = TOKEN;
@@ -95,14 +96,17 @@ export default function Header() {
       .get("/notifications/check")
       .then((res) => setHasNewNotify(res.data))
       .catch((err) => {
-        if (err.response.data.status === 401) {
-          authAPI
-            .refreshToken()
-            .then((res) => {})
-            .catch((err) => {
-              dispatch(logout());
-            });
-        }
+        //에러
+        // if (err.response.data.status === 401 && err.config.url !== "/logout") {
+        //   authAPI
+        //     .refreshToken()
+        //     .then((res) => {})
+        //     .catch((err) => {
+        //       authAPI.logout();
+        //       dispatch(logout());
+        //       navigate("/");
+        //     });
+        // }
         console.log(err);
       });
   };
