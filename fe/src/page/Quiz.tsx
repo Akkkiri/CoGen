@@ -65,7 +65,7 @@ export default function Quiz() {
             setScore={setScore}
           />
         ) : (
-          <QuizScore score={score} />
+          <QuizScore score={score} setOrder={setOrder} />
         )}
       </div>
       <div className="flex justify-end mx-4">
