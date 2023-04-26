@@ -87,13 +87,15 @@ export default function Post() {
               </button>
             </NavLink>
           ) : (
-            <button
-              onClick={goToLogin}
-              className="btn-r shadow-xl flex items-center justify-center"
-            >
-              <FaPlus className="mr-1" />
-              게시글 작성
-            </button>
+            <div className="flex">
+              <button
+                onClick={goToLogin}
+                className="btn-r shadow-xl flex items-center justify-center"
+              >
+                <FaPlus className="mr-1" />
+                게시글 작성
+              </button>
+            </div>
           )}
         </div>
       </div>

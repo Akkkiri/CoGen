@@ -74,9 +74,6 @@ export default function PostDetail() {
         setImage(response.data.imagePath);
         setImage2(response.data.imagePath2);
         setImage3(response.data.imagePath3);
-        if (userId === userid) {
-          setIsMine(true);
-        }
       })
       .catch((err) => {
         if (
@@ -86,6 +83,9 @@ export default function PostDetail() {
           navigate("/404");
         }
       });
+  }, [PostId, navigate]);
+
+  useEffect(() => {
     if (PostId !== undefined) {
       axios
         .get(`/feeds/${PostId}/comments?sort=${sort}&page=${page}`)
@@ -94,17 +94,8 @@ export default function PostDetail() {
           setTotalPages(response.data.pageInfo.totalPages);
         });
     }
-  }, [PostId, navigate, page, sort, userId, userid]);
-  // useEffect(() => {
-  //   if (PostId !== undefined) {
-  //     axios
-  //       .get(`/feeds/${PostId}/comments?sort=${sort}&page=${page}`)
-  //       .then((response) => {
-  //         setPostComments(response.data.data);
-  //         setTotalPages(response.data.pageInfo.totalPages);
-  //       });
-  //   }
-  // }, [PostId, page, sort]);
+  }, [PostId, page, sort]);
+
   const postComment = () => {
     const reqBody = { body: inputState };
     axios
@@ -169,7 +160,7 @@ export default function PostDetail() {
         <h1 className="text-center text-xl">함께 나눠요</h1>
       </div>
 
-      <div>
+      <div className="w-full relative">
         <PostDetailContainer
           title={title}
           contents={postContents}
@@ -179,11 +170,13 @@ export default function PostDetail() {
           date={postDate}
           view={viwe}
           userId={userId}
+          userid={userid}
           isMine={isMine}
           image={image}
           image2={image2}
           image3={image3}
         />
+
         <div className="flex p-4 text-sm justify-between border-b border-y-lightGray">
           <LikeBtn
             onClick={

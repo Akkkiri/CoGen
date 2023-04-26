@@ -13,44 +13,13 @@ export default function EditImage({
   setUrl,
   type,
   setType,
+  setPreImg,
+  preImg,
 }: // handleUpdate,
 any) {
-  // const urls = [];
-  // if (url[0] === undefined && url[1] === undefined && url[2] === undefined) {
-  //   urls.push();
-  // } else if (url[1] === undefined && url[2] === undefined) {
-  //   urls.push(url[0]);
-  // } else if (url[2] === undefined) {
-  //   urls.push(url[0], url[1]);
-  // } else if (
-  //   url[0] !== undefined &&
-  //   url[1] !== undefined &&
-  //   url[2] !== undefined
-  // ) {
-  //   urls.push(url[0], url[1], url[2]);
-  // }
-  // console.log(urls);
   const [showModal, setShowModal] = useState(false);
-  const [preImg, setPreImg] = useState<string[]>([]);
+  // const [preImg, setPreImg] = useState<string[]>([]);
 
-  useEffect(() => {
-    if (url[0] === undefined && url[1] === undefined && url[2] === undefined) {
-      setPreImg([]);
-    } else if (url[1] === undefined && url[2] === undefined) {
-      setPreImg([url[0]]);
-    } else if (url[2] === undefined) {
-      setPreImg([url[0], url[1]]);
-    } else if (
-      url[0] !== undefined &&
-      url[1] !== undefined &&
-      url[2] !== undefined
-    ) {
-      setPreImg([url[0], url[1], url[2]]);
-    }
-  }, [url]);
-  // useEffect(() => {
-  //   setPreImg([url[0], url[1], url[2]]);
-  // }, [url]);
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files !== null) {
       let imageFile = e.target.files[0];
