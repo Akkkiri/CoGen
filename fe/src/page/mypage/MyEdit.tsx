@@ -219,7 +219,7 @@ export default function MyEdit() {
           <img
             src={preProfileImage ? preProfileImage : profileImage}
             alt="profileImage"
-            className="rounded-full w-28 h-28"
+            className="rounded-full w-28 h-28 object-cover aspect-square "
           ></img>
         )}
         <label className="btn-r text-sm">

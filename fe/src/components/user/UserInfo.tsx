@@ -29,7 +29,7 @@ export default function UserInfo({
       <img
         src={profileImage}
         alt="profileImage"
-        className="rounded-full w-8 h-8 self-center md:w-10 md:h-10 cursor-pointer"
+        className="rounded-full w-8 h-8 object-cover aspect-square self-center md:w-10 md:h-10 cursor-pointer"
         onClick={userCheck}
       ></img>
       <div className="ml-2">
