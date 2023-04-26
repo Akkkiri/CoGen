@@ -26,6 +26,11 @@ export default function MainUser({
       {isLoginUser ? (
         <NavLink to={`/mypage`}>
           <div className="flex justify-center items-center mx-2">
+            <img
+              src={profileImage}
+              alt="profileImage"
+              className="rounded-full w-20 h-20 object-cover aspect-square"
+            ></img>
             <div className="w-full mx-4 mt-2">
               <div className="flex items-end">
                 <span className={`${nickname.length === 8 ? 'text-sm' : ''}`}>{nickname}</span>
