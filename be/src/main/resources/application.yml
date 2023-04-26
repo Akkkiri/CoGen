@@ -114,8 +114,8 @@ mail:
     admin: admin@gmail.com
 jwt:
   secret-key: ThisIsASecretKeyForJWTForEwhaWomansUnivWithHS512SignatureAlgorithm # ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 5
-  refresh-token-expiration-minutes: 30
+  access-token-expiration-minutes: 3
+  refresh-token-expiration-minutes: 10
 app:
   oauth2:
     authorizedRedirectUris:
