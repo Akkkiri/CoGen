@@ -35,7 +35,7 @@ export default function PostContainer({
                     {Category(el.category)}
                   </div>
                   <div className="md:text-xl">{el.title}</div>
-                  <div className="h-20">
+                  <div className="h-20 md:h-24">
                     <div className="my-2 text-sm font-light line-clamp-3 md:text-lg">
                       {el.body}
                     </div>
