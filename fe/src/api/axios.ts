@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "store/hook";
 import { accessToken, isLogin, logout } from "store/modules/authSlice";
 import authAPI from "./authAPI";
+import { saveToken } from "store/modules/authSlice";
+
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
@@ -33,19 +35,32 @@ export const AxiosInterceptor = ({ children }: any) => {
 
     const resInterceptor = instance.interceptors.response.use(
       (response) => {
+        if (
+          response.config.url === "/token/refresh" &&
+          response.headers?.authorization
+        ) {
+          dispatch(saveToken(response.headers.authorization));
+        }
         return response;
       },
       (error) => {
-        if (error.response.status === 404 || error.response.status >= 500) {
-          navigate("/404");
-        }
-        if (error.response.status === 401) {
+        if (
+          error.response.status === 401 &&
+          error.config.url === "/token/refresh"
+        ) {
+          dispatch(logout());
+        } else if (error.response.status === 401) {
           authAPI
             .refreshToken()
             .then((res) => {})
             .catch((err) => {
               dispatch(logout());
             });
+        } else if (
+          error.response.status === 404 ||
+          error.response.status >= 500
+        ) {
+          navigate("/404");
         }
         return Promise.reject(error);
       }
