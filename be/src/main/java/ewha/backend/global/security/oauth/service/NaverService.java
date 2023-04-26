@@ -143,12 +143,12 @@ public class NaverService {
 			String providerId = properties.getAsJsonObject().get("id").getAsString();
 			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 			String picture = properties.getAsJsonObject().get("profile_image").getAsString();
-			String email = properties.getAsJsonObject().get("email").getAsString();
+			// String email = properties.getAsJsonObject().get("email").getAsString();
 
 			userInfo.put("providerId", providerId);
 			userInfo.put("nickname", nickname);
 			userInfo.put("profile_image", picture);
-			userInfo.put("email", email);
+			// userInfo.put("email", email);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -166,7 +166,7 @@ public class NaverService {
 
 		String providerId = userInfo.get("providerId").toString();
 
-		String email = userInfo.get("email").toString();
+		// String email = userInfo.get("email").toString();
 		String picture = userInfo.get("profile_image").toString();
 		String nickname = userInfo.get("nickname").toString();
 		String encodedPass = passwordEncoder.encode(userInfo.get("nickname").toString());

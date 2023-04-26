@@ -60,7 +60,7 @@ spring:
       client:
         registration:
           kakao:
-            client-id: 3c1d40614ee038dde6e45dc15964476c
+            client-id: 8d8a4ff9b7d6fcb9997b7c250ea7c5a8
             client-secret: ${KAKAO_CLIENT_SECRET}
             redirect-uri: https://www.akkkiri.co.kr/oauth/kakao
             client-authentication-method: POST
