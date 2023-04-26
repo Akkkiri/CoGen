@@ -48,8 +48,7 @@ export default function PostDetailContainer({
   const isLoginUser = useAppSelector(isLogin);
   const navigate = useNavigate();
   const deletepost = () => {
-    axios.delete(`/feeds/${PostId}/delete`);
-    navigate(-1);
+    axios.delete(`/feeds/${PostId}/delete`).then(() => navigate(`/post`));
   };
   const warningComment = () => {
     axios.patch(`/feeds/${PostId}/report`).catch((err) => console.log(err));
