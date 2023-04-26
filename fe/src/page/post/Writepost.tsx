@@ -20,7 +20,7 @@ export default function Writepost() {
   const [contentLength, setContentLength] = useState("");
   const [categoryErr, setCategoryErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(100);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const navigate = useNavigate();
@@ -110,8 +110,10 @@ export default function Writepost() {
     axios
       .post(`/feeds/add`, jsonData)
       .then((res) => {
-        navigate(`/post`);
-        navigate(`/post/${res.data}`);
+        if (progress === 100) {
+          navigate(`/post`);
+          navigate(`/post/${res.data}`);
+        }
       })
 
       .catch((err) => console.log(err));

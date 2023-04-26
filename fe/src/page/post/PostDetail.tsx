@@ -37,7 +37,7 @@ export default function PostDetail() {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [inputState, setInputState] = useState<string>("");
-  const [commentCount, setCommentCount] = useState<number>();
+  const [commentCount, setCommentCount] = useState<number>(0);
   const [isLike, setIsLike] = useState<boolean>(false);
   const [userId, setUserID] = useState<number>(0);
   const [likeCounts, setLikeCounts] = useState<number>(0);
@@ -103,8 +103,10 @@ export default function PostDetail() {
       .then((response) => {
         if (postComments === null) {
           setPostComments([response.data]);
+          setCommentCount(commentCount + 1);
         } else {
           setPostComments([response.data, ...postComments]);
+          setCommentCount(commentCount + 1);
         }
 
         setInputState("");
@@ -143,6 +145,7 @@ export default function PostDetail() {
             return el.commentId !== commentId;
           });
           setPostComments(filtered);
+          setCommentCount(commentCount - 1);
         }
       })
       .catch((err) => console.log(err));

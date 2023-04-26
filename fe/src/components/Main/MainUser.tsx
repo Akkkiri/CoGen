@@ -1,9 +1,9 @@
-import Level from '../user/Level';
-import { isLogin } from '../../store/modules/authSlice';
-import { useAppSelector } from '../../store/hook';
-import { NavLink } from 'react-router-dom';
-import { Point } from 'util/LevelUtil';
-import { medal, medalImg } from 'components/user/UserProfile';
+import Level from "../user/Level";
+import { isLogin } from "../../store/modules/authSlice";
+import { useAppSelector } from "../../store/hook";
+import { NavLink } from "react-router-dom";
+import { Point } from "util/LevelUtil";
+import { medal, medalImg } from "components/user/UserProfile";
 
 export interface UserProfileProps {
   nickname: string;
@@ -33,9 +33,17 @@ export default function MainUser({
             ></img>
             <div className="w-full mx-4 mt-2">
               <div className="flex items-end">
-                <span className={`${nickname.length === 8 ? 'text-sm' : ''}`}>{nickname}</span>
-                <span className="text-xs text-y-lightGray font-light">{hashcode}</span>
-                <img src={medalImg[medal(level)]} alt="level" className="w-5 h-5"></img>
+                <span className={`${nickname.length === 8 ? "text-sm" : ""}`}>
+                  {nickname}
+                </span>
+                <span className="text-xs text-y-lightGray font-light">
+                  {hashcode}
+                </span>
+                <img
+                  src={medalImg[medal(level)]}
+                  alt="level"
+                  className="w-5 h-5"
+                ></img>
               </div>
               <Level level={level} ariFactor={ariFactor} />
             </div>
@@ -48,7 +56,9 @@ export default function MainUser({
             <p>다양한 활동을 즐겨보세요</p>
           </div>
           <NavLink to="/login">
-            <button className="btn-p rounded-lg px-4 py-2 text-white text-sm">로그인</button>
+            <button className="btn-p rounded-lg px-4 py-2 text-white text-sm md:text-lg">
+              로그인
+            </button>
           </NavLink>
         </div>
       )}
