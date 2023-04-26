@@ -3,7 +3,13 @@ import { useAppDispatch } from "store/hook";
 import { saveScore } from "store/modules/quizSlice";
 import Swal from "sweetalert2";
 
-export default function QuizScore({ score }: { score: number }) {
+export default function QuizScore({
+  score,
+  setOrder,
+}: {
+  score: number;
+  setOrder: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const dispatch = useAppDispatch();
 
   const cheerMent = (score: number) => {
@@ -48,8 +54,8 @@ export default function QuizScore({ score }: { score: number }) {
       <div className="flex gap-3">
         <button
           onClick={() => {
-            window.location.replace("/quiz");
             dispatch(saveScore(-1));
+            setOrder(1);
           }}
           className="btn-g flex-1"
         >

@@ -41,18 +41,26 @@ export default function Mypage() {
         setUserprofile(obj);
       })
       .catch((err) => {
-        if (err.config.url === "/token/refresh") {
-          dispatch(logout());
-        } else if (err.response.data.status === 401) {
-          authAPI
-            .refreshToken()
-            .then((res) => {})
-            .catch((err) => {
-              dispatch(logout());
-            });
-        }
+        //에러
+        // if (err.config.url === "/token/refresh") {
+        //   authAPI.logout();
+        //   dispatch(logout());
+        //   navigate("/");
+        // } else if (
+        //   err.response.data.status === 401 &&
+        //   err.config.url !== "/logout"
+        // ) {
+        //   authAPI
+        //     .refreshToken()
+        //     .then((res) => {})
+        //     .catch((err) => {
+        //       authAPI.logout();
+        //       dispatch(logout());
+        //       navigate("/");
+        //     });
+        // }
       });
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   return (
     <>

@@ -13,6 +13,7 @@ import {
 } from "store/modules/quizSlice";
 import { logout } from "store/modules/authSlice";
 import authAPI from "api/authAPI";
+import { useNavigate } from "react-router-dom";
 
 export default function Quiz() {
   const [order, setOrder] = useState(1);
@@ -22,6 +23,7 @@ export default function Quiz() {
   const savedScore = useAppSelector(quizScore);
   const savedFirstQuiz = useAppSelector(firstQuiz);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     if (savedScore >= 0) {
       setOrder(6);
@@ -40,16 +42,19 @@ export default function Quiz() {
         }
       })
       .catch((err) => {
-        if (err.response.data.status === 401) {
-          authAPI
-            .refreshToken()
-            .then((res) => {})
-            .catch((err) => {
-              dispatch(logout());
-            });
-        }
+        //에러
+        // if (err.response.data.status === 401 && err.config.url !== "/logout") {
+        //   authAPI
+        //     .refreshToken()
+        //     .then((res) => {})
+        //     .catch((err) => {
+        //       authAPI.logout();
+        //       dispatch(logout());
+        //       navigate("/");
+        //     });
+        // }
       });
-  }, [dispatch, savedFirstQuiz]);
+  }, [dispatch, navigate, savedFirstQuiz]);
 
   return (
     <div>
@@ -65,7 +70,7 @@ export default function Quiz() {
             setScore={setScore}
           />
         ) : (
-          <QuizScore score={score} />
+          <QuizScore score={score} setOrder={setOrder} />
         )}
       </div>
       <div className="flex justify-end mx-4">

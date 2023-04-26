@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "store/hook";
 import { logout } from "store/modules/authSlice";
 import Swal from "sweetalert2";
+import authAPI from "api/authAPI";
 
 export default function IdentityVerification({
   type,
@@ -194,6 +195,7 @@ export default function IdentityVerification({
                             axios
                               .delete(`/mypage/signout`)
                               .then((res) => {
+                                authAPI.logout();
                                 dispatch(logout());
                                 navigate("/");
                               })
