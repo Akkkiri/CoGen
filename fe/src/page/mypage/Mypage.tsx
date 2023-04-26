@@ -41,7 +41,9 @@ export default function Mypage() {
         setUserprofile(obj);
       })
       .catch((err) => {
-        if (err.response.data.status === 401) {
+        if (err.config.url === "/token/refresh") {
+          dispatch(logout());
+        } else if (err.response.data.status === 401) {
           authAPI
             .refreshToken()
             .then((res) => {})

@@ -60,6 +60,9 @@ export const authSlice = createSlice({
     saveId: (state, action) => {
       state.id = action.payload;
     },
+    saveToken: (state, action) => {
+      state.token = action.payload;
+    },
     logout: (state) => {
       state.userId = "";
       state.token = "";
@@ -120,6 +123,6 @@ export const userId = (state: RootState) => state.auth.userId;
 export const myid = (state: RootState) => state.auth.id;
 export const accessToken = (state: RootState) => state.auth.token;
 export const authState = (state: RootState) => state.auth;
-export const { saveNumber, saveId, logout } = authSlice.actions;
+export const { saveNumber, saveId, saveToken, logout } = authSlice.actions;
 
 export default authSlice.reducer;
