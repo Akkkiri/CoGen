@@ -51,7 +51,7 @@ export default function UserProfile({
       <img
         src={profileImage}
         alt="profileImage"
-        className="rounded-full w-20 h-20 md:w-24 md:h-24"
+        className="rounded-full object-cover aspect-square w-20 h-20 md:w-24 md:h-24"
       ></img>
       <div className="w-full mx-4 mt-2">
         <div className="flex justify-between">
