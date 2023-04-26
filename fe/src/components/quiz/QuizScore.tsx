@@ -63,7 +63,7 @@ export default function QuizScore({
         </button>
         <button
           onClick={() => {
-            axios.post("/api/quizzes/weekly/clear");
+            axios.post("/quizzes/weekly/clear");
             dispatch(saveScore(score));
             Swal.fire({
               title: "CoGen",
