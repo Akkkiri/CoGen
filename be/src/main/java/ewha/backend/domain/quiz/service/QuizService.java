@@ -48,7 +48,7 @@ public class QuizService {
 	public String clearWeeklyQuizzes() {
 		User findUser = userService.getLoginUserReturnNull();
 		if (findUser == null) {
-			return "completed.";
+			return "not completed.";
 		} else {
 			if (!findUser.getHasQuiz()) {
 				findUser.addAriFactor(3);
