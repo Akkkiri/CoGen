@@ -36,6 +36,7 @@ export const AxiosInterceptor = ({ children }: any) => {
     const resInterceptor = instance.interceptors.response.use(
       (response) => {
         if (
+          isLoginUser &&
           response.config.url === "/token/refresh" &&
           response.headers?.authorization
         ) {
@@ -45,12 +46,19 @@ export const AxiosInterceptor = ({ children }: any) => {
       },
       (error) => {
         if (
+          isLoginUser &&
           error.response.status === 401 &&
           error.config.url === "/token/refresh"
         ) {
           authAPI.logout();
           dispatch(logout());
-          navigate("/");
+          window.location.href = "/";
+        } else if (
+          error.config.url === "/logout" ||
+          error.config.url === "/api/logout"
+        ) {
+          dispatch(logout());
+          window.location.href = "/";
         } else if (
           error.response.status === 401 &&
           error.config.url !== "/logout"
