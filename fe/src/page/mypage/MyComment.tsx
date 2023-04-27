@@ -28,7 +28,6 @@ export default function MyComment() {
       .then(() => {
         if (myCommentsList !== null) {
           const filtered = myCommentsList.filter((el) => {
-            // console.log(el.answerId);
             return el.commentId !== commentId;
           });
           setMyCommentsList(filtered);

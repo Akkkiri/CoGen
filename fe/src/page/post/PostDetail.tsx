@@ -113,8 +113,6 @@ export default function PostDetail() {
       })
       .catch((err) => console.log(err));
   };
-  // console.log(sort);
-  // console.log(postComments);
   const LikePost = () => {
     axios
       .patch(`/feeds/${PostId}/like`)

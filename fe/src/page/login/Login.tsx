@@ -22,7 +22,6 @@ export default function Login() {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     dispatch(signInAsync(data)).then((res) => {
       if (res.type === "auth/getToken/fulfilled") {
-        // console.log("auth/getToken/fulfilled", res);
         axios.defaults.headers.common["Authorization"] =
           res.payload.headers.authorization;
         navigate("/");

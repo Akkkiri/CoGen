@@ -2,10 +2,10 @@ import axios from "api/axios";
 import { persistor } from "index";
 
 // 만료 시간 (밀리초)
-// const ACCESS_EXPIRY_TIME = 3 * 60 * 60 * 1000; // 3시간
-// const REFRESH_EXPIRY_TIME = 24 * 60 * 60 * 1000; // 24시간
-const ACCESS_EXPIRY_TIME = 3 * 60 * 1000; // 3분
-const REFRESH_EXPIRY_TIME = 10 * 60 * 1000; // 10분
+const ACCESS_EXPIRY_TIME = 3 * 60 * 60 * 1000; // 3시간
+const REFRESH_EXPIRY_TIME = 24 * 60 * 60 * 1000; // 24시간
+// const ACCESS_EXPIRY_TIME = 3 * 60 * 1000; // 3분
+// const REFRESH_EXPIRY_TIME = 10 * 60 * 1000; // 10분
 
 const setAxiosHeaderAuth = (value: any) =>
   (axios.defaults.headers.common["Authorization"] = value);
@@ -58,8 +58,6 @@ const authAPI = {
         .get("/token/refresh")
         .then((res) => {
           signInSuccess(res);
-          //제거
-          console.log("리프레쉬 완료", new Date().getTime());
           return resolve(res);
         })
         .catch(() => authAPI.logout());

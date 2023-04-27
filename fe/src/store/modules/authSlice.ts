@@ -29,8 +29,6 @@ export const getNewTokenAsync = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response: any = await authAPI.refreshToken();
-      //제거
-      console.log("getNewToken 완료");
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -43,8 +41,6 @@ export const oauthAsync = createAsyncThunk(
   async ({ path, code }: { path: string; code: string }, thunkAPI) => {
     try {
       const response: any = await authAPI.oauth({ path, code });
-      //제거
-      // console.log("로그인 성공하면 오는 res", response.data);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
