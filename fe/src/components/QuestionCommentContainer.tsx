@@ -90,11 +90,15 @@ export default function QuestionCommentContainer({
               {GenderTypeMatcherToKor(genderType)}
             </div>
           )}
-          {ageType === "NOBODY" ? null : (
-            <div className="text-xs md:text-base md:w-16  bg-y-sky p-1 w-12 text-center rounded-lg">
-              {AgeTypeMatcherToKor(ageType)}
-            </div>
-          )}
+          <div
+            className={` ${
+              ageType === "OTHERS"
+                ? "text-[10px] md:text-sm"
+                : "text-xs md:text-base "
+            } md:w-16  bg-y-sky p-1 w-12 text-center rounded-lg`}
+          >
+            {AgeTypeMatcherToKor(ageType)}
+          </div>
         </div>
         <div className="flex justify-between pb-2">
           <div className="">
