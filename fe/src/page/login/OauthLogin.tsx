@@ -26,8 +26,6 @@ export default function OauthLogin() {
     dispatch(oauthAsync({ path, code }))
       .then((res) => {
         if (res.type === "auth/oauth/fulfilled") {
-          //제거
-          // console.log("auth/oauth/fulfilled", res);
           axios.defaults.headers.common["Authorization"] =
             res.payload.headers.authorization;
           if (res.payload.data.isFirstLogin) {
@@ -37,8 +35,6 @@ export default function OauthLogin() {
             navigate("/");
           }
         } else if (res.type === "auth/oauth/rejected") {
-          //제거
-          // console.log("auth/oauth/rejected", res);
           navigate("/login");
         }
       })

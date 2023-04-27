@@ -122,9 +122,6 @@ any) {
   //   setImageData([...selectUploadUrl, ...copyUploadUrl]);
   //   setType([...selectType, ...copyType]);
   // };
-  // console.log(preImg);
-  // console.log(url);
-  // console.log(url);
   return (
     <div className="m-2">
       <div className="mb-2 mt-4 text-lg font-semibold md:text-xl">

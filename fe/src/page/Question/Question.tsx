@@ -58,7 +58,6 @@ export default function Question() {
       ${page}`
         )
         .then((response) => {
-          // console.log(response.data.data);
           setQuestComment(response.data.data);
           setTotalPages(response.data.pageInfo.totalPages);
         })
@@ -72,7 +71,6 @@ export default function Question() {
       .then(() => {
         if (questComment !== null) {
           const filtered = questComment.filter((el) => {
-            // console.log(el.answerId);
             return el.answerId !== answerId;
           });
           setQuestComment(filtered);

@@ -11,7 +11,6 @@ export default function GonQuestion() {
     axios
       .get(`/questions/list?page=${page}`)
       .then((res) => {
-        // console.log(res.data);
         setQuestions(res.data.data);
         setTotalPages(res.data.pageInfo.totalPages);
       })

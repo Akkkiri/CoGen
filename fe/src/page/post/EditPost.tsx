@@ -45,7 +45,6 @@ export default function EditPost() {
       setInputState(response.data.title);
       setContent(response.data.body);
       setCategory(response.data.category);
-      // console.log(response.data);
       if (!response.data.imagePath) {
         setPreImg([]);
       } else if (!response.data.imagePath2) {

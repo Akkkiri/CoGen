@@ -43,7 +43,6 @@ any) {
               setSelectedFile(compressedFile);
               setImageData([...imageData, compressedFile]);
               let tmpUrl = URL.createObjectURL(compressedFile);
-              // console.log(tmpUrl);
               setPreImg([...preImg, tmpUrl]);
 
               setShowModal(false);

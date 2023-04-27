@@ -94,17 +94,6 @@ export default function Header() {
       .get("/notifications/check")
       .then((res) => setHasNewNotify(res.data))
       .catch((err) => {
-        //에러
-        // if (err.response.data.status === 401 && err.config.url !== "/logout") {
-        //   authAPI
-        //     .refreshToken()
-        //     .then((res) => {})
-        //     .catch((err) => {
-        //       authAPI.logout();
-        //       dispatch(logout());
-        //       navigate("/");
-        //     });
-        // }
         console.log(err);
       });
   };
