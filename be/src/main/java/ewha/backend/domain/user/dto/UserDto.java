@@ -137,6 +137,7 @@ public class UserDto {
 		private AgeType ageType;
 		private String profileImage;
 		private String thumbnailPath;
+		private Boolean isOauthUser;
 	}
 
 	@Getter

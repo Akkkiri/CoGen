@@ -94,6 +94,7 @@ public interface UserMapper {
 		myPageResponseBuilder.ageType(user.getAgeType());
 		myPageResponseBuilder.profileImage(user.getProfileImage());
 		myPageResponseBuilder.thumbnailPath(user.getThumbnailPath());
+		myPageResponseBuilder.isOauthUser(user.getIsOauthUser());
 
 		return myPageResponseBuilder.build();
 	}
