@@ -64,10 +64,7 @@ export default function RoutesComponent() {
         path="/signup/nickname"
         element={isLoginUser ? <NavigateLogin url="/mypage" /> : <Nickname />}
       />
-      <Route
-        path="/signup/info"
-        element={isLoginUser ? <NavigateLogin url="/mypage" /> : <Info />}
-      />
+      <Route path="/signup/info" element={<Info />} />
       <Route
         path="/signup/qna"
         element={isLoginUser ? <NavigateLogin url="/mypage" /> : <SelfQna />}

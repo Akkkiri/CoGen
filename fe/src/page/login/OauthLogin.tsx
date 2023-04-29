@@ -29,7 +29,6 @@ export default function OauthLogin() {
           axios.defaults.headers.common["Authorization"] =
             res.payload.headers.authorization;
           //제거
-          console.log(res.payload.data, "auth/oauth/fulfilled");
           if (res.payload.data.isFirstLogin) {
             dispatch(saveId(res.payload.data.id));
             navigate("/signup/info");
