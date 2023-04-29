@@ -16,9 +16,14 @@ import {
   AWS_S3_BUCKET_REGION,
 } from "util/AWSInfo";
 import Loading from "components/Loading";
+import { useAppDispatch, useAppSelector } from "store/hook";
+import { isOauth, logout } from "store/modules/authSlice";
+import authAPI from "api/authAPI";
 
 export default function MyEdit() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const isOauthUser = useAppSelector(isOauth);
   const [error, setError] = useState(false);
   const [nickname, setNickname] = useState("");
   const [hashcode, setHashcode] = useState("");
@@ -306,18 +311,55 @@ export default function MyEdit() {
         </div>
         <div
           className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red"
-          onClick={() => {
-            navigate("pw");
-          }}
+          onClick={
+            isOauthUser
+              ? () => {
+                  Swal.fire({
+                    text: "간편로그인 유저는 비밀번호 변경이 불가합니다",
+                    confirmButtonColor: "#E74D47",
+                    confirmButtonText: "확인",
+                  });
+                }
+              : () => {
+                  navigate("pw");
+                }
+          }
         >
           비밀번호 수정
           <FaChevronRight />
         </div>
         <div
           className="flex justify-between items-center p-4 border-b border-y-lightGray hover:text-y-red"
-          onClick={() => {
-            navigate("/mypage/edit/signout");
-          }}
+          onClick={
+            isOauthUser
+              ? () => {
+                  Swal.fire({
+                    title: "회원탈퇴",
+                    text: "탈퇴시, 작성했던 모든 글이 삭제되고 계정을 복구할 수 없습니다. Cogen을 탈퇴하시겠습니까?",
+                    showCancelButton: true,
+                    confirmButtonColor: "#E74D47",
+                    confirmButtonText: "탈퇴하기",
+                    cancelButtonColor: "#A19E9E",
+                    cancelButtonText: "계속같이하기",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      axios
+                        .delete(`/mypage/signout`)
+                        .then((res) => {
+                          authAPI.logout();
+                          dispatch(logout());
+                          navigate("/");
+                        })
+                        .catch((err) => console.log(err));
+                    } else {
+                      navigate("/");
+                    }
+                  });
+                }
+              : () => {
+                  navigate("/mypage/edit/signout");
+                }
+          }
         >
           회원 탈퇴
           <FaChevronRight />

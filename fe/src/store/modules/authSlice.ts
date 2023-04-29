@@ -106,6 +106,7 @@ export const authSlice = createSlice({
       .addCase(oauthAsync.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.isLogin = true;
+        state.isOauthUser = true;
         state.token = payload.headers.authorization;
       })
       // .addCase(oauthAsync.rejected, (state, { payload }) => {
@@ -120,6 +121,7 @@ export const authSlice = createSlice({
 });
 
 export const isLogin = (state: RootState) => state.auth.isLogin;
+export const isOauth = (state: RootState) => state.auth.isOauthUser;
 export const userId = (state: RootState) => state.auth.userId;
 export const myid = (state: RootState) => state.auth.id;
 export const accessToken = (state: RootState) => state.auth.token;
