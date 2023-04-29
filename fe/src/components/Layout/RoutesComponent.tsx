@@ -29,11 +29,12 @@ import UserSearch from "page/search/UserSearch";
 import NotFound from "page/NotFound";
 import EditPost from "page/post/EditPost";
 import { useAppSelector } from "store/hook";
-import { isLogin } from "store/modules/authSlice";
+import { isLogin, isOauth } from "store/modules/authSlice";
 import NavigateLogin from "./NavigateLogin";
 
 export default function RoutesComponent() {
   const isLoginUser = useAppSelector(isLogin);
+  const isOauthUser = useAppSelector(isOauth);
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -65,10 +66,7 @@ export default function RoutesComponent() {
         element={isLoginUser ? <NavigateLogin url="/mypage" /> : <Nickname />}
       />
       <Route path="/signup/info" element={<Info />} />
-      <Route
-        path="/signup/qna"
-        element={isLoginUser ? <NavigateLogin url="/mypage" /> : <SelfQna />}
-      />
+      <Route path="/signup/qna" element={<SelfQna />} />
 
       <Route
         path="/mypage/qna"
@@ -98,7 +96,9 @@ export default function RoutesComponent() {
         path="/mypage/edit/pw"
         element={
           isLoginUser ? (
-            <IdentityVerification type="change" />
+            isOauthUser ? null : (
+              <IdentityVerification type="change" />
+            )
           ) : (
             <NavigateLogin url="/login" />
           )
@@ -108,7 +108,9 @@ export default function RoutesComponent() {
         path="/mypage/edit/signout"
         element={
           isLoginUser ? (
-            <IdentityVerification type="signout" />
+            isOauthUser ? null : (
+              <IdentityVerification type="signout" />
+            )
           ) : (
             <NavigateLogin url="/login" />
           )
