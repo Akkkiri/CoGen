@@ -7,6 +7,7 @@ const initialState = {
   loading: false,
   isLogin: false,
   isFirstLogin: false,
+  isOauthUser: false,
   userId: "",
   id: 0,
   token: "",
@@ -41,6 +42,8 @@ export const oauthAsync = createAsyncThunk(
   async ({ path, code }: { path: string; code: string }, thunkAPI) => {
     try {
       const response: any = await authAPI.oauth({ path, code });
+      //제거
+      console.log("??", response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
