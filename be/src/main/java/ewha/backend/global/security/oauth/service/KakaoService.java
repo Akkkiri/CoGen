@@ -210,6 +210,7 @@ public class KakaoService {
 		userBuilder.level(1);
 		userBuilder.ariFactor(10);
 		userBuilder.isFirstLogin(true);
+		userBuilder.isOauthUser(true);
 		userBuilder.provider("KAKAO");
 		userBuilder.providerId(providerId);
 

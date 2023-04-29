@@ -92,6 +92,8 @@ public class User extends BaseTimeEntity implements Serializable {
 	@ColumnDefault("0")
 	private Long followingCount;
 	@Column
+	private Boolean isOauthUser;
+	@Column
 	private String provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
 	@Column
 	private String providerId;  // oauth2를 이용할 경우 아이디 값

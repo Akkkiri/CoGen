@@ -82,6 +82,7 @@ public class UserServiceImpl implements UserService {
 			.level(1)
 			.ariFactor(10)
 			.provider("NONE")
+			.isOauthUser(false)
 			.isFirstLogin(true)
 			.build();
 

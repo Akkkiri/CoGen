@@ -201,6 +201,7 @@ public class NaverService {
 		userBuilder.level(1);
 		userBuilder.ariFactor(10);
 		userBuilder.isFirstLogin(true);
+		userBuilder.isOauthUser(true);
 		userBuilder.provider("NAVER");
 		userBuilder.providerId(providerId);
 
