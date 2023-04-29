@@ -42,8 +42,6 @@ export const oauthAsync = createAsyncThunk(
   async ({ path, code }: { path: string; code: string }, thunkAPI) => {
     try {
       const response: any = await authAPI.oauth({ path, code });
-      //제거
-      console.log("??", response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -68,6 +66,7 @@ export const authSlice = createSlice({
       state.userId = "";
       state.token = "";
       state.isLogin = false;
+      state.isOauthUser = false;
       state.id = 0;
     },
   },
