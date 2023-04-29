@@ -92,7 +92,7 @@ export default function UserProfile({
             className="w-full bg-y-red rounded-lg text-white text-xs py-1 md:text-sm"
             onClick={handleFollowing}
           >
-            친구 삭제
+            친구삭제
           </button>
         ) : (
           <button

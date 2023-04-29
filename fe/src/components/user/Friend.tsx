@@ -74,7 +74,7 @@ export default function Friend({
                 }
           }
         >
-          친구 삭제
+          친구삭제
         </button>
       ) : (
         <button
